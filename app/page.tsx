@@ -30,6 +30,7 @@ interface Network {
   image: any;
   layerzeroChainId: number;
   merkleLzAddress: string;
+  blockConfirmation: number;
 }
 
 const networks: Network[] = [
@@ -39,6 +40,7 @@ const networks: Network[] = [
     image: OptimismLogo,
     layerzeroChainId: 10132,
     merkleLzAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
+    blockConfirmation: 8,
   },
   {
     name: goerli.name,
@@ -46,6 +48,7 @@ const networks: Network[] = [
     image: OptimismLogo,
     layerzeroChainId: 10121,
     merkleLzAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
+    blockConfirmation: 2,
   },
   {
     name: polygonMumbai.name,
@@ -53,6 +56,7 @@ const networks: Network[] = [
     image: OptimismLogo,
     layerzeroChainId: 10109,
     merkleLzAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 4,
   },
   /*   {
       name: zkSyncTestnet.name,
@@ -80,9 +84,7 @@ export default function Home() {
   const [isCardHidden, setIsCardHidden] = React.useState<boolean>(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
-  const { chain } = useNetwork();
-
-  console.log("chain", chain);
+  const { chain: connectedChain } = useNetwork();
 
   const { config: mintConfig } = usePrepareContractWrite({
     address: sourceChain.merkleLzAddress as `0x${string}`,
@@ -110,7 +112,7 @@ export default function Home() {
 
   const { data: mintTxResultData } = useWaitForTransaction({
     hash: mintTxHash as `0x${string}`,
-    confirmations: 8,
+    confirmations: sourceChain.blockConfirmation,
   });
 
   // TODO: send a balanceOf() call just in case user still has the token IDS on initial page load.
@@ -156,11 +158,17 @@ export default function Home() {
       (network) => network.name === selectedNetwork.name
     );
     if (chain) {
-      if (chain.name === targetChain.name) {
-        setTargetChain(sourceChain);
+      try {
+        if (chain.chainId !== connectedChain?.id) {
+          await switchNetworkAsync?.(chain.chainId);
+        }
+        if (chain.name === targetChain.name) {
+          setTargetChain(sourceChain);
+        }
+        setSourceChain(chain);
+      } catch (error) {
+        console.log(error);
       }
-      setSourceChain(chain);
-      await switchNetworkAsync?.(chain.chainId);
     }
   };
 
@@ -169,17 +177,26 @@ export default function Home() {
       (network) => network.name === selectedNetwork.name
     );
     if (chain) {
-      if (chain.name === sourceChain.name) {
-        setSourceChain(targetChain);
+      try {
+        if (chain.name === sourceChain.name) {
+          if (connectedChain?.id !== targetChain.chainId) {
+            await switchNetworkAsync?.(targetChain.chainId);
+          }
+          setSourceChain(targetChain);
+        }
+        setTargetChain(chain);
+      } catch (error) {
+        console.log(error);
       }
-      setTargetChain(chain);
-      await switchNetworkAsync?.(chain.chainId);
     }
   };
 
   const onMint = async () => {
-    if (!mint) return alert("No mint function");
+    if (!mint) return alert("Make sure you have enough ETH and you're on the correct network.");
     try {
+      if (connectedChain?.id !== sourceChain.chainId) {
+        await switchNetworkAsync?.(sourceChain.chainId);
+      }
       const result = await mint();
       setMintTxHash(result.hash);
     } catch (error) {
@@ -188,10 +205,13 @@ export default function Home() {
   };
 
   const onBridge = async () => {
-    if (!sendFrom) return alert("No sendFrom function");
+    if (!sendFrom) return alert("Make sure you have enough gas and you're on the correct network.");
     if (tokenIds.length === 0) return alert("No tokenIds");
     try {
       if (showInput && inputTokenId) {
+      }
+      if (connectedChain?.id !== sourceChain.chainId) {
+        await switchNetworkAsync?.(sourceChain.chainId);
       }
       await sendFrom();
       setTokenIds((prev) => {
@@ -211,9 +231,16 @@ export default function Home() {
   };
 
   const onArrowClick = async () => {
-    setSourceChain(targetChain);
-    setTargetChain(sourceChain);
-    await switchNetworkAsync?.(targetChain.chainId);
+    try {
+      if (connectedChain?.id !== targetChain.chainId) {
+        await switchNetworkAsync?.(targetChain.chainId);
+      }
+      setSourceChain(targetChain);
+      setTargetChain(sourceChain);
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -230,9 +257,8 @@ export default function Home() {
             }
           >
             <div
-              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${
-                isCardHidden ? "hidden" : ""
-              }`}
+              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${isCardHidden ? "hidden" : ""
+                }`}
             >
               <h1 className={"text-3xl font-semibold"}>Bridge</h1>
               <div className={"flex justify-between items-center mt-16"}>
@@ -259,8 +285,7 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -268,9 +293,8 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected ? "font-bold" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
+                                    }`}
                                 >
                                   {person.name}
                                 </span>
@@ -335,22 +359,20 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
                           >
-                            {({ selected2 }) => (
+                            {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected2 ? "font-bold" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
+                                    }`}
                                 >
                                   {person.name}
                                 </span>
-                                {selected2 ? (
+                                {selected ? (
                                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
                                     <FontAwesomeIcon icon={faCheck} />
                                   </span>

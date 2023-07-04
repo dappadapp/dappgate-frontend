@@ -14,11 +14,14 @@ import {
   zkSync,
   polygonZkEvm,
   zkSyncTestnet,
+  optimismGoerli,
+  optimism,
+  polygonZkEvmTestnet
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
-const chains = [mainnet, goerli, zkSync, zkSyncTestnet, polygonZkEvm];
+const chains = [mainnet, goerli, zkSync, zkSyncTestnet, polygonZkEvm, polygonZkEvmTestnet, optimism, optimismGoerli];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
