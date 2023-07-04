@@ -74,10 +74,21 @@ const networks: Network[] = [
     }, */
 ];
 
+/*
+
+{
+  '420': {
+    '0x123': ['3131', '3162'],
+    '0x456': ['2131', '2162'],
+  },
+}
+
+*/
+
 export default function Home() {
   const [sourceChain, setSourceChain] = React.useState<Network>(networks[0]);
   const [targetChain, setTargetChain] = React.useState<Network>(networks[1]);
-  const [tokenIds, setTokenIds] = React.useState<string[]>([]);
+  const [tokenIds, setTokenIds] = React.useState<any>({});
   const [mintTxHash, setMintTxHash] = React.useState<string>("");
   const [showInput, setShowInput] = React.useState<boolean>(false);
   const [inputTokenId, setInputTokenId] = React.useState<string>("");
@@ -85,6 +96,7 @@ export default function Home() {
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
+  const { address: account } = useAccount();
 
   const { config: mintConfig } = usePrepareContractWrite({
     address: sourceChain.merkleLzAddress as `0x${string}`,
@@ -99,7 +111,10 @@ export default function Home() {
     abi: MerklyLZAbi,
     functionName: "crossChain",
     value: ethers.parseEther("0.001"),
-    args: [targetChain.layerzeroChainId, tokenIds[0]],
+    args: [
+      targetChain.layerzeroChainId,
+      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+    ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
@@ -123,8 +138,11 @@ export default function Home() {
 
   useEffect(() => {
     const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
+    if (!tokenIdsLocalStorage) {
+      localStorage.setItem("tokenIds", JSON.stringify({}));
+    }
     console.log("tokenIdsLocalStorage", tokenIdsLocalStorage);
-    setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : []);
+    setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, []);
 
   useEffect(() => {
@@ -133,16 +151,22 @@ export default function Home() {
     const tokenId = BigInt(
       mintTxResultData.logs[0].topics[3] as string
     ).toString();
-    setTokenIds((prev) => {
-      localStorage.setItem(
-        "tokenIds",
-        JSON.stringify(
-          [...prev, tokenId].filter(
+    setInputTokenId(tokenId);
+    setTokenIds((prev: any) => {
+      const newArray = prev?.[sourceChain.chainId]?.[account as string]
+        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
             (value, index, self) => self.indexOf(value) === index
           )
-        )
-      );
-      return [...prev, tokenId];
+        : [tokenId];
+      const tokenIdData = {
+        ...prev,
+        [sourceChain.chainId]: {
+          ...prev?.[sourceChain.chainId],
+          [account as string]: newArray,
+        },
+      };
+      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
+      return tokenIdData;
     });
 
     // hide card
@@ -192,7 +216,10 @@ export default function Home() {
   };
 
   const onMint = async () => {
-    if (!mint) return alert("Make sure you have enough ETH and you're on the correct network.");
+    if (!mint)
+      return alert(
+        "Make sure you have enough ETH and you're on the correct network."
+      );
     try {
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
@@ -205,26 +232,35 @@ export default function Home() {
   };
 
   const onBridge = async () => {
-    if (!sendFrom) return alert("Make sure you have enough gas and you're on the correct network.");
+    if (!sendFrom)
+      return alert(
+        "Make sure you have enough gas and you're on the correct network."
+      );
     if (tokenIds.length === 0) return alert("No tokenIds");
     try {
-      if (showInput && inputTokenId) {
-      }
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
+      if (showInput && inputTokenId) {
+      }
       await sendFrom();
-      setTokenIds((prev) => {
-        localStorage.setItem(
-          "tokenIds",
-          JSON.stringify(
-            prev
+      setTokenIds((prev: any) => {
+        const newArray = prev?.[sourceChain.chainId]?.[account as string]
+          ? [...prev?.[sourceChain.chainId]?.[account as string]]
               .slice(1)
               .filter((value, index, self) => self.indexOf(value) === index)
-          )
-        );
-        return prev.slice(1);
+          : [];
+        const tokenIdData = {
+          ...prev,
+          [sourceChain.chainId]: {
+            ...prev?.[sourceChain.chainId],
+            [account as string]: newArray,
+          },
+        };
+        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
+        return tokenIdData;
       });
+      setInputTokenId("");
     } catch (error) {
       console.log(error);
     }
@@ -237,8 +273,7 @@ export default function Home() {
       }
       setSourceChain(targetChain);
       setTargetChain(sourceChain);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -257,17 +292,14 @@ export default function Home() {
             }
           >
             <div
-              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${isCardHidden ? "hidden" : ""
-                }`}
+              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${
+                isCardHidden ? "hidden" : ""
+              }`}
             >
               <h1 className={"text-3xl font-semibold"}>Bridge</h1>
               <div className={"flex justify-between items-center mt-16"}>
-                <Listbox
-                  value={sourceChain}
-                  onChange={onChangeSourceChain}
-                  className={"w-[36%]"}
-                >
-                  <div className="relative">
+                <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                  <div className="relative w-[36%]">
                     <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                       <span className="block truncate">{sourceChain.name}</span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -285,7 +317,8 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -293,8 +326,9 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
-                                    }`}
+                                  className={`block truncate ${
+                                    selected ? "font-bold" : "font-normal"
+                                  }`}
                                 >
                                   {person.name}
                                 </span>
@@ -336,12 +370,8 @@ export default function Home() {
                   />
                 </svg>
 
-                <Listbox
-                  value={targetChain}
-                  onChange={onChangeTargetChain}
-                  className={"w-[36%]"}
-                >
-                  <div className="relative">
+                <Listbox value={targetChain} onChange={onChangeTargetChain}>
+                  <div className="relative w-[36%]">
                     <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                       <span className="block truncate">{targetChain.name}</span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -359,7 +389,8 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -367,8 +398,9 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
-                                    }`}
+                                  className={`block truncate ${
+                                    selected ? "font-bold" : "font-normal"
+                                  }`}
                                 >
                                   {person.name}
                                 </span>
@@ -388,16 +420,61 @@ export default function Home() {
               </div>
               <div
                 className={
-                  "flex justify-center items-center gap-8 w-full mt-28 select-none"
+                  "flex flex-col justify-center items-center gap-6 w-full mt-28 select-none"
                 }
               >
-                <button onClick={onMint} className={""}>
+                <button
+                  onClick={onMint}
+                  className={
+                    "bg-white/10 border-white border-[1px] rounded-lg px-10 py-2"
+                  }
+                >
                   Mint
                 </button>
-                <span>or</span>
-                <button onClick={onBridge} disabled={tokenIds.length === 0}>
-                  Bridge
-                </button>
+                <div className="flex flex-col items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    cursor="pointer"
+                    onClick={() => setShowInput((prev) => !prev)}
+                    className="self-start w-6 h-6 ml-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+                    ></path>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                  </svg>
+                  <button
+                    onClick={onBridge}
+                    disabled={tokenIds.length === 0}
+                    className={
+                      "bg-white/10 border-white border-[1px] rounded-lg px-8 py-2"
+                    }
+                  >
+                    Bridge
+                  </button>
+                  <div
+                    className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                      !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                    }`}
+                  >
+                    <input
+                      placeholder="Token ID"
+                      onChange={(e) => setInputTokenId(e.target.value)}
+                      value={inputTokenId}
+                      className={`bg-white/10 border-white border-[1px] rounded-lg px-8 py-2 w-full text-center`}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

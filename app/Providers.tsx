@@ -16,12 +16,21 @@ import {
   zkSyncTestnet,
   optimismGoerli,
   optimism,
-  polygonZkEvmTestnet
+  polygonZkEvmTestnet,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
-const chains = [mainnet, goerli, zkSync, zkSyncTestnet, polygonZkEvm, polygonZkEvmTestnet, optimism, optimismGoerli];
+const chains = [
+  mainnet,
+  goerli,
+  zkSync,
+  zkSyncTestnet,
+  polygonZkEvm,
+  polygonZkEvmTestnet,
+  optimism,
+  optimismGoerli,
+];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
@@ -34,13 +43,7 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 const queryClient = new QueryClient();
 
-export default function Providers({
-  cookies,
-  children,
-}: {
-  cookies: RequestCookie[];
-  children: React.ReactNode;
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
