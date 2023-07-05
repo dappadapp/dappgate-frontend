@@ -85,7 +85,7 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [inputTokenId, setInputTokenId] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
-  const [layerZeroTxHash, setLayerZeroTxHash] = useState("")
+  const [layerZeroTxHash, setLayerZeroTxHash] = useState("");
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -112,7 +112,9 @@ export default function Home() {
     } else {
       if (account) {
         setInputTokenId(
-          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[account]?.[0] || ""
+          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
+            account
+          ]?.[0] || ""
         );
       }
     }
@@ -189,13 +191,17 @@ export default function Home() {
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
             <ConnectButton />
-            <button onClick={() => {
-              setIsAnimationStarted(true)
+            <button
+              onClick={() => {
+                setIsAnimationStarted(true);
 
-              setTimeout(() => {
-                setIsAnimationStarted(false)
-              }, ANIMATION_TIME)
-            }}>Trigger animation</button>
+                setTimeout(() => {
+                  setIsAnimationStarted(false);
+                }, ANIMATION_TIME);
+              }}
+            >
+              Trigger animation
+            </button>
           </div>
           <div
             className={
@@ -203,7 +209,9 @@ export default function Home() {
             }
           >
             <div
-              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${isAnimationStarted ? "hidden" : ""}`}
+              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${
+                isAnimationStarted ? "hidden" : ""
+              }`}
             >
               <h1 className={"text-3xl font-semibold"}>Bridge</h1>
               <div className={"flex justify-between items-center mt-16"}>
@@ -226,7 +234,8 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -234,8 +243,9 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
-                                    }`}
+                                  className={`block truncate ${
+                                    selected ? "font-bold" : "font-normal"
+                                  }`}
                                 >
                                   {person.name}
                                 </span>
@@ -296,7 +306,8 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -304,8 +315,9 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
-                                    }`}
+                                  className={`block truncate ${
+                                    selected ? "font-bold" : "font-normal"
+                                  }`}
                                 >
                                   {person.name}
                                 </span>
@@ -368,8 +380,9 @@ export default function Home() {
                     animationTime={ANIMATION_TIME}
                   />
                   <div
-                    className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                      }`}
+                    className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                      !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                    }`}
                   >
                     <input
                       placeholder="Token ID"
@@ -406,20 +419,24 @@ export default function Home() {
       <div className={"relative w-full h-full"}>
         <div className={"absolute z-[4] bg-effect w-full h-full"}></div>
         <div className={"absolute z-[3] w-full h-full bg-pattern"}></div>
-        <div className={"absolute z-[2] w-full h-full"}>
+        <div
+          className={
+            " relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"
+          }
+        >
           <div
             className={
-              `container relative mx-auto h-full flex justify-center items-center text-white bg-blur ${isAnimationStarted ? "arda" : ""}`
+              "absolute arda w-[100vw] aspect-square flex items-center content-center"
             }
           >
             <div
               className={
-                `absolute z-[-12] h-[800px] aspect-square blur-[140px] left-[-40%] ${sourceChain.colorClass} rounded-full`
+                "absolute h-[80vh] aspect-square bg-blue-500 left-0 translate-x-[-50%] rounded-full"
               }
             ></div>
             <div
               className={
-                `absolute z-[-12] h-[800px] aspect-square blur-[140px] right-[-40%] ${targetChain.colorClass} rounded-full`
+                "absolute h-[80vh] aspect-square bg-red-500 translate-x-[50%] right-0 rounded-full"
               }
             ></div>
           </div>
