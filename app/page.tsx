@@ -128,7 +128,9 @@ export default function Home() {
     } else {
       if (account) {
         setInputTokenId(
-          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[account]?.[0] || ""
+          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
+          account
+          ]?.[0] || ""
         );
       }
     }
@@ -208,15 +210,17 @@ export default function Home() {
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
             <ConnectButton />
-            <button onClick={() => {
-              setIsAnimationStarted(true)
+            <button
+              onClick={() => {
+                setIsAnimationStarted(true);
 
-              toast("Arda")
-
-              setTimeout(() => {
-                setIsAnimationStarted(false)
-              }, ANIMATION_TIME)
-            }}>Trigger animation</button>
+                setTimeout(() => {
+                  setIsAnimationStarted(false);
+                }, ANIMATION_TIME);
+              }}
+            >
+              Trigger animation
+            </button>
           </div>
           <div
             className={
@@ -456,20 +460,24 @@ export default function Home() {
       <div className={"relative w-full h-full"}>
         <div className={"absolute z-[4] bg-effect w-full h-full"}></div>
         <div className={"absolute z-[3] w-full h-full bg-pattern"}></div>
-        <div className={"absolute z-[2] w-full h-full"}>
+        <div
+          className={
+            " relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"
+          }
+        >
           <div
             className={
-              `container relative mx-auto h-full flex justify-center items-center text-white bg-blur ${isAnimationStarted ? "arda" : ""}`
+              "absolute arda w-[100vw] aspect-square flex items-center content-center"
             }
           >
             <div
               className={
-                `absolute z-[-12] h-[800px] aspect-square blur-[140px] left-[-40%] ${sourceChain.colorClass} rounded-full`
+                "absolute h-[80vh] aspect-square bg-blue-500 left-0 translate-x-[-50%] rounded-full"
               }
             ></div>
             <div
               className={
-                `absolute z-[-12] h-[800px] aspect-square blur-[140px] right-[-40%] ${targetChain.colorClass} rounded-full`
+                "absolute h-[80vh] aspect-square bg-red-500 translate-x-[50%] right-0 rounded-full"
               }
             ></div>
           </div>
