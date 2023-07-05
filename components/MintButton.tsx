@@ -10,6 +10,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import { toast } from "react-toastify";
 
 type Props = {
   sourceChain: Network;
@@ -65,6 +66,7 @@ const MintButton: React.FC<Props> = ({
     });
 
     setMintTxHash("");
+    toast(`NFT minted with the id of ${tokenId}!`);
   }, [mintTxResultData]);
 
   const onMint = async () => {
@@ -78,6 +80,7 @@ const MintButton: React.FC<Props> = ({
       }
       const result = await mint();
       setMintTxHash(result.hash);
+      toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +89,7 @@ const MintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      className={"bg-white/10 border-white border-[1px] rounded-lg px-10 py-2"}
+      className={"bg-white/10 border-white border-[1px] rounded-lg px-14 py-2"}
     >
       Mint
     </button>

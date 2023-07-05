@@ -8,6 +8,7 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
+import { toast } from 'react-toastify';
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 
 type Props = {
@@ -18,7 +19,7 @@ type Props = {
   inputTokenId: string;
   setInputTokenId: any;
   setTokenIds: any;
-  setLayerZeroTxHash: any;
+  setLayerZeroTxHashes: any;
   setIsAnimationStarted: any;
   animationTime: number;
 };
@@ -31,9 +32,9 @@ const BridgeButton: React.FC<Props> = ({
   inputTokenId,
   setInputTokenId,
   setTokenIds,
-  setLayerZeroTxHash,
+  setLayerZeroTxHashes,
   setIsAnimationStarted,
-  animationTime
+  animationTime,
 }) => {
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -70,7 +71,8 @@ const BridgeButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      await sendFrom();
+      const { hash: txhash } = await sendFrom();
+      setLayerZeroTxHashes((prev: any) => ([...prev, txhash]))
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
@@ -95,6 +97,8 @@ const BridgeButton: React.FC<Props> = ({
       setTimeout(() => {
         setIsAnimationStarted(false);
       }, animationTime);
+
+      toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +108,7 @@ const BridgeButton: React.FC<Props> = ({
     <button
       onClick={onBridge}
       disabled={tokenIds.length === 0}
-      className={"bg-white/10 border-white border-[1px] rounded-lg px-8 py-2"}
+      className={"bg-white/10 border-white border-[1px] rounded-lg px-12 py-2"}
     >
       Bridge
     </button>
