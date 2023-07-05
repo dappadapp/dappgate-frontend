@@ -9,22 +9,20 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
 import {
   useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
   useAccount,
   useSwitchNetwork,
   useNetwork,
 } from "wagmi";
-import { ethers } from "ethers";
 import OptimismLogo from "../assets/images/optimism.png";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import MintButton from "@/components/MintButton";
+import BridgeButton from "@/components/BridgeButton";
 
 const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
 });
 
-interface Network {
+export interface Network {
   name: string;
   chainId: number;
   image: any;
@@ -86,48 +84,23 @@ const networks: Network[] = [
 */
 
 export default function Home() {
-  const [sourceChain, setSourceChain] = React.useState<Network>(networks[0]);
-  const [targetChain, setTargetChain] = React.useState<Network>(networks[1]);
-  const [tokenIds, setTokenIds] = React.useState<any>({});
-  const [mintTxHash, setMintTxHash] = React.useState<string>("");
-  const [showInput, setShowInput] = React.useState<boolean>(false);
-  const [inputTokenId, setInputTokenId] = React.useState<string>("");
-  const [isCardHidden, setIsCardHidden] = React.useState<boolean>(false);
+  const [sourceChain, setSourceChain] = useState(networks[0]);
+  const [targetChain, setTargetChain] = useState(networks[1]);
+  const [tokenIds, setTokenIds] = useState({});
+  const [showInput, setShowInput] = useState(false);
+  const [inputTokenId, setInputTokenId] = useState("");
+  const [isCardHidden, setIsCardHidden] = useState(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const { address: account } = useAccount();
 
-  const { config: mintConfig } = usePrepareContractWrite({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "mint",
-    value: ethers.parseEther("0.0005"),
-  });
-  const { writeAsync: mint } = useContractWrite(mintConfig);
-
-  const { config: sendFromConfig } = usePrepareContractWrite({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "crossChain",
-    value: ethers.parseEther("0.001"),
-    args: [
-      targetChain.layerzeroChainId,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
-    ],
-  });
-  const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
-
-  const { data: ownerOfData } = useContractRead({
+  const { data: ownerOfData, refetch } = useContractRead({
     address: sourceChain.merkleLzAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "ownerOf",
+    chainId: sourceChain.chainId,
     args: [inputTokenId],
-  });
-
-  const { data: mintTxResultData } = useWaitForTransaction({
-    hash: mintTxHash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
   });
 
   // TODO: send a balanceOf() call just in case user still has the token IDS on initial page load.
@@ -135,47 +108,21 @@ export default function Home() {
 
   console.log("tokenIds: ", tokenIds);
   console.log("ownerOfData", ownerOfData);
+  console.log("inputTokenId", inputTokenId);
 
   useEffect(() => {
     const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
     if (!tokenIdsLocalStorage) {
       localStorage.setItem("tokenIds", JSON.stringify({}));
+    } else {
+      if (account) {
+        setInputTokenId(
+          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[account]?.[0]
+        );
+      }
     }
-    console.log("tokenIdsLocalStorage", tokenIdsLocalStorage);
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, []);
-
-  useEffect(() => {
-    if (!mintTxResultData) return;
-    console.log("mintTxResultData", mintTxResultData.logs[0].topics[3]);
-    const tokenId = BigInt(
-      mintTxResultData.logs[0].topics[3] as string
-    ).toString();
-    setInputTokenId(tokenId);
-    setTokenIds((prev: any) => {
-      const newArray = prev?.[sourceChain.chainId]?.[account as string]
-        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
-        : [tokenId];
-      const tokenIdData = {
-        ...prev,
-        [sourceChain.chainId]: {
-          ...prev?.[sourceChain.chainId],
-          [account as string]: newArray,
-        },
-      };
-      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-      return tokenIdData;
-    });
-
-    // hide card
-    setIsCardHidden(true);
-
-    setTimeout(() => {
-      setIsCardHidden(false);
-    }, 5000);
-  }, [mintTxResultData]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
@@ -215,57 +162,6 @@ export default function Home() {
     }
   };
 
-  const onMint = async () => {
-    if (!mint)
-      return alert(
-        "Make sure you have enough ETH and you're on the correct network."
-      );
-    try {
-      if (connectedChain?.id !== sourceChain.chainId) {
-        await switchNetworkAsync?.(sourceChain.chainId);
-      }
-      const result = await mint();
-      setMintTxHash(result.hash);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onBridge = async () => {
-    if (!sendFrom)
-      return alert(
-        "Make sure you have enough gas and you're on the correct network."
-      );
-    if (tokenIds.length === 0) return alert("No tokenIds");
-    try {
-      if (connectedChain?.id !== sourceChain.chainId) {
-        await switchNetworkAsync?.(sourceChain.chainId);
-      }
-      if (showInput && inputTokenId) {
-      }
-      await sendFrom();
-      setTokenIds((prev: any) => {
-        const newArray = prev?.[sourceChain.chainId]?.[account as string]
-          ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
-          : [];
-        const tokenIdData = {
-          ...prev,
-          [sourceChain.chainId]: {
-            ...prev?.[sourceChain.chainId],
-            [account as string]: newArray,
-          },
-        };
-        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-        return tokenIdData;
-      });
-      setInputTokenId("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const onArrowClick = async () => {
     try {
       if (connectedChain?.id !== targetChain.chainId) {
@@ -280,7 +176,7 @@ export default function Home() {
 
   return (
     <div className={"relative w-full h-[100vh] min-h-[800px] overflow-hidden"}>
-      <div className={"absolute z-10 w-full h-full flex flex-col "}>
+      <div className={"absolute z-10 w-full h-full flex flex-col"}>
         <div className={"container mx-auto h-full flex flex-col"}>
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
@@ -423,14 +319,12 @@ export default function Home() {
                   "flex flex-col justify-center items-center gap-6 w-full mt-28 select-none"
                 }
               >
-                <button
-                  onClick={onMint}
-                  className={
-                    "bg-white/10 border-white border-[1px] rounded-lg px-10 py-2"
-                  }
-                >
-                  Mint
-                </button>
+                <MintButton
+                  setInputTokenId={setInputTokenId}
+                  setIsCardHidden={setIsCardHidden}
+                  setTokenIds={setTokenIds}
+                  sourceChain={sourceChain}
+                />
                 <div className="flex flex-col items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -453,15 +347,15 @@ export default function Home() {
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     ></path>
                   </svg>
-                  <button
-                    onClick={onBridge}
-                    disabled={tokenIds.length === 0}
-                    className={
-                      "bg-white/10 border-white border-[1px] rounded-lg px-8 py-2"
-                    }
-                  >
-                    Bridge
-                  </button>
+                  <BridgeButton
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    inputTokenId={inputTokenId}
+                    setInputTokenId={setInputTokenId}
+                    tokenIds={tokenIds}
+                    setTokenIds={setTokenIds}
+                    showInput={showInput}
+                  />
                   <div
                     className={`w-[150px] mt-4 transition-all overflow-hidden ${
                       !showInput ? "max-h-[0px]" : "max-h-[200px]"

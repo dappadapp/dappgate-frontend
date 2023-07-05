@@ -1,4 +1,3 @@
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Providers from "./Providers";
 import "./globals.css";
 import { Inter } from "next/font/google";
