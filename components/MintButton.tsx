@@ -30,7 +30,7 @@ const MintButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { config: mintConfig } = usePrepareContractWrite({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
+    address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
     value: ethers.parseEther("0.0005"),

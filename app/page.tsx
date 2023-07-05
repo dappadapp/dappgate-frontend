@@ -1,26 +1,265 @@
 "use client";
 import React, { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { goerli, optimismGoerli, polygonMumbai } from "wagmi/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
 import {
-  useContractRead,
   useAccount,
   useSwitchNetwork,
   useNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import OptimismLogo from "../assets/images/optimism.png";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import MintButton from "@/components/MintButton";
 import BridgeButton from "@/components/BridgeButton";
 import formatAddress from "@/utils/formatAddress";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  mainnet,
+  goerli,
+  zkSync,
+  polygonZkEvm,
+  optimismGoerli,
+  optimism,
+  polygonMumbai,
+  bsc,
+  avalanche,
+  arbitrum,
+  fantom,
+  dfk,
+  harmonyOne,
+  celo,
+  moonbeam,
+  gnosis,
+  klaytn,
+  metis,
+  canto,
+  moonriver,
+  polygon
+} from "wagmi/chains";
+
+const networks: Network[] = [
+  {
+    name: mainnet.name,
+    chainId: mainnet.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#373737]"
+  },
+  {
+    name: bsc.name,
+    chainId: bsc.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E8B30B]"
+  },
+  {
+    name: avalanche.name,
+    chainId: avalanche.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E84142]"
+  },
+  /*   {
+      name: "Aptos",
+      chainId: 108,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#E8B30B]"
+    }, */
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7F43DF]"
+  },
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#12AAFF]"
+  },
+  {
+    name: optimism.name,
+    chainId: optimism.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FF0420]"
+  },
+  {
+    name: fantom.name,
+    chainId: fantom.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#196aff]"
+  },
+  {
+    name: dfk.name,
+    chainId: dfk.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#81bb04]"
+  },
+  {
+    name: harmonyOne.name,
+    chainId: harmonyOne.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#41dccc]"
+  },
+  /*   {
+      name: "Dexalot",
+      chainId: 118,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#f46afd]"
+    }, */
+  {
+    name: celo.name,
+    chainId: celo.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#36d07e]"
+  },
+  {
+    name: moonbeam.name,
+    chainId: moonbeam.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#53c9c7]"
+  },
+  /*   {
+      name: "Fuse",
+      chainId: 138,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#a9f7b0]"
+    }, */
+  {
+    name: gnosis.name,
+    chainId: gnosis.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#3e6956]"
+  },
+  {
+    name: klaytn.name,
+    chainId: klaytn.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#f82e08]"
+  },
+  {
+    name: metis.name,
+    chainId: metis.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#00CDB7]"
+  },
+  /*   {
+      name: "CoreDAO",
+      chainId: 153,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#FDBE08]"
+    }, */
+  /*   {
+      name: "OKT (OKX)",
+      chainId: 155,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#000000]"
+    }, */
+  {
+    name: polygonZkEvm.name,
+    chainId: polygonZkEvm.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7939D5]"
+  },
+  {
+    name: canto.name,
+    chainId: canto.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#34EEA4]"
+  },
+  {
+    name: zkSync.name,
+    chainId: zkSync.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#222258]"
+  },
+  {
+    name: moonriver.name,
+    chainId: moonriver.id,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E6AE05]"
+  },
+  /*   {
+      name: "Tenet",
+      chainId: 173,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#F2F2F2]"
+    }, */
+  /*   {
+      name: "Arbitrum Nova",
+      chainId: 175,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#E37B1E]"
+    }, */
+  /*   {
+      name: "Meter.io",
+      chainId: 176,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#1C2A59]"
+    }, */
+  /*   {
+      name: "Kava",
+      chainId: 177,
+      layerzeroChainId: 10109,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#F2524B]"
+    }, */
+];
+
 
 const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
@@ -29,56 +268,11 @@ const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
 export interface Network {
   name: string;
   chainId: number;
-  image: any;
   layerzeroChainId: number;
-  merkleLzAddress: string;
+  nftContractAddress: string;
   blockConfirmation: number;
   colorClass: string;
 }
-
-const networks: Network[] = [
-  {
-    name: optimismGoerli.name,
-    chainId: optimismGoerli.id,
-    image: OptimismLogo,
-    layerzeroChainId: 10132,
-    merkleLzAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
-    blockConfirmation: 8,
-    colorClass: "bg-[#FF0420]",
-  },
-  {
-    name: goerli.name,
-    chainId: goerli.id,
-    image: OptimismLogo,
-    layerzeroChainId: 10121,
-    merkleLzAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
-    blockConfirmation: 2,
-    colorClass: "bg-[#373737]",
-  },
-  {
-    name: polygonMumbai.name,
-    chainId: polygonMumbai.id,
-    image: OptimismLogo,
-    layerzeroChainId: 10109,
-    merkleLzAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7F43DF]",
-  },
-  /*   {
-      name: zkSyncTestnet.name,
-      chainId: zkSyncTestnet.id,
-      image: OptimismLogo,
-      layerzeroChainId: 10165,
-      merkleLzAddress: ""
-    },
-    {
-      name: bscTestnet.name,
-      chainId: bscTestnet.id,
-      image: OptimismLogo,
-      layerzeroChainId: 10102,
-      merkleLzAddress: "0xb5691e49f86CBa649c815Ee633679944b044BC43"
-    }, */
-];
 
 const ANIMATION_TIME = 4000;
 
@@ -95,8 +289,8 @@ export default function Home() {
   const { chain: connectedChain } = useNetwork();
   const { address: account } = useAccount();
 
-  /*   const { data: ownerOfData } = useContractRead({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
+  /* const { data: ownerOfData } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "ownerOf",
     chainId: sourceChain.chainId,
@@ -210,17 +404,6 @@ export default function Home() {
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
             <ConnectButton />
-            <button
-              onClick={() => {
-                setIsAnimationStarted(true);
-
-                setTimeout(() => {
-                  setIsAnimationStarted(false);
-                }, ANIMATION_TIME);
-              }}
-            >
-              Trigger animation
-            </button>
           </div>
           <div
             className={
@@ -467,17 +650,17 @@ export default function Home() {
         >
           <div
             className={
-              "absolute arda w-[100vw] aspect-square flex items-center content-center"
+              `absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "arda" : ""}`
             }
           >
             <div
               className={
-                "absolute h-[80vh] aspect-square bg-blue-500 left-0 translate-x-[-50%] rounded-full"
+                `absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`
               }
             ></div>
             <div
               className={
-                "absolute h-[80vh] aspect-square bg-red-500 translate-x-[50%] right-0 rounded-full"
+                `absolute h-[80vh] aspect-square ${targetChain.colorClass} translate-x-[50%] right-0 rounded-full`
               }
             ></div>
           </div>

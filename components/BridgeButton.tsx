@@ -41,14 +41,14 @@ const BridgeButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
+    address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "estimateFees",
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
 
   const { config: sendFromConfig } = usePrepareContractWrite({
-    address: sourceChain.merkleLzAddress as `0x${string}`,
+    address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "crossChain",
     value:
