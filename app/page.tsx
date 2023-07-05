@@ -175,8 +175,14 @@ export default function Home() {
   };
 
   return (
-    <div className={"relative w-full h-[100vh] min-h-[800px] overflow-hidden"}>
-      <div className={"absolute z-10 w-full h-full flex flex-col"}>
+    <div
+      className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
+    >
+      <div
+        className={
+          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col"
+        }
+      >
         <div className={"container mx-auto h-full flex flex-col"}>
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
@@ -372,7 +378,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className={"mt-auto mb-16 flex justify-between items-center"}>
+          <div className={"mt-auto pb-16 flex justify-between items-center"}>
             <p className={"text-gray-400 font-light"}>
               DappGate by{" "}
               <a
