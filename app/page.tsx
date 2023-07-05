@@ -29,6 +29,7 @@ export interface Network {
   layerzeroChainId: number;
   merkleLzAddress: string;
   blockConfirmation: number;
+  colorClass: string;
 }
 
 const networks: Network[] = [
@@ -39,6 +40,7 @@ const networks: Network[] = [
     layerzeroChainId: 10132,
     merkleLzAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
     blockConfirmation: 8,
+    colorClass: "bg-[#FF0420]",
   },
   {
     name: goerli.name,
@@ -47,6 +49,7 @@ const networks: Network[] = [
     layerzeroChainId: 10121,
     merkleLzAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
     blockConfirmation: 2,
+    colorClass: "bg-[#373737]",
   },
   {
     name: polygonMumbai.name,
@@ -55,6 +58,7 @@ const networks: Network[] = [
     layerzeroChainId: 10109,
     merkleLzAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 4,
+    colorClass: "bg-[#7F43DF]",
   },
   /*   {
       name: zkSyncTestnet.name,
@@ -72,16 +76,7 @@ const networks: Network[] = [
     }, */
 ];
 
-/*
-
-{
-  '420': {
-    '0x123': ['3131', '3162'],
-    '0x456': ['2131', '2162'],
-  },
-}
-
-*/
+const ANIMATION_TIME = 4000;
 
 export default function Home() {
   const [sourceChain, setSourceChain] = useState(networks[0]);
@@ -89,13 +84,14 @@ export default function Home() {
   const [tokenIds, setTokenIds] = useState({});
   const [showInput, setShowInput] = useState(false);
   const [inputTokenId, setInputTokenId] = useState("");
-  const [isCardHidden, setIsCardHidden] = useState(false);
+  const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+  const [layerZeroTxHash, setLayerZeroTxHash] = useState("")
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const { address: account } = useAccount();
 
-  const { data: ownerOfData, refetch } = useContractRead({
+  const { data: ownerOfData } = useContractRead({
     address: sourceChain.merkleLzAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "ownerOf",
@@ -108,7 +104,6 @@ export default function Home() {
 
   console.log("tokenIds: ", tokenIds);
   console.log("ownerOfData", ownerOfData);
-  console.log("inputTokenId", inputTokenId);
 
   useEffect(() => {
     const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
@@ -117,17 +112,19 @@ export default function Home() {
     } else {
       if (account) {
         setInputTokenId(
-          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[account]?.[0]
+          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[account]?.[0] || ""
         );
       }
     }
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
-  }, []);
+  }, [account, sourceChain]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
       (network) => network.name === selectedNetwork.name
     );
+    const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
+    const tokenIdsFormatted = JSON.parse(tokenIdsLocalStorage || "{}");
     if (chain) {
       try {
         if (chain.chainId !== connectedChain?.id) {
@@ -135,6 +132,11 @@ export default function Home() {
         }
         if (chain.name === targetChain.name) {
           setTargetChain(sourceChain);
+        }
+        if (tokenIdsLocalStorage && account) {
+          setInputTokenId(
+            tokenIdsFormatted[chain.chainId]?.[account]?.[0] || ""
+          );
         }
         setSourceChain(chain);
       } catch (error) {
@@ -181,6 +183,13 @@ export default function Home() {
           <div className={"w-full flex items-center justify-between mt-16"}>
             <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
             <ConnectButton />
+            <button onClick={() => {
+              setIsAnimationStarted(true)
+
+              setTimeout(() => {
+                setIsAnimationStarted(false)
+              }, ANIMATION_TIME)
+            }}>Trigger animation</button>
           </div>
           <div
             className={
@@ -188,9 +197,7 @@ export default function Home() {
             }
           >
             <div
-              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${
-                isCardHidden ? "hidden" : ""
-              }`}
+              className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[3px] border-white border-[2px] border-opacity-10 h-fit p-16 rounded-2xl flex flex-col ${isAnimationStarted ? "hidden" : ""}`}
             >
               <h1 className={"text-3xl font-semibold"}>Bridge</h1>
               <div className={"flex justify-between items-center mt-16"}>
@@ -213,8 +220,7 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -222,9 +228,8 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected ? "font-bold" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
+                                    }`}
                                 >
                                   {person.name}
                                 </span>
@@ -285,8 +290,7 @@ export default function Home() {
                           <Listbox.Option
                             key={personIdx}
                             className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active ? "bg-white text-black" : "text-gray-300"
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-white text-black" : "text-gray-300"
                               }`
                             }
                             value={person}
@@ -294,9 +298,8 @@ export default function Home() {
                             {({ selected }) => (
                               <>
                                 <span
-                                  className={`block truncate ${
-                                    selected ? "font-bold" : "font-normal"
-                                  }`}
+                                  className={`block truncate ${selected ? "font-bold" : "font-normal"
+                                    }`}
                                 >
                                   {person.name}
                                 </span>
@@ -321,7 +324,6 @@ export default function Home() {
               >
                 <MintButton
                   setInputTokenId={setInputTokenId}
-                  setIsCardHidden={setIsCardHidden}
                   setTokenIds={setTokenIds}
                   sourceChain={sourceChain}
                 />
@@ -355,11 +357,13 @@ export default function Home() {
                     tokenIds={tokenIds}
                     setTokenIds={setTokenIds}
                     showInput={showInput}
+                    setLayerZeroTxHash={setLayerZeroTxHash}
+                    setIsAnimationStarted={setIsAnimationStarted}
+                    animationTime={ANIMATION_TIME}
                   />
                   <div
-                    className={`w-[150px] mt-4 transition-all overflow-hidden ${
-                      !showInput ? "max-h-[0px]" : "max-h-[200px]"
-                    }`}
+                    className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                   >
                     <input
                       placeholder="Token ID"
@@ -399,17 +403,17 @@ export default function Home() {
         <div className={"absolute z-[2] w-full h-full"}>
           <div
             className={
-              "container relative mx-auto h-full flex justify-center items-center text-white bg-blur"
+              `container relative mx-auto h-full flex justify-center items-center text-white bg-blur ${isAnimationStarted ? "arda" : ""}`
             }
           >
             <div
               className={
-                "absolute z-[-12] h-[800px] aspect-square blur-[140px] left-[-40%] bg-red-500 rounded-full"
+                `absolute z-[-12] h-[800px] aspect-square blur-[140px] left-[-40%] ${sourceChain.colorClass} rounded-full`
               }
             ></div>
             <div
               className={
-                "absolute z-[-12] h-[800px] aspect-square blur-[140px] right-[-40%] bg-blue-500 rounded-full"
+                `absolute z-[-12] h-[800px] aspect-square blur-[140px] right-[-40%] ${targetChain.colorClass} rounded-full`
               }
             ></div>
           </div>

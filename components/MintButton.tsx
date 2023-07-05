@@ -15,14 +15,12 @@ type Props = {
   sourceChain: Network;
   setInputTokenId: any;
   setTokenIds: any;
-  setIsCardHidden: any;
 };
 
 const MintButton: React.FC<Props> = ({
   sourceChain,
   setInputTokenId,
   setTokenIds,
-  setIsCardHidden,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
 
@@ -45,7 +43,6 @@ const MintButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
-    console.log("mintTxResultData", mintTxResultData.logs[0].topics[3]);
     const tokenId = BigInt(
       mintTxResultData.logs[0].topics[3] as string
     ).toString();
@@ -53,8 +50,8 @@ const MintButton: React.FC<Props> = ({
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
+          (value, index, self) => self.indexOf(value) === index
+        )
         : [tokenId];
       const tokenIdData = {
         ...prev,
@@ -66,13 +63,6 @@ const MintButton: React.FC<Props> = ({
       localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
       return tokenIdData;
     });
-
-    // hide card
-    setIsCardHidden(true);
-
-    setTimeout(() => {
-      setIsCardHidden(false);
-    }, 5000);
 
     setMintTxHash("");
   }, [mintTxResultData]);

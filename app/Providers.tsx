@@ -17,6 +17,7 @@ import {
   optimismGoerli,
   optimism,
   polygonZkEvmTestnet,
+  polygonMumbai
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -30,6 +31,7 @@ const chains = [
   polygonZkEvmTestnet,
   optimism,
   optimismGoerli,
+  polygonMumbai
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

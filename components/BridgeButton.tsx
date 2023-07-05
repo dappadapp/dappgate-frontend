@@ -9,7 +9,6 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
-import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
@@ -19,6 +18,9 @@ type Props = {
   inputTokenId: string;
   setInputTokenId: any;
   setTokenIds: any;
+  setLayerZeroTxHash: any;
+  setIsAnimationStarted: any;
+  animationTime: number;
 };
 
 const BridgeButton: React.FC<Props> = ({
@@ -29,6 +31,9 @@ const BridgeButton: React.FC<Props> = ({
   inputTokenId,
   setInputTokenId,
   setTokenIds,
+  setLayerZeroTxHash,
+  setIsAnimationStarted,
+  animationTime
 }) => {
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -69,8 +74,8 @@ const BridgeButton: React.FC<Props> = ({
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
+            .slice(1)
+            .filter((value, index, self) => self.indexOf(value) === index)
           : [];
         const tokenIdData = {
           ...prev,
@@ -83,6 +88,13 @@ const BridgeButton: React.FC<Props> = ({
         return tokenIdData;
       });
       setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
+
+      // hide card
+      setIsAnimationStarted(true);
+
+      setTimeout(() => {
+        setIsAnimationStarted(false);
+      }, animationTime);
     } catch (error) {
       console.log(error);
     }
