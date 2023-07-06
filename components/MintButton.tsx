@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import {
   useAccount,
+  useContractRead,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
@@ -29,11 +30,17 @@ const MintButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
+  const { data: costData } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: MerklyLZAbi,
+    functionName: "cost",
+  });
+
   const { config: mintConfig } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
-    value: ethers.parseEther("0.0005"),
+    value: BigInt((costData as string) || "500000000000000"),
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
