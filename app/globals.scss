@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -19,19 +18,19 @@
 }
 
 body {
-  font-family: 'Lexend Deca', sans-serif;
+  font-family: "Lexend Deca", sans-serif;
   color: #fff;
   background: #000;
 }
 
-.bg-pattern{
+.bg-pattern {
   background: url("/bg-pattern.png") repeat center center;
   opacity: 0.2;
 }
-.bg-effect{
+.bg-effect {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
 }
-.bg-blur:after{
+.bg-blur:after {
   position: absolute;
   content: "";
   width: 400vw;
@@ -44,10 +43,9 @@ body {
   color: #fff;
 }
 
-
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2E2E2E #DFE9EB;
+  scrollbar-color: #2e2e2e #dfe9eb;
 }
 
 /* Chrome, Edge and Safari */
@@ -64,12 +62,11 @@ body {
   background-color: #ffffff;
 }
 
-
-.arda{
-    background-blend-mode: screen;
-    animation: arda 4s infinite linear;
+.arda {
+  background-blend-mode: screen;
+  animation: arda 4s infinite linear;
 }
-.arda *:nth-child(2){
+.arda *:nth-child(2) {
   animation: transparent 4s infinite linear;
 }
 @keyframes arda {
@@ -80,10 +77,9 @@ body {
     transform: rotate(180deg);
     width: 0;
   }
-
 }
 @keyframes transparent {
-    100% {
-        opacity: 0.5;
-    }
+  100% {
+    opacity: 0.5;
+  }
 }

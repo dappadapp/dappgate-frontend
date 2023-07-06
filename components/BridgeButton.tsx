@@ -15,26 +15,20 @@ type Props = {
   sourceChain: Network;
   targetChain: Network;
   tokenIds: any;
-  showInput: boolean;
   inputTokenId: string;
   setInputTokenId: any;
   setTokenIds: any;
   setLayerZeroTxHashes: any;
-  setIsAnimationStarted: any;
-  animationTime: number;
 };
 
 const BridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   tokenIds,
-  showInput,
   inputTokenId,
   setInputTokenId,
   setTokenIds,
-  setLayerZeroTxHashes,
-  setIsAnimationStarted,
-  animationTime,
+  setLayerZeroTxHashes
 }) => {
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -71,8 +65,8 @@ const BridgeButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const { hash: txhash } = await sendFrom();
-      setLayerZeroTxHashes((prev: any) => ([...prev, txhash]))
+      const { hash: txHash } = await sendFrom();
+      setLayerZeroTxHashes((prev: any) => ([...prev, txHash]))
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
@@ -91,13 +85,6 @@ const BridgeButton: React.FC<Props> = ({
       });
       setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
 
-      // hide card
-      setIsAnimationStarted(true);
-
-      setTimeout(() => {
-        setIsAnimationStarted(false);
-      }, animationTime);
-
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);
@@ -107,7 +94,7 @@ const BridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={tokenIds.length === 0}
+      disabled={!inputTokenId}
       className={"bg-white/10 border-white border-[1px] rounded-lg px-12 py-2"}
     >
       Bridge
