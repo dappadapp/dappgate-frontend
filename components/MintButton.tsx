@@ -12,6 +12,7 @@ import {
 } from "wagmi";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 type Props = {
   sourceChain: Network;
@@ -54,6 +55,13 @@ const MintButton: React.FC<Props> = ({
     const tokenId = BigInt(
       mintTxResultData.logs[0].topics[3] as string
     ).toString();
+
+    const postMint = async () => {
+      await axios.post('/api/mint', {
+        tokenId,
+      })
+    }
+    postMint()
     setInputTokenId(tokenId);
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
@@ -96,7 +104,7 @@ const MintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      className={"bg-white/10 border-white border-[1px] rounded-lg px-14 py-2"}
+      className={"bg-white/10 border-white border-[1px] rounded-lg px-16 py-2"}
     >
       Mint
     </button>

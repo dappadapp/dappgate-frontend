@@ -95,7 +95,7 @@ const BridgeButton: React.FC<Props> = ({
     <button
       onClick={onBridge}
       disabled={!inputTokenId}
-      className={"bg-white/10 border-white border-[1px] rounded-lg px-12 py-2"}
+      className={"bg-white/10 border-white border-[1px] rounded-lg px-14 py-2"}
     >
       Bridge
     </button>

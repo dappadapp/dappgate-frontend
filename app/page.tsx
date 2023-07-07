@@ -42,29 +42,30 @@ import {
 } from "wagmi/chains";
 
 const networks: Network[] = [
-  {
-    name: optimismGoerli.name,
-    chainId: optimismGoerli.id,
-    layerzeroChainId: 10132,
-    nftContractAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
-    blockConfirmation: 1,
-    colorClass: "bg-[#FF0420]",
-  },
-  {
-    name: goerli.name,
-    chainId: goerli.id,
-    layerzeroChainId: 10121,
-    nftContractAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
-    blockConfirmation: 2,
-    colorClass: "bg-[#373737]",
-  },
+  /*   {
+      name: optimismGoerli.name,
+      chainId: optimismGoerli.id,
+      layerzeroChainId: 10132,
+      nftContractAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
+      blockConfirmation: 1,
+      colorClass: "bg-[#FF0420]",
+    },
+    {
+      name: goerli.name,
+      chainId: goerli.id,
+      layerzeroChainId: 10121,
+      nftContractAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
+      blockConfirmation: 2,
+      colorClass: "bg-[#373737]",
+    }, */
   {
     name: mainnet.name,
     chainId: mainnet.id,
     layerzeroChainId: 101,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
-    colorClass: "bg-[#373737]",
+    colorClass: "bg-[#777777]",
+    image: "ethereum.svg"
   },
   {
     name: bsc.name,
@@ -73,6 +74,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E8B30B]",
+    image: "bsc.svg"
   },
   {
     name: avalanche.name,
@@ -81,6 +83,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
+    image: "avalanche.svg"
   },
   /*   {
       name: "Aptos",
@@ -97,6 +100,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg"
   },
   {
     name: arbitrum.name,
@@ -105,14 +109,16 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg"
   },
   {
     name: optimism.name,
     chainId: optimism.id,
     layerzeroChainId: 111,
-    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    nftContractAddress: "0x391533E77eCd85171a61BF8383f936D41cC4228D",
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
+    image: "optimism.svg"
   },
   {
     name: fantom.name,
@@ -121,6 +127,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
+    image: "fantom.svg"
   },
   {
     name: dfk.name,
@@ -129,6 +136,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#81bb04]",
+    image: "dfk.svg"
   },
   {
     name: harmonyOne.name,
@@ -137,15 +145,17 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#41dccc]",
+    image: "harmony.svg"
   },
-  /*   {
-      name: "Dexalot",
-      chainId: 118,
-      layerzeroChainId: 10109,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#f46afd]"
-    }, */
+  {
+    name: "Dexalot",
+    chainId: 432204,
+    layerzeroChainId: 118,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E51981]",
+    image: "dexalot.svg"
+  },
   {
     name: celo.name,
     chainId: celo.id,
@@ -153,6 +163,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#36d07e]",
+    image: "celo.svg"
   },
   {
     name: moonbeam.name,
@@ -160,32 +171,36 @@ const networks: Network[] = [
     layerzeroChainId: 126,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
-    colorClass: "bg-[#53c9c7]",
+    colorClass: "bg-[#1fcceb]",
+    image: "moonbeam.svg"
   },
-  /*   {
-      name: "Fuse",
-      chainId: 138,
-      layerzeroChainId: 10109,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#a9f7b0]"
-    }, */
+  {
+    name: "Fuse",
+    chainId: 138,
+    layerzeroChainId: 10109,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#a9f7b0]",
+    image: "fuse.svg"
+  },
   {
     name: gnosis.name,
     chainId: gnosis.id,
     layerzeroChainId: 145,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
-    colorClass: "bg-[#3e6956]",
+    colorClass: "bg-[#57ac86]",
+    image: "gnosis.svg"
   },
-  /*   {
-      name: klaytn.name,
-      chainId: klaytn.id,
-      layerzeroChainId: 150,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#f82e08]"
-    }, */
+  {
+    name: klaytn.name,
+    chainId: klaytn.id,
+    layerzeroChainId: 150,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#f82e08]",
+    image: "klaytn.svg"
+  },
   {
     name: metis.name,
     chainId: metis.id,
@@ -193,23 +208,26 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
+    image: "metis.svg"
   },
-  /*   {
-      name: "CoreDAO",
-      chainId: 153,
-      layerzeroChainId: 153,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#FDBE08]"
-    }, */
-  /*   {
-      name: "OKT (OKX)",
-      chainId: 155,
-      layerzeroChainId: 155,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#000000]"
-    }, */
+  {
+    name: "CoreDAO",
+    chainId: 153,
+    layerzeroChainId: 153,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FDBE08]",
+    image: "coredao.svg"
+  },
+  {
+    name: "OKT (OKX)",
+    chainId: 155,
+    layerzeroChainId: 155,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#000000]",
+    image: "okex.svg"
+  },
   {
     name: polygonZkEvm.name,
     chainId: polygonZkEvm.id,
@@ -217,6 +235,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
+    image: "polygon-zkevm.svg"
   },
   {
     name: canto.name,
@@ -225,6 +244,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#34EEA4]",
+    image: "canto.svg"
   },
   {
     name: zkSync.name,
@@ -232,7 +252,8 @@ const networks: Network[] = [
     layerzeroChainId: 165,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
-    colorClass: "bg-[#222258]",
+    colorClass: "bg-[#8C8DFC]",
+    image: "zksync-era.svg"
   },
   {
     name: moonriver.name,
@@ -241,39 +262,44 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E6AE05]",
+    image: "moonriver.svg"
   },
-  /*   {
-      name: "Tenet",
-      chainId: 173,
-      layerzeroChainId: 173,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#F2F2F2]"
-    }, */
-  /*   {
-      name: "Arbitrum Nova",
-      chainId: 175,
-      layerzeroChainId: 175,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#E37B1E]"
-    }, */
-  /*   {
-      name: "Meter.io",
-      chainId: 176,
-      layerzeroChainId: 176,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#1C2A59]"
-    }, */
-  /*   {
-      name: "Kava",
-      chainId: 177,
-      layerzeroChainId: 177,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#F2524B]"
-    }, */
+  {
+    name: "Tenet",
+    chainId: 173,
+    layerzeroChainId: 173,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#F2F2F2]",
+    image: "tenet.svg"
+  },
+  {
+    name: "Arbitrum Nova",
+    chainId: 175,
+    layerzeroChainId: 175,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E37B1E]",
+    image: "arb-nova.svg"
+  },
+  {
+    name: "Meter.io",
+    chainId: 176,
+    layerzeroChainId: 176,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#1C2A59]",
+    image: "meter.svg"
+  },
+  {
+    name: "Kava",
+    chainId: 177,
+    layerzeroChainId: 177,
+    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+    blockConfirmation: 1,
+    colorClass: "bg-[#F2524B]",
+    image: "kava.svg"
+  },
 ];
 
 const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
@@ -287,6 +313,7 @@ export interface Network {
   nftContractAddress: string;
   blockConfirmation: number;
   colorClass: string;
+  image: string;
 }
 
 const ANIMATION_TIME = 4000;
@@ -343,7 +370,7 @@ export default function Home() {
       if (account) {
         setInputTokenId(
           JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
-            account
+          account
           ]?.[0] || ""
         );
       }
@@ -425,7 +452,10 @@ export default function Home() {
       >
         <div className={"container mx-auto h-full flex flex-col"}>
           <div className={"w-full flex items-center justify-between mt-16"}>
-            <h1 className={"text-4xl font-bold select-none"}>DappGate</h1>
+            <div className="flex flex-col items-end select-none">
+              <h1 className={"text-4xl font-bold"}>DappGate</h1>
+              <div className={"px-6 py-1 rounded-3xl border-2 border-white text-[12px] transition-all hover:bg-white hover:text-black"}>Alpha</div>
+            </div>
             <ConnectButton />
           </div>
           <div
@@ -438,11 +468,10 @@ export default function Home() {
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
+                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                        : "bg-transparent"
+                        }`}
                     >
                       NFT Bridge {"(ONFT)"}
                     </button>
@@ -451,11 +480,10 @@ export default function Home() {
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-6 py-2 rounded-lg ml-2 text-white ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       Token Bridge {"(OFT)"}
                     </button>
@@ -467,6 +495,50 @@ export default function Home() {
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[4px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
+                <div className={"flex justify-between items-center mt-8"}>
+                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                    <div className="relative w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
+                        <span className="block truncate text-transparent" style={{ textShadow: '0 0 8px #ffffff' }}>
+                          {sourceChain.name}
+                        </span>
+                      </Listbox.Button>
+                    </div>
+                  </Listbox>
+                  <svg
+                    width="58"
+                    height="45"
+                    viewBox="0 0 48 35"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    cursor="not-allowed"
+                  >
+                    <circle
+                      cx="17.4"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <circle
+                      cx="30.6031"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </svg>
+
+                  <Listbox value={targetChain} onChange={onChangeTargetChain}>
+                    <div className="relative w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
+                        <span className="block truncate text-transparent" style={{ textShadow: '0 0 8px #ffffff' }}>
+                          {targetChain.name}
+                        </span>
+                      </Listbox.Button>
+                    </div>
+                  </Listbox>
+                </div>
                 <h1
                   className={
                     "uppercase text-5xl font-semibold text-center py-32"
@@ -477,16 +549,20 @@ export default function Home() {
               </div>
             ) : (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[4px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <div className={"flex justify-between items-center mt-12"}>
+                <div className={"flex justify-between items-center mt-8"}>
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                     <div className="relative w-[36%]">
                       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
-                        <span className="block truncate">
-                          {sourceChain.name}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <img src={`/chains/${sourceChain.image}`} alt={targetChain.name} className="w-6 h-6 rounded-full" />
+                          <span className="block truncate">
+                            {sourceChain.name}
+                          </span>
+                        </div>
+
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                           <FontAwesomeIcon icon={faAngleDown} />
                         </span>
@@ -498,33 +574,29 @@ export default function Home() {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((person, personIdx) => (
+                          {networks.map((network, i) => (
                             <Listbox.Option
-                              key={personIdx}
+                              key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                  ? "bg-white text-black"
+                                  : "text-gray-300"
                                 }`
                               }
-                              value={person}
+                              value={network}
                             >
                               {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? "font-bold" : "font-normal"
-                                    }`}
-                                  >
-                                    {person.name}
-                                  </span>
+                                <div className="flex items-center gap-2">
                                   {selected ? (
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                </>
+                                  <img src={`/chains/${network.image}`} alt={network.name} className="w-6 h-6 rounded-full" />
+                                  <span className="block truncate">
+                                    {network.name}
+                                  </span>
+                                </div>
                               )}
                             </Listbox.Option>
                           ))}
@@ -560,12 +632,18 @@ export default function Home() {
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
                     <div className="relative w-[36%]">
                       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
-                        <span className="block truncate">
-                          {targetChain.name}
-                        </span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                          <FontAwesomeIcon icon={faAngleDown} />
-                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="pointer-events-none flex items-center">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="block truncate">
+                              {targetChain.name}
+                            </span>
+                            <img src={`/chains/${targetChain.image}`} alt={targetChain.name} className="w-6 h-6 rounded-full" />
+                          </div>
+
+                        </div>
                       </Listbox.Button>
                       <Transition
                         as={Fragment}
@@ -574,33 +652,29 @@ export default function Home() {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((person, personIdx) => (
+                          {networks.map((network, i) => (
                             <Listbox.Option
-                              key={personIdx}
+                              key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                  ? "bg-white text-black"
+                                  : "text-gray-300"
                                 }`
                               }
-                              value={person}
+                              value={network}
                             >
                               {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? "font-bold" : "font-normal"
-                                    }`}
-                                  >
-                                    {person.name}
-                                  </span>
+                                <div className="flex items-center gap-2">
                                   {selected ? (
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                </>
+                                  <img src={`/chains/${network.image}`} alt={network.name} className="w-6 h-6 rounded-full" />
+                                  <span className="block truncate">
+                                    {network.name}
+                                  </span>
+                                </div>
                               )}
                             </Listbox.Option>
                           ))}
@@ -611,7 +685,7 @@ export default function Home() {
                 </div>
                 <div
                   className={
-                    "flex flex-col justify-center items-center gap-6 w-full mt-20 select-none"
+                    "flex flex-col justify-center items-center gap-6 w-full mt-12 select-none"
                   }
                 >
                   <MintButton
@@ -651,9 +725,8 @@ export default function Home() {
                       setLayerZeroTxHashes={setLayerZeroTxHashes}
                     />
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
-                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
-                      }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+                        }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -665,11 +738,10 @@ export default function Home() {
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
-                    layerZeroTxHashes.length !== 0
-                      ? "max-h-[1000px]"
-                      : "max-h-0"
-                  }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
+                    ? "max-h-[1000px]"
+                    : "max-h-0"
+                    }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -692,7 +764,7 @@ export default function Home() {
                 <a
                   href="https://layerzero.network/"
                   target="_blank"
-                  className="self-center mt-8"
+                  className="self-center"
                 >
                   <svg
                     width="150"
@@ -796,9 +868,8 @@ export default function Home() {
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "arda" : ""
-            }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "arda" : ""
+              }`}
           >
             <div
               className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
