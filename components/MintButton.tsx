@@ -57,17 +57,17 @@ const MintButton: React.FC<Props> = ({
     ).toString();
 
     const postMint = async () => {
-      await axios.post('/api/mint', {
+      await axios.post("/api/mint", {
         tokenId,
-      })
-    }
-    postMint()
+      });
+    };
+    postMint();
     setInputTokenId(tokenId);
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-          (value, index, self) => self.indexOf(value) === index
-        )
+            (value, index, self) => self.indexOf(value) === index
+          )
         : [tokenId];
       const tokenIdData = {
         ...prev,

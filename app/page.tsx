@@ -42,22 +42,24 @@ import {
 } from "wagmi/chains";
 
 const networks: Network[] = [
-  /*   {
-      name: optimismGoerli.name,
-      chainId: optimismGoerli.id,
-      layerzeroChainId: 10132,
-      nftContractAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
-      blockConfirmation: 1,
-      colorClass: "bg-[#FF0420]",
-    },
-    {
-      name: goerli.name,
-      chainId: goerli.id,
-      layerzeroChainId: 10121,
-      nftContractAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
-      blockConfirmation: 2,
-      colorClass: "bg-[#373737]",
-    }, */
+  /* {
+    name: goerli.name,
+    chainId: goerli.id,
+    layerzeroChainId: 10121,
+    nftContractAddress: "0xfBafb38af51c07aA35007A0ceE08BB67e6339dC7",
+    blockConfirmation: 2,
+    colorClass: "bg-[#373737]",
+    image: "ethereum.svg",
+  },
+  {
+    name: optimismGoerli.name,
+    chainId: optimismGoerli.id,
+    layerzeroChainId: 10132,
+    nftContractAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FF0420]",
+    image: "ethereum.svg",
+  }, */
   {
     name: mainnet.name,
     chainId: mainnet.id,
@@ -65,7 +67,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#777777]",
-    image: "ethereum.svg"
+    image: "ethereum.svg",
   },
   {
     name: bsc.name,
@@ -74,7 +76,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E8B30B]",
-    image: "bsc.svg"
+    image: "bsc.svg",
   },
   {
     name: avalanche.name,
@@ -83,7 +85,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
-    image: "avalanche.svg"
+    image: "avalanche.svg",
   },
   /*   {
       name: "Aptos",
@@ -100,7 +102,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#7F43DF]",
-    image: "polygon.svg"
+    image: "polygon.svg",
   },
   {
     name: arbitrum.name,
@@ -109,7 +111,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg"
+    image: "arbitrum.svg",
   },
   {
     name: optimism.name,
@@ -118,7 +120,7 @@ const networks: Network[] = [
     nftContractAddress: "0x391533E77eCd85171a61BF8383f936D41cC4228D",
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
-    image: "optimism.svg"
+    image: "optimism.svg",
   },
   {
     name: fantom.name,
@@ -127,7 +129,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
-    image: "fantom.svg"
+    image: "fantom.svg",
   },
   {
     name: dfk.name,
@@ -136,7 +138,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#81bb04]",
-    image: "dfk.svg"
+    image: "dfk.svg",
   },
   {
     name: harmonyOne.name,
@@ -145,7 +147,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#41dccc]",
-    image: "harmony.svg"
+    image: "harmony.svg",
   },
   {
     name: "Dexalot",
@@ -154,7 +156,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E51981]",
-    image: "dexalot.svg"
+    image: "dexalot.svg",
   },
   {
     name: celo.name,
@@ -163,7 +165,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#36d07e]",
-    image: "celo.svg"
+    image: "celo.svg",
   },
   {
     name: moonbeam.name,
@@ -172,7 +174,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#1fcceb]",
-    image: "moonbeam.svg"
+    image: "moonbeam.svg",
   },
   {
     name: "Fuse",
@@ -181,7 +183,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#a9f7b0]",
-    image: "fuse.svg"
+    image: "fuse.svg",
   },
   {
     name: gnosis.name,
@@ -190,7 +192,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#57ac86]",
-    image: "gnosis.svg"
+    image: "gnosis.svg",
   },
   {
     name: klaytn.name,
@@ -199,7 +201,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#f82e08]",
-    image: "klaytn.svg"
+    image: "klaytn.svg",
   },
   {
     name: metis.name,
@@ -208,7 +210,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
-    image: "metis.svg"
+    image: "metis.svg",
   },
   {
     name: "CoreDAO",
@@ -217,7 +219,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#FDBE08]",
-    image: "coredao.svg"
+    image: "coredao.svg",
   },
   {
     name: "OKT (OKX)",
@@ -226,7 +228,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#000000]",
-    image: "okex.svg"
+    image: "okex.svg",
   },
   {
     name: polygonZkEvm.name,
@@ -235,7 +237,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
-    image: "polygon-zkevm.svg"
+    image: "polygon-zkevm.svg",
   },
   {
     name: canto.name,
@@ -244,7 +246,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#34EEA4]",
-    image: "canto.svg"
+    image: "canto.svg",
   },
   {
     name: zkSync.name,
@@ -253,7 +255,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg"
+    image: "zksync-era.svg",
   },
   {
     name: moonriver.name,
@@ -262,7 +264,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E6AE05]",
-    image: "moonriver.svg"
+    image: "moonriver.svg",
   },
   {
     name: "Tenet",
@@ -271,7 +273,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#F2F2F2]",
-    image: "tenet.svg"
+    image: "tenet.svg",
   },
   {
     name: "Arbitrum Nova",
@@ -280,7 +282,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#E37B1E]",
-    image: "arb-nova.svg"
+    image: "arb-nova.svg",
   },
   {
     name: "Meter.io",
@@ -289,7 +291,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#1C2A59]",
-    image: "meter.svg"
+    image: "meter.svg",
   },
   {
     name: "Kava",
@@ -298,7 +300,7 @@ const networks: Network[] = [
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
     colorClass: "bg-[#F2524B]",
-    image: "kava.svg"
+    image: "kava.svg",
   },
 ];
 
@@ -370,7 +372,7 @@ export default function Home() {
       if (account) {
         setInputTokenId(
           JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
-          account
+            account
           ]?.[0] || ""
         );
       }
@@ -454,7 +456,13 @@ export default function Home() {
           <div className={"w-full flex items-center justify-between mt-16"}>
             <div className="flex flex-col items-end select-none">
               <h1 className={"text-4xl font-bold"}>DappGate</h1>
-              <div className={"px-6 py-1 rounded-3xl border-2 border-white text-[12px] transition-all hover:bg-white hover:text-black"}>Alpha</div>
+              <div
+                className={
+                  "px-6 py-1 rounded-3xl border-2 border-white text-[12px] transition-all hover:bg-white hover:text-black"
+                }
+              >
+                Alpha
+              </div>
             </div>
             <ConnectButton />
           </div>
@@ -468,10 +476,11 @@ export default function Home() {
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       NFT Bridge {"(ONFT)"}
                     </button>
@@ -480,10 +489,11 @@ export default function Home() {
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-6 py-2 rounded-lg ml-2 text-white ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Token Bridge {"(OFT)"}
                     </button>
@@ -499,7 +509,10 @@ export default function Home() {
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                     <div className="relative w-[36%]">
                       <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span className="block truncate text-transparent" style={{ textShadow: '0 0 8px #ffffff' }}>
+                        <span
+                          className="block truncate text-transparent"
+                          style={{ textShadow: "0 0 8px #ffffff" }}
+                        >
                           {sourceChain.name}
                         </span>
                       </Listbox.Button>
@@ -532,7 +545,10 @@ export default function Home() {
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
                     <div className="relative w-[36%]">
                       <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span className="block truncate text-transparent" style={{ textShadow: '0 0 8px #ffffff' }}>
+                        <span
+                          className="block truncate text-transparent"
+                          style={{ textShadow: "0 0 8px #ffffff" }}
+                        >
                           {targetChain.name}
                         </span>
                       </Listbox.Button>
@@ -557,7 +573,11 @@ export default function Home() {
                     <div className="relative w-[36%]">
                       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center gap-2">
-                          <img src={`/chains/${sourceChain.image}`} alt={targetChain.name} className="w-6 h-6 rounded-full" />
+                          <img
+                            src={`/chains/${sourceChain.image}`}
+                            alt={targetChain.name}
+                            className="w-6 h-6 rounded-full"
+                          />
                           <span className="block truncate">
                             {sourceChain.name}
                           </span>
@@ -578,9 +598,10 @@ export default function Home() {
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                  ? "bg-white text-black"
-                                  : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
                                 }`
                               }
                               value={network}
@@ -592,7 +613,11 @@ export default function Home() {
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                  <img src={`/chains/${network.image}`} alt={network.name} className="w-6 h-6 rounded-full" />
+                                  <img
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    className="w-6 h-6 rounded-full"
+                                  />
                                   <span className="block truncate">
                                     {network.name}
                                   </span>
@@ -640,9 +665,12 @@ export default function Home() {
                             <span className="block truncate">
                               {targetChain.name}
                             </span>
-                            <img src={`/chains/${targetChain.image}`} alt={targetChain.name} className="w-6 h-6 rounded-full" />
+                            <img
+                              src={`/chains/${targetChain.image}`}
+                              alt={targetChain.name}
+                              className="w-6 h-6 rounded-full"
+                            />
                           </div>
-
                         </div>
                       </Listbox.Button>
                       <Transition
@@ -656,9 +684,10 @@ export default function Home() {
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                  ? "bg-white text-black"
-                                  : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
                                 }`
                               }
                               value={network}
@@ -670,7 +699,11 @@ export default function Home() {
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                  <img src={`/chains/${network.image}`} alt={network.name} className="w-6 h-6 rounded-full" />
+                                  <img
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    className="w-6 h-6 rounded-full"
+                                  />
                                   <span className="block truncate">
                                     {network.name}
                                   </span>
@@ -725,8 +758,9 @@ export default function Home() {
                       setLayerZeroTxHashes={setLayerZeroTxHashes}
                     />
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                        }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -738,10 +772,11 @@ export default function Home() {
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
-                    ? "max-h-[1000px]"
-                    : "max-h-0"
-                    }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
+                    layerZeroTxHashes.length !== 0
+                      ? "max-h-[1000px]"
+                      : "max-h-0"
+                  }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -868,8 +903,9 @@ export default function Home() {
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "arda" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "arda" : ""
+            }`}
           >
             <div
               className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
