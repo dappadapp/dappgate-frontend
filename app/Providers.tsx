@@ -7,7 +7,7 @@ import {
   w3mProvider,
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { configureChains, createConfig, WagmiConfig, Chain } from "wagmi";
 import {
   mainnet,
   goerli,
@@ -17,6 +17,7 @@ import {
   optimismGoerli,
   optimism,
   polygonZkEvmTestnet,
+  polygon,
   polygonMumbai,
   bsc,
   bscTestnet,
@@ -35,7 +36,7 @@ import {
   metisGoerli,
   canto,
   moonriver,
-  sepolia
+  sepolia,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -74,75 +75,237 @@ import { QueryClient, QueryClientProvider } from "react-query";
   },
 }; */
 
-/* const fuse = {
+const dexalot = {
+  id: 432204,
+  name: "Dexalot Subnet",
+  network: "dexalot",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Alot",
+    symbol: "ALOT",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://subnets.avax.network/dexalot/mainnet/rpc"],
+    },
+    public: {
+      http: ["https://subnets.avax.network/dexalot/mainnet/rpc"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Dexalot Explorer",
+      url: "https://subnets.avax.network/dexalot",
+    },
+    default: {
+      name: "Dexalot Explorer",
+      url: "https://subnets.avax.network/dexalot",
+    },
+  },
+} as const satisfies Chain;
+
+const fuse = {
   id: 122,
   name: "Fuse Mainnet",
   network: "fuse",
   nativeCurrency: {
-      decimals: 18,
-      name: "Fuse",
-      symbol: "FUSE",
+    decimals: 18,
+    name: "Fuse",
+    symbol: "FUSE",
   },
   rpcUrls: {
-      default: {
-          http: ["https://rpc.fuse.io"],
-      },
-      public: {
-          http: ["https://rpc.fuse.io"],
-      },
+    default: {
+      http: ["https://rpc.fuse.io"],
+    },
+    public: {
+      http: ["https://rpc.fuse.io"],
+    },
   },
   blockExplorers: {
-      etherscan: {
-          name: "Fuse Explorer",
-          url: "https://explorer.fuse.io/",
-      },
-      default: {
-          name: "Fuse Explorer",
-          url: "https://explorer.fuse.io/",
-      },
+    etherscan: {
+      name: "Fuse Explorer",
+      url: "https://explorer.fuse.io/",
+    },
+    default: {
+      name: "Fuse Explorer",
+      url: "https://explorer.fuse.io/",
+    },
   },
-  contracts: {
-      multicall3: {
-          address: "0xDDF47eEB4e5FF4AA60e063E0Ec4f7C35B47Ed445", // CHANGE
-          blockCreated: 17126780,
-      },
-  },
-}; */
+} as const satisfies Chain;
 
-/* const core = {
+const core = {
   id: 1116,
   name: "Core Blockchain Mainnet",
   network: "core",
   nativeCurrency: {
-      decimals: 18,
-      name: "Core",
-      symbol: "CORE",
+    decimals: 18,
+    name: "Core",
+    symbol: "CORE",
   },
   rpcUrls: {
-      default: {
-          http: ["https://rpc.coredao.org"],
-      },
-      public: {
-          http: ["https://rpc.coredao.org"],
-      },
+    default: {
+      http: ["https://rpc.coredao.org"],
+    },
+    public: {
+      http: ["https://rpc.coredao.org"],
+    },
   },
   blockExplorers: {
-      etherscan: {
-          name: "Core Explorer",
-          url: "https://scan.coredao.org/",
-      },
-      default: {
-          name: "Core Explorer",
-          url: "https://scan.coredao.org/",
-      },
+    etherscan: {
+      name: "Core Explorer",
+      url: "https://scan.coredao.org/",
+    },
+    default: {
+      name: "Core Explorer",
+      url: "https://scan.coredao.org/",
+    },
   },
-  contracts: {
-      multicall3: {
-          address: "0xDDF47eEB4e5FF4AA60e063E0Ec4f7C35B47Ed445", // CHANGE
-          blockCreated: 17126780,
-      },
+} as const satisfies Chain;
+
+const okx = {
+  id: 66,
+  name: "OKXChain Mainnet",
+  network: "okx",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Okt",
+    symbol: "OKT",
   },
-}; */
+  rpcUrls: {
+    default: {
+      http: ["https://exchainrpc.okex.org"],
+    },
+    public: {
+      http: ["https://exchainrpc.okex.org"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "OKX Explorer",
+      url: "https://www.okx.com/tr/explorer/oktc",
+    },
+    default: {
+      name: "OKX Explorer",
+      url: "https://www.okx.com/tr/explorer/oktc",
+    },
+  },
+} as const satisfies Chain;
+
+const tenet = {
+  id: 1559,
+  name: "Tenet",
+  network: "tenet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Tenet",
+    symbol: "TENET",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.tenet.org"],
+    },
+    public: {
+      http: ["https://rpc.tenet.org"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Tenet Explorer",
+      url: "https://tenetscan.io/",
+    },
+    default: {
+      name: "Tenet Explorer",
+      url: "https://tenetscan.io/",
+    },
+  },
+} as const satisfies Chain;
+
+const arbNova = {
+  id: 42170,
+  name: "Arbitrum Nova",
+  network: "nova",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ether",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://nova.arbitrum.io/rpc"],
+    },
+    public: {
+      http: ["https://nova.arbitrum.io/rpc"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Arbitrum Nova Explorer",
+      url: "https://nova.arbiscan.io/",
+    },
+    default: {
+      name: "Arbitrum Nova Explorer",
+      url: "https://nova.arbiscan.io/",
+    },
+  },
+} as const satisfies Chain;
+
+const meter = {
+  id: 82,
+  name: "Meter Mainnet",
+  network: "meter",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Meter",
+    symbol: "MTR",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.meter.io"],
+    },
+    public: {
+      http: ["https://rpc.meter.io"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Meter Explorer",
+      url: "https://scan.meter.io/",
+    },
+    default: {
+      name: "Meter Explorer",
+      url: "https://scan.meter.io/",
+    },
+  },
+} as const satisfies Chain;
+
+const kava = {
+  id: 2222,
+  name: "Kava EVM",
+  network: "kava",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Kava",
+    symbol: "KAVA",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://evm2.kava.io"],
+    },
+    public: {
+      http: ["https://evm2.kava.io"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Meter Explorer",
+      url: "https://explorer.kava.io/",
+    },
+    default: {
+      name: "Meter Explorer",
+      url: "https://explorer.kava.io/",
+    },
+  },
+} as const satisfies Chain;
 
 const chains = [
   mainnet,
@@ -153,6 +316,7 @@ const chains = [
   polygonZkEvmTestnet,
   optimism,
   optimismGoerli,
+  polygon,
   polygonMumbai,
   bsc,
   bscTestnet,
@@ -171,7 +335,15 @@ const chains = [
   metisGoerli,
   canto,
   moonriver,
-  sepolia
+  sepolia,
+  dexalot,
+  fuse,
+  core,
+  okx,
+  tenet,
+  arbNova,
+  meter,
+  kava,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

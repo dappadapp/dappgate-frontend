@@ -42,11 +42,11 @@ import {
 } from "wagmi/chains";
 
 const networks: Network[] = [
-  /* {
+  {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,
-    nftContractAddress: "0xfBafb38af51c07aA35007A0ceE08BB67e6339dC7",
+    nftContractAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
     blockConfirmation: 2,
     colorClass: "bg-[#373737]",
     image: "ethereum.svg",
@@ -59,7 +59,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "ethereum.svg",
-  }, */
+  },
   {
     name: mainnet.name,
     chainId: mainnet.id,
@@ -178,7 +178,7 @@ const networks: Network[] = [
   },
   {
     name: "Fuse",
-    chainId: 138,
+    chainId: 122,
     layerzeroChainId: 10109,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -214,7 +214,7 @@ const networks: Network[] = [
   },
   {
     name: "CoreDAO",
-    chainId: 153,
+    chainId: 1116,
     layerzeroChainId: 153,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -223,7 +223,7 @@ const networks: Network[] = [
   },
   {
     name: "OKT (OKX)",
-    chainId: 155,
+    chainId: 66,
     layerzeroChainId: 155,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -268,7 +268,7 @@ const networks: Network[] = [
   },
   {
     name: "Tenet",
-    chainId: 173,
+    chainId: 1559,
     layerzeroChainId: 173,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -277,7 +277,7 @@ const networks: Network[] = [
   },
   {
     name: "Arbitrum Nova",
-    chainId: 175,
+    chainId: 42170,
     layerzeroChainId: 175,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -286,7 +286,7 @@ const networks: Network[] = [
   },
   {
     name: "Meter.io",
-    chainId: 176,
+    chainId: 82,
     layerzeroChainId: 176,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
@@ -295,7 +295,7 @@ const networks: Network[] = [
   },
   {
     name: "Kava",
-    chainId: 177,
+    chainId: 2222,
     layerzeroChainId: 177,
     nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
     blockConfirmation: 1,
