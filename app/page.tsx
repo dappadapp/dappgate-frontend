@@ -449,6 +449,40 @@ export default function Home() {
     >
       <div
         className={
+          "z-[99999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0"
+        }
+      >
+        <div
+          className={
+            "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
+          }
+        >
+          <h1 className={"text-3xl"}>Title</h1>
+          <p className={"opacity-75"}>
+            subtitle subtitle subtitle subtitle subtitle subtitle subtitle
+            subtitle subtitle subtitle
+          </p>
+          <div className={"flex gap-4 h-12 mt-10"}>
+            <div
+              className={
+                'rounded-lg w-full px-4 h-full flex items-center bg-white bg-opacity-5 rounded-lg"'
+              }
+            >
+              link will be here
+            </div>
+            <button
+              className={
+                "px-4 w-fit rounded-lg h-full items-center flex bg-white rounded-lg text-black "
+              }
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col"
         }
       >
@@ -463,6 +497,11 @@ export default function Home() {
               >
                 Alpha
               </div>
+            </div>
+            <div className={"flex gap-4"}>
+              <button>Refer</button>
+              <a href={"/"}>FAQ</a>
+              <a href={"/"}>Docs</a>
             </div>
             <ConnectButton />
           </div>
