@@ -18,12 +18,14 @@ type Props = {
   sourceChain: Network;
   setInputTokenId: any;
   setTokenIds: any;
+  refCode?: string;
 };
 
 const MintButton: React.FC<Props> = ({
   sourceChain,
   setInputTokenId,
   setTokenIds,
+  refCode,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
 
@@ -79,10 +81,28 @@ const MintButton: React.FC<Props> = ({
       localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
       return tokenIdData;
     });
-
+    if (refCode?.length === 12) {
+      const postReferenceMint = async () => {
+        if (getOwnRef(account!) === refCode)
+          await axios.post("/api/referenceMint", {
+            id: 1,
+            walletAddress: account,
+            ref: refCode,
+            tx_id:
+              "0x756b5dcf2bcb6a98d73c1b7e692b75d4a1995ae78ca3da66b3d2d95841b9b3de",
+          });
+      };
+      postReferenceMint();
+    }
     setMintTxHash("");
     toast(`NFT minted with the id of ${tokenId}!`);
   }, [mintTxResultData]);
+
+  const getOwnRef = (paramsRefCode: string) => {
+    let splitString = paramsRefCode.split("");
+    let reverseArray = splitString.reverse();
+    return reverseArray.join("").substring(0, 12);
+  };
 
   const onMint = async () => {
     if (!mint)
