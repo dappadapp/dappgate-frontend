@@ -36,7 +36,7 @@ import {
 import RefModal from "./components/RefModal";
 
 const networks: Network[] = [
-  {
+  /* {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,
@@ -53,7 +53,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "ethereum.svg",
-  },
+  }, */
   /*  {
         name: mainnet.name,
         chainId: mainnet.id,
@@ -153,7 +153,7 @@ const networks: Network[] = [
     colorClass: "bg-[#E51981]",
     image: "dexalot.svg",
   }, */
-  {
+  /* {
     name: celo.name,
     chainId: celo.id,
     layerzeroChainId: 125,
@@ -161,7 +161,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#36d07e]",
     image: "celo.svg",
-  },
+  }, */
   {
     name: moonbeam.name,
     chainId: moonbeam.id,
@@ -251,6 +251,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
+    logIndex: 3
   },
   {
     name: moonriver.name,

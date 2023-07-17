@@ -133,6 +133,18 @@ const fuse = {
   },
 } as const satisfies Chain;
 
+const klaytn_ = {
+  ...klaytn,
+  rpcUrls: {
+    default: {
+      http: ["https://public-node-api.klaytnapi.com/v1/cypress"],
+    },
+    public: {
+      http: ["https://public-node-api.klaytnapi.com/v1/cypress"],
+    },
+  },
+} as const satisfies Chain;
+
 const core = {
   id: 1116,
   name: "Core Blockchain Mainnet",
@@ -330,7 +342,7 @@ const chains = [
   celo,
   moonbeam,
   gnosis,
-  klaytn,
+  klaytn_,
   metis,
   metisGoerli,
   canto,
