@@ -6,7 +6,12 @@ import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
-import { useAccount, useNetwork, useSwitchNetwork, useWaitForTransaction, } from "wagmi";
+import {
+  useAccount,
+  useNetwork,
+  useSwitchNetwork,
+  useWaitForTransaction,
+} from "wagmi";
 import MintButton from "@/components/MintButton";
 import BridgeButton from "@/components/BridgeButton";
 import formatAddress from "@/utils/formatAddress";
@@ -34,6 +39,7 @@ import {
   zkSync,
 } from "wagmi/chains";
 import RefModal from "./components/RefModal";
+import HistoryModal from "./components/HistoryModal";
 
 const networks: Network[] = [
   /* {
@@ -97,7 +103,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
-    logIndex: 2
+    logIndex: 2,
   },
   {
     name: arbitrum.name,
@@ -251,7 +257,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
-    logIndex: 3
+    logIndex: 3,
   },
   {
     name: moonriver.name,
@@ -332,6 +338,7 @@ export default function Home({
   const [layerZeroTxHashes, setLayerZeroTxHashes] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -378,7 +385,7 @@ export default function Home({
       if (account) {
         setInputTokenId(
           JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
-          account
+            account
           ]?.[0] || ""
         );
       }
@@ -461,6 +468,14 @@ export default function Home({
         />
       ) : null}
 
+      {isHistoryModalOpen ? (
+        <HistoryModal
+          onCloseModal={() => {
+            setIsHistoryModalOpen(false);
+          }}
+        />
+      ) : null}
+
       <div
         className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col"
@@ -482,6 +497,7 @@ export default function Home({
               <button onClick={() => setIsModalOpen(true)}>Refer</button>
               <a href={"/"}>FAQ</a>
               <a href={"/"}>Docs</a>
+              <button onClick={() => setIsModalOpen(true)}>History</button>
             </div>
             <ConnectButton />
           </div>
@@ -495,10 +511,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       NFT Bridge {"(ONFT)"}
                     </button>
@@ -507,10 +524,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-6 py-2 rounded-lg ml-2 text-white ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Token Bridge {"(OFT)"}
                     </button>
@@ -525,8 +543,7 @@ export default function Home({
                 <div className={"flex justify-between items-center mt-8"}>
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                     <div className="relative w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
+                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
                         <span
                           className="block truncate text-transparent"
                           style={{ textShadow: "0 0 8px #ffffff" }}
@@ -562,8 +579,7 @@ export default function Home({
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
                     <div className="relative w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
+                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
                         <span
                           className="block truncate text-transparent"
                           style={{ textShadow: "0 0 8px #ffffff" }}
@@ -583,8 +599,7 @@ export default function Home({
                 <div className={"flex justify-between items-center mt-8"}>
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                     <div className="relative w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center gap-2">
                           <img
                             src={`/chains/${sourceChain.image}`}
@@ -596,8 +611,7 @@ export default function Home({
                           </span>
                         </div>
 
-                        <span
-                          className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                           <FontAwesomeIcon icon={faAngleDown} />
                         </span>
                       </Listbox.Button>
@@ -607,15 +621,15 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options
-                          className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                  ? "bg-white text-black"
-                                  : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
                                 }`
                               }
                               value={network}
@@ -623,8 +637,7 @@ export default function Home({
                               {({ selected }) => (
                                 <div className="flex items-center gap-2">
                                   {selected ? (
-                                    <span
-                                      className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
@@ -671,8 +684,7 @@ export default function Home({
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
                     <div className="relative w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center justify-between gap-2">
                           <span className="pointer-events-none flex items-center">
                             <FontAwesomeIcon icon={faAngleDown} />
@@ -695,15 +707,15 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options
-                          className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                  ? "bg-white text-black"
-                                  : "text-gray-300"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
                                 }`
                               }
                               value={network}
@@ -711,8 +723,7 @@ export default function Home({
                               {({ selected }) => (
                                 <div className="flex items-center gap-2">
                                   {selected ? (
-                                    <span
-                                      className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
@@ -777,8 +788,9 @@ export default function Home({
                       setLayerZeroTxHashes={setLayerZeroTxHashes}
                     />
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                        }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -790,10 +802,11 @@ export default function Home({
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
-                    ? "max-h-[1000px]"
-                    : "max-h-0"
-                    }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
+                    layerZeroTxHashes.length !== 0
+                      ? "max-h-[1000px]"
+                      : "max-h-0"
+                  }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -920,8 +933,9 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "arda" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "arda" : ""
+            }`}
           >
             <div
               className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
