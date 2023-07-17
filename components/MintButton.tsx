@@ -86,14 +86,13 @@ const MintButton: React.FC<Props> = ({
     });
     if (refCode?.length === 12) {
       const postReferenceMint = async () => {
-        if (getOwnRef(account!) === refCode)
-          await axios.post("/api/referenceMint", {
-            id: tokenId,
-            walletAddress: account,
-            chainId: sourceChain.chainId,
-            ref: refCode,
-            tx_id: mintTxHash,
-          });
+        await axios.post("/api/referenceMint", {
+          id: tokenId,
+          walletAddress: account,
+          chainId: sourceChain.chainId,
+          ref: refCode,
+          tx_id: mintTxHash,
+        });
       };
       postReferenceMint();
     }
