@@ -8,7 +8,7 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 
 type Props = {
@@ -28,7 +28,7 @@ const BridgeButton: React.FC<Props> = ({
   inputTokenId,
   setInputTokenId,
   setTokenIds,
-  setLayerZeroTxHashes
+  setLayerZeroTxHashes,
 }) => {
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -66,12 +66,12 @@ const BridgeButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const { hash: txHash } = await sendFrom();
-      setLayerZeroTxHashes((prev: any) => ([...prev, txHash]))
+      setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
-            .slice(1)
-            .filter((value, index, self) => self.indexOf(value) === index)
+              .slice(1)
+              .filter((value, index, self) => self.indexOf(value) === index)
           : [];
         const tokenIdData = {
           ...prev,
@@ -95,7 +95,9 @@ const BridgeButton: React.FC<Props> = ({
     <button
       onClick={onBridge}
       disabled={!inputTokenId}
-      className={"bg-white/10 border-white border-[1px] rounded-lg px-14 py-2"}
+      className={
+        "bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 transition-all disabled:bg-red-500/20"
+      }
     >
       Bridge
     </button>
