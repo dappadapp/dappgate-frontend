@@ -36,7 +36,7 @@ function RefModal({ onCloseModal }: Props) {
         }
       >
         <div className="flex  justify-between mb-2">
-          <h1 className={"text-3xl"}>Title</h1>
+          <h1 className={"text-3xl"}>Referral Program</h1>
           <div
             onClick={() => onCloseModal()}
             className="right-0 z-[9999] font-medium rounded-md flex justify-center items-center cursor-pointer border border-gray-400 w-8 h-8"
@@ -45,17 +45,18 @@ function RefModal({ onCloseModal }: Props) {
           </div>
         </div>
         <p className={"opacity-75"}>
-          subtitle subtitle subtitle subtitle subtitle subtitle subtitle
-          subtitle subtitle subtitle
+          Invite your friends and get rewarded with $APPA
         </p>
         <div
           className={"w-full mt-12 flex p-4 bg-white bg-opacity-5 rounded-lg"}
         >
-          Your claimable refferal rewards
+          Your rewards
           <br />
           {rate * totalRef}$
         </div>
-        <p className={"opacity-75 mt-10"}>subtitle subtitle</p>
+        <p className={"opacity-75 mt-10"}>
+            Share your referral link with your friends and get rewarded with $APPA
+        </p>
         <div className={"flex gap-4 h-12 mt-1"}>
           <div
             className={
@@ -91,7 +92,9 @@ function RefModal({ onCloseModal }: Props) {
             </svg>
           </button>
         </div>
-        <p className={"mt-10"}>asdasdasd</p>
+        <p className={"mt-10"}>
+
+        </p>
       </div>
     </div>
   );
