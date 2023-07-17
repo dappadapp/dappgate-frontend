@@ -19,6 +19,7 @@ type Props = {
   setInputTokenId: any;
   setTokenIds: any;
   refCode?: string;
+  logIndex?: number;
 };
 
 const MintButton: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const MintButton: React.FC<Props> = ({
   setInputTokenId,
   setTokenIds,
   refCode,
+  logIndex
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
 
@@ -54,8 +56,9 @@ const MintButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
+    console.log('mintTxResultData', mintTxResultData)
     const tokenId = BigInt(
-      mintTxResultData.logs[0].topics[3] as string
+      mintTxResultData.logs[logIndex || 0].topics[3] as string
     ).toString();
 
     const postMint = async () => {
@@ -68,8 +71,8 @@ const MintButton: React.FC<Props> = ({
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
+          (value, index, self) => self.indexOf(value) === index
+        )
         : [tokenId];
       const tokenIdData = {
         ...prev,
