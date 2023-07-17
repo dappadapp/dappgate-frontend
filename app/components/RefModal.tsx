@@ -24,6 +24,12 @@ function RefModal({ onCloseModal }: Props) {
     setRefLink(`https://gate.dappad.app/?ref=${data.ref}`);
   };
 
+  const twitterShare = () => {
+    // twitter intent
+    const url = `https://twitter.com/intent/tweet?text=Experience the future of omnichain using dappgate with me ${refLink}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div
       className={
@@ -55,7 +61,7 @@ function RefModal({ onCloseModal }: Props) {
           {rate * totalRef}$
         </div>
         <p className={"opacity-75 mt-10"}>
-            Share your referral link with your friends and get rewarded with $APPA
+          Share your referral link with your friends and get rewarded with $APPA
         </p>
         <div className={"flex gap-4 h-12 mt-1"}>
           <div
@@ -69,6 +75,7 @@ function RefModal({ onCloseModal }: Props) {
             className={
               "px-4 w-fit h-full items-center flex bg-white rounded-lg text-black "
             }
+            onClick={twitterShare}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,9 +99,7 @@ function RefModal({ onCloseModal }: Props) {
             </svg>
           </button>
         </div>
-        <p className={"mt-10"}>
-
-        </p>
+        <p className={"mt-10"}></p>
       </div>
     </div>
   );
