@@ -87,6 +87,7 @@ const MintButton: React.FC<Props> = ({
           await axios.post("/api/referenceMint", {
             id: tokenId,
             walletAddress: account,
+            chainId: sourceChain.chainId,
             ref: refCode,
             tx_id: mintTxHash,
           });
