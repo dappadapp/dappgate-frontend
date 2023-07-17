@@ -54,7 +54,7 @@ const networks: Network[] = [
         colorClass: "bg-[#FF0420]",
         image: "ethereum.svg",
     },
-    {
+  /*  {
         name: mainnet.name,
         chainId: mainnet.id,
         layerzeroChainId: 101,
@@ -62,7 +62,7 @@ const networks: Network[] = [
         blockConfirmation: 1,
         colorClass: "bg-[#777777]",
         image: "ethereum.svg",
-    },
+    }, */
     {
         name: bsc.name,
         chainId: bsc.id,
