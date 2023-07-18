@@ -39,6 +39,7 @@ import {
 } from "wagmi/chains";
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
+import Image from "next/image";
 
 const networks: Network[] = [
   {
@@ -521,7 +522,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                    className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
                           : "bg-transparent"
@@ -534,7 +535,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                     className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                           : "bg-transparent"
@@ -612,11 +613,10 @@ export default function Home({
                   }
                 >
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                  <div className="relative w-full sm:w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center gap-2">
-                          <img
+                          <Image
                             src={`/chains/${sourceChain.image}`}
                             alt={targetChain.name}
                             className="w-6 h-6 rounded-full"
@@ -626,8 +626,7 @@ export default function Home({
                           </span>
                         </div>
 
-                        <span
-                          className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                           <FontAwesomeIcon icon={faAngleDown} />
                         </span>
                       </Listbox.Button>
@@ -657,7 +656,7 @@ export default function Home({
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                  <img
+                                  <Image
                                     src={`/chains/${network.image}`}
                                     alt={network.name}
                                     className="w-6 h-6 rounded-full"
@@ -699,9 +698,8 @@ export default function Home({
                   </svg>
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                  <div className="relative w-full sm:w-[36%]">
-                      <Listbox.Button
-                        className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center justify-between gap-2">
                           <span className="pointer-events-none flex items-center">
                             <FontAwesomeIcon icon={faAngleDown} />
@@ -711,7 +709,7 @@ export default function Home({
                               {targetChain.name}
                             </span>
 
-                            <img
+                            <Image
                               src={`/chains/${targetChain.image}`}
                               alt={targetChain.name}
                               className="w-6 h-6 rounded-full"
@@ -745,7 +743,7 @@ export default function Home({
                                       <FontAwesomeIcon icon={faCheck} />
                                     </span>
                                   ) : null}
-                                  <img
+                                  <Image
                                     src={`/chains/${network.image}`}
                                     alt={network.name}
                                     className="w-6 h-6 rounded-full"
@@ -807,8 +805,9 @@ export default function Home({
                       setEstimatedGas={setEstimatedGas}
                     />
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                        }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                     >
                       <input
                         placeholder="Token ID"
