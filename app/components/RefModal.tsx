@@ -58,7 +58,7 @@ function RefModal({ onCloseModal }: Props) {
         >
           Your rewards
           <br />
-          {rate * totalRef}$
+          {totalRef} $
         </div>
         <p className={"opacity-75 mt-10"}>
           Share your referral link with your friends and get rewarded with $APPA
