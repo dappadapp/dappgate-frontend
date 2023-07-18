@@ -497,7 +497,7 @@ export default function Home({
               <button onClick={() => setIsModalOpen(true)}>Refer</button>
               <a href={"/"}>FAQ</a>
               <a href={"/"}>Docs</a>
-              <button onClick={() => setIsModalOpen(true)}>History</button>
+              <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
             </div>
             <ConnectButton />
           </div>
