@@ -319,6 +319,7 @@ export interface Network {
   colorClass: string;
   image: string;
   logIndex?: number;
+  disabledNetworks?: number[];
 }
 
 const ANIMATION_TIME = 4000;
@@ -334,6 +335,7 @@ export default function Home({
   const [showInput, setShowInput] = useState(false);
   const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
+  const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [layerZeroTxHashes, setLayerZeroTxHashes] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
@@ -343,7 +345,6 @@ export default function Home({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const { address: account } = useAccount();
-
   /* const { data: ownerOfData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
@@ -444,6 +445,8 @@ export default function Home({
     }
   };
 
+  console.log("estimatedGas", estimatedGas);
+
   const onArrowClick = async () => {
     try {
       if (connectedChain?.id !== targetChain.chainId) {
@@ -478,40 +481,48 @@ export default function Home({
 
       <div
         className={
-          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col"
+          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
         }
       >
         <div className={"container mx-auto h-full flex flex-col"}>
-          <div className={"w-full flex items-center justify-between mt-16"}>
+          <div
+            className={
+              "w-full flex items-center justify-between flex-wrap mt-16 gap-2"
+            }
+          >
             <div className="flex flex-col items-end select-none">
-              <h1 className={"text-4xl font-bold"}>DappGate</h1>
+              <h1 className={"text-2xl lg:text-4xl font-bold"}>DappGate</h1>
               <div
                 className={
-                  "px-6 py-1 rounded-3xl border-2 border-white text-[12px] transition-all hover:bg-white hover:text-black"
+                  "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
                 }
               >
                 Alpha
               </div>
             </div>
+            <ConnectButton />
+          </div>
+          <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
               <button onClick={() => setIsModalOpen(true)}>Refer</button>
               <a href={"/"}>FAQ</a>
               <a href={"/"}>Docs</a>
-              <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
+              <button onClick={() => setIsHistoryModalOpen(true)}>
+                History
+              </button>
             </div>
-            <ConnectButton />
           </div>
           <div
             className={
-              "h-full w-full min-h-fit flex flex-col gap-6 items-center justify-center"
+              "h-full w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
             }
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
-              <Tab.List className="p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
+              <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
                           : "bg-transparent"
@@ -524,7 +535,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                           : "bg-transparent"
@@ -538,7 +549,7 @@ export default function Home({
             </Tab.Group>
             {tabIndex !== 0 ? (
               <div
-                className={`w-full max-w-[800px] h-[452px] bg-white bg-opacity-5 backdrop-blur-[4px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className={"flex justify-between items-center mt-8"}>
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
@@ -593,12 +604,16 @@ export default function Home({
               </div>
             ) : (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <div className={"flex justify-between items-center mt-8"}>
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
+                  }
+                >
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-[36%]">
+                    <div className="relative w-full sm:w-[36%]">
                       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center gap-2">
                           <img
@@ -683,7 +698,7 @@ export default function Home({
                   </svg>
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-[36%]">
+                    <div className="relative w-full sm:w-[36%]">
                       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center justify-between gap-2">
                           <span className="pointer-events-none flex items-center">
@@ -765,7 +780,7 @@ export default function Home({
                       stroke="currentColor"
                       cursor="pointer"
                       onClick={() => setShowInput((prev) => !prev)}
-                      className="self-start w-6 h-6"
+                      className="w-6 h-6 mb-5"
                     >
                       <path
                         strokeLinecap="round"
@@ -786,19 +801,22 @@ export default function Home({
                       tokenIds={tokenIds}
                       setTokenIds={setTokenIds}
                       setLayerZeroTxHashes={setLayerZeroTxHashes}
+                      setEstimatedGas={setEstimatedGas}
                     />
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
-                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      className={`w-[150px] transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px] mt-4"
                       }`}
                     >
                       <input
                         placeholder="Token ID"
                         onChange={(e) => setInputTokenId(e.target.value)}
                         value={inputTokenId}
+                        type="number"
                         className={`bg-white/10 border-white border-[1px] rounded-lg px-8 py-2 w-full text-center`}
                       />
                     </div>
+                    <span className="mt-3">Estimated gas: {estimatedGas}</span>
                   </div>
                 </div>
                 <div

@@ -10,7 +10,7 @@ const ConnectButton = () => {
   return (
     <button
       className={
-        "rounded-lg bg-white tracking-wider duration-150 hover:bg-black hover:text-white hover:outline-white outline transition px-10 py-3.5 text-black font-semibold select-none"
+        "rounded-lg bg-white tracking-wider duration-150 hover:bg-black hover:text-white hover:outline-white outline transition px-5 lg:px-10 py-2 lg:py-3.5 text-black font-semibold select-none text-base"
       }
       onClick={open}
     >

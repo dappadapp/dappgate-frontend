@@ -1,5 +1,5 @@
 import { Network } from "@/app/page";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useAccount,
   useContractRead,
@@ -19,6 +19,7 @@ type Props = {
   setInputTokenId: any;
   setTokenIds: any;
   setLayerZeroTxHashes: any;
+  setEstimatedGas: any;
 };
 
 const BridgeButton: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const BridgeButton: React.FC<Props> = ({
   setInputTokenId,
   setTokenIds,
   setLayerZeroTxHashes,
+  setEstimatedGas,
 }) => {
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -54,6 +56,20 @@ const BridgeButton: React.FC<Props> = ({
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
+
+  useEffect(() => {
+    if (gasEstimateData) {
+      const coefficient =
+        connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
+      setEstimatedGas(
+        `${
+          Number(
+            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+          ) / coefficient
+        } ${connectedChain?.nativeCurrency.symbol}`
+      );
+    }
+  }, [gasEstimateData]);
 
   const onBridge = async () => {
     if (!sendFrom || !account)
