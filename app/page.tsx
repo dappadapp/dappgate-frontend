@@ -68,6 +68,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#777777]",
     image: "ethereum.svg",
+    disabledNetworks: [],
   },
   {
     name: bsc.name,
@@ -77,6 +78,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
+    disabledNetworks: [122, 8217],
   },
   {
     name: avalanche.name,
@@ -86,6 +88,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
+    disabledNetworks: [1116],
   },
   /*   {
         name: "Aptos",
@@ -104,6 +107,7 @@ const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
+    disabledNetworks: [8217],
   },
   {
     name: arbitrum.name,
@@ -113,6 +117,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: optimism.name,
@@ -122,6 +127,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: fantom.name,
@@ -131,6 +137,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   /*   {
       name: dfk.name,
@@ -149,6 +156,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   /*   {
       name: "Dexalot",
@@ -176,6 +184,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "Fuse",
@@ -185,6 +194,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
+    disabledNetworks: [1116],
   },
   {
     name: gnosis.name,
@@ -194,6 +204,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
+    disabledNetworks: [1116],
   },
   {
     name: klaytn.name,
@@ -203,6 +214,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#f82e08]",
     image: "klaytn.svg",
+    disabledNetworks: [1116],
   },
   {
     name: metis.name,
@@ -212,6 +224,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
+    disabledNetworks: [1116],
   },
   {
     name: "CoreDAO",
@@ -221,6 +234,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "OKT (OKX)",
@@ -230,6 +244,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#000000]",
     image: "okex.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: polygonZkEvm.name,
@@ -239,6 +254,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
     image: "polygon-zkevm.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: canto.name,
@@ -248,6 +264,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: zkSync.name,
@@ -258,6 +275,7 @@ const networks: Network[] = [
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
     logIndex: 3,
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: moonriver.name,
@@ -267,6 +285,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "Tenet",
@@ -276,6 +295,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "Arbitrum Nova",
@@ -285,6 +305,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "Meter.io",
@@ -294,6 +315,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
   {
     name: "Kava",
@@ -303,6 +325,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
+    disabledNetworks: [122, 1116, 8217],
   },
 ];
 
@@ -619,7 +642,9 @@ export default function Home({
                           <Image
                             src={`/chains/${sourceChain.image}`}
                             alt={targetChain.name}
-                            className="w-6 h-6 rounded-full"
+                            width={24}
+                            height={24}
+                            className="rounded-full"
                           />
                           <span className="block truncate text-base">
                             {sourceChain.name}
@@ -659,7 +684,9 @@ export default function Home({
                                   <Image
                                     src={`/chains/${network.image}`}
                                     alt={network.name}
-                                    className="w-6 h-6 rounded-full"
+                                    width={24}
+                                    height={24}
+                                    className="rounded-full"
                                   />
                                   <span className="block truncate">
                                     {network.name}
@@ -712,7 +739,9 @@ export default function Home({
                             <Image
                               src={`/chains/${targetChain.image}`}
                               alt={targetChain.name}
-                              className="w-6 h-6 rounded-full"
+                              width={24}
+                              height={24}
+                              className="rounded-full"
                             />
                           </div>
                         </div>
@@ -746,7 +775,9 @@ export default function Home({
                                   <Image
                                     src={`/chains/${network.image}`}
                                     alt={network.name}
-                                    className="w-6 h-6 rounded-full"
+                                    width={24}
+                                    height={24}
+                                    className="rounded-full"
                                   />
                                   <span className="block truncate">
                                     {network.name}
