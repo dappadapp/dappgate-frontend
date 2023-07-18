@@ -768,7 +768,7 @@ export default function Home({
                                             stroke="currentColor"
                                             cursor="pointer"
                                             onClick={() => setShowInput((prev) => !prev)}
-                                            className="self-start w-6 h-6"
+                                            className="w-6 h-6 mb-5"
                                         >
                                             <path
                                                 strokeLinecap="round"
