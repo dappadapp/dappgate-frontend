@@ -489,7 +489,7 @@ export default function Home({
                         </div>
                         <ConnectButton/>
                     </div>
-                    <div className="flex flex-row justify-center mt-5">
+                    <div className="flex flex-row justify-center mt-5 mb-5">
                     <div className={"flex gap-4"}>
                             <button onClick={() => setIsModalOpen(true)}>Refer</button>
                             <a href={"/"}>FAQ</a>
@@ -507,7 +507,7 @@ export default function Home({
                                 <Tab as={Fragment}>
                                     {({selected}) => (
                                         <button
-                                            className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
+                                            className={`px-3 py-2.5 rounded-lg text-white outline-none  ${
                                                 selected
                                                     ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
                                                     : "bg-transparent"
@@ -520,7 +520,7 @@ export default function Home({
                                 <Tab as={Fragment}>
                                     {({selected}) => (
                                         <button
-                                            className={`px-6 py-2 rounded-lg ml-2 text-white ${
+                                            className={`px-3 py-2 rounded-lg ml-2 text-white ${
                                                 selected
                                                     ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                                                     : "bg-transparent"
