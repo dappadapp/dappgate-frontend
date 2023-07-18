@@ -503,8 +503,44 @@ export default function Home({
               "w-full flex items-center justify-between flex-wrap mt-16 gap-2"
             }
           >
-            <div className="flex flex-col items-end select-none">
-              <h1 className={"text-2xl lg:text-4xl font-bold"}>DappGate</h1>
+            <div className="flex flex-col items-center select-none">
+              <svg width="70" height="70" viewBox="0 0 1313 919" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M656 683C718.847 629.622 759 548.209 759 457C759 365.791 718.847 284.378 656 231C593.153 284.378 553 365.791 553 457C553 548.209 593.153 629.622 656 683Z" fill="url(#paint0_linear_277_44)" fill-opacity="0.5" />
+                <g filter="url(#filter0_d_277_44)">
+                  <circle cx="459.5" cy="459.5" r="312.5" stroke="#FF5E5E" stroke-width="30" shape-rendering="crispEdges" />
+                </g>
+                <g filter="url(#filter1_d_277_44)">
+                  <circle cx="853.5" cy="459.5" r="312.5" stroke="#4A7DFF" stroke-width="30" shape-rendering="crispEdges" />
+                </g>
+                <defs>
+                  <filter id="filter0_d_277_44" x="0" y="0" width="919" height="919" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                    <feMorphology radius="12" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_277_44" />
+                    <feOffset />
+                    <feGaussianBlur stdDeviation="60" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.368627 0 0 0 0 0.368627 0 0 0 1 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_277_44" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_277_44" result="shape" />
+                  </filter>
+                  <filter id="filter1_d_277_44" x="394" y="0" width="919" height="919" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                    <feMorphology radius="12" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_277_44" />
+                    <feOffset />
+                    <feGaussianBlur stdDeviation="60" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0.355 0 0 0 0 0.25 0 0 0 0 1 0 0 0 1 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_277_44" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_277_44" result="shape" />
+                  </filter>
+                  <linearGradient id="paint0_linear_277_44" x1="656" y1="165.88" x2="656" y2="748.12" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F75D66" />
+                    <stop offset="1" stop-color="#4A7DFF" />
+                  </linearGradient>
+                </defs>
+              </svg>
               <div
                 className={
                   "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
