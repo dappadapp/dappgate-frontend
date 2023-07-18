@@ -39,6 +39,7 @@ import {
 } from "wagmi/chains";
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
+import MintModal from "./components/MintModal";
 
 const networks: Network[] = [
   {
@@ -340,6 +341,7 @@ export default function Home({
   const [tabIndex, setTabIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isMintModalOpen, setIsMintModalOpen] = useState(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -478,6 +480,18 @@ export default function Home({
         />
       ) : null}
 
+        {isMintModalOpen ? (
+        <MintModal
+          onCloseModal={() => {
+            setIsMintModalOpen(false);
+          }}
+            sourceChain={sourceChain}
+            setInputTokenId={setInputTokenId}
+            setTokenIds={setTokenIds}
+            refCode={refCode}
+            logIndex={sourceChain.logIndex}
+        />
+        ) : null}
       <div
         className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
@@ -774,6 +788,11 @@ export default function Home({
                     refCode={refCode!}
                     logIndex={sourceChain.logIndex}
                   />
+                  <button 
+                      onClick={() => setIsMintModalOpen(true)}
+                  >
+                    Mint
+                  </button>
                   <div className="flex flex-col items-center">
                     <BridgeButton
                       sourceChain={sourceChain}
