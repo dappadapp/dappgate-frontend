@@ -306,7 +306,7 @@ const networks: Network[] = [
   },
 ];
 
-const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
+const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
 });
 
