@@ -521,10 +521,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                    className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       NFT Bridge {"(ONFT)"}
                     </button>
@@ -533,10 +534,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                     className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Token Bridge {"(OFT)"}
                     </button>
