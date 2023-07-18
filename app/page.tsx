@@ -610,7 +610,7 @@ export default function Home({
                   }
                 >
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-[36%]">
+                  <div className="relative w-full sm:w-[36%]">
                       <Listbox.Button
                         className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center gap-2">
@@ -697,7 +697,7 @@ export default function Home({
                   </svg>
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-[36%]">
+                  <div className="relative w-full sm:w-[36%]">
                       <Listbox.Button
                         className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
                         <div className="flex items-center justify-between gap-2">
