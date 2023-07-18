@@ -487,13 +487,15 @@ export default function Home({
                                 Alpha
                             </div>
                         </div>
-                        <div className={"flex gap-4"}>
+                        <ConnectButton/>
+                    </div>
+                    <div className="flex flex-row justify-center mt-5">
+                    <div className={"flex gap-4"}>
                             <button onClick={() => setIsModalOpen(true)}>Refer</button>
                             <a href={"/"}>FAQ</a>
                             <a href={"/"}>Docs</a>
                             <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
-                        </div>
-                        <ConnectButton/>
+                    </div>
                     </div>
                     <div
                         className={
