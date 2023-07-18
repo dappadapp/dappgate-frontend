@@ -812,7 +812,7 @@ export default function Home({
                       stroke="currentColor"
                       cursor="pointer"
                       onClick={() => setShowInput((prev) => !prev)}
-                      className="w-6 h-6 mt-5"
+                      className="w-8 h-8 mt-2 cursor-pointer"
                     >
                       <FontAwesomeIcon icon={faAngleDown} />
                     </svg>
