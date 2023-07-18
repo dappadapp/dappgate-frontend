@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-
+import { QRCodeSVG } from "qrcode.react";
 type Props = {
   onCloseModal: any;
 };
@@ -11,6 +11,7 @@ function RefModal({ onCloseModal }: Props) {
   const [totalRef, setTotalRef] = useState(0);
   const [rate, setRate] = useState(0);
   const [refLink, setRefLink] = useState("");
+  const [showQRCode, setShowQRCode] = useState(false);
   useEffect(() => {
     fetchTotalNORefs();
   }, [walletAddress]);
@@ -28,6 +29,10 @@ function RefModal({ onCloseModal }: Props) {
     // twitter intent
     const url = `https://twitter.com/intent/tweet?text=Experience the future of omnichain using dappgate with me ${refLink}`;
     window.open(url, "_blank");
+  };
+
+  const handleQrcode = () => {
+    setShowQRCode(!showQRCode);
   };
 
   return (
@@ -58,7 +63,7 @@ function RefModal({ onCloseModal }: Props) {
         >
           Your rewards
           <br />
-          {rate * totalRef}$
+          {totalRef} $
         </div>
         <p className={"opacity-75 mt-10"}>
           Share your referral link with your friends and get rewarded with $APPA
@@ -89,6 +94,7 @@ function RefModal({ onCloseModal }: Props) {
             className={
               "px-4 w-fit rounded-lg h-full items-center flex bg-white rounded-lg text-black "
             }
+            onClick={handleQrcode}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +105,9 @@ function RefModal({ onCloseModal }: Props) {
             </svg>
           </button>
         </div>
-        <p className={"mt-10"}></p>
+        <p className={"mt-10"}>
+          {showQRCode && <QRCodeSVG value={refLink} size={200} />}
+        </p>
       </div>
     </div>
   );
