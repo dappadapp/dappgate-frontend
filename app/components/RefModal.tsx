@@ -137,7 +137,7 @@ function RefModal({ onCloseModal }: Props) {
           </a>
           </div>
         </div>
-        <p className={"mt-10"}>
+        <p className={"mt-4"}>
           {showQRCode && <QRCodeSVG value={refLink} size={200} />}
         </p>
       </div>
