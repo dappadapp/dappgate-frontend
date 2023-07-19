@@ -40,6 +40,7 @@ import {
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
 import MintModal from "./components/MintModal";
+import FAQModal from "./components/FAQModal";
 
 const networks: Network[] = [
   {
@@ -342,6 +343,7 @@ export default function Home({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isMintModalOpen, setIsMintModalOpen] = useState(false);
+  const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -472,6 +474,14 @@ export default function Home({
         />
       ) : null}
 
+      {isFAQModalOpen ? (
+        <FAQModal
+        onCloseModal={() => {
+          setIsFAQModalOpen(false);
+        }}
+        />
+      ) : null}
+
       {isHistoryModalOpen ? (
         <HistoryModal
           onCloseModal={() => {
@@ -559,7 +569,7 @@ export default function Home({
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
               <button onClick={() => setIsModalOpen(true)}>Refer</button>
-              <a href={"/"}>FAQ</a>
+              <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>
                 History
