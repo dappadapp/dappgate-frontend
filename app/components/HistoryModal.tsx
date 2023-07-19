@@ -8,7 +8,8 @@ type Props = {
 
 function HistoryModal({ onCloseModal }: Props) {
   const { address: walletAddress } = useAccount();
-
+  const [transactions, setTransactions] = useState([]);
+  /*
   const transactions = [
     {
       hash: "0xebb0ea4afa8403442c1de6a98500edff9243ce59b4a2a2ab4247c7ce41242595",
@@ -172,6 +173,7 @@ function HistoryModal({ onCloseModal }: Props) {
       timestamp: 1657005150,
     },
   ];
+  */
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -181,6 +183,16 @@ function HistoryModal({ onCloseModal }: Props) {
     return shortenedHash;
   };
 
+  const fetchTransactionHistory = async () => {
+    const { data } = await axios.post("/api/history/" + walletAddress 
+        );
+
+    console.log("data",data);
+    setTransactions(data.mints);
+
+  };
+
+  fetchTransactionHistory();
   return (
     <div
       className={
