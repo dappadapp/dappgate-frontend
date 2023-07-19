@@ -817,11 +817,7 @@ export default function Home({
                     refCode={refCode!}
                     logIndex={sourceChain.logIndex}
                   />
-                  <button 
-                      onClick={() => setIsMintModalOpen(true)}
-                  >
-                    Mint
-                  </button>
+          
                   <div className="flex flex-col items-center">
                     <BridgeButton
                       sourceChain={sourceChain}
