@@ -351,6 +351,26 @@ const networks: Network[] = [
       66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
   },
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [],
+  },
+  {
+    name: "Base",
+    chainId: 8453,
+    layerzeroChainId: 184,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    blockConfirmation: 1,
+    colorClass: "bg-[#2967FF]",
+    image: "base.svg",
+    disabledNetworks: [],
+  },
 ];
 
 const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
