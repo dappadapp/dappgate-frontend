@@ -127,7 +127,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 122, 1116, 8217],
   },
   {
     name: fantom.name,
@@ -137,7 +137,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 122, 1116, 8217],
   },
   /*   {
       name: dfk.name,
@@ -156,7 +156,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      42170,
+    ],
   },
   /*   {
       name: "Dexalot",
@@ -184,7 +187,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      42170,
+    ],
   },
   {
     name: "Fuse",
@@ -194,7 +200,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
-    disabledNetworks: [1116],
+    disabledNetworks: [
+      10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 42170,
+      1666600000,
+    ],
   },
   {
     name: gnosis.name,
@@ -204,7 +213,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
-    disabledNetworks: [1116],
+    disabledNetworks: [66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
   },
   {
     name: klaytn.name,
@@ -214,7 +223,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#f82e08]",
     image: "klaytn.svg",
-    disabledNetworks: [1116],
+    disabledNetworks: [
+      10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700, 42161,
+      42170, 1666600000,
+    ],
   },
   {
     name: metis.name,
@@ -224,7 +236,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
-    disabledNetworks: [1116],
+    disabledNetworks: [66, 324, 1101, 1116, 1666600000],
   },
   {
     name: "CoreDAO",
@@ -234,7 +246,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700, 8217,
+      42161, 42170, 43114, 1666600000,
+    ],
   },
   {
     name: "OKT (OKX)",
@@ -244,7 +259,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#000000]",
     image: "okex.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      42170, 1666600000,
+    ],
   },
   {
     name: polygonZkEvm.name,
@@ -254,7 +272,9 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
     image: "polygon-zkevm.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
+    ],
   },
   {
     name: canto.name,
@@ -264,7 +284,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
   },
   {
     name: zkSync.name,
@@ -275,7 +295,7 @@ const networks: Network[] = [
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
     logIndex: 3,
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000],
   },
   {
     name: moonriver.name,
@@ -285,7 +305,9 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170, 1666600000,
+    ],
   },
   {
     name: "Tenet",
@@ -295,7 +317,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
   },
   {
     name: "Arbitrum Nova",
@@ -305,7 +327,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
   },
   {
     name: "Meter.io",
@@ -315,7 +337,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
   },
   {
     name: "Kava",
@@ -325,7 +347,9 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
+    ],
   },
 ];
 
@@ -757,13 +781,16 @@ export default function Home({
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                   active
                                     ? "bg-white text-black"
                                     : "text-gray-300"
                                 }`
                               }
                               value={network}
+                              disabled={sourceChain.disabledNetworks?.includes(
+                                network.chainId
+                              )}
                             >
                               {({ selected }) => (
                                 <div className="flex items-center gap-2">
