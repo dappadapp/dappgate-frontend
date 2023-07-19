@@ -39,11 +39,8 @@ import {
 } from "wagmi/chains";
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
-<<<<<<< HEAD
-import MintModal from "./components/MintModal";
-=======
 import Image from "next/image";
->>>>>>> 22bdd1ad622a3de9ac27bbb36dc82a964813f605
+import MintModal from "./components/MintModal";
 
 const networks: Network[] = [
   {
