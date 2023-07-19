@@ -529,7 +529,7 @@ export default function Home({
           >
             <div className="flex flex-col items-start select-none">
               <div className="flex flex-row items-center">
-              <svg width={80} viewBox="0 0 1313 919" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width={100} height={95} viewBox="0 0 1313 919" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M656 683C718.847 629.622 759 548.209 759 457C759 365.791 718.847 284.378 656 231C593.153 284.378 553 365.791 553 457C553 548.209 593.153 629.622 656 683Z" fill="url(#paint0_linear_277_44)" fill-opacity="0.5" />
                 <g filter="url(#filter0_d_277_44)">
                   <circle cx="459.5" cy="459.5" r="312.5" stroke="#FF5E5E" stroke-width="30" shape-rendering="crispEdges" />
@@ -567,7 +567,7 @@ export default function Home({
                 </defs>
               </svg>
               <div className="flex flex-col items-end mt-auto">
-              <h1 className={"text-2xl lg:text-4xl font-bold"}>DappGate</h1>
+              <h1 className={"text-2xl lg:text-4xl font-bold mt-2"}>DappGate</h1>
               <div
                 className={
                   "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
