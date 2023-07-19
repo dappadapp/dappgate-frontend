@@ -662,7 +662,7 @@ export default function Home({
               >
                 <div className="flex flex-row justify-between items-center">
                 <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <h1 className={"text-2xl font-semibold"}>Phase1 - 0/50.000</h1>
+                <h1 className={"text-2xl font-semibold text-center"}>Phase1 <br/> 0/50.000</h1>
                 </div>
                 <div
                   className={
