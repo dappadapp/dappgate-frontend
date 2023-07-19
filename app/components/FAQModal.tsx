@@ -11,10 +11,6 @@ type Props = {
 export default function FAQModal({ onCloseModal }: Props) {
 
   const [active, setActive] = useState([false, false, false, false, false]);
-  
-  const turn = active;
-
-  const setTurn = setActive;
 
   const isSomeActive = active.some((element) => element);
 
@@ -58,7 +54,7 @@ export default function FAQModal({ onCloseModal }: Props) {
     >
       <div
         className={
-          "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
+          "p-16 max-w-[50vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
         }
       >
         <div className="flex justify-between mb-2">
@@ -75,17 +71,17 @@ export default function FAQModal({ onCloseModal }: Props) {
           <div className="overflow-x-auto overflow-y-auto max-h-80">
             <div className='flex items-center justify-between w-full mb-6 lg:justify-end'>
               <button
-                className="flex items-center mr-3 text-sm font-bold lg:text-base py-2 px-4 bg-slate-50"
+                className="flex items-center mr-3 text-sm font-bold lg:text-base py-2 px-4"
                 onClick={handleClick}
               >
-                <span className="text-sky-500 min-w-fit text-ellipsis"> {!isSomeActive ? "Open All" : "Close All"}</span>
+                <span className="min-w-fit text-ellipsis"> {!isSomeActive ? "Open All" : "Close All"}</span>
                 <div
                   className={
-                    "relative transition-all ease-in-out duration-200 " +
+                    "ml-2 relative transition-all ease-in-out duration-200 " +
                     (isSomeActive ? " rotate-180" : "rotate-0")
                   }
                 >
-                  <FontAwesomeIcon className='dark' icon={faAngleDown} />
+                  <FontAwesomeIcon icon={faAngleDown} />
                 </div>
               </button>
             </div>
@@ -96,8 +92,8 @@ export default function FAQModal({ onCloseModal }: Props) {
                   <Accordion
                     question={el.question}
                     answer={el.answer}
-                    turn={turn}
-                    setTurn={setTurn}
+                    active={active}
+                    setActive={setActive}
                     idx={el.idx}
                   />
                 </div>
