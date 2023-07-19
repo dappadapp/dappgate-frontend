@@ -105,13 +105,13 @@ function RefModal({ onCloseModal }: Props) {
             </svg>
           </button>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-5">
           <p className="mt-2">Follow Us</p>
           <div className="flex flex-row">
           <a 
             href="https://twitter.com/DappGate"
             target="_blank"
-            className={"m-1 px-1 w-10 h-10 justify-center items-center flex bg-white bg-opacity-5 rounded-lg"}
+            className={"m-1 px-1 w-10 h-10 justify-center items-center flex bg-white text-white rounded-lg"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ function RefModal({ onCloseModal }: Props) {
           <a 
             href="https://discord.gg/dappadlaunchpad"
             target="_blank"
-            className={"m-1 px-1 w-10 h-10 justify-center items-center flex bg-white bg-opacity-5 rounded-lg"}
+            className={"m-1 px-1 w-10 h-10 justify-center items-center flex bg-white text-white rounded-lg"}
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
