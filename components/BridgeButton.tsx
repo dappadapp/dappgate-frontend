@@ -1,4 +1,5 @@
 import { Network } from "@/app/page";
+import axios from "axios";
 import React, { useEffect } from "react";
 import {
   useAccount,
@@ -100,6 +101,19 @@ const BridgeButton: React.FC<Props> = ({
         return tokenIdData;
       });
       setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
+
+          // post bridge history
+    const postBridgeHistory = async () => {
+      await axios.post("/api/history", {
+        tx: txHash,
+        srcChain: sourceChain,
+        dstChain: targetChain,
+        tokenId: tokenIds,
+        walletAddress: account,
+        ref : "",
+      });
+    };
+    postBridgeHistory();
 
       toast("Bridge transaction sent!");
     } catch (error) {
