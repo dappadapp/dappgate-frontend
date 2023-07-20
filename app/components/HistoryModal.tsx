@@ -6,9 +6,19 @@ type Props = {
   onCloseModal: any;
 };
 
+type Transaction = {
+  tx: string;
+  srcChain: string;
+  dstChain: string;
+  tokenId: number;
+  timestamp: number;
+};
+
+
 function HistoryModal({ onCloseModal }: Props) {
   const { address: walletAddress } = useAccount();
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([] as Transaction[]);
+  
   /*
   const transactions = [
     {
