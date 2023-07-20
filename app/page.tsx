@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { Listbox, Tab, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -392,6 +393,7 @@ export default function Home({
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isMintModalOpen, setIsMintModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
+  const [mintCounter, setMintCounter] = useState(0);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -444,6 +446,12 @@ export default function Home({
     }
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, [account, sourceChain]);
+
+  useEffect(() => {
+    mintCounterFunc();
+  }, [connectedChain, account]);
+
+
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
@@ -509,6 +517,17 @@ export default function Home({
       console.log(error);
     }
   };
+
+  //mint counter func
+  const mintCounterFunc = async () => {
+  
+      const { data } = await axios.post("/api/counter");
+
+      console.log("data:", data);
+  
+      setMintCounter(data?.counter);
+  };
+
 
   return (
     <div
@@ -687,7 +706,7 @@ export default function Home({
               >
                 <div className="flex flex-row justify-between items-center">
                 <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <h1 className={"text-2xl font-semibold text-center"}>  0 / 50.000</h1>
+                <h1 className={"text-2xl font-semibold text-center"}>  {mintCounter} / 50.000</h1>
                 </div>
                 <div
                   className={

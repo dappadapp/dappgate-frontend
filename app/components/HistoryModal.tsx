@@ -185,6 +185,11 @@ function HistoryModal({ onCloseModal }: Props) {
   ];
   */
 
+  useEffect(() => {
+    fetchTransactionHistory();
+  }, [walletAddress]);
+  
+
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
       0,
