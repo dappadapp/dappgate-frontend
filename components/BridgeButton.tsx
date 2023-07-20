@@ -102,12 +102,14 @@ const BridgeButton: React.FC<Props> = ({
       });
       setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
 
+      console.log("txHash", txHash);
+
           // post bridge history
     const postBridgeHistory = async () => {
       await axios.post("/api/history", {
         tx: txHash,
-        srcChain: sourceChain,
-        dstChain: targetChain,
+        srcChain: sourceChain.chainId,
+        dstChain: targetChain.chainId,
         tokenId: tokenIds,
         walletAddress: account,
         ref : "",
