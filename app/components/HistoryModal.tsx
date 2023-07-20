@@ -184,15 +184,15 @@ function HistoryModal({ onCloseModal }: Props) {
   };
 
   const fetchTransactionHistory = async () => {
-    const { data } = await axios.post("/api/history/" + walletAddress 
-        );
+    const { data } = await axios.post("/api/bridge/", {
+      walletAddress,
+    });
 
-    console.log("data",data);
-    setTransactions(data.mints);
+
+    setTransactions(data);
 
   };
 
-  fetchTransactionHistory();
   return (
     <div
       className={
@@ -227,16 +227,24 @@ function HistoryModal({ onCloseModal }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction, index) => (
+                {transactions?.length === 0 && (
+                  <tr>
+                    <td className="px-4 py-4 text-center mt-3 " colSpan={5}>
+                      No transactions found.
+                    </td>
+                  </tr>
+                )}
+
+                {transactions?.map((transaction, index) => (
                   <tr
                     key={index}
                     className={index % 2 === 0 ? "bg-transparent" : ""}
                   >
                     <td className="px-4 py-2">
-                      {shortenTransactionHash(transaction.hash)}
+                      {shortenTransactionHash(transaction.tx)}
                     </td>
-                    <td className="px-4 py-2">{transaction.from_chain}</td>
-                    <td className="px-4 py-2">{transaction.to_chain}</td>
+                    <td className="px-4 py-2">{transaction.srcChain}</td>
+                    <td className="px-4 py-2">{transaction.dstChain}</td>
                     <td className="px-4 py-2">{transaction.tokenId}</td>
                     <td className="px-4 py-2">
                       {new Date(transaction.timestamp * 1000).toLocaleString()}
