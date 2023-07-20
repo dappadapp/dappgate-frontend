@@ -188,7 +188,7 @@ function HistoryModal({ onCloseModal }: Props) {
   useEffect(() => {
     fetchTransactionHistory();
   }, [walletAddress]);
-  
+
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -202,7 +202,6 @@ function HistoryModal({ onCloseModal }: Props) {
     const { data } = await axios.post("/api/bridge/", {
       walletAddress,
     });
-
 
     setTransactions(data);
 
@@ -256,7 +255,13 @@ function HistoryModal({ onCloseModal }: Props) {
                     className={index % 2 === 0 ? "bg-transparent" : ""}
                   >
                     <td className="px-4 py-2">
+                    <a
+                          href={`https://layerzeroscan.com/tx/${transaction.tx}`}
+                          target="_blank"
+                          className="text-orange-400"
+                        >
                       {shortenTransactionHash(transaction.tx)}
+                    </a>
                     </td>
                     <td className="px-4 py-2">{transaction.srcChain}</td>
                     <td className="px-4 py-2">{transaction.dstChain}</td>
