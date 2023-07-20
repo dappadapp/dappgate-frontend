@@ -8,7 +8,8 @@ type Props = {
 
 function HistoryModal({ onCloseModal }: Props) {
   const { address: walletAddress } = useAccount();
-
+  const [transactions, setTransactions] = useState([]);
+  /*
   const transactions = [
     {
       hash: "0xebb0ea4afa8403442c1de6a98500edff9243ce59b4a2a2ab4247c7ce41242595",
@@ -172,6 +173,7 @@ function HistoryModal({ onCloseModal }: Props) {
       timestamp: 1657005150,
     },
   ];
+  */
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -179,6 +181,16 @@ function HistoryModal({ onCloseModal }: Props) {
       5
     )}...${transactionHash.substring(transactionHash.length - 5)}`;
     return shortenedHash;
+  };
+
+  const fetchTransactionHistory = async () => {
+    const { data } = await axios.post("/api/bridge/", {
+      walletAddress,
+    });
+
+
+    setTransactions(data);
+
   };
 
   return (
@@ -215,16 +227,24 @@ function HistoryModal({ onCloseModal }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction, index) => (
+                {transactions?.length === 0 && (
+                  <tr>
+                    <td className="px-4 py-4 text-center mt-3 " colSpan={5}>
+                      No transactions found.
+                    </td>
+                  </tr>
+                )}
+
+                {transactions?.map((transaction, index) => (
                   <tr
                     key={index}
                     className={index % 2 === 0 ? "bg-transparent" : ""}
                   >
                     <td className="px-4 py-2">
-                      {shortenTransactionHash(transaction.hash)}
+                      {shortenTransactionHash(transaction.tx)}
                     </td>
-                    <td className="px-4 py-2">{transaction.from_chain}</td>
-                    <td className="px-4 py-2">{transaction.to_chain}</td>
+                    <td className="px-4 py-2">{transaction.srcChain}</td>
+                    <td className="px-4 py-2">{transaction.dstChain}</td>
                     <td className="px-4 py-2">{transaction.tokenId}</td>
                     <td className="px-4 py-2">
                       {new Date(transaction.timestamp * 1000).toLocaleString()}
