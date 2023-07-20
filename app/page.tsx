@@ -42,7 +42,7 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 
 const networks: Network[] = [
-  {
+  /*   {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,
@@ -69,7 +69,7 @@ const networks: Network[] = [
     colorClass: "bg-[#777777]",
     image: "ethereum.svg",
     disabledNetworks: [],
-  },
+  }, */
   {
     name: bsc.name,
     chainId: bsc.id,
@@ -365,7 +365,7 @@ const networks: Network[] = [
     name: "Base",
     chainId: 8453,
     layerzeroChainId: 184,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
     blockConfirmation: 1,
     colorClass: "bg-[#2967FF]",
     image: "base.svg",
