@@ -5,7 +5,7 @@ export async function POST() {
 
 
   const refDataResponse = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/counter?cache=true`
+    `${process.env.NEXT_PUBLIC_API_URL}/counter?cache=false`
   );
 
   console.log("refDataResponse",refDataResponse);
