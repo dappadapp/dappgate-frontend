@@ -563,6 +563,7 @@ export default function Home({
             setIsMintModalOpen(false);
           }}
             sourceChain={sourceChain}
+            targetChain={targetChain}
             setInputTokenId={setInputTokenId}
             setTokenIds={setTokenIds}
             refCode={refCode}
@@ -881,6 +882,7 @@ export default function Home({
                     setInputTokenId={setInputTokenId}
                     setTokenIds={setTokenIds}
                     sourceChain={sourceChain}
+                    targetChain={targetChain}
                     refCode={refCode!}
                     logIndex={sourceChain.logIndex}
                   />

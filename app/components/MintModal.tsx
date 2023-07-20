@@ -6,6 +6,7 @@ import MintButton from "@/components/MintButton";
 type Props = {
   onCloseModal: any;
   sourceChain: any;
+  targetChain: any;
   setInputTokenId: any;
   setTokenIds: any;
   refCode: any;
@@ -15,6 +16,7 @@ type Props = {
 function MintModal({
   onCloseModal,
   sourceChain,
+  targetChain,
   setInputTokenId,
   setTokenIds,
   refCode,
@@ -100,6 +102,7 @@ function MintModal({
           <div className="flex items-center justify-center mt-5">
             <MintButton
               sourceChain={sourceChain}
+              targetChain={targetChain}
               setInputTokenId={setInputTokenId}
               setTokenIds={setTokenIds}
               refCode={refCode}

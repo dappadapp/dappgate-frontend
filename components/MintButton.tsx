@@ -16,6 +16,7 @@ import axios from "axios";
 
 type Props = {
   sourceChain: Network;
+  targetChain: Network;
   setInputTokenId: any;
   setTokenIds: any;
   refCode?: string;
@@ -24,6 +25,7 @@ type Props = {
 
 const MintButton: React.FC<Props> = ({
   sourceChain,
+  targetChain,
   setInputTokenId,
   setTokenIds,
   refCode,
@@ -96,6 +98,21 @@ const MintButton: React.FC<Props> = ({
       };
       postReferenceMint();
     }
+
+    ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
+
+    // post bridge history
+    const postBridgeHistory = async () => {
+      await axios.post("/api/history", {
+        tx: mintTxHash,
+        srcChain: sourceChain,
+        dstChain: targetChain,
+        tokenId: tokenId,
+        walletAddress: account,
+        ref : refCode,
+      });
+    };
+    postBridgeHistory();
     setMintTxHash("");
     toast(`NFT minted with the id of ${tokenId}!`);
   }, [mintTxResultData]);
