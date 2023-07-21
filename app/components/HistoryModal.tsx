@@ -256,7 +256,7 @@ function HistoryModal({ onCloseModal }: Props) {
                       <a
                         href={`https://layerzeroscan.com/tx/${transaction.tx}`}
                         target="_blank"
-                        className="text-orange-400"
+                        className="text-orange-400 underline"
                       >
                         {shortenTransactionHash(transaction.tx)}
                       </a>

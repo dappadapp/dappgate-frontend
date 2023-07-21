@@ -502,22 +502,17 @@ export default function Home({
     setRefCode(searchParams?.ref as string);
   }, [searchParams?.ref]);
 
-  useEffect(
-    () => {
-      // if (!bridgeTxResultData) return;
-      toast("Bridge successful!");
-      // hide card
-      setIsAnimationStarted(true);
+  useEffect(() => {
+    if (!bridgeTxResultData) return;
+    toast("Bridge successful!");
+    // hide card
+    setIsAnimationStarted(true);
 
-      setTimeout(() => {
-        setIsAnimationStarted(false);
-        setIsAnimationEnd(true);
-      }, ANIMATION_TIME);
-    },
-    [
-      // bridgeTxResultData
-    ]
-  );
+    setTimeout(() => {
+      setIsAnimationStarted(false);
+      setIsAnimationEnd(true);
+    }, ANIMATION_TIME);
+  }, [bridgeTxResultData]);
   useEffect(() => {
     if (!isAnimationEnd) return;
     setTimeout(() => {
