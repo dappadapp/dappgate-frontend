@@ -44,7 +44,7 @@ const BridgeButton: React.FC<Props> = ({
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
 
-  const { config: sendFromConfig } = usePrepareContractWrite({
+  const { config: sendFromConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "crossChain",
@@ -73,10 +73,17 @@ const BridgeButton: React.FC<Props> = ({
   }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
 
   const onBridge = async () => {
-    if (!sendFrom || !account)
+    if (!account) {
+      return alert("Please connect your wallet first.");
+    }
+    if (!sendFrom) {
       return alert(
         "Make sure you have enough gas and you're on the correct network."
       );
+    }
+    if (!isSuccess) {
+      return alert("An unknown error occured.");
+    }
     if (tokenIds.length === 0) return alert("No tokenIds");
     try {
       if (connectedChain?.id !== sourceChain.chainId) {
@@ -104,18 +111,18 @@ const BridgeButton: React.FC<Props> = ({
 
       console.log("txHash", txHash);
 
-          // post bridge history
-    const postBridgeHistory = async () => {
-      await axios.post("/api/history", {
-        tx: txHash,
-        srcChain: sourceChain.chainId,
-        dstChain: targetChain.chainId,
-        tokenId: tokenIds,
-        walletAddress: account,
-        ref : "",
-      });
-    };
-    postBridgeHistory();
+      // post bridge history
+      const postBridgeHistory = async () => {
+        await axios.post("/api/history", {
+          tx: txHash,
+          srcChain: sourceChain.chainId,
+          dstChain: targetChain.chainId,
+          tokenId: tokenIds,
+          walletAddress: account,
+          ref: "",
+        });
+      };
+      postBridgeHistory();
 
       toast("Bridge transaction sent!");
     } catch (error) {

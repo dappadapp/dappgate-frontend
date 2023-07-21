@@ -29,7 +29,7 @@ const MintButton: React.FC<Props> = ({
   setInputTokenId,
   setTokenIds,
   refCode,
-  logIndex
+  logIndex,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
 
@@ -43,7 +43,7 @@ const MintButton: React.FC<Props> = ({
     functionName: "cost",
   });
 
-  const { config: mintConfig } = usePrepareContractWrite({
+  const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
@@ -58,7 +58,7 @@ const MintButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
-    console.log('mintTxResultData', mintTxResultData)
+    console.log("mintTxResultData", mintTxResultData);
     const tokenId = BigInt(
       mintTxResultData.logs[logIndex || 0].topics[3] as string
     ).toString();
@@ -73,8 +73,8 @@ const MintButton: React.FC<Props> = ({
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-          (value, index, self) => self.indexOf(value) === index
-        )
+            (value, index, self) => self.indexOf(value) === index
+          )
         : [tokenId];
       const tokenIdData = {
         ...prev,
@@ -101,7 +101,6 @@ const MintButton: React.FC<Props> = ({
 
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
-
     setMintTxHash("");
     toast(`NFT minted with the id of ${tokenId}!`);
   }, [mintTxResultData]);
@@ -113,10 +112,16 @@ const MintButton: React.FC<Props> = ({
   };
 
   const onMint = async () => {
+    if (!account) {
+      return alert("Please connect your wallet first.");
+    }
     if (!mint)
       return alert(
         "Make sure you have enough ETH and you're on the correct network."
       );
+    if (!isSuccess) {
+      return alert("An unknown error occured. Please try again.");
+    }
     try {
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
