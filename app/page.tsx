@@ -9,6 +9,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
 import {
   useAccount,
+  useBalance,
   useNetwork,
   useSwitchNetwork,
   useWaitForTransaction,
@@ -421,6 +422,7 @@ export default function Home({
   const [isMintModalOpen, setIsMintModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
+  const [gasRefuelAmount, setGasRefuelAmount] = useState(0);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -437,6 +439,19 @@ export default function Home({
     hash: layerZeroTxHashes[layerZeroTxHashes.length - 1] as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
+
+  // get balance of user on source chain
+  const { data: balanceOfData } = useBalance({
+    address: account as `0x${string}`,
+    chainId: sourceChain.chainId,
+  });
+
+  // balance useeffect
+  useEffect(() => {
+    if (!balanceOfData) return;
+
+}, [account, sourceChain, balanceOfData]);
+  console.log("balanceOfData", balanceOfData);
   useEffect(() => {
     if (!searchParams?.ref) return;
     setRefCode(searchParams?.ref as string);
@@ -550,6 +565,12 @@ export default function Home({
     console.log("data:", data);
 
     setMintCounter(data?.counter);
+  };
+
+  const handleMax = () => {
+    if (balanceOfData) {
+      setGasRefuelAmount(balanceOfData?.formatted);
+    }
   };
 
   return (
@@ -1092,7 +1113,7 @@ export default function Home({
 
                 <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700">Input amount of ${targetChain.symbol} to receive on {targetChain.name}</div>
-                  <div className="text-white-700">Balance: 0</div>
+                  <div className="text-white-700">Balance: {Number(balanceOfData?.formatted).toFixed(3)}</div>
                 </div>
                 {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
                 <div className="relative flex flex-row justify-between  w-full sm:w-full">
@@ -1102,12 +1123,13 @@ export default function Home({
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
                     placeholder="Amount To Bridge"
-                    value={inputTokenId}
-                    onChange={(e) => setInputTokenId(e.target.value)}
+                    value={gasRefuelAmount}
+                    onChange={(e) => setGasRefuelAmount(e.target.value)}
                   />
                   <button
                     type="button"
                     className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    onClick={handleMax}
                   >
                     Max
                   </button>
@@ -1119,7 +1141,12 @@ export default function Home({
                   }}
                 >
                   Refuel
-                </button>
+                </button><br></br>
+
+                Disclaimer<br></br>
+
+Slippage and max transfer caps are 100% controlled by LayerZero.<br></br>
+Merkly does not profit from gas refueling.
               </div>
             ) 
             
