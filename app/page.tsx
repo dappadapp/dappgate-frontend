@@ -53,6 +53,7 @@ const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#373737]",
     image: "ethereum.svg",
+    symbol: "ETH",
   },
   {
     name: optimismGoerli.name,
@@ -62,6 +63,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "ethereum.svg",
+    symbol: "ETH",
   },
   {
     name: mainnet.name,
@@ -72,6 +74,7 @@ const networks: Network[] = [
     colorClass: "bg-[#777777]",
     image: "ethereum.svg",
     disabledNetworks: [],
+    symbol: "ETH",
   },
   {
     name: bsc.name,
@@ -82,6 +85,7 @@ const networks: Network[] = [
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
     disabledNetworks: [122, 8217],
+    symbol: "BNB",
   },
   {
     name: avalanche.name,
@@ -92,6 +96,7 @@ const networks: Network[] = [
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
     disabledNetworks: [1116],
+    symbol: "AVAX",
   },
   /*   {
         name: "Aptos",
@@ -111,6 +116,7 @@ const networks: Network[] = [
     image: "polygon.svg",
     logIndex: 2,
     disabledNetworks: [8217],
+    symbol: "MATIC",
   },
   {
     name: arbitrum.name,
@@ -121,6 +127,7 @@ const networks: Network[] = [
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
     disabledNetworks: [122, 1116, 8217],
+    symbol: "ETH",
   },
   {
     name: optimism.name,
@@ -131,6 +138,7 @@ const networks: Network[] = [
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
     disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "ETH",
   },
   {
     name: fantom.name,
@@ -141,6 +149,7 @@ const networks: Network[] = [
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
     disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "FTM",
   },
   /*   {
       name: dfk.name,
@@ -163,6 +172,7 @@ const networks: Network[] = [
       66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170,
     ],
+    symbol: "ONE",
   },
   /*   {
       name: "Dexalot",
@@ -194,6 +204,8 @@ const networks: Network[] = [
       66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170,
     ],
+    symbol: "GLMR",
+
   },
   {
     name: "Fuse",
@@ -207,6 +219,7 @@ const networks: Network[] = [
       10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 42170,
       1666600000,
     ],
+    symbol: "FUSE",
   },
   {
     name: gnosis.name,
@@ -217,6 +230,7 @@ const networks: Network[] = [
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
     disabledNetworks: [66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
+    symbol: "GNO",
   },
   {
     name: klaytn.name,
@@ -230,6 +244,7 @@ const networks: Network[] = [
       10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700, 42161,
       42170, 1666600000,
     ],
+    symbol: "KLAY",
   },
   {
     name: metis.name,
@@ -240,6 +255,7 @@ const networks: Network[] = [
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
     disabledNetworks: [66, 324, 1101, 1116, 1666600000],
+    symbol: "METIS",
   },
   {
     name: "CoreDAO",
@@ -253,6 +269,7 @@ const networks: Network[] = [
       10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700, 8217,
       42161, 42170, 43114, 1666600000,
     ],
+    symbol: "CORE",
   },
   {
     name: "OKT (OKX)",
@@ -266,6 +283,7 @@ const networks: Network[] = [
       10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170, 1666600000,
     ],
+    symbol: "OKT",
   },
   {
     name: polygonZkEvm.name,
@@ -278,6 +296,7 @@ const networks: Network[] = [
     disabledNetworks: [
       66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
     ],
+    symbol: "MATIC",
   },
   {
     name: canto.name,
@@ -288,6 +307,7 @@ const networks: Network[] = [
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
     disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "CANTO",
   },
   {
     name: zkSync.name,
@@ -299,6 +319,7 @@ const networks: Network[] = [
     image: "zksync-era.svg",
     logIndex: 3,
     disabledNetworks: [66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "ETH",
   },
   {
     name: moonriver.name,
@@ -311,6 +332,7 @@ const networks: Network[] = [
     disabledNetworks: [
       66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
+    symbol: "MOVR",
   },
   {
     name: "Tenet",
@@ -321,6 +343,7 @@ const networks: Network[] = [
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
     disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "TENET",
   },
   {
     name: "Arbitrum Nova",
@@ -331,6 +354,7 @@ const networks: Network[] = [
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
     disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "ETH",
   },
   {
     name: "Meter.io",
@@ -341,6 +365,7 @@ const networks: Network[] = [
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
     disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "MTRG",
   },
   {
     name: "Kava",
@@ -353,6 +378,7 @@ const networks: Network[] = [
     disabledNetworks: [
       66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
+    symbol: "KAVA",
   },
 ];
 
@@ -370,6 +396,7 @@ export interface Network {
   image: string;
   logIndex?: number;
   disabledNetworks?: number[];
+  symbol?: string;
 }
 
 const ANIMATION_TIME = 4000;
@@ -451,8 +478,6 @@ export default function Home({
     mintCounterFunc();
   }, [connectedChain, account]);
 
-
-
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
       (network) => network.name === selectedNetwork.name
@@ -520,14 +545,12 @@ export default function Home({
 
   //mint counter func
   const mintCounterFunc = async () => {
-  
-      const { data } = await axios.post("/api/counter");
+    const { data } = await axios.post("/api/counter");
 
-      console.log("data:", data);
-  
-      setMintCounter(data?.counter);
+    console.log("data:", data);
+
+    setMintCounter(data?.counter);
   };
-
 
   return (
     <div
@@ -543,9 +566,9 @@ export default function Home({
 
       {isFAQModalOpen ? (
         <FAQModal
-        onCloseModal={() => {
-          setIsFAQModalOpen(false);
-        }}
+          onCloseModal={() => {
+            setIsFAQModalOpen(false);
+          }}
         />
       ) : null}
 
@@ -557,19 +580,19 @@ export default function Home({
         />
       ) : null}
 
-        {isMintModalOpen ? (
+      {isMintModalOpen ? (
         <MintModal
           onCloseModal={() => {
             setIsMintModalOpen(false);
           }}
-            sourceChain={sourceChain}
-            targetChain={targetChain}
-            setInputTokenId={setInputTokenId}
-            setTokenIds={setTokenIds}
-            refCode={refCode}
-            logIndex={sourceChain.logIndex}
+          sourceChain={sourceChain}
+          targetChain={targetChain}
+          setInputTokenId={setInputTokenId}
+          setTokenIds={setTokenIds}
+          refCode={refCode}
+          logIndex={sourceChain.logIndex}
         />
-        ) : null}
+      ) : null}
       <div
         className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
@@ -583,20 +606,34 @@ export default function Home({
           >
             <div className="flex flex-col items-start select-none">
               <div className="flex flex-row items-center">
-                <svg width="64" height="64" viewBox="0 0 633 549" fill="none" xmlns="http://www.w3.org/2000/svg%22%3E">
-                  <path d="M553.738 399.006L392.48 548.506C297.662 466.11 263.499 376 255.995 317.496C225.5 171.5 306.999 129.999 336.496 117.999C438.496 76.4994 541.486 224.496 553.738 236.994C571.986 262.994 606.233 298.835 632.48 326.006L574.48 379.777L400.98 195.506C332.985 126.493 221.474 195.504 297.48 294.506L405.48 410.506L491.48 331.006L553.738 399.006Z" fill="white" />
-                  <path d="M78.7422 149.5L240.001 1.79982e-05C334.818 82.3954 368.981 172.506 376.486 231.01C406.98 377.006 325.481 418.507 295.985 430.506C193.985 472.006 90.9949 324.009 78.7422 311.512C60.4949 285.512 26.2478 249.671 0.000598658 222.5L58.0006 168.729L231.501 353C299.495 422.013 411.007 353.002 335.001 254L227.001 138L141.001 217.5L78.7422 149.5Z" fill="white" />
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 633 549"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg%22%3E"
+                >
+                  <path
+                    d="M553.738 399.006L392.48 548.506C297.662 466.11 263.499 376 255.995 317.496C225.5 171.5 306.999 129.999 336.496 117.999C438.496 76.4994 541.486 224.496 553.738 236.994C571.986 262.994 606.233 298.835 632.48 326.006L574.48 379.777L400.98 195.506C332.985 126.493 221.474 195.504 297.48 294.506L405.48 410.506L491.48 331.006L553.738 399.006Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M78.7422 149.5L240.001 1.79982e-05C334.818 82.3954 368.981 172.506 376.486 231.01C406.98 377.006 325.481 418.507 295.985 430.506C193.985 472.006 90.9949 324.009 78.7422 311.512C60.4949 285.512 26.2478 249.671 0.000598658 222.5L58.0006 168.729L231.501 353C299.495 422.013 411.007 353.002 335.001 254L227.001 138L141.001 217.5L78.7422 149.5Z"
+                    fill="white"
+                  />
                 </svg>
-              <div className="flex flex-col items-end mt-3 ml-2">
-              <h1 className={"text-2xl lg:text-4xl font-bold mt-2"}>DappGate</h1>
-              <div
-                className={
-                  "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
-                }
-              >
-                Alpha
-              </div>
-              </div>
+                <div className="flex flex-col items-end mt-3 ml-2">
+                  <h1 className={"text-2xl lg:text-4xl font-bold mt-2"}>
+                    DappGate
+                  </h1>
+                  <div
+                    className={
+                      "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
+                    }
+                  >
+                    Alpha
+                  </div>
+                </div>
               </div>
             </div>
             <ConnectButton />
@@ -644,23 +681,93 @@ export default function Home({
                     </button>
                   )}
                 </Tab>
+
+                <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
+                    >
+                      Gas Refuel {"(OGAS)"}
+                    </button>
+                  )}
+                </Tab>
               </Tab.List>
             </Tab.Group>
-            {tabIndex !== 0 ? (
+            {tabIndex == 1 ? (
               <div
-                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
-                <div className={"flex justify-between items-center mt-8"}>
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
+                  }
+                >
                   <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span
-                          className="block truncate text-transparent"
-                          style={{ textShadow: "0 0 8px #ffffff" }}
-                        >
-                          {sourceChain.name}
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                        <div className="flex items-center gap-2">
+                          <Image
+                            src={`/chains/${sourceChain.image}`}
+                            alt={targetChain.name}
+                            width={25}
+                            height={25}
+                            className="rounded-full"
+                          />
+                          <span className="block truncate text-base text-xl font-medium">
+                            {sourceChain.name}
+                          </span>
+                        </div>
+
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                          <FontAwesomeIcon icon={faAngleDown} />
                         </span>
                       </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {networks.map((network, i) => (
+                            <Listbox.Option
+                              key={i}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                }`
+                              }
+                              value={network}
+                            >
+                              {({ selected }) => (
+                                <div className="flex items-center gap-2">
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                      <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                  ) : null}
+                                  <Image
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    width={25}
+                                    height={25}
+                                    className="rounded-full"
+                                  />
+                                  <span className="block truncate text-base text-xl">
+                                    {network.name}
+                                  </span>
+                                </div>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
                     </div>
                   </Listbox>
                   <svg
@@ -669,7 +776,8 @@ export default function Home({
                     viewBox="0 0 48 35"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    cursor="not-allowed"
+                    onClick={onArrowClick}
+                    cursor="pointer"
                   >
                     <circle
                       cx="17.4"
@@ -688,26 +796,345 @@ export default function Home({
                   </svg>
 
                   <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span
-                          className="block truncate text-transparent"
-                          style={{ textShadow: "0 0 8px #ffffff" }}
-                        >
-                          {targetChain.name}
-                        </span>
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="pointer-events-none flex items-center">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                          <div className="flex items-center gap-2">
+                          <span className="block truncate text-base text-xl">
+                              {targetChain.name}
+                            </span>
+
+                            <Image
+                              src={`/chains/${targetChain.image}`}
+                              alt={targetChain.name}
+                              width={25}
+                              height={25}
+                              className="rounded-full"
+                            />
+                          </div>
+                        </div>
                       </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {networks.map((network, i) => (
+                            <Listbox.Option
+                              key={i}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                }`
+                              }
+                              value={network}
+                              disabled={sourceChain.disabledNetworks?.includes(
+                                network.chainId
+                              )}
+                            >
+                              {({ selected }) => (
+                                <div className="flex items-center gap-2">
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                      <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                  ) : null}
+                                  <Image
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    width={24}
+                                    height={24}
+                                    className="rounded-full"
+                                  />
+                                  <span className="block truncate text-base text-xl font-medium">
+                                    {network.name}
+                                  </span>
+                                </div>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
                     </div>
                   </Listbox>
                 </div>
+
+                <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  Claim Tokens
+                </div>
+                <div className="flex flex-row justify-between  w-full sm:w-full">
+                  <input
+                    type="text"
+                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
+                    placeholder="Amount To Claim"
+                    value={inputTokenId}
+                    onChange={(e) => setInputTokenId(e.target.value)}
+                  />
+
+                  <button
+                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
+                    onClick={() => {
+                      setIsMintModalOpen(true);
+                    }}
+                  >
+                    Claim
+                  </button>
+                </div>
+
+                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  <div className="text-white-700">DGATE To Bridge</div>
+                  <div className="text-white-700">Balance: 0</div>
+                </div>
+                {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                  {/** In input box create a max option for balance max */}
+
+                  <input
+                    type="text"
+                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                    placeholder="Amount To Bridge"
+                    value={inputTokenId}
+                    onChange={(e) => setInputTokenId(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                  >
+                    Max
+                  </button>
+                </div>
+                <button
+                  className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
+                  onClick={() => {
+                    setIsMintModalOpen(true);
+                  }}
+                >
+                  Bridge
+                </button>
               </div>
-            ) : (
+            ) 
+            : tabIndex == 2 ? (
+              <div
+                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+              >
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8 mb-5"
+                  }
+                >
+    
+                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                        <div className="flex items-center gap-2">
+                          <Image
+                            src={`/chains/${sourceChain.image}`}
+                            alt={targetChain.name}
+                            width={25}
+                            height={25}
+                            className="rounded-full"
+                          />
+                          <span className="block truncate text-base text-xl font-medium">
+                            {sourceChain.name}
+                          </span>
+                        </div>
+
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                          <FontAwesomeIcon icon={faAngleDown} />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {networks.map((network, i) => (
+                            <Listbox.Option
+                              key={i}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                }`
+                              }
+                              value={network}
+                            >
+                              {({ selected }) => (
+                                <div className="flex items-center gap-2">
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                      <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                  ) : null}
+                                  <Image
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    width={25}
+                                    height={25}
+                                    className="rounded-full"
+                                  />
+                                  <span className="block truncate text-base text-xl">
+                                    {network.name}
+                                  </span>
+                                </div>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                  <svg
+                    width="58"
+                    height="45"
+                    viewBox="0 0 48 35"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={onArrowClick}
+                    cursor="pointer"
+                  >
+                    <circle
+                      cx="17.4"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <circle
+                      cx="30.6031"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </svg>
+
+                  <Listbox value={targetChain} onChange={onChangeTargetChain}>
+                    <div className="relative w-full sm:w-[36%]">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="pointer-events-none flex items-center">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                          <div className="flex items-center gap-2">
+                          <span className="block truncate text-base text-xl">
+                              {targetChain.name}
+                            </span>
+
+                            <Image
+                              src={`/chains/${targetChain.image}`}
+                              alt={targetChain.name}
+                              width={25}
+                              height={25}
+                              className="rounded-full"
+                            />
+                          </div>
+                        </div>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {networks.map((network, i) => (
+                            <Listbox.Option
+                              key={i}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                  active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                }`
+                              }
+                              value={network}
+                              disabled={sourceChain.disabledNetworks?.includes(
+                                network.chainId
+                              )}
+                            >
+                              {({ selected }) => (
+                                <div className="flex items-center gap-2">
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                      <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                  ) : null}
+                                  <Image
+                                    src={`/chains/${network.image}`}
+                                    alt={network.name}
+                                    width={24}
+                                    height={24}
+                                    className="rounded-full"
+                                  />
+                                  <span className="block truncate text-base text-xl font-medium">
+                                    {network.name}
+                                  </span>
+                                </div>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+
+                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  <div className="text-white-700">Input amount of ${targetChain.symbol} to receive on {targetChain.name}</div>
+                  <div className="text-white-700">Balance: 0</div>
+                </div>
+                {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                  {/** In input box create a max option for balance max */}
+
+                  <input
+                    type="text"
+                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                    placeholder="Amount To Bridge"
+                    value={inputTokenId}
+                    onChange={(e) => setInputTokenId(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                  >
+                    Max
+                  </button>
+                </div>
+                <button
+                  className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
+                  onClick={() => {
+                    setIsMintModalOpen(true);
+                  }}
+                >
+                  Refuel
+                </button>
+              </div>
+            ) 
+            
+            
+            
+            : (
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <h1 className={"text-2xl font-semibold text-center"}>  {mintCounter} / 50.000</h1>
+                  <h1 className={"text-3xl font-semibold"}>Bridge</h1>
+                  <h1 className={"text-2xl font-semibold text-center"}>
+                    {" "}
+                    {mintCounter} / 50.000
+                  </h1>
                 </div>
                 <div
                   className={
@@ -721,11 +1148,11 @@ export default function Home({
                           <Image
                             src={`/chains/${sourceChain.image}`}
                             alt={targetChain.name}
-                            width={24}
-                            height={24}
+                            width={25}
+                            height={25}
                             className="rounded-full"
                           />
-                          <span className="block truncate text-base">
+                        <span className="block truncate text-base text-xl font-medium">
                             {sourceChain.name}
                           </span>
                         </div>
@@ -767,7 +1194,7 @@ export default function Home({
                                     height={24}
                                     className="rounded-full"
                                   />
-                                  <span className="block truncate">
+                                  <span className="block truncate text-base text-xl">
                                     {network.name}
                                   </span>
                                 </div>
@@ -811,7 +1238,7 @@ export default function Home({
                             <FontAwesomeIcon icon={faAngleDown} />
                           </span>
                           <div className="flex items-center gap-2">
-                            <span className="block truncate text-base">
+                          <span className="block truncate text-base text-xl font-medium">
                               {targetChain.name}
                             </span>
 
@@ -886,7 +1313,7 @@ export default function Home({
                     refCode={refCode!}
                     logIndex={sourceChain.logIndex}
                   />
-          
+
                   <div className="flex flex-col items-center">
                     <BridgeButton
                       sourceChain={sourceChain}
