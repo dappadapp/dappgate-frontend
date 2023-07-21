@@ -513,6 +513,7 @@ export default function Home({
       setIsAnimationEnd(true);
     }, ANIMATION_TIME);
   }, [bridgeTxResultData]);
+
   useEffect(() => {
     if (!isAnimationEnd) return;
     setTimeout(() => {
