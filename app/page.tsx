@@ -42,7 +42,7 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 
 const networks: Network[] = [
-  /*   {
+  {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,
@@ -69,7 +69,7 @@ const networks: Network[] = [
     colorClass: "bg-[#777777]",
     image: "ethereum.svg",
     disabledNetworks: [],
-  }, */
+  },
   {
     name: bsc.name,
     chainId: bsc.id,
@@ -351,7 +351,7 @@ const networks: Network[] = [
       66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
   },
-  {
+  /*   {
     name: "Linea",
     chainId: 59144,
     layerzeroChainId: 183,
@@ -360,7 +360,7 @@ const networks: Network[] = [
     colorClass: "bg-[#1B1B1D]",
     image: "linea.svg",
     disabledNetworks: [],
-  },
+  }, */
   {
     name: "Base",
     chainId: 8453,
@@ -369,7 +369,10 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#2967FF]",
     image: "base.svg",
-    disabledNetworks: [],
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,
+    ],
   },
 ];
 
