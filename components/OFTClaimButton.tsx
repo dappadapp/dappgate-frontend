@@ -102,20 +102,18 @@ const OFTClaimButton: React.FC<Props> = ({
       });
       setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
 
-      console.log("txHash", txHash);
-
-          // post bridge history
-    const postBridgeHistory = async () => {
-      await axios.post("/api/history", {
-        tx: txHash,
-        srcChain: sourceChain.chainId,
-        dstChain: targetChain.chainId,
-        tokenId: tokenIds,
-        walletAddress: account,
-        ref : "",
-      });
-    };
-    postBridgeHistory();
+      // post bridge history
+      const postBridgeHistory = async () => {
+        await axios.post("/api/history", {
+          tx: txHash,
+          srcChain: sourceChain.chainId,
+          dstChain: targetChain.chainId,
+          tokenId: tokenIds,
+          walletAddress: account,
+          ref: "",
+        });
+      };
+      postBridgeHistory();
 
       toast("Bridge transaction sent!");
     } catch (error) {

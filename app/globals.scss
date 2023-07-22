@@ -72,14 +72,15 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.arda {
+.bridge-animaton {
   background-blend-mode: screen;
-  animation: arda 4s infinite linear;
+  animation: bridge-animaton 4s infinite linear;
 }
-.arda *:nth-child(2) {
+.bridge-animaton *:nth-child(2) {
   animation: transparent 4s infinite linear;
 }
-@keyframes arda {
+
+@keyframes bridge-animaton {
   0% {
     transform: rotate(0deg);
   }
@@ -88,6 +89,7 @@ input::-webkit-inner-spin-button {
     width: 0;
   }
 }
+
 @keyframes transparent {
   100% {
     opacity: 0.5;

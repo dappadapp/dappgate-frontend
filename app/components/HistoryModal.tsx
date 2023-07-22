@@ -14,11 +14,10 @@ type Transaction = {
   timestamp: number;
 };
 
-
 function HistoryModal({ onCloseModal }: Props) {
   const { address: walletAddress } = useAccount();
   const [transactions, setTransactions] = useState([] as Transaction[]);
-  
+
   /*
   const transactions = [
     {
@@ -189,7 +188,6 @@ function HistoryModal({ onCloseModal }: Props) {
     fetchTransactionHistory();
   }, [walletAddress]);
 
-
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
       0,
@@ -199,12 +197,12 @@ function HistoryModal({ onCloseModal }: Props) {
   };
 
   const fetchTransactionHistory = async () => {
-    const { data } = await axios.post("/api/bridge/", {
+    const { data }: { data: Transaction[] } = await axios.post("/api/bridge/", {
       walletAddress,
     });
-
+    //Sort TX by Date
+    data.sort((a, b) => b.timestamp - a.timestamp);
     setTransactions(data);
-
   };
 
   return (
@@ -255,13 +253,13 @@ function HistoryModal({ onCloseModal }: Props) {
                     className={index % 2 === 0 ? "bg-transparent" : ""}
                   >
                     <td className="px-4 py-2">
-                    <a
-                          href={`https://layerzeroscan.com/tx/${transaction.tx}`}
-                          target="_blank"
-                          className="text-orange-400"
-                        >
-                      {shortenTransactionHash(transaction.tx)}
-                    </a>
+                      <a
+                        href={`https://layerzeroscan.com/tx/${transaction.tx}`}
+                        target="_blank"
+                        className="text-orange-400 underline"
+                      >
+                        {shortenTransactionHash(transaction.tx)}
+                      </a>
                     </td>
                     <td className="px-4 py-2">{transaction.srcChain}</td>
                     <td className="px-4 py-2">{transaction.dstChain}</td>

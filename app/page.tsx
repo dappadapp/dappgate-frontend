@@ -446,6 +446,7 @@ export interface Network {
 }
 
 const ANIMATION_TIME = 4000;
+const ANIMATION_END_TIME = 1000;
 
 export default function Home({
   searchParams,
@@ -460,6 +461,7 @@ export default function Home({
   const [inputTokenId, setInputTokenId] = useState("");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+  const [isAnimationEnd, setIsAnimationEnd] = useState(false);
   const [layerZeroTxHashes, setLayerZeroTxHashes] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -495,7 +497,6 @@ export default function Home({
   useEffect(() => {
     if (!balanceOfData) return;
   }, [account, sourceChain, balanceOfData]);
-  console.log("balanceOfData", balanceOfData);
   useEffect(() => {
     if (!searchParams?.ref) return;
     setRefCode(searchParams?.ref as string);
@@ -509,8 +510,16 @@ export default function Home({
 
     setTimeout(() => {
       setIsAnimationStarted(false);
+      setIsAnimationEnd(true);
     }, ANIMATION_TIME);
   }, [bridgeTxResultData]);
+
+  useEffect(() => {
+    if (!isAnimationEnd) return;
+    setTimeout(() => {
+      setIsAnimationEnd(false);
+    }, ANIMATION_END_TIME);
+  }, [isAnimationEnd]);
 
   // TODO: send a balanceOf() call just in case user still has the token IDS on initial page load.
   // Do the same check after clicking the bridge button
@@ -596,7 +605,6 @@ export default function Home({
       const { data } = await axios.post("/api/refuel", {
         amount: gasRefuelAmount,
       });
-      console.log("data:", data);
       toast("Refuel successful!");
     } catch (error) {
       console.log(error);
@@ -618,8 +626,6 @@ export default function Home({
   //mint counter func
   const mintCounterFunc = async () => {
     const { data } = await axios.post("/api/counter");
-
-    console.log("data:", data);
 
     setMintCounter(data?.counter);
   };
@@ -709,16 +715,23 @@ export default function Home({
                       "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
                     }
                   >
-                    Alpha
+                    Alpha v0.2
                   </div>
                 </div>
               </div>
             </div>
-            <ConnectButton />
+            <div className="flex flex-col-reverse md:flex-row gap-3">
+              <button
+                className="backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Referral
+              </button>
+              <ConnectButton />
+            </div>
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
-              <button onClick={() => setIsModalOpen(true)}>Refer</button>
               <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>
@@ -1578,14 +1591,26 @@ export default function Home({
         >
           <div
             className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "arda" : ""
+              isAnimationStarted ? "bridge-animaton" : ""
             }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${
+                sourceChain.colorClass
+              }  ${
+                isAnimationEnd
+                  ? "left-[30%]"
+                  : "left-0 duration-1000 transition-all translate-x-[-50%]"
+              } rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${targetChain.colorClass} translate-x-[50%] right-0 rounded-full`}
+              className={`absolute h-[80vh] aspect-square  ${
+                targetChain.colorClass
+              } ${
+                isAnimationEnd
+                  ? "right-[30%] opacity-50"
+                  : "right-0 duration-1000 transition-all translate-x-[50%]"
+              } rounded-full`}
             ></div>
           </div>
         </div>
