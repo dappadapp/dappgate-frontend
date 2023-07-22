@@ -978,14 +978,16 @@ export default function Home({
                     onChange={(e) => setInputOFTAmount(e.target.value)}
                   />
 
-                  <button
-                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg ml-3"
-                    onClick={() => {
-                      setIsMintModalOpen(true);
-                    }}
-                  >
-                    Claim
-                  </button>
+                  <OFTClaimButton 
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    setInputTokenId={setInputTokenId}
+                    setTokenIds={setTokenIds}
+                    refCode={refCode}
+                    logIndex={sourceChain.logIndex}
+                    inputOFTAmount={inputOFTAmount}
+
+                  />
                 </div>
 
                 <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
@@ -1008,18 +1010,24 @@ export default function Home({
                   <button
                     type="button"
                     className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
-                  >
-                    Max
-                  </button>
-                </div>
-                <button
-                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
-                  onClick={() => {
-                    setIsMintModalOpen(true);
-                  }}
-                >
-                  Bridge
-                </button>
+                    onClick={handleDlgateMax}
+                    >
+                      Max
+                    </button>
+                  </div>
+    
+  
+                  <OFTBridgeButton 
+                       sourceChain={sourceChain}
+                       targetChain={targetChain}
+                       inputTokenId={inputTokenId}
+                       setInputTokenId={setInputTokenId}
+                       tokenIds={tokenIds}
+                       setTokenIds={setTokenIds}
+                       setLayerZeroTxHashes={setLayerZeroTxHashes}
+                       setEstimatedGas={setEstimatedGas}
+                       dlgateBridgeAmount={dlgateBridgeAmount}
+                  />
               </div>
             ) : tabIndex == 2 ? (
               <div
