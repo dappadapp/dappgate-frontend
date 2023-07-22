@@ -902,9 +902,9 @@ export default function Home({
                     </svg>
                   <div className="flex flex-wrap gap-4 justify-center">
                     {networks.map((network, i) => (
-                      <div className="relative w-full sm:w-[36%]" key={i}>
+                      <div className="relative w-full sm:w-[30%]" key={i}>
                       <button
-                      className=" flex flex-row w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300"
+                      className="flex flex-row w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300"
                       key={i}
                       >
                         <Image
