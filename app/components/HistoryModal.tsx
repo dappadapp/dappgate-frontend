@@ -14,11 +14,10 @@ type Transaction = {
   timestamp: number;
 };
 
-
 function HistoryModal({ onCloseModal }: Props) {
   const { address: walletAddress } = useAccount();
   const [transactions, setTransactions] = useState([] as Transaction[]);
-  
+
   /*
   const transactions = [
     {
@@ -189,7 +188,6 @@ function HistoryModal({ onCloseModal }: Props) {
     fetchTransactionHistory();
   }, [walletAddress]);
 
-
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
       0,
@@ -204,26 +202,22 @@ function HistoryModal({ onCloseModal }: Props) {
     });
 
     setTransactions(data);
-
   };
 
   return (
     <div
       className={
         "z-[999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0"
-      }
-    >
+      }>
       <div
         className={
           "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
-        }
-      >
+        }>
         <div className="flex justify-between mb-2">
-          <h1 className={"text-3xl"}>Transaction History</h1>
+          <h1 className={"text-xl sm:text-3xl"}>Transaction History</h1>
           <div
             onClick={() => onCloseModal()}
-            className="right-0 z-[9999] font-medium rounded-md flex justify-center items-center cursor-pointer border border-gray-400 w-8 h-8"
-          >
+            className="right-0 z-[9999] font-medium rounded-md flex justify-center items-center cursor-pointer border border-gray-400 w-8 h-8">
             X
           </div>
         </div>
@@ -252,16 +246,14 @@ function HistoryModal({ onCloseModal }: Props) {
                 {transactions?.map((transaction, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 0 ? "bg-transparent" : ""}
-                  >
+                    className={index % 2 === 0 ? "bg-transparent" : ""}>
                     <td className="px-4 py-2">
-                    <a
-                          href={`https://layerzeroscan.com/tx/${transaction.tx}`}
-                          target="_blank"
-                          className="text-orange-400"
-                        >
-                      {shortenTransactionHash(transaction.tx)}
-                    </a>
+                      <a
+                        href={`https://layerzeroscan.com/tx/${transaction.tx}`}
+                        target="_blank"
+                        className="text-orange-400">
+                        {shortenTransactionHash(transaction.tx)}
+                      </a>
                     </td>
                     <td className="px-4 py-2">{transaction.srcChain}</td>
                     <td className="px-4 py-2">{transaction.dstChain}</td>
