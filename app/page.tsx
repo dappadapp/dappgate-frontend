@@ -471,6 +471,7 @@ export default function Home({
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
   const [turboBridge, setTurboBridge] = useState(false);
+  const [selectedButtons, setSelectedButtons] = useState(Array(networks.length).fill(false));
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -635,6 +636,10 @@ export default function Home({
     if (balanceOfData) {
       setGasRefuelAmount(balanceOfData?.formatted);
     }
+  };
+
+  const handleButtonClick = (index:number) => {
+    setSelectedButtons(prevState => prevState.map((selected, i) => i === index ? !selected : selected));
   };
 
   return (
@@ -904,9 +909,17 @@ export default function Home({
                     {networks.map((network, i) => (
                       <div className="relative w-full sm:w-[30%]" key={i}>
                       <button
-                      className="flex flex-row w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300"
+                      className={`flex flex-row w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300
+                      ${selectedButtons[i] ? 'bg-white/30 hover:text-black' : 'bg-white bg-opacity-5'}
+                      `}
                       key={i}
+                      onClick={() => handleButtonClick(i)}
                       >
+                        {selectedButtons[i] && (
+                          <div className="absolute top-2 right-2">
+                            <FontAwesomeIcon icon={faCheck}/>
+                          </div>
+                        )}
                         <Image
                           src={`/chains/${network.image}`}
                           alt={network.name}
