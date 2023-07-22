@@ -700,8 +700,9 @@ export default function Home({
       <div
         className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
-        }>
-        <div className={"container mx-auto h-full flex flex-col"}>
+        }
+      >
+        <div className={"container mx-auto gap-2 h-full flex flex-col"}>
           <div
             className={
               "w-full flex flex-row items-center justify-between mt-16 gap-2"
@@ -804,7 +805,7 @@ export default function Home({
             </Tab.Group>
             {tabIndex == 1 ? (
               <div
-                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div
                   className={
@@ -968,17 +969,17 @@ export default function Home({
                 <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   Claim Tokens
                 </div>
-                <div className="flex flex-row justify-between  w-full sm:w-full">
+                <div className="flex flex-row justify-between items-center w-full sm:w-full">
                   <input
                     type="text"
-                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
+                    className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="Amount To Claim"
                     value={inputOFTAmount}
                     onChange={(e) => setInputOFTAmount(e.target.value)}
                   />
 
                   <button
-                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
+                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg ml-3"
                     onClick={() => {
                       setIsMintModalOpen(true);
                     }}
@@ -988,16 +989,18 @@ export default function Home({
                 </div>
 
                 <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">DLGATE To Bridge</div>
+                  <div className="text-white-700">
+                    <span className="text-green-500">$</span> DLGATE To Bridge
+                  </div>
                   <div className="text-white-700">Balance: {Number(balanceOfDlgate?.formatted)}</div>
                 </div>
                 {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
-                <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                <div className="relative flex flex-row justify-between w-full sm:w-full">
                   {/** In input box create a max option for balance max */}
 
                   <input
                     type="text"
-                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                    className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
                     placeholder="Amount To Bridge"
                     value={dlgateBridgeAmount}
                     onChange={(e) => setDlgateBridgeAmount(e.target.value)}
@@ -1010,7 +1013,7 @@ export default function Home({
                   </button>
                 </div>
                 <button
-                  className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
+                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
                   onClick={() => {
                     setIsMintModalOpen(true);
                   }}
@@ -1020,7 +1023,7 @@ export default function Home({
               </div>
             ) : tabIndex == 2 ? (
               <div
-                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
               >
                 <div
                   className={
@@ -1140,8 +1143,9 @@ export default function Home({
                         as={Fragment}
                         leave="transition ease-in duration-100"
                         leaveFrom="opacity-100"
-                        leaveTo="opacity-0">
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1182,8 +1186,8 @@ export default function Home({
                     </div>
                   </Listbox>
                 </div>
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">
+                <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  <div className="text-white-700 break-words max-w-[60%]">
                     Input amount of ${targetChain.symbol} to receive on{" "}
                     {targetChain.name}
                   </div>
@@ -1210,17 +1214,23 @@ export default function Home({
                   </button>
                 </div>
                 <button
-                  className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
+                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
                   onClick={() => {
                     setIsMintModalOpen(true);
                   }}>
                   Refuel
                 </button>
-                <br></br>
-                Disclaimer<br></br>
-
-Slippage and max transfer caps are 100% controlled by LayerZero.<br></br>
-Merkly does not profit from gas refueling.
+                <div className="text-sm md:text-base flex flex-col text-gray-500">
+                  Disclaimer
+                  <span className="text-xs md:text-sm">
+                    The token bridge is a service that allows users to transfer
+                    tokens between different blockchains. However, it is not a
+                    financial product and does not offer any guarantees about
+                    the price or liquidity of tokens. The service provider is
+                    not liable for any loss or damage arising from the use of
+                    the token bridge.
+                  </span>
+                </div>
               </div>
             ) : (
               <div
