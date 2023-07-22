@@ -44,6 +44,8 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 import MintModal from "./components/MintModal";
 import FAQModal from "./components/FAQModal";
+import OFTClaimButton from "@/components/OFTClaimButton";
+import OFTBridgeButton from "@/components/OFTBridgeButton";
 
 const networks: Network[] = [
   {
@@ -51,7 +53,7 @@ const networks: Network[] = [
     chainId: goerli.id,
     layerzeroChainId: 10121,
     nftContractAddress: "0x3BC0D972ed2cC430D1a2d3dBe9bAE8CF18eF58aa",
-    tokenContractAddress: "0xE41Fe1bE796863372e1595837040838506eA42E7",
+    tokenContractAddress: "0x86D29f91CA34A02b63128845a36c8484543133EB",
     gasRefuelContractAddress: "0x3BC0D972ed2cC430D1a2d3dBe9bAE8CF18eF58aa",
     blockConfirmation: 2,
     colorClass: "bg-[#373737]",
@@ -101,7 +103,7 @@ const networks: Network[] = [
     chainId: avalanche.id,
     layerzeroChainId: 106,
     nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
-    tokenContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    tokenContractAddress: "0xF5b5A571905bf9C3a4b03db2425cb544b363E77B",
     gasRefuelContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
@@ -459,6 +461,7 @@ export default function Home({
   const [showInput, setShowInput] = useState(false);
   const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
+  const [inputOFTAmount, setInputOFTAmount] = useState("");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
@@ -470,6 +473,7 @@ export default function Home({
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
+  const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -492,6 +496,15 @@ export default function Home({
     address: account as `0x${string}`,
     chainId: sourceChain.chainId,
   });
+
+    // get balance of user on source chain
+  const { data: balanceOfDlgate } = useBalance({
+      address: account as `0x${string}`,
+      chainId: sourceChain.chainId,
+      token: sourceChain.tokenContractAddress as `0x${string}`,
+  });
+
+
 
   // balance useeffect
   useEffect(() => {
@@ -633,6 +646,12 @@ export default function Home({
   const handleMax = () => {
     if (balanceOfData) {
       setGasRefuelAmount(balanceOfData?.formatted);
+    }
+  };
+
+  const handleDlgateMax = () => {
+    if (balanceOfDlgate) {
+      setDlgateBridgeAmount(balanceOfDlgate?.formatted);
     }
   };
 
@@ -972,23 +991,25 @@ export default function Home({
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="Amount To Claim"
-                    value={inputTokenId}
-                    onChange={(e) => setInputTokenId(e.target.value)}
+                    value={inputOFTAmount}
+                    onChange={(e) => setInputOFTAmount(e.target.value)}
                   />
 
-                  <button
-                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
-                    onClick={() => {
-                      setIsMintModalOpen(true);
-                    }}
-                  >
-                    Claim
-                  </button>
+                  <OFTClaimButton 
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    setInputTokenId={setInputTokenId}
+                    setTokenIds={setTokenIds}
+                    refCode={refCode}
+                    logIndex={sourceChain.logIndex}
+                    inputOFTAmount={inputOFTAmount}
+
+                  />
                 </div>
 
                 <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">DGATE To Bridge</div>
-                  <div className="text-white-700">Balance: 0</div>
+                  <div className="text-white-700">DLGATE To Bridge</div>
+                  <div className="text-white-700">Balance: {Number(balanceOfDlgate?.formatted)}</div>
                 </div>
                 {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
                 <div className="relative flex flex-row justify-between  w-full sm:w-full">
@@ -998,24 +1019,30 @@ export default function Home({
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
                     placeholder="Amount To Bridge"
-                    value={inputTokenId}
-                    onChange={(e) => setInputTokenId(e.target.value)}
+                    value={dlgateBridgeAmount}
+                    onChange={(e) => setDlgateBridgeAmount(e.target.value)}
                   />
                   <button
                     type="button"
                     className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    onClick={handleDlgateMax}
                   >
                     Max
                   </button>
                 </div>
-                <button
-                  className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
-                  onClick={() => {
-                    setIsMintModalOpen(true);
-                  }}
-                >
-                  Bridge
-                </button>
+  
+
+                <OFTBridgeButton 
+                     sourceChain={sourceChain}
+                     targetChain={targetChain}
+                     inputTokenId={inputTokenId}
+                     setInputTokenId={setInputTokenId}
+                     tokenIds={tokenIds}
+                     setTokenIds={setTokenIds}
+                     setLayerZeroTxHashes={setLayerZeroTxHashes}
+                     setEstimatedGas={setEstimatedGas}
+                     dlgateBridgeAmount={dlgateBridgeAmount}
+                />
               </div>
             ) : tabIndex == 2 ? (
               <div
