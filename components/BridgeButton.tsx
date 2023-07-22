@@ -1,6 +1,6 @@
 import { Network } from "@/app/page";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -33,6 +33,7 @@ const BridgeButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
 }) => {
+  const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
@@ -44,7 +45,11 @@ const BridgeButton: React.FC<Props> = ({
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
 
-  const { config: sendFromConfig } = usePrepareContractWrite({
+  const {
+    config: sendFromConfig,
+    isSuccess,
+    error,
+  } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "crossChain",
@@ -73,12 +78,38 @@ const BridgeButton: React.FC<Props> = ({
   }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
 
   const onBridge = async () => {
-    if (!sendFrom || !account)
+    if (!account) {
+      return alert("Please connect your wallet first.");
+    }
+    if (!sendFrom) {
+      console.log("error", error?.message);
+      if (
+        error?.message.includes(
+          "LzApp: destination chain is not a trusted source"
+        )
+      ) {
+        return alert(
+          "It looks like the bridge between these chains are closed."
+        );
+      }
+
+      if (
+        error?.message.includes("Execution reverted for an unknown reason.")
+      ) {
+        return alert(
+          "It looks like the bridge between these chains are not supported by LayerZero."
+        );
+      }
       return alert(
         "Make sure you have enough gas and you're on the correct network."
       );
+    }
+    if (!isSuccess) {
+      return alert("An unknown error occured.");
+    }
     if (tokenIds.length === 0) return alert("No tokenIds");
     try {
+      setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
@@ -118,18 +149,36 @@ const BridgeButton: React.FC<Props> = ({
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <button
       onClick={onBridge}
-      disabled={!inputTokenId}
+      disabled={!inputTokenId || loading}
       className={
-        "bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 transition-all disabled:bg-red-500/20"
+        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
+      {loading && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-4 h-4 animate-spin"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+        </svg>
+      )}
     </button>
   );
 };
