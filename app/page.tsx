@@ -470,6 +470,7 @@ export default function Home({
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
+  const [turboBridge, setTurboBridge] = useState(false);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -741,7 +742,7 @@ export default function Home({
           </div>
           <div
             className={
-              "h-full w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
+              "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
             }
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
@@ -788,10 +789,262 @@ export default function Home({
                 </Tab>
               </Tab.List>
             </Tab.Group>
-            {tabIndex == 1 ? (
+            {tabIndex == 1 ?
+              
+              turboBridge ?
+
+                <div
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                >
+                  <div className="flex justify-end">
+                  <button 
+                    className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300" 
+                    onClick={() => {setTurboBridge(false)}}>Bridge</button>
+                  </div>
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
+                    <h1 className={"text-2xl font-semibold text-center"}>
+                      {" "}
+                      {mintCounter} / 50.000
+                    </h1>
+                  </div>
+                  <div
+                    className={
+                      "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8"
+                    }
+                  >
+                    <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                      <div className="relative w-full sm:w-[36%]">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={`/chains/${sourceChain.image}`}
+                              alt={targetChain.name}
+                              width={25}
+                              height={25}
+                              className="rounded-full"
+                            />
+                            <span className="block truncate text-base text-xl font-medium">
+                              {sourceChain.name}
+                            </span>
+                          </div>
+
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {networks.map((network, i) => (
+                              <Listbox.Option
+                                key={i}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                  }`
+                                }
+                                value={network}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex items-center gap-2">
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                        <FontAwesomeIcon icon={faCheck} />
+                                      </span>
+                                    ) : null}
+                                    <Image
+                                      src={`/chains/${network.image}`}
+                                      alt={network.name}
+                                      width={25}
+                                      height={25}
+                                      className="rounded-full"
+                                    />
+                                    <span className="block truncate text-base text-xl">
+                                      {network.name}
+                                    </span>
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+                    <svg
+                      width="58"
+                      height="45"
+                      viewBox="0 0 48 35"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={onArrowClick}
+                      cursor="pointer"
+                    >
+                      <circle
+                        cx="17.4"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="30.6031"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  <div className="flex flex-wrap gap-4 justify-center">
+                    <Listbox value={targetChain} onChange={onChangeTargetChain}>
+                      <div className="relative w-full sm:w-[36%]">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="pointer-events-none flex items-center">
+                              <FontAwesomeIcon icon={faAngleDown} />
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="block truncate text-base text-xl">
+                                {targetChain.name}
+                              </span>
+
+                              <Image
+                                src={`/chains/${targetChain.image}`}
+                                alt={targetChain.name}
+                                width={25}
+                                height={25}
+                                className="rounded-full"
+                              />
+                            </div>
+                          </div>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {networks.map((network, i) => (
+                              <Listbox.Option
+                                key={i}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${active
+                                    ? "bg-white text-black"
+                                    : "text-gray-300"
+                                  }`
+                                }
+                                value={network}
+                                disabled={sourceChain.disabledNetworks?.includes(
+                                  network.chainId
+                                )}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex items-center gap-2">
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                        <FontAwesomeIcon icon={faCheck} />
+                                      </span>
+                                    ) : null}
+                                    <Image
+                                      src={`/chains/${network.image}`}
+                                      alt={network.name}
+                                      width={24}
+                                      height={24}
+                                      className="rounded-full"
+                                    />
+                                    <span className="block truncate text-base text-xl font-medium">
+                                      {network.name}
+                                    </span>
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+                    {networks.map((network, i) => (
+                      <button
+                      className="w-100 cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300"
+                      key={i}
+                      >
+                        {network.name}
+                      </button>
+                    ))
+                    }
+                    </div>
+                  </div>
+
+                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    Claim Tokens
+                  </div>
+                  <div className="flex flex-row justify-between  w-full sm:w-full">
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
+                      placeholder="Amount To Claim"
+                      value={inputTokenId}
+                      onChange={(e) => setInputTokenId(e.target.value)}
+                    />
+
+                    <button
+                      className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
+                      onClick={() => {
+                        setIsMintModalOpen(true);
+                      }}
+                    >
+                      Claim
+                    </button>
+                  </div>
+
+                  <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">DGATE To Bridge</div>
+                    <div className="text-white-700">Balance: 0</div>
+                  </div>
+                  {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                  <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                    {/** In input box create a max option for balance max */}
+
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      placeholder="Amount To Bridge"
+                      value={inputTokenId}
+                      onChange={(e) => setInputTokenId(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                      Max
+                    </button>
+                  </div>
+                  <button
+                    className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
+                    onClick={() => {
+                      setIsMintModalOpen(true);
+                    }}
+                  >
+                    Bridge
+                  </button>
+                </div> 
+              
+              :
+
               <div
-                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[800px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
+                <div className="flex justify-end">
+                <button
+                  className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300" 
+                  onClick={() => {setTurboBridge(true)}}>Hyper Bridge</button>
+                </div>
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
                   <h1 className={"text-2xl font-semibold text-center"}>
@@ -1016,8 +1269,9 @@ export default function Home({
                 >
                   Bridge
                 </button>
-              </div>
-            ) : tabIndex == 2 ? (
+              </div> 
+            
+            : tabIndex == 2 ? (
               <div
                 className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
