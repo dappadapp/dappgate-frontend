@@ -642,6 +642,10 @@ export default function Home({
     setSelectedButtons(prevState => prevState.map((selected, i) => i === index ? !selected : selected));
   };
 
+  const degToRad = (degrees:number) => {
+    return (degrees * Math.PI) / 180;
+  }
+
   return (
     <div
       className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
@@ -818,123 +822,98 @@ export default function Home({
                       "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8"
                     }
                   >
-                    <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                      <div className="relative w-full sm:w-[36%]">
-                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-                          <div className="flex items-center gap-2">
+                    
+                    <div className="relative w-64 h-64 m-auto">
+                      {networks.map((network, i) => {
+                        const angle = (360 / networks.length) * i;
+                        const angleRad = degToRad(angle);
+
+                        const radius = 80;
+                        const circleX = 50 + radius * Math.cos(angleRad) - 12.5;
+                        const circleY = 50 + radius * Math.sin(angleRad) - 12.5;
+
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => handleButtonClick(i)}
+                            className={`absolute transform rounded-full w-16 h-16 flex items-center justify-center ${selectedButtons[i] ? 'bg-red-500' : 'bg-blue-500'}`}
+                            style={{ top: `${circleY}%`, left: `${circleX}%` }}
+                          >
                             <Image
-                              src={`/chains/${sourceChain.image}`}
-                              alt={targetChain.name}
-                              width={25}
-                              height={25}
+                              src={`/chains/${network.image}`}
+                              alt={network.name}
+                              width={40}
+                              height={40}
                               className="rounded-full"
                             />
-                            <span className="block truncate text-base text-xl font-medium">
-                              {sourceChain.name}
-                            </span>
-                          </div>
+                          </button>
+                        );
+                      })}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                          <div className="relative w-full sm:w-[36%]">
+                            <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                              <div className="flex items-center gap-2">
+                                <Image
+                                  src={`/chains/${sourceChain.image}`}
+                                  alt={targetChain.name}
+                                  width={25}
+                                  height={25}
+                                  className="rounded-full"
+                                />
+                                <span className="block truncate text-base text-xl font-medium">
+                                  {sourceChain.name}
+                                </span>
+                              </div>
 
-                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                            <FontAwesomeIcon icon={faAngleDown} />
-                          </span>
-                        </Listbox.Button>
-                        <Transition
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                            {networks.map((network, i) => (
-                              <Listbox.Option
-                                key={i}
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                  }`
-                                }
-                                value={network}
-                              >
-                                {({ selected }) => (
-                                  <div className="flex items-center gap-2">
-                                    {selected ? (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                        <FontAwesomeIcon icon={faCheck} />
-                                      </span>
-                                    ) : null}
-                                    <Image
-                                      src={`/chains/${network.image}`}
-                                      alt={network.name}
-                                      width={25}
-                                      height={25}
-                                      className="rounded-full"
-                                    />
-                                    <span className="block truncate text-base text-xl">
-                                      {network.name}
-                                    </span>
-                                  </div>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </Listbox>
-                    <svg
-                      width="58"
-                      height="45"
-                      viewBox="0 0 48 35"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={onArrowClick}
-                      cursor="pointer"
-                    >
-                      <circle
-                        cx="17.4"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                      <circle
-                        cx="30.6031"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  <div className="flex flex-wrap gap-4 justify-center">
-                    {networks.map((network, i) => (
-                      <div className="relative w-full sm:w-[30%]" key={i}>
-                      <button
-                      className={`flex flex-row w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:bg-white/90 hover:text-black transition-all duration-300
-                      ${selectedButtons[i] ? 'bg-white/30 hover:text-black' : 'bg-white bg-opacity-5'}
-                      `}
-                      key={i}
-                      onClick={() => handleButtonClick(i)}
-                      >
-                        {selectedButtons[i] && (
-                          <div className="absolute top-2 right-2">
-                            <FontAwesomeIcon icon={faCheck}/>
+                              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                                <FontAwesomeIcon icon={faAngleDown} />
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                {networks.map((network, i) => (
+                                  <Listbox.Option
+                                    key={i}
+                                    className={({ active }) =>
+                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                        ? "bg-white text-black"
+                                        : "text-gray-300"
+                                      }`
+                                    }
+                                    value={network}
+                                  >
+                                    {({ selected }) => (
+                                      <div className="flex items-center gap-2">
+                                        {selected ? (
+                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                            <FontAwesomeIcon icon={faCheck} />
+                                          </span>
+                                        ) : null}
+                                        <Image
+                                          src={`/chains/${network.image}`}
+                                          alt={network.name}
+                                          width={25}
+                                          height={25}
+                                          className="rounded-full"
+                                        />
+                                        <span className="block truncate text-base text-xl">
+                                          {network.name}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
                           </div>
-                        )}
-                        <Image
-                          src={`/chains/${network.image}`}
-                          alt={network.name}
-                          width={25}
-                          height={25}
-                          className="rounded-full"
-                        />
-                        <span className="block truncate text-base text-xl ml-4">
-                          {network.name}
-                        </span>
-                        
-                      </button>
+                        </Listbox>
                       </div>
-                    ))
-                    }
                     </div>
                   </div>
 
