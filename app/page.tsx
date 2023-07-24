@@ -797,7 +797,7 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      Gas Refuel {"(OGAS)"}
+                      Gas Refuel 
                     </button>
                   )}
                 </Tab>
@@ -807,6 +807,11 @@ export default function Home({
               <div
                 className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
+
+              <div className="flex flex-row justify-between items-center">
+                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+             
+                </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
@@ -1033,6 +1038,11 @@ export default function Home({
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
               >
+
+              <div className="flex flex-row justify-between items-center">
+                  <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
+             
+                </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8 mb-5"
