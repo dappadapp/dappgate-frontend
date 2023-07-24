@@ -44,6 +44,7 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 import MintModal from "./components/MintModal";
 import FAQModal from "./components/FAQModal";
+import TransferModal from "./components/TransferModal";
 
 const networks: Network[] = [
   {
@@ -468,6 +469,7 @@ export default function Home({
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isMintModalOpen, setIsMintModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
   const [turboBridge, setTurboBridge] = useState(false);
@@ -670,6 +672,14 @@ export default function Home({
         />
       ) : null}
 
+      {isTransferModalOpen ? (
+        <TransferModal
+          onCloseModal={() => {
+            setIsTransferModalOpen(false);
+          }}
+        />
+      ) : null}
+
       {isMintModalOpen ? (
         <MintModal
           onCloseModal={() => {
@@ -742,6 +752,9 @@ export default function Home({
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>
                 History
+              </button>
+              <button onClick={() => setIsTransferModalOpen(true)}>
+                Transfer
               </button>
             </div>
           </div>
