@@ -46,6 +46,7 @@ import MintModal from "./components/MintModal";
 import FAQModal from "./components/FAQModal";
 import OFTClaimButton from "@/components/OFTClaimButton";
 import OFTBridgeButton from "@/components/OFTBridgeButton";
+import OFTRefuelButton from "@/components/OFTRefuelButton";
 
 const networks: Network[] = [
   {
@@ -1216,13 +1217,20 @@ export default function Home({
                     Max
                   </button>
                 </div>
-                <button
-                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
-                  onClick={() => {
-                    setIsMintModalOpen(true);
-                  }}>
-                  Refuel
-                </button>
+        
+                <OFTRefuelButton 
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    gasRefuelAmount={gasRefuelAmount}
+                    estimatedGas={estimatedGas}
+                    tokenIds={tokenIds}
+                    inputTokenId={inputTokenId}
+                    setTokenIds={setTokenIds}
+                    setLayerZeroTxHashes={setLayerZeroTxHashes}
+                    setEstimatedGas={setEstimatedGas}
+                    setInputTokenId={setInputTokenId}
+
+                />
                 <div className="text-sm md:text-base flex flex-col text-gray-500">
                   Disclaimer
                   <span className="text-xs md:text-sm">
