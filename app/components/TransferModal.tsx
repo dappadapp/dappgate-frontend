@@ -1,17 +1,10 @@
-import type {NextPage} from 'next';
-import WidgetType from '@layerzerolabs/stargate-ui';
-import dynamic from 'next/dynamic';
+import StargateWidget from "./StargateWidget";
 
 type Props = {
   onCloseModal: any;
 };
 
-const Widget =
-  dynamic < typeof WidgetType > (() => import('@layerzerolabs/stargate-ui'), {ssr: false});
-
 function TransferModal({ onCloseModal }: Props) {
-  
-
   return (
     <div
       className={
@@ -32,10 +25,8 @@ function TransferModal({ onCloseModal }: Props) {
             X
           </div>
         </div>
-
-        <div className="shadow-lg rounded-lg overflow-hidden mt-5">
-          <Widget themeName='light' />
-        </div>
+        <StargateWidget />
+        <div className="shadow-lg rounded-lg overflow-hidden mt-5"></div>
       </div>
     </div>
   );
