@@ -47,17 +47,14 @@ const OFTRefuelButton: React.FC<Props> = ({
   const [adapterParam, setAdapterParams] = useState("");
   const [gasEstimate, setGasEstimate] = useState(BigInt(0));
 
+
+
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateGasBridgeFee",
     args: [`${targetChain.layerzeroChainId}`,false,adapterParam],
   });
-
-
-  console.log("gasRefuelAmount", gasRefuelAmount);
-
-const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
   useEffect(() => {
     if(gasEstimateDataArray){
@@ -68,12 +65,12 @@ const gasEstimateDataArray = gasEstimateData as Array<bigint>;
       }
 
     }
-  }, [gasEstimateDataArray, gasRefuelAmount]);
+  }, [gasEstimateData, gasRefuelAmount]);
 
 
 
 
-
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
   const {
     config: sendFromConfig,
     isSuccess,
