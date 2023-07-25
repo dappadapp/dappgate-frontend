@@ -600,8 +600,9 @@ export default function Home({
 
   // fill with individual network data
 
-  const [selectedHyperBridges, setSelectedHyperBridges] =
-    useState(hyperBridgeNetworks);
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<
+    Network[] | number
+  >(hyperBridgeNetworks);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -789,8 +790,9 @@ export default function Home({
       prevState.map((selected, i) => (i === index ? !selected : selected))
     );
     setSelectedHyperBridges((prevState) =>
-      prevState.map((selected, i) => (i === index ? selected : selected))
-      
+      (prevState as any as Network[]).map((selected: any, i: any) =>
+        i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected
+      )
     );
   };
 
@@ -953,7 +955,7 @@ export default function Home({
             {tabIndex == 1 ? (
               turboBridge ? (
                 <div
-                  className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
                 >
                   <div className="flex flex-row justify-between items-center">
                     <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
@@ -997,7 +999,7 @@ export default function Home({
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1063,17 +1065,20 @@ export default function Home({
                     </svg>
 
                     <div>
-                      <div className="grid grid-cols-4 gap-2 mt-5">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                         {hyperBridgeNetworks.map((network, i) => {
                           return (
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i)}
-                              className={`flex items-center justify-center p-2 ${
-                                selectedButtons[i]
-                                  ? "bg-blue-500"
-                                  : "bg-red-500"
-                              }`}
+                              className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
+                                !(selectedHyperBridges as Network[]).some(
+                                  (selectedNetwork) =>
+                                    selectedNetwork.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1094,15 +1099,16 @@ export default function Home({
                     Token Amount to bridge per network
                   </div>
                   <div className="flex flex-row  w-full sm:w-full">
-                  <input
-        type="range"
-        min="0"
-        max="20"
-        value={tokenAmountHyperBridge}
-        className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-        onChange={(e) => setTokenAmountHyperBridge(Number(e.target.value))}
-      
-      />
+                    <input
+                      type="range"
+                      min="0"
+                      max="20"
+                      value={tokenAmountHyperBridge}
+                      className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      onChange={(e) =>
+                        setTokenAmountHyperBridge(Number(e.target.value))
+                      }
+                    />
                     <button
                       className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
                       onClick={() => {
@@ -1348,11 +1354,9 @@ export default function Home({
                   </div>
 
                   <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">$DLGATE To Bridge</div>
                     <div className="text-white-700">
-                      $DLGATE To Bridge
-                    </div>
-                    <div className="text-white-700">
-                      Balance: {Number(balanceOfDlgate?.formatted) || 0 }
+                      Balance: {Number(balanceOfDlgate?.formatted) || 0}
                     </div>
                   </div>
                   {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
