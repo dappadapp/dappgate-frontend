@@ -1576,7 +1576,7 @@ export default function Home({
                   <input
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    placeholder="Amount To Bridge"
+                    placeholder={targetChain.symbol + " amount to bridge"}
                     value={gasRefuelAmount}
                     onChange={(e) => setGasRefuelAmount(e.target.value)}
                   />
