@@ -780,6 +780,8 @@ export default function Home({
     setSelectedHyperBridges(prevState => prevState.map((selected, i) => i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected));
   };
 
+  console.log(selectedHyperBridges)
+
   const degToRad = (degrees:number) => {
     return (degrees * Math.PI) / 180;
   }
@@ -1056,7 +1058,7 @@ export default function Home({
                           <button
                             key={i}
                             onClick={() => handleButtonClick(i)}
-                            className={`flex items-center justify-center p-2 ${selectedButtons[i] ? 'bg-red-500' : 'bg-blue-500'}`}
+                            className={`flex items-center justify-center p-2 ${selectedButtons[i] ? 'bg-blue-500' : 'bg-red-500' }`}
                          
                           >
                             <Image
