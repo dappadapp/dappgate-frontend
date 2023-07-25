@@ -596,6 +596,7 @@ export default function Home({
   const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
   const [turboBridge, setTurboBridge] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState(Array(hyperBridgeNetworks.length).fill(false));
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState(Array(hyperBridgeNetworks.length).fill(0));
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -783,6 +784,7 @@ export default function Home({
 
   const handleButtonClick = (index:number) => {
     setSelectedButtons(prevState => prevState.map((selected, i) => i === index ? !selected : selected));
+    setSelectedHyperBridges(prevState => prevState.map((selected, i) => i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected));
   };
 
   const degToRad = (degrees:number) => {
@@ -943,15 +945,12 @@ export default function Home({
                 <div
                   className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
                 >
-
-                  <div className="flex justify-end">
-                  <button 
-                    className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300" 
-                    onClick={() => {setTurboBridge(false)}}>Bridge</button>
-                  </div>
                   <div className="flex flex-row justify-between items-center">
                     <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
-              
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => { setTurboBridge(false) }}>Bridge
+                    </button>
                   </div>
                   <div
                     className={
@@ -1073,12 +1072,8 @@ export default function Home({
                           </button>
                          
                         );
-                      })
-                    
-                      }     </div>
-
-
-               
+                      })}     
+                      </div>
                     </div>
                   </div>
 
@@ -1141,15 +1136,12 @@ export default function Home({
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
-                <div className="flex justify-end">
-                <button
-                  className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300" 
-                  onClick={() => {setTurboBridge(true)}}>Hyper Bridge</button>
-                </div>
-              <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
-             
-                </div>
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => { setTurboBridge(true) }}>Hyper Bridge</button>
+                  </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
