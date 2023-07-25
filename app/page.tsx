@@ -716,7 +716,7 @@ export default function Home({
     }
   };
 
-  console.log("selectedButtons", selectedButtons);
+  console.log("selectedHyperBridges", selectedHyperBridges);
 
   const onChangeTargetChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
@@ -786,10 +786,6 @@ export default function Home({
     setSelectedButtons(prevState => prevState.map((selected, i) => i === index ? !selected : selected));
     setSelectedHyperBridges(prevState => prevState.map((selected, i) => i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected));
   };
-
-  const degToRad = (degrees:number) => {
-    return (degrees * Math.PI) / 180;
-  }
 
   return (
     <div
