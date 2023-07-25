@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import { Listbox, Tab, Transition } from "@headlessui/react";
+import { Listbox, Tab, Transition,Grid } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -426,6 +426,140 @@ const networks: Network[] = [
   },
 ];
 
+// hyper bridge network list: Meter, Tenet, Optimism, Canto, Avalanche, Arbitrum Nova, Binance Smart Chain, Fantom, Polygon ZKEVM, Arbitrum, Polygon
+const hyperBridgeNetworks: Network[] = [
+  {
+    name: "Tenet",
+    chainId: 1559,
+    layerzeroChainId: 173,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    blockConfirmation: 1,
+    colorClass: "bg-[#F2F2F2]",
+    image: "tenet.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "TENET",
+  },
+  {
+    name: "Meter.io",
+    chainId: 82,
+    layerzeroChainId: 176,
+    nftContractAddress: "0x1A21779466dA680f872Eb58a10208b42D6d75508",
+    tokenContractAddress: "0x1A21779466dA680f872Eb58a10208b42D6d75508",
+    blockConfirmation: 1,
+    colorClass: "bg-[#1C2A59]",
+    image: "meter.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "MTRG",
+  },
+  {
+    name: optimism.name,
+    chainId: optimism.id,
+    layerzeroChainId: 111,
+    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    tokenContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    gasRefuelContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FF0420]",
+    image: "optimism.svg",
+    disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "ETH",
+  },
+  {
+    name: canto.name,
+    chainId: canto.id,
+    layerzeroChainId: 159,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    blockConfirmation: 1,
+    colorClass: "bg-[#34EEA4]",
+    image: "canto.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "CANTO",
+  },
+  {
+    name: avalanche.name,
+    chainId: avalanche.id,
+    layerzeroChainId: 106,
+    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    tokenContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    gasRefuelContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E84142]",
+    image: "avalanche.svg",
+    disabledNetworks: [1116],
+    symbol: "AVAX",
+  },
+  {
+    name: "Arbitrum Nova",
+    chainId: 42170,
+    layerzeroChainId: 175,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E37B1E]",
+    image: "arb-nova.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "ETH",
+  },
+  {
+    name: bsc.name,
+    chainId: bsc.id,
+    layerzeroChainId: 102,
+    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    tokenContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    gasRefuelContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E8B30B]",
+    image: "bsc.svg",
+    disabledNetworks: [122, 8217],
+    symbol: "BNB",
+  },
+  {
+    name: fantom.name,
+    chainId: fantom.id,
+    layerzeroChainId: 112,
+    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    tokenContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    gasRefuelContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    blockConfirmation: 1,
+    colorClass: "bg-[#196aff]",
+    image: "fantom.svg",
+    disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "FTM",
+  },
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    gasRefuelContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    blockConfirmation: 1,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    disabledNetworks: [122, 1116, 8217],
+    symbol: "ETH",
+  },
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 109,
+    nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
+    tokenContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
+    gasRefuelContractAddress: "0xa184998eC58dc1dA77a1F9f1e361541257A50CF4",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg",
+    logIndex: 2,
+    disabledNetworks: [8217],
+    symbol: "MATIC",
+  },
+
+];
+
+
 const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
 });
@@ -471,7 +605,7 @@ export default function Home({
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
   const [turboBridge, setTurboBridge] = useState(false);
-  const [selectedButtons, setSelectedButtons] = useState(Array(networks.length).fill(false));
+  const [selectedButtons, setSelectedButtons] = useState(Array(hyperBridgeNetworks.length).fill(false));
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -579,6 +713,8 @@ export default function Home({
       }
     }
   };
+
+  console.log("selectedButtons", selectedButtons);
 
   const onChangeTargetChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
@@ -812,44 +948,15 @@ export default function Home({
                   </div>
                   <div className="flex flex-row justify-between items-center">
                     <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
-                    <h1 className={"text-2xl font-semibold text-center"}>
-                      {" "}
-                      {mintCounter} / 50.000
-                    </h1>
+              
                   </div>
                   <div
                     className={
-                      "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8"
+                      "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                     }
                   >
-                    
-                    <div className="relative w-64 h-64 m-auto">
-                      {networks.map((network, i) => {
-                        const angle = (360 / networks.length) * i;
-                        const angleRad = degToRad(angle);
 
-                        const radius = 80;
-                        const circleX = 50 + radius * Math.cos(angleRad) - 12.5;
-                        const circleY = 50 + radius * Math.sin(angleRad) - 12.5;
-
-                        return (
-                          <button
-                            key={i}
-                            onClick={() => handleButtonClick(i)}
-                            className={`absolute transform rounded-full w-16 h-16 flex items-center justify-center ${selectedButtons[i] ? 'bg-red-500' : 'bg-blue-500'}`}
-                            style={{ top: `${circleY}%`, left: `${circleX}%` }}
-                          >
-                            <Image
-                              src={`/chains/${network.image}`}
-                              alt={network.name}
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                          </button>
-                        );
-                      })}
-                      <div className="absolute inset-0 flex items-center justify-center">
+                
                         <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                           <div className="relative w-full sm:w-[36%]">
                             <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
@@ -913,7 +1020,62 @@ export default function Home({
                             </Transition>
                           </div>
                         </Listbox>
-                      </div>
+
+                        <svg
+                    width="58"
+                    height="45"
+                    viewBox="0 0 48 35"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={onArrowClick}
+                    cursor="pointer"
+                    className="mt-5"
+                  >
+                    <circle
+                      cx="17.4"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <circle
+                      cx="30.6031"
+                      cy="17.4"
+                      r="16.4"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                        </svg>
+                    
+                        <div>
+                        <div className="grid grid-cols-4 gap-2 mt-5">
+                      {hyperBridgeNetworks.map((network, i) => {
+                    
+                        return (
+                         
+                          <button
+                            key={i}
+                            onClick={() => handleButtonClick(i)}
+                            className={`flex items-center justify-center p-2 ${selectedButtons[i] ? 'bg-red-500' : 'bg-blue-500'}`}
+                         
+                          >
+                            <Image
+                              src={`/chains/${network.image}`}
+                              alt={network.name}
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                            <h2 className="p-2">{network.name}</h2>
+                          </button>
+                         
+                        );
+                      })
+                    
+                      }     </div>
+
+
+               
                     </div>
                   </div>
 
