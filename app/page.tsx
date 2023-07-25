@@ -789,9 +789,8 @@ export default function Home({
       prevState.map((selected, i) => (i === index ? !selected : selected))
     );
     setSelectedHyperBridges((prevState) =>
-      prevState.map((selected, i) =>
-        i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected
-      )
+      prevState.map((selected, i) => (i === index ? selected : selected))
+      
     );
   };
 
