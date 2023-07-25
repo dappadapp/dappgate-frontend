@@ -155,6 +155,7 @@ const gasEstimateDataArray = gasEstimateData as Array<bigint>;
           tokenId: tokenIds,
           walletAddress: account,
           ref: "",
+          type: "oft",
         });
       };
       postBridgeHistory();

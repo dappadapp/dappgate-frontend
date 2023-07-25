@@ -142,6 +142,7 @@ const BridgeButton: React.FC<Props> = ({
           tokenId: tokenIds,
           walletAddress: account,
           ref: "",
+          type: "onft",
         });
       };
       postBridgeHistory();
