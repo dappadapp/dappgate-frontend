@@ -438,6 +438,7 @@ const networks: Network[] = [
   },
 ];
 
+
 // hyper bridge network list: Meter, Tenet, Optimism, Canto, Avalanche, Arbitrum Nova, Binance Smart Chain, Fantom, Polygon ZKEVM, Arbitrum, Polygon
 const hyperBridgeNetworks: Network[] = [
   {
@@ -991,10 +992,10 @@ export default function Home({
             {tabIndex == 1 ? (
               oftHyperBridge ? (
                 <div
-                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-                >
-                  <div className="flex flex-row justify-between items-center">
-                    <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+              >
+                <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
                     <button
                       className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
                       onClick={() => {
@@ -1196,7 +1197,7 @@ export default function Home({
                         setOFTHyperBridge(true);
                       }}
                     >
-                      Hyper Bridge
+                     OFT Hyper Bridge
                     </button>
                   </div>
                   <div
@@ -1654,13 +1655,13 @@ export default function Home({
             ) :(
               onftHyperBridge ? (
                 <div
-                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-                >
-                  <div className="flex flex-row justify-between items-center">
-                    <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+              >
+                <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>NFT Bridge</h1>
                     <button
                       className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
-                      onClick={() => {
+                       onClick={() => {
                         setONFTHyperBridge(false);
                       }}
                     >
@@ -1802,7 +1803,7 @@ export default function Home({
                   </div>
 
                   <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                    Token Amount to bridge per network
+                    Token Amount to bridge per network nft
                   </div>
                   <div className="flex flex-row  w-full sm:w-full">
                     <input
@@ -1858,7 +1859,7 @@ export default function Home({
                         setONFTHyperBridge(true);
                       }}
                     >
-                      Hyper Bridge
+                      NFT Hyper Bridge
                     </button>
                   </div>
                 <div
