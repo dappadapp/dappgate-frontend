@@ -47,6 +47,7 @@ import FAQModal from "./components/FAQModal";
 import OFTClaimButton from "@/components/OFTClaimButton";
 import OFTBridgeButton from "@/components/OFTBridgeButton";
 import OFTRefuelButton from "@/components/OFTRefuelButton";
+import ListboxMenu from "./components/ListboxMenu";
 
 const networks: Network[] = [
   {
@@ -1008,6 +1009,13 @@ export default function Home({
                       "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                     }
                   >
+                    <ListboxMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
                     <Listbox value={sourceChain} onChange={onChangeSourceChain}>
                       <div className="relative w-full sm:w-[36%]">
                         <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
