@@ -1638,7 +1638,7 @@ export default function Home({
                   setEstimatedGas={setEstimatedGas}
                   setInputTokenId={setInputTokenId}
                 />
-                <div className="text-sm md:text-base flex flex-col text-gray-500">
+                <div className="mt-2 text-sm md:text-base flex flex-col text-gray-500">
                   Disclaimer
                   <span className="text-xs md:text-sm">
                     The token bridge is a service that allows users to transfer
