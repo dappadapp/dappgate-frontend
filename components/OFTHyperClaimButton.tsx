@@ -23,6 +23,7 @@ type Props = {
   refCode?: string;
   logIndex?: number;
   tokenAmountHyperBridge: number;
+  selectedHyperBridges: any;
 
 };
 
@@ -34,6 +35,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   refCode,
   logIndex,
   tokenAmountHyperBridge,
+  selectedHyperBridges
 
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
@@ -49,12 +51,13 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     functionName: "fee",
   });
 
+
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000") * BigInt(tokenAmountHyperBridge),
-    args: [account,tokenAmountHyperBridge],
+    value: BigInt((costData as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges?.length),
+    args: [account,tokenAmountHyperBridge * selectedHyperBridges?.length],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 

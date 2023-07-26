@@ -76,7 +76,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       account,
       targetChain.layerzeroChainId,
       account,
-      1000000000000000000,
+      1 * 10 ** 18,
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",
