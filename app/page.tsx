@@ -829,9 +829,11 @@ export default function Home({
     );
   };
 
-  const degToRad = (degrees: number) => {
-    return (degrees * Math.PI) / 180;
-  };
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredNetworks = networks.filter(network =>
+    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div
@@ -1033,7 +1035,14 @@ export default function Home({
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                            {networks.map((network, i) => (
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                          placeholder="Search"
+                        />
+                            {filteredNetworks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
@@ -1230,6 +1239,13 @@ export default function Home({
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                placeholder="Search"
+                              />
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1321,6 +1337,13 @@ export default function Home({
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                placeholder="Search"
+                              />
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1464,6 +1487,13 @@ export default function Home({
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            <input
+                              type="text"
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                              placeholder="Search"
+                            />
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1555,6 +1585,13 @@ export default function Home({
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            <input
+                              type="text"
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                              placeholder="Search"
+                            />
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1693,6 +1730,13 @@ export default function Home({
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                placeholder="Search"
+                              />
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1784,6 +1828,13 @@ export default function Home({
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                placeholder="Search"
+                              />
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
