@@ -47,6 +47,8 @@ import FAQModal from "./components/FAQModal";
 import OFTClaimButton from "@/components/OFTClaimButton";
 import OFTBridgeButton from "@/components/OFTBridgeButton";
 import OFTRefuelButton from "@/components/OFTRefuelButton";
+import OFTHyperClaimButton from "@/components/OFTHyperClaimButton";
+import OFTHyperBridgeButton from "@/components/OFTHyperBridgeButton";
 
 const networks: Network[] = [
   {
@@ -1142,51 +1144,41 @@ export default function Home({
                         setTokenAmountHyperBridge(Number(e.target.value))
                       }
                     />
-                    <button
-                      className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
-                      onClick={() => {
-                        setIsMintModalOpen(true);
-                      }}
-                    >
-                      Claim {tokenAmountHyperBridge}
-                    </button>
+
+                    <OFTHyperClaimButton
+                      sourceChain={sourceChain}
+                      targetChain={targetChain}
+                      setInputTokenId={setInputTokenId}
+                      setTokenIds={setTokenIds}
+                      refCode={refCode}
+                      logIndex={sourceChain.logIndex}
+                      tokenAmountHyperBridge={tokenAmountHyperBridge}
+                    />
+                    
+
                   </div>
 
                   <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                     <div className="text-white-700">DGATE To Bridge</div>
-                    <div className="text-white-700">Balance: 0</div>
                   </div>
-                  {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
-                  <div className="relative flex flex-row justify-between  w-full sm:w-full">
-                    {/** In input box create a max option for balance max */}
 
-                    <input
-                      type="text"
-                      className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                      placeholder="Amount To Bridge"
-                      value={inputTokenId}
-                      onChange={(e) => setInputTokenId(e.target.value)}
-                    />
-                    <button
-                      type="button"
-                      className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
-                    >
-                      Max
-                    </button>
-                  </div>
-                  <button
-                    className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
-                    onClick={() => {
-                      setIsMintModalOpen(true);
-                    }}
-                  >
-                    Bridge
-                  </button>
+                  <OFTHyperBridgeButton 
+                     sourceChain={sourceChain}
+                     targetChain={targetChain}
+                     inputTokenId={inputTokenId}
+                     setInputTokenId={setInputTokenId}
+                     tokenIds={tokenIds}
+                     setTokenIds={setTokenIds}
+                     setLayerZeroTxHashes={setLayerZeroTxHashes}
+                     setEstimatedGas={setEstimatedGas}
+                    tokenAmountHyperBridge={tokenAmountHyperBridge}
+                    selectedHyperBridges={selectedHyperBridges}
+                  />
                 </div>
               ) : (
                 <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-              >
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                >
                   <div className="flex flex-row justify-between items-center">
                     <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
                     <button
