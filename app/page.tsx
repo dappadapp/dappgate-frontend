@@ -1802,32 +1802,8 @@ export default function Home({
                     </div>
                   </div>
 
-                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                    Token Amount to bridge per network nft
-                  </div>
-                  <div className="flex flex-row  w-full sm:w-full">
-                    <input
-                      type="range"
-                      min="0"
-                      max="20"
-                      value={tokenAmountHyperBridge}
-                      className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                      onChange={(e) =>
-                        setTokenAmountHyperBridge(Number(e.target.value))
-                      }
-                    />
-
-                    <OFTHyperClaimButton
-                      sourceChain={sourceChain}
-                      targetChain={targetChain}
-                      setInputTokenId={setInputTokenId}
-                      setTokenIds={setTokenIds}
-                      refCode={refCode}
-                      logIndex={sourceChain.logIndex}
-                      tokenAmountHyperBridge={tokenAmountHyperBridge}
-                      selectedHyperBridges={selectedHyperBridges}
-                    />
-                  </div>
+              
+                 
 
                   <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                     <div className="text-white-700">DGATE To Bridge</div>
