@@ -1032,7 +1032,7 @@ export default function Home({
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1040,7 +1040,7 @@ export default function Home({
                                   `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                     active
                                       ? "bg-white text-black"
-                                      : "text-gray-300"
+                                      : "text-white"
                                   }`
                                 }
                                 value={network}
@@ -1059,7 +1059,7 @@ export default function Home({
                                       height={25}
                                       className="rounded-full"
                                     />
-                                    <span className="block truncate text-base text-xl">
+                                    <span className="block truncate text-lg">
                                       {network.name}
                                     </span>
                                   </div>
@@ -1229,7 +1229,7 @@ export default function Home({
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1237,7 +1237,7 @@ export default function Home({
                                   `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                     active
                                       ? "bg-white text-black"
-                                      : "text-gray-300"
+                                      : "text-white"
                                   }`
                                 }
                                 value={network}
@@ -1256,7 +1256,7 @@ export default function Home({
                                       height={25}
                                       className="rounded-full"
                                     />
-                                    <span className="block truncate text-base text-xl">
+                                    <span className="block truncate text-lg">
                                       {network.name}
                                     </span>
                                   </div>
@@ -1320,7 +1320,7 @@ export default function Home({
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {networks.map((network, i) => (
                               <Listbox.Option
                                 key={i}
@@ -1328,7 +1328,7 @@ export default function Home({
                                   `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                     active
                                       ? "bg-white text-black"
-                                      : "text-gray-300"
+                                      : "text-white"
                                   }`
                                 }
                                 value={network}
@@ -1350,7 +1350,7 @@ export default function Home({
                                       height={24}
                                       className="rounded-full"
                                     />
-                                    <span className="block truncate text-base text-xl font-medium">
+                                    <span className="block truncate text-lg">
                                       {network.name}
                                     </span>
                                   </div>
@@ -1463,7 +1463,7 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1471,7 +1471,7 @@ export default function Home({
                                 `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                   active
                                     ? "bg-white text-black"
-                                    : "text-gray-300"
+                                    : "text-white"
                                 }`
                               }
                               value={network}
@@ -1490,7 +1490,7 @@ export default function Home({
                                     height={25}
                                     className="rounded-full"
                                   />
-                                  <span className="block truncate text-base text-xl">
+                                  <span className="block truncate text-lg">
                                     {network.name}
                                   </span>
                                 </div>
@@ -1554,7 +1554,7 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md z-10 bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1562,7 +1562,7 @@ export default function Home({
                                 `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                   active
                                     ? "bg-white text-black"
-                                    : "text-gray-300"
+                                    : "text-white"
                                 }`
                               }
                               value={network}
@@ -1584,7 +1584,7 @@ export default function Home({
                                     height={24}
                                     className="rounded-full"
                                   />
-                                  <span className="block truncate text-base text-xl font-medium">
+                                  <span className="block truncate text-lg">
                                     {network.name}
                                   </span>
                                 </div>
@@ -1692,7 +1692,7 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1700,7 +1700,7 @@ export default function Home({
                                 `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                   active
                                     ? "bg-white text-black"
-                                    : "text-gray-300"
+                                    : "text-white"
                                 }`
                               }
                               value={network}
@@ -1719,7 +1719,7 @@ export default function Home({
                                     height={24}
                                     className="rounded-full"
                                   />
-                                  <span className="block truncate text-base text-xl">
+                                  <span className="block truncate text-lg">
                                     {network.name}
                                   </span>
                                 </div>
@@ -1783,7 +1783,7 @@ export default function Home({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                           {networks.map((network, i) => (
                             <Listbox.Option
                               key={i}
@@ -1791,7 +1791,7 @@ export default function Home({
                                 `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                   active
                                     ? "bg-white text-black"
-                                    : "text-gray-300"
+                                    : "text-white"
                                 }`
                               }
                               value={network}
@@ -1813,7 +1813,7 @@ export default function Home({
                                     height={24}
                                     className="rounded-full"
                                   />
-                                  <span className="block truncate">
+                                  <span className="block truncate text-lg">
                                     {network.name}
                                   </span>
                                 </div>
