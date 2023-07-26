@@ -35,7 +35,6 @@ const OFTBridgeButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
   dlgateBridgeAmount,
-
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -46,12 +45,16 @@ const OFTBridgeButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
-    args: [`${targetChain.layerzeroChainId}`,account, "1000000000000000000",false,"0x"],
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      account,
+      "1000000000000000000",
+      false,
+      "0x",
+    ],
   });
 
-
-const gasEstimateDataArray = gasEstimateData as Array<bigint>;
-
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
   const {
     config: sendFromConfig,
@@ -62,8 +65,9 @@ const gasEstimateDataArray = gasEstimateData as Array<bigint>;
     abi: OFTBridge,
     functionName: "sendFrom",
     value:
-      BigInt(gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452") +
-      BigInt("10000000000000"),
+      BigInt(
+        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+      ) + BigInt("10000000000000"),
     args: [
       account,
       targetChain.layerzeroChainId,
@@ -83,12 +87,17 @@ const gasEstimateDataArray = gasEstimateData as Array<bigint>;
       setEstimatedGas(
         `${
           Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) / BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateDataArray, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [
+    gasEstimateDataArray,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
