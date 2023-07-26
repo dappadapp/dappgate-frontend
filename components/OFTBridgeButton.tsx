@@ -182,11 +182,11 @@ const OFTBridgeButton: React.FC<Props> = ({
       onClick={onBridge}
       disabled={!dlgateBridgeAmount || loading}
       className={
-        "rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        " bg-blue-600 py-3 px-4 flex items-center text-xl mt-4 w-1/3 self-center justify-center text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg  relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
-      {loading && (
+      {true && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
