@@ -1152,8 +1152,8 @@ export default function Home({
                 </div>
               ) : (
                 <div
-                  className={`w-full max-w-[800px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-                >
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+              >
                   <div className="flex flex-row justify-between items-center">
                     <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
                     <button
