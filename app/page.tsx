@@ -1019,77 +1019,7 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-                    <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                      <div className="relative w-full sm:w-[36%]">
-                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={`/chains/${sourceChain.image}`}
-                              alt={targetChain.name}
-                              width={25}
-                              height={25}
-                              className="rounded-full"
-                            />
-                            <span className="block truncate text-base text-xl font-medium">
-                              {sourceChain.name}
-                            </span>
-                          </div>
-
-                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                            <FontAwesomeIcon icon={faAngleDown} />
-                          </span>
-                        </Listbox.Button>
-                        <Transition
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-gray-400 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                        <input
-                          type="text"
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
-                          placeholder="Search"
-                        />
-                            {filteredNetworks.map((network, i) => (
-                              <Listbox.Option
-                                key={i}
-                                className={({ active }) =>
-                                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-white text-black"
-                                      : "text-white"
-                                  }`
-                                }
-                                value={network}
-                              >
-                                {({ selected }) => (
-                                  <div className="flex items-center gap-2">
-                                    {selected ? (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                        <FontAwesomeIcon icon={faCheck} />
-                                      </span>
-                                    ) : null}
-                                    <Image
-                                      src={`/chains/${network.image}`}
-                                      alt={network.name}
-                                      width={25}
-                                      height={25}
-                                      className="rounded-full"
-                                    />
-                                    <span className="block truncate text-lg">
-                                      {network.name}
-                                    </span>
-                                  </div>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </Listbox>
+          
 
                     <svg
                       width="58"
@@ -1250,7 +1180,7 @@ export default function Home({
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                className="mt-2 mb-2 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
                                 placeholder="Search"
                               />
                             {networks.map((network, i) => (
@@ -1348,7 +1278,7 @@ export default function Home({
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                className="mt-2 mb-2 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
                                 placeholder="Search"
                               />
                             {networks.map((network, i) => (
@@ -1710,70 +1640,14 @@ export default function Home({
                     "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                   }
                 >
-                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-full sm:w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-                        <div className="flex items-center gap-2">
-                          <Image
-                            src={`/chains/${sourceChain.image}`}
-                            alt={targetChain.name}
-                            width={25}
-                            height={25}
-                            className="rounded-full"
-                          />
-                          <span className="block truncate text-base text-xl font-medium">
-                            {sourceChain.name}
-                          </span>
-                        </div>
-
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                          <FontAwesomeIcon icon={faAngleDown} />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((network, i) => (
-                            <Listbox.Option
-                              key={i}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                }`
-                              }
-                              value={network}
-                            >
-                              {({ selected }) => (
-                                <div className="flex items-center gap-2">
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                      <FontAwesomeIcon icon={faCheck} />
-                                    </span>
-                                  ) : null}
-                                  <Image
-                                    src={`/chains/${network.image}`}
-                                    alt={network.name}
-                                    width={25}
-                                    height={25}
-                                    className="rounded-full"
-                                  />
-                                  <span className="block truncate text-base text-xl">
-                                    {network.name}
-                                  </span>
-                                </div>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                    <ListboxMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+          
 
                   <svg
                     width="58"
@@ -1906,7 +1780,7 @@ export default function Home({
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                className="mt-2 mb-2 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
                                 placeholder="Search"
                               />
                           {networks.map((network, i) => (
@@ -2002,7 +1876,7 @@ export default function Home({
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="mt-1 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
+                                className="mt-2 mb-2 mx-4 w-5/6 px-3 py-2 rounded-md bg-gray-700"
                                 placeholder="Search"
                               />
                           {networks.map((network, i) => (
