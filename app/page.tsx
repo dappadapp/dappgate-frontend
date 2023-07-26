@@ -44,6 +44,9 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 import MintModal from "./components/MintModal";
 import FAQModal from "./components/FAQModal";
+import OFTClaimButton from "@/components/OFTClaimButton";
+import OFTBridgeButton from "@/components/OFTBridgeButton";
+import OFTRefuelButton from "@/components/OFTRefuelButton";
 
 const networks: Network[] = [
   {
@@ -51,8 +54,7 @@ const networks: Network[] = [
     chainId: goerli.id,
     layerzeroChainId: 10121,
     nftContractAddress: "0x3BC0D972ed2cC430D1a2d3dBe9bAE8CF18eF58aa",
-    tokenContractAddress: "0xE41Fe1bE796863372e1595837040838506eA42E7",
-    gasRefuelContractAddress: "0x3BC0D972ed2cC430D1a2d3dBe9bAE8CF18eF58aa",
+    tokenContractAddress: "0x86D29f91CA34A02b63128845a36c8484543133EB",
     blockConfirmation: 2,
     colorClass: "bg-[#373737]",
     image: "ethereum.svg",
@@ -88,8 +90,7 @@ const networks: Network[] = [
     chainId: bsc.id,
     layerzeroChainId: 102,
     nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
-    tokenContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
-    gasRefuelContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    tokenContractAddress: "0xdea2895F965BD71EC0899ba0B20581f2FcC40A3C",
     blockConfirmation: 1,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
@@ -101,8 +102,7 @@ const networks: Network[] = [
     chainId: avalanche.id,
     layerzeroChainId: 106,
     nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
-    tokenContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
-    gasRefuelContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    tokenContractAddress: "0x6c4495b2eD95Ad3A2050aad60D410fA9782F08cA",
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
@@ -122,8 +122,7 @@ const networks: Network[] = [
     chainId: polygon.id,
     layerzeroChainId: 109,
     nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
-    tokenContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
-    gasRefuelContractAddress: "0xa184998eC58dc1dA77a1F9f1e361541257A50CF4",
+    tokenContractAddress: "0x9e01792EbE32909AA9B569bA542A932BFb3D4031",
     blockConfirmation: 1,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
@@ -136,8 +135,7 @@ const networks: Network[] = [
     chainId: arbitrum.id,
     layerzeroChainId: 110,
     nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    tokenContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    gasRefuelContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0xA6964d554f5A3a1DD2f8a2bab9853Bdb883eFA32",
     blockConfirmation: 1,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
@@ -149,8 +147,7 @@ const networks: Network[] = [
     chainId: optimism.id,
     layerzeroChainId: 111,
     nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
-    tokenContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
-    gasRefuelContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    tokenContractAddress: "0xFC340113B34056669924da8c6a22f3D9b78A3bCa",
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
@@ -162,8 +159,7 @@ const networks: Network[] = [
     chainId: fantom.id,
     layerzeroChainId: 112,
     nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
-    tokenContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
-    gasRefuelContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    tokenContractAddress: "0x6B0B71E1786345818f79921522baC1fb546cc09d",
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
@@ -184,8 +180,7 @@ const networks: Network[] = [
     chainId: harmonyOne.id,
     layerzeroChainId: 116,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x3acE23E0EA29790855e55Bfb81da3B85D49469D5",
     blockConfirmation: 1,
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
@@ -218,8 +213,7 @@ const networks: Network[] = [
     chainId: moonbeam.id,
     layerzeroChainId: 126,
     nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    tokenContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    gasRefuelContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0x9d3d5f9B419544e137443119aced184E50561FDA",
     blockConfirmation: 1,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
@@ -234,8 +228,7 @@ const networks: Network[] = [
     chainId: 122,
     layerzeroChainId: 138,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xBddc99fCFc76c3433F448F15B327b46eC7A6CC4d",
     blockConfirmation: 1,
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
@@ -250,8 +243,7 @@ const networks: Network[] = [
     chainId: gnosis.id,
     layerzeroChainId: 145,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x74f57E1171a0360670AED3b3DbC3a997Fb493d16",
     blockConfirmation: 1,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
@@ -279,8 +271,7 @@ const networks: Network[] = [
     chainId: metis.id,
     layerzeroChainId: 151,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
@@ -292,8 +283,7 @@ const networks: Network[] = [
     chainId: 1116,
     layerzeroChainId: 153,
     nftContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
-    tokenContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
-    gasRefuelContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
+    tokenContractAddress: "0xBddc99fCFc76c3433F448F15B327b46eC7A6CC4d",
     blockConfirmation: 1,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
@@ -308,8 +298,7 @@ const networks: Network[] = [
     chainId: 66,
     layerzeroChainId: 155,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xC86Bb3231B641064459295ecC861db7CFe4a73DD",
     blockConfirmation: 1,
     colorClass: "bg-[#000000]",
     image: "okex.svg",
@@ -324,8 +313,7 @@ const networks: Network[] = [
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xDDF5882761b35B6B29CBe177E7Ff874AE367465e",
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
     image: "polygon-zkevm.svg",
@@ -352,7 +340,7 @@ const networks: Network[] = [
     chainId: zkSync.id,
     layerzeroChainId: 165,
     nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
-    tokenContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
+    tokenContractAddress: "0x2eB64561cAC289D3d165e1F3B8ddC6A2DFDb901D",
     blockConfirmation: 1,
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
@@ -365,7 +353,7 @@ const networks: Network[] = [
     chainId: moonriver.id,
     layerzeroChainId: 167,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x74f57E1171a0360670AED3b3DbC3a997Fb493d16",
     blockConfirmation: 1,
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
@@ -379,7 +367,7 @@ const networks: Network[] = [
     chainId: 1559,
     layerzeroChainId: 173,
     nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0xA0798bD2a38debCd2A41c4dCf42D92450E781611",
     blockConfirmation: 1,
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
@@ -391,12 +379,54 @@ const networks: Network[] = [
     chainId: 42170,
     layerzeroChainId: 175,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x818529140C65Ad9152bcE5d87fF42632820CEBFB",
     blockConfirmation: 1,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
     disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "ETH",
+  },
+  {
+    name: "Meter.io",
+    chainId: 82,
+    layerzeroChainId: 176,
+    nftContractAddress: "0x1A21779466dA680f872Eb58a10208b42D6d75508",
+    tokenContractAddress: "0xF80d846B80CEdF4d09A04D62290bE41154beEEAc",
+    blockConfirmation: 1,
+    colorClass: "bg-[#1C2A59]",
+    image: "meter.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "MTRG",
+  },
+  {
+    name: "Kava",
+    chainId: 2222,
+    layerzeroChainId: 177,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    blockConfirmation: 1,
+    colorClass: "bg-[#F2524B]",
+    image: "kava.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
+    ],
+    symbol: "KAVA",
+  },
+];
+
+// hyper bridge network list: Meter, Tenet, Optimism, Canto, Avalanche, Arbitrum Nova, Binance Smart Chain, Fantom, Polygon ZKEVM, Arbitrum, Polygon
+const hyperBridgeNetworks: Network[] = [
+  {
+    name: "Tenet",
+    chainId: 1559,
+    layerzeroChainId: 173,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    blockConfirmation: 1,
+    colorClass: "bg-[#F2F2F2]",
+    image: "tenet.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "TENET",
   },
   {
     name: "Meter.io",
@@ -411,18 +441,108 @@ const networks: Network[] = [
     symbol: "MTRG",
   },
   {
-    name: "Kava",
-    chainId: 2222,
-    layerzeroChainId: 177,
+    name: optimism.name,
+    chainId: optimism.id,
+    layerzeroChainId: 111,
+    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    tokenContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    gasRefuelContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FF0420]",
+    image: "optimism.svg",
+    disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "ETH",
+  },
+  {
+    name: canto.name,
+    chainId: canto.id,
+    layerzeroChainId: 159,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    blockConfirmation: 1,
+    colorClass: "bg-[#34EEA4]",
+    image: "canto.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "CANTO",
+  },
+  {
+    name: avalanche.name,
+    chainId: avalanche.id,
+    layerzeroChainId: 106,
+    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    tokenContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    gasRefuelContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E84142]",
+    image: "avalanche.svg",
+    disabledNetworks: [1116],
+    symbol: "AVAX",
+  },
+  {
+    name: "Arbitrum Nova",
+    chainId: 42170,
+    layerzeroChainId: 175,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     blockConfirmation: 1,
-    colorClass: "bg-[#F2524B]",
-    image: "kava.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
-    ],
-    symbol: "KAVA",
+    colorClass: "bg-[#E37B1E]",
+    image: "arb-nova.svg",
+    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    symbol: "ETH",
+  },
+  {
+    name: bsc.name,
+    chainId: bsc.id,
+    layerzeroChainId: 102,
+    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    tokenContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    gasRefuelContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E8B30B]",
+    image: "bsc.svg",
+    disabledNetworks: [122, 8217],
+    symbol: "BNB",
+  },
+  {
+    name: fantom.name,
+    chainId: fantom.id,
+    layerzeroChainId: 112,
+    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    tokenContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    gasRefuelContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    blockConfirmation: 1,
+    colorClass: "bg-[#196aff]",
+    image: "fantom.svg",
+    disabledNetworks: [66, 122, 1116, 8217],
+    symbol: "FTM",
+  },
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    gasRefuelContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    blockConfirmation: 1,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    disabledNetworks: [122, 1116, 8217],
+    symbol: "ETH",
+  },
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 109,
+    nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
+    tokenContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
+    gasRefuelContractAddress: "0xa184998eC58dc1dA77a1F9f1e361541257A50CF4",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg",
+    logIndex: 2,
+    disabledNetworks: [8217],
+    symbol: "MATIC",
   },
 ];
 
@@ -459,6 +579,7 @@ export default function Home({
   const [showInput, setShowInput] = useState(false);
   const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
+  const [inputOFTAmount, setInputOFTAmount] = useState("");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
@@ -470,6 +591,18 @@ export default function Home({
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
+  const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
+  const [turboBridge, setTurboBridge] = useState(false);
+  const [selectedButtons, setSelectedButtons] = useState(
+    Array(hyperBridgeNetworks.length).fill(true)
+  );
+  const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
+
+  // fill with individual network data
+
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<
+    Network[] | number
+  >(hyperBridgeNetworks);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -493,10 +626,18 @@ export default function Home({
     chainId: sourceChain.chainId,
   });
 
+  // get balance of user on source chain
+  const { data: balanceOfDlgate } = useBalance({
+    address: account as `0x${string}`,
+    chainId: sourceChain.chainId,
+    token: sourceChain.tokenContractAddress as `0x${string}`,
+  });
+
   // balance useeffect
   useEffect(() => {
     if (!balanceOfData) return;
   }, [account, sourceChain, balanceOfData]);
+  console.log("balanceOfData", balanceOfData);
   useEffect(() => {
     if (!searchParams?.ref) return;
     setRefCode(searchParams?.ref as string);
@@ -578,6 +719,8 @@ export default function Home({
     }
   };
 
+  console.log("selectedHyperBridges", selectedHyperBridges);
+
   const onChangeTargetChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
       (network) => network.name === selectedNetwork.name
@@ -634,6 +777,27 @@ export default function Home({
     if (balanceOfData) {
       setGasRefuelAmount(balanceOfData?.formatted);
     }
+  };
+
+  const handleDlgateMax = () => {
+    if (balanceOfDlgate) {
+      setDlgateBridgeAmount(balanceOfDlgate?.formatted);
+    }
+  };
+
+  const handleButtonClick = (index: number) => {
+    setSelectedButtons((prevState) =>
+      prevState.map((selected, i) => (i === index ? !selected : selected))
+    );
+    setSelectedHyperBridges((prevState) =>
+      (prevState as any as Network[]).map((selected: any, i: any) =>
+        i === index ? (selected ? 0 : hyperBridgeNetworks[i]) : selected
+      )
+    );
+  };
+
+  const degToRad = (degrees: number) => {
+    return (degrees * Math.PI) / 180;
   };
 
   return (
@@ -706,7 +870,7 @@ export default function Home({
                     fill="white"
                   />
                 </svg>
-                <div className="flex flex-col items-end mt-3 ml-2">
+                <div className="hidden sm:flex flex-col items-end mt-3 ml-2">
                   <h1 className={"text-2xl lg:text-4xl font-bold mt-2"}>
                     DappGate
                   </h1>
@@ -715,7 +879,7 @@ export default function Home({
                       "px-3 lg:px-6 py-0.5 lg:py-1 rounded-3xl border-2 border-white text-[10px] lg:text-[12px] transition-all hover:bg-white hover:text-black"
                     }
                   >
-                    Alpha v0.2
+                    Alpha
                   </div>
                 </div>
               </div>
@@ -741,7 +905,7 @@ export default function Home({
           </div>
           <div
             className={
-              "h-full w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
+              "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
             }
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
@@ -749,7 +913,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
                           : "bg-transparent"
@@ -762,7 +926,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base w-full sm:w-auto ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                           : "bg-transparent"
@@ -776,7 +940,7 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg ml-2 text-white text-sm sm:text-base w-full sm:w-auto ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                           : "bg-transparent"
@@ -789,236 +953,445 @@ export default function Home({
               </Tab.List>
             </Tab.Group>
             {tabIndex == 1 ? (
-              <div
-                className={`w-full max-w-[800px] sm:h-[492px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-              >
-                <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
-                  <h1 className={"text-2xl font-semibold text-center"}>
-                    {" "}
-                    {mintCounter} / 50.000
-                  </h1>
-                </div>
+              turboBridge ? (
                 <div
-                  className={
-                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
-                  }
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
                 >
-                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-full sm:w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-                        <div className="flex items-center gap-2">
-                          <Image
-                            src={`/chains/${sourceChain.image}`}
-                            alt={targetChain.name}
-                            width={25}
-                            height={25}
-                            className="rounded-full"
-                          />
-                          <span className="block truncate text-base text-xl font-medium">
-                            {sourceChain.name}
-                          </span>
-                        </div>
-
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                          <FontAwesomeIcon icon={faAngleDown} />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((network, i) => (
-                            <Listbox.Option
-                              key={i}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                }`
-                              }
-                              value={network}
-                            >
-                              {({ selected }) => (
-                                <div className="flex items-center gap-2">
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                      <FontAwesomeIcon icon={faCheck} />
-                                    </span>
-                                  ) : null}
-                                  <Image
-                                    src={`/chains/${network.image}`}
-                                    alt={network.name}
-                                    width={25}
-                                    height={25}
-                                    className="rounded-full"
-                                  />
-                                  <span className="block truncate text-base text-xl">
-                                    {network.name}
-                                  </span>
-                                </div>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={onArrowClick}
-                    cursor="pointer"
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>HyperBridge</h1>
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => {
+                        setTurboBridge(false);
+                      }}
+                    >
+                      Bridge
+                    </button>
+                  </div>
+                  <div
+                    className={
+                      "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
+                    }
                   >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-
-                  <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-full sm:w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="pointer-events-none flex items-center">
-                            <FontAwesomeIcon icon={faAngleDown} />
-                          </span>
+                    <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                      <div className="relative w-full sm:w-[36%]">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
                           <div className="flex items-center gap-2">
-                            <span className="block truncate text-base text-xl">
-                              {targetChain.name}
-                            </span>
-
                             <Image
-                              src={`/chains/${targetChain.image}`}
+                              src={`/chains/${sourceChain.image}`}
                               alt={targetChain.name}
                               width={25}
                               height={25}
                               className="rounded-full"
                             />
+                            <span className="block truncate text-base text-xl font-medium">
+                              {sourceChain.name}
+                            </span>
                           </div>
-                        </div>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((network, i) => (
-                            <Listbox.Option
-                              key={i}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                }`
-                              }
-                              value={network}
-                              disabled={sourceChain.disabledNetworks?.includes(
-                                network.chainId
-                              )}
-                            >
-                              {({ selected }) => (
-                                <div className="flex items-center gap-2">
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                      <FontAwesomeIcon icon={faCheck} />
+
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 z-20  max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {networks.map((network, i) => (
+                              <Listbox.Option
+                                key={i}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-white text-black"
+                                      : "text-gray-300"
+                                  }`
+                                }
+                                value={network}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex items-center gap-2">
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                        <FontAwesomeIcon icon={faCheck} />
+                                      </span>
+                                    ) : null}
+                                    <Image
+                                      src={`/chains/${network.image}`}
+                                      alt={network.name}
+                                      width={25}
+                                      height={25}
+                                      className="rounded-full"
+                                    />
+                                    <span className="block truncate text-base text-xl">
+                                      {network.name}
                                     </span>
-                                  ) : null}
-                                  <Image
-                                    src={`/chains/${network.image}`}
-                                    alt={network.name}
-                                    width={24}
-                                    height={24}
-                                    className="rounded-full"
-                                  />
-                                  <span className="block truncate text-base text-xl font-medium">
-                                    {network.name}
-                                  </span>
-                                </div>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+
+                    <svg
+                      width="58"
+                      height="45"
+                      viewBox="0 0 48 35"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={onArrowClick}
+                      cursor="pointer"
+                      className="mt-5"
+                    >
+                      <circle
+                        cx="17.4"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="30.6031"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                    </svg>
+
+                    <div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
+                        {hyperBridgeNetworks.map((network, i) => {
+                          return (
+                            <button
+                              key={i}
+                              onClick={() => handleButtonClick(i)}
+                              className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
+                                !(selectedHyperBridges as Network[]).some(
+                                  (selectedNetwork) =>
+                                    selectedNetwork.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
+                            >
+                              <Image
+                                src={`/chains/${network.image}`}
+                                alt={network.name}
+                                width={40}
+                                height={40}
+                                className="rounded-full"
+                              />
+                              <h2 className="p-2">{network.name}</h2>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </Listbox>
-                </div>
+                  </div>
 
-                <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  Claim Tokens
-                </div>
-                <div className="flex flex-row justify-between items-center w-full sm:w-full">
-                  <input
-                    type="text"
-                    className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
-                    placeholder="Amount To Claim"
-                    value={inputTokenId}
-                    onChange={(e) => setInputTokenId(e.target.value)}
-                  />
+                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    Token Amount to bridge per network
+                  </div>
+                  <div className="flex flex-row  w-full sm:w-full">
+                    <input
+                      type="range"
+                      min="0"
+                      max="20"
+                      value={tokenAmountHyperBridge}
+                      className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      onChange={(e) =>
+                        setTokenAmountHyperBridge(Number(e.target.value))
+                      }
+                    />
+                    <button
+                      className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
+                      onClick={() => {
+                        setIsMintModalOpen(true);
+                      }}
+                    >
+                      Claim {tokenAmountHyperBridge}
+                    </button>
+                  </div>
 
+                  <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">DGATE To Bridge</div>
+                    <div className="text-white-700">Balance: 0</div>
+                  </div>
+                  {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                  <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                    {/** In input box create a max option for balance max */}
+
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      placeholder="Amount To Bridge"
+                      value={inputTokenId}
+                      onChange={(e) => setInputTokenId(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                      Max
+                    </button>
+                  </div>
                   <button
-                    className="flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg ml-3"
+                    className="rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center"
                     onClick={() => {
                       setIsMintModalOpen(true);
                     }}
                   >
-                    Claim
+                    Bridge
                   </button>
                 </div>
-
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">
-                    <span className="text-green-500">$</span> DGATE To Bridge
-                  </div>
-                  <div className="text-white-700">Balance: 0</div>
-                </div>
-                {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
-                <div className="relative flex flex-row justify-between w-full sm:w-full">
-                  {/** In input box create a max option for balance max */}
-
-                  <input
-                    type="text"
-                    className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    placeholder="Amount To Bridge"
-                    value={inputTokenId}
-                    onChange={(e) => setInputTokenId(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
-                  >
-                    Max
-                  </button>
-                </div>
-                <button
-                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
-                  onClick={() => {
-                    setIsMintModalOpen(true);
-                  }}
+              ) : (
+                <div
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5  border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
                 >
-                  Bridge
-                </button>
-              </div>
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => {
+                        setTurboBridge(true);
+                      }}
+                    >
+                      Hyper Bridge
+                    </button>
+                  </div>
+                  <div
+                    className={
+                      "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
+                    }
+                  >
+                    <Listbox value={sourceChain} onChange={onChangeSourceChain}>
+                      <div className="relative w-full sm:w-[36%]">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={`/chains/${sourceChain.image}`}
+                              alt={targetChain.name}
+                              width={25}
+                              height={25}
+                              className="rounded-full"
+                            />
+                            <span className="block truncate text-base text-xl font-medium">
+                              {sourceChain.name}
+                            </span>
+                          </div>
+
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {networks.map((network, i) => (
+                              <Listbox.Option
+                                key={i}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-white text-black"
+                                      : "text-gray-300"
+                                  }`
+                                }
+                                value={network}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex items-center gap-2">
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                        <FontAwesomeIcon icon={faCheck} />
+                                      </span>
+                                    ) : null}
+                                    <Image
+                                      src={`/chains/${network.image}`}
+                                      alt={network.name}
+                                      width={25}
+                                      height={25}
+                                      className="rounded-full"
+                                    />
+                                    <span className="block truncate text-base text-xl">
+                                      {network.name}
+                                    </span>
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+                    <svg
+                      width="58"
+                      height="45"
+                      viewBox="0 0 48 35"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={onArrowClick}
+                      cursor="pointer"
+                    >
+                      <circle
+                        cx="17.4"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="30.6031"
+                        cy="17.4"
+                        r="16.4"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                    </svg>
+
+                    <Listbox value={targetChain} onChange={onChangeTargetChain}>
+                      <div className="relative w-full sm:w-[36%]">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="pointer-events-none flex items-center">
+                              <FontAwesomeIcon icon={faAngleDown} />
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="block truncate text-base text-xl">
+                                {targetChain.name}
+                              </span>
+
+                              <Image
+                                src={`/chains/${targetChain.image}`}
+                                alt={targetChain.name}
+                                width={25}
+                                height={25}
+                                className="rounded-full"
+                              />
+                            </div>
+                          </div>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {networks.map((network, i) => (
+                              <Listbox.Option
+                                key={i}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                    active
+                                      ? "bg-white text-black"
+                                      : "text-gray-300"
+                                  }`
+                                }
+                                value={network}
+                                disabled={sourceChain.disabledNetworks?.includes(
+                                  network.chainId
+                                )}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex items-center gap-2">
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+                                        <FontAwesomeIcon icon={faCheck} />
+                                      </span>
+                                    ) : null}
+                                    <Image
+                                      src={`/chains/${network.image}`}
+                                      alt={network.name}
+                                      width={24}
+                                      height={24}
+                                      className="rounded-full"
+                                    />
+                                    <span className="block truncate text-base text-xl font-medium">
+                                      {network.name}
+                                    </span>
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+                  </div>
+
+                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    Claim Tokens
+                  </div>
+                  <div className="flex flex-row justify-between items-center w-full sm:w-full">
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
+                      placeholder="Amount To Claim"
+                      value={inputOFTAmount}
+                      onChange={(e) => setInputOFTAmount(e.target.value)}
+                    />
+
+                    <OFTClaimButton
+                      sourceChain={sourceChain}
+                      targetChain={targetChain}
+                      setInputTokenId={setInputTokenId}
+                      setTokenIds={setTokenIds}
+                      refCode={refCode}
+                      logIndex={sourceChain.logIndex}
+                      inputOFTAmount={inputOFTAmount}
+                    />
+                  </div>
+
+                  <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">$DLGATE To Bridge</div>
+                    <div className="text-white-700">
+                      Balance: {Number(balanceOfDlgate?.formatted) || 0}
+                    </div>
+                  </div>
+                  {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                  <div className="relative flex flex-row justify-between w-full sm:w-full">
+                    {/** In input box create a max option for balance max */}
+
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      placeholder="Amount To Bridge"
+                      value={dlgateBridgeAmount}
+                      onChange={(e) => setDlgateBridgeAmount(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                      onClick={handleDlgateMax}
+                    >
+                      Max
+                    </button>
+                  </div>
+
+                  <OFTBridgeButton
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    inputTokenId={inputTokenId}
+                    setInputTokenId={setInputTokenId}
+                    tokenIds={tokenIds}
+                    setTokenIds={setTokenIds}
+                    setLayerZeroTxHashes={setLayerZeroTxHashes}
+                    setEstimatedGas={setEstimatedGas}
+                    dlgateBridgeAmount={dlgateBridgeAmount}
+                  />
+                </div>
+              )
             ) : tabIndex == 2 ? (
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
@@ -1206,7 +1579,7 @@ export default function Home({
                   <input
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    placeholder="Amount To Bridge"
+                    placeholder={targetChain.symbol + " amount to bridge"}
                     value={gasRefuelAmount}
                     onChange={(e) => setGasRefuelAmount(e.target.value)}
                   />
@@ -1218,14 +1591,19 @@ export default function Home({
                     Max
                   </button>
                 </div>
-                <button
-                  className="rounded-lg bg-blue-600 w-1/3 self-center py-3 px-4 text-xl mt-4 text-center"
-                  onClick={() => {
-                    setIsMintModalOpen(true);
-                  }}
-                >
-                  Refuel
-                </button>
+
+                <OFTRefuelButton
+                  sourceChain={sourceChain}
+                  targetChain={targetChain}
+                  gasRefuelAmount={gasRefuelAmount}
+                  estimatedGas={estimatedGas}
+                  tokenIds={tokenIds}
+                  inputTokenId={inputTokenId}
+                  setTokenIds={setTokenIds}
+                  setLayerZeroTxHashes={setLayerZeroTxHashes}
+                  setEstimatedGas={setEstimatedGas}
+                  setInputTokenId={setInputTokenId}
+                />
                 <div className="text-sm md:text-base flex flex-col text-gray-500">
                   Disclaimer
                   <span className="text-xs md:text-sm">
@@ -1599,26 +1977,14 @@ export default function Home({
         >
           <div
             className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "bridge-animaton" : ""
+              isAnimationStarted ? "arda" : ""
             }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                sourceChain.colorClass
-              }  ${
-                isAnimationEnd
-                  ? "left-[30%]"
-                  : "left-0 duration-1000 transition-all translate-x-[-50%]"
-              } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${
-                targetChain.colorClass
-              } ${
-                isAnimationEnd
-                  ? "right-[30%] opacity-50"
-                  : "right-0 duration-1000 transition-all translate-x-[50%]"
-              } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${targetChain.colorClass} translate-x-[50%] right-0 rounded-full`}
             ></div>
           </div>
         </div>
