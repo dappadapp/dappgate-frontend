@@ -1037,7 +1037,7 @@ export default function Home({
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                     active
                                       ? "bg-white text-black"
                                       : "text-gray-300"
@@ -1234,7 +1234,7 @@ export default function Home({
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                     active
                                       ? "bg-white text-black"
                                       : "text-gray-300"
@@ -1325,7 +1325,7 @@ export default function Home({
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                  `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                     active
                                       ? "bg-white text-black"
                                       : "text-gray-300"
@@ -1468,7 +1468,7 @@ export default function Home({
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                   active
                                     ? "bg-white text-black"
                                     : "text-gray-300"
@@ -1559,7 +1559,7 @@ export default function Home({
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                   active
                                     ? "bg-white text-black"
                                     : "text-gray-300"
@@ -1697,7 +1697,7 @@ export default function Home({
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                   active
                                     ? "bg-white text-black"
                                     : "text-gray-300"
@@ -1788,7 +1788,7 @@ export default function Home({
                             <Listbox.Option
                               key={i}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
+                                `relative cursor-pointer select-none py-2 pl-10 pr-4 aria-disabled:bg-red-500/25 aria-disabled:grayscale ${
                                   active
                                     ? "bg-white text-black"
                                     : "text-gray-300"
