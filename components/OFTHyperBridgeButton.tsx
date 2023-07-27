@@ -74,7 +74,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       ) + BigInt("10000000000000"),
     args: [
       account,
-      targetChain.layerzeroChainId,
+      lzTargetChainId,
       account,
       tokenAmountHyperBridge * 10 ** 18,
       "0x0000000000000000000000000000000000000000",

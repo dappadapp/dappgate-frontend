@@ -50,6 +50,7 @@ import OFTRefuelButton from "@/components/OFTRefuelButton";
 import OFTHyperClaimButton from "@/components/OFTHyperClaimButton";
 import OFTHyperBridgeButton from "@/components/OFTHyperBridgeButton";
 import ListboxMenu from "./components/ListboxMenu";
+import ONFTHyperMintButton from "@/components/ONFTHyperMintButton";
 
 const networks: Network[] = [
   {
@@ -1712,20 +1713,14 @@ export default function Home({
                   </div>
                 </div>
 
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">DGATE To Bridge</div>
-                </div>
 
-                <OFTHyperBridgeButton
+                <ONFTHyperMintButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
-                  inputTokenId={inputTokenId}
                   setInputTokenId={setInputTokenId}
                   tokenIds={tokenIds}
                   setTokenIds={setTokenIds}
-                  setLayerZeroTxHashes={setLayerZeroTxHashes}
-                  setEstimatedGas={setEstimatedGas}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  refCode={refCode}
                   selectedHyperBridges={selectedHyperBridges}
                 />
               </div>
