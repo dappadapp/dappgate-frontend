@@ -52,6 +52,7 @@ import OFTHyperBridgeButton from "@/components/OFTHyperBridgeButton";
 import ListboxSourceMenu from "./components/ListboxSourceMenu";
 import ListboxTargetMenu from "./components/ListboxTargetMenu";
 import ONFTHyperMintButton from "@/components/ONFTHyperMintButton";
+import CircleSvg from "./components/CircleSvg";
 
 const networks: Network[] = [
   {
@@ -1021,33 +1022,11 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-          
 
-                    <svg
-                      width="58"
-                      height="45"
-                      viewBox="0 0 48 35"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={onArrowClick}
-                      cursor="pointer"
-                      className="mt-5"
-                    >
-                      <circle
-                        cx="17.4"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                      <circle
-                        cx="30.6031"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                    </svg>
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={false}
+                    />
 
                     <div>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
@@ -1158,31 +1137,10 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-                    <svg
-                      width="58"
-                      height="45"
-                      viewBox="0 0 48 35"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={onArrowClick}
-                      cursor="pointer"
-                    >
-                      <circle
-                        cx="17.4"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                      <circle
-                        cx="30.6031"
-                        cy="17.4"
-                        r="16.4"
-                        stroke="white"
-                        strokeWidth="2"
-                      />
-                    </svg>
-
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={true}
+                    />
                     <ListboxTargetMenu
                       value={targetChain}
                       sourceValue={sourceChain}
@@ -1274,31 +1232,10 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={onArrowClick}
-                    cursor="pointer"
-                  >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-
+                  <CircleSvg
+                    onArrowClick={onArrowClick}
+                    isClickable={true}
+                  />
                   <ListboxTargetMenu
                       value={targetChain}
                       sourceValue={sourceChain}
@@ -1389,34 +1326,10 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-          
-
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={onArrowClick}
-                    cursor="pointer"
-                    className="mt-5"
-                  >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={false}
                     />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-
                   <div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
@@ -1492,31 +1405,10 @@ export default function Home({
                       searchValue={searchTerm}
                       setSearchValue={setSearchTerm}
                     />
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={onArrowClick}
-                    cursor="pointer"
-                  >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={true}
                     />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-
                   <ListboxTargetMenu
                       value={targetChain}
                       sourceValue={sourceChain}
