@@ -13,7 +13,7 @@ type Props = {
   optionRenderer?: (option: any, selected: boolean) => JSX.Element,
 };
 
-const ListboxMenu = (
+const ListboxSourceMenu = (
   { value,
     onChange,
     options,
@@ -97,4 +97,4 @@ const defaultOptionRenderer = (option:any, selected:any) => (
   </div>
 );
 
-export default ListboxMenu;
+export default ListboxSourceMenu;
