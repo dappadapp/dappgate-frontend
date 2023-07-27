@@ -1314,7 +1314,7 @@ export default function Home({
                     {targetChain.name}
                   </div>
                   <div className="text-white-700">
-                    Max: {Number(balanceOfData?.formatted).toFixed(3)}{" "}
+                    Max: {Number(balanceOfData?.formatted).toFixed(3) || 0}{" "}
                     {targetChain.symbol}
                   </div>
                 </div>
@@ -1350,7 +1350,7 @@ export default function Home({
                   setEstimatedGas={setEstimatedGas}
                   setInputTokenId={setInputTokenId}
                 />
-                <div className="mt-2 text-sm md:text-base flex flex-col text-gray-500">
+                <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
                   <span className="text-xs md:text-sm">
                     The token bridge is a service that allows users to transfer
