@@ -1,7 +1,8 @@
 import { Network } from "@/app/page";
 import { ethers } from "ethers";
 import { fetchTransaction } from '@wagmi/core'
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
+import { waitForTransaction } from '@wagmi/core'
 import {
   useAccount,
   useContractRead,
@@ -56,78 +57,27 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
-    value:
-      BigInt((costData as string) || "500000000000000") *
-      BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    value: BigInt("1000000000000000")
+     // BigInt((costData as string) || "500000000000000") *
+      //BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
   });
 
-  const { writeAsync: mint } = useContractWrite(mintConfig);
-
+  const { data: mintResult, writeAsync: mint } = useContractWrite(mintConfig);
+/*
   const { data: mintTxResultData, refetch } = useWaitForTransaction({
-    hash: mintTxHash as `0x${string}`,
+    hash: mintResult?.hash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
-    onSuccess(data) {
-      addNftId(data?.logs[logIndex || 0].topics[3] as string);
-    }
-  });
+  });*/
 
-  const addNftId = async(nftId: string) => {
+  const addNftId = (nftId: string) => {
      setNftIds([...nftIds, nftId]);
   };
 
-
-
-
-
   useEffect(() => {
-    if (!mintTxResultData) return;
+    console.log("nftIds", nftIds);
 
-    const tokenId = BigInt(
-      mintTxResultData.logs[logIndex || 0].topics[3] as string
-    ).toString();
+  }, [nftIds]);
 
-    const postMint = async () => {
-      await axios.post("/api/mint", {
-        tokenId,
-      });
-    };
-    postMint();
-    setInputTokenId(tokenId);
-    setTokenIds((prev: any) => {
-      const newArray = prev?.[sourceChain.chainId]?.[account as string]
-        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
-        : [tokenId];
-      const tokenIdData = {
-        ...prev,
-        [sourceChain.chainId]: {
-          ...prev?.[sourceChain.chainId],
-          [account as string]: newArray,
-        },
-      };
-      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-      return tokenIdData;
-    });
-    if (refCode?.length === 12) {
-      const postReferenceMint = async () => {
-        await axios.post("/api/referenceMint", {
-          id: tokenId,
-          walletAddress: account,
-          chainId: sourceChain.chainId,
-          ref: refCode,
-          tx_id: mintTxHash,
-        });
-      };
-      postReferenceMint();
-    }
-    ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
-
- 
-    toast(`NFT minted with the id of ${tokenId}!`);
-  }, [mintTxResultData]);
-
-  console.log("nftids", nftIds);
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
     let reverseArray = splitString.reverse();
@@ -135,12 +85,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   };
 
   const onMint = async () => {
-
-    const transaction = await fetchTransaction({
-      hash: '0xeb8394d6ba4465af32238f817f11b995048cf9ef568198b5c6e25beff1dbc98d',
-    })
-
-    console.log("transaction", transaction);
     if (!account) {
       return alert("Please connect your wallet first.");
     }
@@ -159,15 +103,36 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       selectedHyperBridges.filter((x: any) => x !== 0).forEach(async() => {
         const result = await mint();
         setMintTxHash(result.hash);
+
+        console.log("result hash", result);
+      
         toast("Mint transaction sent, waiting confirmation...");
 
-        refetch();
+        const data = await waitForTransaction({
+          hash: result?.hash,
+        });
+
+        console.log("data", data);
+
+        const tokenId = BigInt(
+          data?.logs[logIndex || 0].topics[3] as string
+        ).toString();
+
+        console.log("tokenId", tokenId);
+
+        addNftId(tokenId);
+
+        console.log("nftIds", nftIds);
+
+
       });
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
+
+    console.log("nftIds", nftIds);
   };
 
 
