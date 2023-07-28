@@ -27,6 +27,9 @@ type Props = {
   selectedHyperBridges: any;
 };
 
+
+// Define the type of your array elements
+type MyArrayType = string;
 const ONFTHyperMintButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
@@ -43,7 +46,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-  const [nftIds, setNftIds] = useState<Array<string>>([]);
+  const [nftIds, setNftIds] = useState<MyArrayType[]>([]);
 
   const { data: costData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -69,8 +72,8 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     confirmations: sourceChain.blockConfirmation,
   });*/
 
-  const addNftId = (nftId: string) => {
-     setNftIds([...nftIds, nftId]);
+  const addNftId = async(nftId: string) => {
+    setNftIds((nftIds) => [...nftIds, nftId]);
   };
 
   useEffect(() => {
@@ -120,7 +123,9 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
         console.log("tokenId", tokenId);
 
-        addNftId(tokenId);
+        if (tokenId) {
+          await addNftId(tokenId);
+        }
 
         console.log("nftIds", nftIds);
 
