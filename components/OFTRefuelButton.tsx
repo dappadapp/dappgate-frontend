@@ -104,12 +104,11 @@ const OFTRefuelButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
+
+    console.log("gasEstimateData", gasEstimateData);
     if (!gasRefuelAmount) return alert("Please enter a valid amount");
     if (Number(gasRefuelAmount) <= 0)
       return alert("Please enter a valid amount");
-
-    if (!gasEstimate)
-      return alert("It looks like the bridge between these chains are closed.");
 
     if (!account) {
       return alert("Please connect your wallet first.");
