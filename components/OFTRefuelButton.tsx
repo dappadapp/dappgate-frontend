@@ -174,6 +174,7 @@ const OFTRefuelButton: React.FC<Props> = ({
           tokenId: tokenIds,
           walletAddress: account,
           ref: "",
+          type: "refuel",
         });
       };
       postBridgeHistory();
