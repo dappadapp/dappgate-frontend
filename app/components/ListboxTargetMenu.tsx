@@ -27,10 +27,11 @@ const ListboxTargetMenu = (
     <Listbox value={value} onChange={onChange}>
       <div className="relative w-full sm:w-[36%]">
         <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
-          <div className="flex items-center gap-2">
-            <span className="pointer-events-none flex items-center">
+          <div className="flex items-center justify-between gap-2">
+            <div className="pointer-events-none flex items-center">
               <FontAwesomeIcon icon={faAngleDown} />
-            </span>
+            </div>
+            <div className='flex gap-2'>
             <span className="block truncate text-base text-xl font-medium">
               {value.name}
             </span>
@@ -41,6 +42,7 @@ const ListboxTargetMenu = (
               height={25}
               className="rounded-full"
             />
+            </div>
           </div>
         </Listbox.Button>
         <Transition
