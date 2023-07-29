@@ -1,6 +1,7 @@
 import { Network } from "../utils/networks";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import React, { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -11,6 +12,7 @@ import {
 } from "wagmi";
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import OFTBridge from "../config/abi/OFTBridge.json";
 
 type Props = {
   sourceChain: Network;
@@ -21,9 +23,11 @@ type Props = {
   setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  gasRefuelAmount: string;
+  estimatedGas: string;
 };
 
-const BridgeButton: React.FC<Props> = ({
+const OFTRefuelButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   tokenIds,
@@ -31,59 +35,85 @@ const BridgeButton: React.FC<Props> = ({
   setInputTokenId,
   setTokenIds,
   setLayerZeroTxHashes,
+  estimatedGas,
   setEstimatedGas,
+  gasRefuelAmount,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
+  const [adapterParam, setAdapterParams] = useState("");
+  const [gasEstimate, setGasEstimate] = useState(BigInt(0));
 
   const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "estimateFees",
-    args: [`${targetChain.layerzeroChainId}`, inputTokenId],
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "estimateGasBridgeFee",
+    args: [`${targetChain.layerzeroChainId}`, false, adapterParam],
   });
 
+  useEffect(() => {
+    if (gasEstimateDataArray) {
+      setGasEstimate(BigInt(gasEstimateDataArray[0]));
+      if (gasEstimate) {
+        const adapterParams = ethers.solidityPacked(
+          ["uint16", "uint", "uint", "address"],
+          [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+        );
+        setAdapterParams(adapterParams);
+      }
+    }
+  }, [gasEstimateData, gasRefuelAmount]);
+
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
   const {
     config: sendFromConfig,
     isSuccess,
     error,
   } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "crossChain",
-    value:
-      BigInt((gasEstimateData as string) || "13717131402195452") +
-      BigInt("10000000000000"),
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "bridgeGas",
+    value: gasEstimate,
     args: [
       targetChain.layerzeroChainId,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      "0x0000000000000000000000000000000000000000",
+      adapterParam,
     ],
   });
-  const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
+  const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateData) {
+    if (gasEstimateDataArray) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
         `${
           Number(
-            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [
+    gasEstimateDataArray,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+  ]);
 
   const onBridge = async () => {
+
+    console.log("gasEstimateData", gasEstimateData);
+    if (!gasRefuelAmount) return alert("Please enter a valid amount");
+    if (Number(gasRefuelAmount) <= 0)
+      return alert("Please enter a valid amount");
+
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (!gasEstimateData)
-      return alert("It looks like the bridge between these chains are closed.");
-    if (!sendFrom) {
+    if (!bridgeGas) {
       console.log("error", error?.message);
       if (
         error?.message.includes(
@@ -115,7 +145,7 @@ const BridgeButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const { hash: txHash } = await sendFrom();
+      const { hash: txHash } = await bridgeGas();
       setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
@@ -144,7 +174,6 @@ const BridgeButton: React.FC<Props> = ({
           tokenId: tokenIds,
           walletAddress: account,
           ref: "",
-          type: "onft",
         });
       };
       postBridgeHistory();
@@ -160,9 +189,9 @@ const BridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!inputTokenId || loading}
+      disabled={!gasRefuelAmount || loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "self-center bg-blue-600 flex justify-center items-center px-4 w-1/3 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
@@ -186,4 +215,4 @@ const BridgeButton: React.FC<Props> = ({
   );
 };
 
-export default BridgeButton;
+export default OFTRefuelButton;

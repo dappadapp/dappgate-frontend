@@ -21,9 +21,10 @@ type Props = {
   setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  tokenId: any;
 };
 
-const BridgeButton: React.FC<Props> = ({
+const ONFTHyperBridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   tokenIds,
@@ -32,6 +33,7 @@ const BridgeButton: React.FC<Props> = ({
   setTokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  tokenId,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -58,7 +60,7 @@ const BridgeButton: React.FC<Props> = ({
       BigInt("10000000000000"),
     args: [
       targetChain.layerzeroChainId,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      tokenId,
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
@@ -160,9 +162,9 @@ const BridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!inputTokenId || loading}
+      disabled={!tokenId || loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed mt-1"
       }
     >
       Bridge
@@ -186,4 +188,4 @@ const BridgeButton: React.FC<Props> = ({
   );
 };
 
-export default BridgeButton;
+export default ONFTHyperBridgeButton;

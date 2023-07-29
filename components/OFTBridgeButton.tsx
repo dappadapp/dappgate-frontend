@@ -11,6 +11,7 @@ import {
 } from "wagmi";
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import OFTBridge from "../config/abi/OFTBridge.json";
 
 type Props = {
   sourceChain: Network;
@@ -21,9 +22,10 @@ type Props = {
   setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  dlgateBridgeAmount: string;
 };
 
-const BridgeButton: React.FC<Props> = ({
+const OFTBridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   tokenIds,
@@ -32,6 +34,7 @@ const BridgeButton: React.FC<Props> = ({
   setTokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  dlgateBridgeAmount,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -39,50 +42,67 @@ const BridgeButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "estimateFees",
-    args: [`${targetChain.layerzeroChainId}`, inputTokenId],
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "estimateSendFee",
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      account,
+      "1000000000000000000",
+      false,
+      "0x",
+    ],
   });
+
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
   const {
     config: sendFromConfig,
     isSuccess,
     error,
   } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "crossChain",
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "sendFrom",
     value:
-      BigInt((gasEstimateData as string) || "13717131402195452") +
-      BigInt("10000000000000"),
+      BigInt(
+        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+      ) + BigInt("10000000000000"),
     args: [
+      account,
       targetChain.layerzeroChainId,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      account,
+      1000000000000000000,
+      "0x0000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000",
+      "",
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateData) {
+    if (gasEstimateDataArray) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
         `${
           Number(
-            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [
+    gasEstimateDataArray,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (!gasEstimateData)
-      return alert("It looks like the bridge between these chains are closed.");
     if (!sendFrom) {
       console.log("error", error?.message);
       if (
@@ -144,7 +164,7 @@ const BridgeButton: React.FC<Props> = ({
           tokenId: tokenIds,
           walletAddress: account,
           ref: "",
-          type: "onft",
+          type: "oft",
         });
       };
       postBridgeHistory();
@@ -160,13 +180,13 @@ const BridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!inputTokenId || loading}
+      disabled={!dlgateBridgeAmount || loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        " bg-blue-600 py-3 px-4 flex items-center text-xl mt-4 w-1/3 self-center justify-center text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg  relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
-      {loading && (
+      {true && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -186,4 +206,4 @@ const BridgeButton: React.FC<Props> = ({
   );
 };
 
-export default BridgeButton;
+export default OFTBridgeButton;

@@ -11,6 +11,7 @@ import {
 } from "wagmi";
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import OFTBridge from "../config/abi/OFTBridge.json";
 
 type Props = {
   sourceChain: Network;
@@ -21,9 +22,11 @@ type Props = {
   setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  tokenAmountHyperBridge: number;
+  selectedHyperBridges: any;
 };
 
-const BridgeButton: React.FC<Props> = ({
+const OFTHyperBridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   tokenIds,
@@ -32,50 +35,73 @@ const BridgeButton: React.FC<Props> = ({
   setTokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  tokenAmountHyperBridge,
+  selectedHyperBridges,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
+  const [lzTargetChainId, setLzTargetChainId] = useState(0);
 
   const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "estimateFees",
-    args: [`${targetChain.layerzeroChainId}`, inputTokenId],
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "estimateSendFee",
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      account,
+      "1000000000000000000",
+      false,
+      "0x",
+    ],
   });
+
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
 
   const {
     config: sendFromConfig,
     isSuccess,
     error,
   } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "crossChain",
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "sendFrom",
     value:
-      BigInt((gasEstimateData as string) || "13717131402195452") +
-      BigInt("10000000000000"),
+      BigInt(
+        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+      ) + BigInt("10000000000000"),
     args: [
-      targetChain.layerzeroChainId,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      account,
+      lzTargetChainId,
+      account,
+      tokenAmountHyperBridge * 10 ** 18,
+      "0x0000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000",
+      "",
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateData) {
+    if (gasEstimateDataArray) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
         `${
           Number(
-            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [
+    gasEstimateDataArray,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
@@ -85,6 +111,14 @@ const BridgeButton: React.FC<Props> = ({
       return alert("It looks like the bridge between these chains are closed.");
     if (!sendFrom) {
       console.log("error", error?.message);
+
+      if (
+        error?.message.includes(
+          "ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)"
+        )
+      ) {
+        return alert("Insufficient token balance, first claim your tokens.");
+      }
       if (
         error?.message.includes(
           "LzApp: destination chain is not a trusted source"
@@ -115,39 +149,48 @@ const BridgeButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const { hash: txHash } = await sendFrom();
-      setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
-      setTokenIds((prev: any) => {
-        const newArray = prev?.[sourceChain.chainId]?.[account as string]
-          ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
-          : [];
-        const tokenIdData = {
-          ...prev,
-          [sourceChain.chainId]: {
-            ...prev?.[sourceChain.chainId],
-            [account as string]: newArray,
-          },
-        };
-        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-        return tokenIdData;
-      });
-      setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
+      selectedHyperBridges?.forEach(async(transaction: { targetChainId: React.SetStateAction<number>; }) => {
 
-      // post bridge history
-      const postBridgeHistory = async () => {
-        await axios.post("/api/history", {
-          tx: txHash,
-          srcChain: sourceChain.chainId,
-          dstChain: targetChain.chainId,
-          tokenId: tokenIds,
-          walletAddress: account,
-          ref: "",
-          type: "onft",
+        setLzTargetChainId(transaction.targetChainId);
+
+        const { hash: txHash } = await sendFrom();
+        setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
+        setTokenIds((prev: any) => {
+          const newArray = prev?.[sourceChain.chainId]?.[account as string]
+            ? [...prev?.[sourceChain.chainId]?.[account as string]]
+                .slice(1)
+                .filter((value, index, self) => self.indexOf(value) === index)
+            : [];
+          const tokenIdData = {
+            ...prev,
+            [sourceChain.chainId]: {
+              ...prev?.[sourceChain.chainId],
+              [account as string]: newArray,
+            },
+          };
+          localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
+          return tokenIdData;
         });
-      };
-      postBridgeHistory();
+        setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
+  
+        // post bridge history
+        const postBridgeHistory = async () => {
+          await axios.post("/api/history", {
+            tx: txHash,
+            srcChain: sourceChain.chainId,
+            dstChain: targetChain.chainId,
+            tokenId: tokenIds,
+            walletAddress: account,
+            ref: "",
+            type: "oft",
+          });
+        };
+        postBridgeHistory();
+    
+      });
+    
+     
+
 
       toast("Bridge transaction sent!");
     } catch (error) {
@@ -160,9 +203,9 @@ const BridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!inputTokenId || loading}
+      disabled={!tokenAmountHyperBridge || loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
@@ -186,4 +229,4 @@ const BridgeButton: React.FC<Props> = ({
   );
 };
 
-export default BridgeButton;
+export default OFTHyperBridgeButton;

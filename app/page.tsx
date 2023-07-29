@@ -1,351 +1,156 @@
 "use client";
-import React, { Fragment, useState, useEffect } from "react";
-import { Listbox, Transition, Tab } from "@headlessui/react";
+import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+import { Listbox, Tab, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
 import {
   useAccount,
-  useSwitchNetwork,
+  useBalance,
   useNetwork,
+  useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
 import MintButton from "@/components/MintButton";
 import BridgeButton from "@/components/BridgeButton";
 import formatAddress from "@/utils/formatAddress";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import {
-  mainnet,
-  goerli,
-  zkSync,
-  polygonZkEvm,
-  optimismGoerli,
-  optimism,
-  polygonMumbai,
-  bsc,
-  avalanche,
   arbitrum,
-  fantom,
-  dfk,
-  harmonyOne,
-  celo,
-  moonbeam,
-  gnosis,
-  klaytn,
-  metis,
+  avalanche,
+  bsc,
   canto,
+  fantom,
+  gnosis,
+  goerli,
+  harmonyOne,
+  klaytn,
+  mainnet,
+  metis,
+  moonbeam,
   moonriver,
+  optimism,
+  optimismGoerli,
   polygon,
+  polygonZkEvm,
+  zkSync,
 } from "wagmi/chains";
 
-const networks: Network[] = [
-  /*   {
-    name: goerli.name,
-    chainId: goerli.id,
-    layerzeroChainId: 10121,
-    nftContractAddress: "0x390d4A9a043efB4A2Ca5c530b7C63F6988377324",
-    blockConfirmation: 2,
-    colorClass: "bg-[#373737]",
-    image: "ethereum.svg",
-  },
-  {
-    name: optimismGoerli.name,
-    chainId: optimismGoerli.id,
-    layerzeroChainId: 10132,
-    nftContractAddress: "0x3817CeA0d6979a8f11Af600d5820333536f1B520",
-    blockConfirmation: 1,
-    colorClass: "bg-[#FF0420]",
-    image: "ethereum.svg",
-  },
-  {
-    name: mainnet.name,
-    chainId: mainnet.id,
-    layerzeroChainId: 101,
-    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    blockConfirmation: 1,
-    colorClass: "bg-[#777777]",
-    image: "ethereum.svg",
-  }, */
-  {
-    name: bsc.name,
-    chainId: bsc.id,
-    layerzeroChainId: 102,
-    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E8B30B]",
-    image: "bsc.svg",
-  },
-  {
-    name: avalanche.name,
-    chainId: avalanche.id,
-    layerzeroChainId: 106,
-    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E84142]",
-    image: "avalanche.svg",
-  },
-  /*   {
-      name: "Aptos",
-      chainId: 108,
-      layerzeroChainId: 10109,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#E8B30B]"
-    }, */
-  {
-    name: polygon.name,
-    chainId: polygon.id,
-    layerzeroChainId: 109,
-    nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7F43DF]",
-    image: "polygon.svg",
-  },
-  {
-    name: arbitrum.name,
-    chainId: arbitrum.id,
-    layerzeroChainId: 110,
-    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    blockConfirmation: 1,
-    colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg",
-  },
-  {
-    name: optimism.name,
-    chainId: optimism.id,
-    layerzeroChainId: 111,
-    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
-    blockConfirmation: 1,
-    colorClass: "bg-[#FF0420]",
-    image: "optimism.svg",
-  },
-  {
-    name: fantom.name,
-    chainId: fantom.id,
-    layerzeroChainId: 112,
-    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
-    blockConfirmation: 1,
-    colorClass: "bg-[#196aff]",
-    image: "fantom.svg",
-  },
-  /*   {
-    name: dfk.name,
-    chainId: dfk.id,
-    layerzeroChainId: 115,
-    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    blockConfirmation: 1,
-    colorClass: "bg-[#81bb04]",
-    image: "dfk.svg",
-  }, */
-  {
-    name: harmonyOne.name,
-    chainId: harmonyOne.id,
-    layerzeroChainId: 116,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#41dccc]",
-    image: "harmony.svg",
-  },
-  /*   {
-    name: "Dexalot",
-    chainId: 432204,
-    layerzeroChainId: 118,
-    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E51981]",
-    image: "dexalot.svg",
-  }, */
-  {
-    name: celo.name,
-    chainId: celo.id,
-    layerzeroChainId: 125,
-    nftContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
-    blockConfirmation: 1,
-    colorClass: "bg-[#36d07e]",
-    image: "celo.svg",
-  },
-  {
-    name: moonbeam.name,
-    chainId: moonbeam.id,
-    layerzeroChainId: 126,
-    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    blockConfirmation: 1,
-    colorClass: "bg-[#1fcceb]",
-    image: "moonbeam.svg",
-  },
-  {
-    name: "Fuse",
-    chainId: 122,
-    layerzeroChainId: 10109,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#a9f7b0]",
-    image: "fuse.svg",
-  },
-  {
-    name: gnosis.name,
-    chainId: gnosis.id,
-    layerzeroChainId: 145,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#57ac86]",
-    image: "gnosis.svg",
-  },
-  {
-    name: klaytn.name,
-    chainId: klaytn.id,
-    layerzeroChainId: 150,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#f82e08]",
-    image: "klaytn.svg",
-  },
-  {
-    name: metis.name,
-    chainId: metis.id,
-    layerzeroChainId: 151,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#00CDB7]",
-    image: "metis.svg",
-  },
-  {
-    name: "CoreDAO",
-    chainId: 1116,
-    layerzeroChainId: 153,
-    nftContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
-    blockConfirmation: 1,
-    colorClass: "bg-[#FDBE08]",
-    image: "coredao.svg",
-  },
-  {
-    name: "OKT (OKX)",
-    chainId: 66,
-    layerzeroChainId: 155,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#000000]",
-    image: "okex.svg",
-  },
-  {
-    name: polygonZkEvm.name,
-    chainId: polygonZkEvm.id,
-    layerzeroChainId: 158,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7939D5]",
-    image: "polygon-zkevm.svg",
-  },
-  {
-    name: canto.name,
-    chainId: canto.id,
-    layerzeroChainId: 159,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#34EEA4]",
-    image: "canto.svg",
-  },
-  {
-    name: zkSync.name,
-    chainId: zkSync.id,
-    layerzeroChainId: 165,
-    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
-    blockConfirmation: 1,
-    colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg",
-  },
-  {
-    name: moonriver.name,
-    chainId: moonriver.id,
-    layerzeroChainId: 167,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E6AE05]",
-    image: "moonriver.svg",
-  },
-  {
-    name: "Tenet",
-    chainId: 1559,
-    layerzeroChainId: 173,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    blockConfirmation: 1,
-    colorClass: "bg-[#F2F2F2]",
-    image: "tenet.svg",
-  },
-  {
-    name: "Arbitrum Nova",
-    chainId: 42170,
-    layerzeroChainId: 175,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E37B1E]",
-    image: "arb-nova.svg",
-  },
-  {
-    name: "Meter.io",
-    chainId: 82,
-    layerzeroChainId: 176,
-    nftContractAddress: "0x1A21779466dA680f872Eb58a10208b42D6d75508",
-    blockConfirmation: 1,
-    colorClass: "bg-[#1C2A59]",
-    image: "meter.svg",
-  },
-  {
-    name: "Kava",
-    chainId: 2222,
-    layerzeroChainId: 177,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    blockConfirmation: 1,
-    colorClass: "bg-[#F2524B]",
-    image: "kava.svg",
-  },
-];
 
-const ConnectButton = dynamic(() => import("@/components/ConnectButton"), {
+import RefModal from "./components/RefModal";
+import HistoryModal from "./components/HistoryModal";
+import Image from "next/image";
+import MintModal from "./components/MintModal";
+import FAQModal from "./components/FAQModal";
+import OFTClaimButton from "@/components/OFTClaimButton";
+import OFTBridgeButton from "@/components/OFTBridgeButton";
+import OFTRefuelButton from "@/components/OFTRefuelButton";
+import OFTHyperClaimButton from "@/components/OFTHyperClaimButton";
+import OFTHyperBridgeButton from "@/components/OFTHyperBridgeButton";
+import ListboxSourceMenu from "./components/ListboxSourceMenu";
+import ListboxTargetMenu from "./components/ListboxTargetMenu";
+import ONFTHyperMintButton from "@/components/ONFTHyperMintButton";
+import CircleSvg from "./components/CircleSvg";
+import DappGateLogo from "./components/DappGateLogo";
+import Footer from "./components/Footer";
+import {networks} from "../utils/networks";
+import {Network} from "../utils/networks";
+
+import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
+
+
+
+
+
+const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
 });
 
-export interface Network {
-  name: string;
-  chainId: number;
-  layerzeroChainId: number;
-  nftContractAddress: string;
-  blockConfirmation: number;
-  colorClass: string;
-  image: string;
-}
-
 const ANIMATION_TIME = 4000;
+const ANIMATION_END_TIME = 1000;
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [tokenIds, setTokenIds] = useState({});
   const [showInput, setShowInput] = useState(false);
+  const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
+  const [inputOFTAmount, setInputOFTAmount] = useState("");
+  const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+  const [isAnimationEnd, setIsAnimationEnd] = useState(false);
   const [layerZeroTxHashes, setLayerZeroTxHashes] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isMintModalOpen, setIsMintModalOpen] = useState(false);
+  const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
+  const [mintCounter, setMintCounter] = useState(0);
+  const [gasRefuelAmount, setGasRefuelAmount] = useState("");
+  const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
+  const [oftHyperBridge, setOFTHyperBridge] = useState(false);
+  const [onftHyperBridge, setONFTHyperBridge] = useState(false);
+  const [selectedButtons, setSelectedButtons] = useState(
+    Array(networks.length).fill(true)
+  );
+  const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
+  const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
+
+  // fill with individual network data
+
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(networks);
+
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const { address: account } = useAccount();
-
   /* const { data: ownerOfData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "ownerOf",
-    chainId: sourceChain.chainId,
-    args: [inputTokenId],
-  }); */
+      address: sourceChain.nftContractAddress as `0x${string}`,
+      abi: MerklyLZAbi,
+      functionName: "ownerOf",
+      chainId: sourceChain.chainId,
+      args: [inputTokenId],
+    }); */
 
   const { data: bridgeTxResultData } = useWaitForTransaction({
     hash: layerZeroTxHashes[layerZeroTxHashes.length - 1] as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
+
+  // get balance of user on source chain
+  const { data: balanceOfData } = useBalance({
+    address: targetChain.relayerAddress as `0x${string}`,
+    chainId: targetChain.chainId,
+  });
+
+  // get balance of user on source chain
+  const { data: balanceOfDlgate } = useBalance({
+    address: account as `0x${string}`,
+    chainId: sourceChain.chainId,
+    token: sourceChain.tokenContractAddress as `0x${string}`,
+  });
+
+  // balance useeffect
+  useEffect(() => {
+    if (!balanceOfData) return;
+
+  }, [account, sourceChain, balanceOfData]);
+  console.log("balanceOfData", balanceOfData);
+  useEffect(() => {
+    if (!searchParams?.ref) return;
+  
+    setRefCode(searchParams?.ref as string);
+  }, [searchParams?.ref]);
 
   useEffect(() => {
     if (!bridgeTxResultData) return;
@@ -355,13 +160,20 @@ export default function Home() {
 
     setTimeout(() => {
       setIsAnimationStarted(false);
+      setIsAnimationEnd(true);
     }, ANIMATION_TIME);
   }, [bridgeTxResultData]);
+
+  useEffect(() => {
+    if (!isAnimationEnd) return;
+    setTimeout(() => {
+      setIsAnimationEnd(false);
+    }, ANIMATION_END_TIME);
+  }, [isAnimationEnd]);
 
   // TODO: send a balanceOf() call just in case user still has the token IDS on initial page load.
   // Do the same check after clicking the bridge button
 
-  console.log("tokenIds: ", tokenIds);
   // console.log("ownerOfData", ownerOfData);
 
   useEffect(() => {
@@ -379,6 +191,10 @@ export default function Home() {
     }
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, [account, sourceChain]);
+
+  useEffect(() => {
+    mintCounterFunc();
+  }, [connectedChain, account]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find(
@@ -431,6 +247,20 @@ export default function Home() {
     }
   };
 
+  const onClickRefuel = async () => {
+    try {
+      if (connectedChain?.id !== sourceChain.chainId) {
+        await switchNetworkAsync?.(sourceChain.chainId);
+      }
+      const { data } = await axios.post("/api/refuel", {
+        amount: gasRefuelAmount,
+      });
+      toast("Refuel successful!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onArrowClick = async () => {
     try {
       if (connectedChain?.id !== targetChain.chainId) {
@@ -443,112 +273,127 @@ export default function Home() {
     }
   };
 
+  //mint counter func
+  const mintCounterFunc = async () => {
+    const { data } = await axios.post("/api/counter");
+
+    setMintCounter(data?.counter);
+  };
+
+  const handleMax = () => {
+    if (balanceOfData) {
+      setGasRefuelAmount(balanceOfData?.formatted);
+    }
+  };
+
+  const handleDlgateMax = () => {
+    if (balanceOfDlgate) {
+      setDlgateBridgeAmount(balanceOfDlgate?.formatted);
+    }
+  };
+
+  const handleButtonClick = (index: number) => {
+    setSelectedButtons((prevState) =>
+      prevState.map((selected, i) => (i === index ? !selected : selected))
+    );
+    setSelectedHyperBridges((prevState) =>
+      (prevState as any as Network[]).map((selected: any, i: any) =>
+        i === index ? (selected ? 0 : networks[i]) : selected
+      )
+    );
+  };
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredNetworks = networks.filter(network =>
+    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
+  console.log("hyperbridge", hyperBridgeNFTIds);
   return (
     <div
       className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
     >
-      {/* <div
-        className={
-          "z-[99999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0"
-        }
-      >
-        <div
-          className={
-            "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
-          }
-        >
-          <h1 className={"text-3xl"}>Title</h1>
-          <p className={"opacity-75"}>
-            subtitle subtitle subtitle subtitle subtitle subtitle subtitle
-            subtitle subtitle subtitle
-          </p>
-          <div
-            className={"w-full mt-12 flex p-4 bg-white bg-opacity-5 rounded-lg"}
-          >
-            Your claimable refferal rewards
-            <br />
-            12$
-            <button
-              className={"ml-auto bg-black text-white rounded-lg px-6 py-2"}
-            >
-              CLAIM
-            </button>
-          </div>
-          <p className={"opacity-75 mt-10"}>subtitle subtitle</p>
-          <div className={"flex gap-4 h-12 mt-1"}>
-            <div
-              className={
-                'rounded-lg w-full px-4 h-full flex items-center bg-white bg-opacity-5 rounded-lg"'
-              }
-            >
-              link will be here
-            </div>
-            <button
-              className={
-                "px-4 w-fit rounded-lg h-full items-center flex bg-white rounded-lg text-black "
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 512 512"
-              >
-                <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" />
-              </svg>
-            </button>
-            <button
-              className={
-                "px-4 w-fit rounded-lg h-full items-center flex bg-white rounded-lg text-black "
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 448 512"
-              >
-                <path d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
-              </svg>
-            </button>
-          </div>
-          <p className={"mt-10"}>asdasdasd</p>
-        </div>
-      </div> */}
+      {isModalOpen ? (
+        <RefModal
+          onCloseModal={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      ) : null}
 
+      {isFAQModalOpen ? (
+        <FAQModal
+          onCloseModal={() => {
+            setIsFAQModalOpen(false);
+          }}
+        />
+      ) : null}
+
+      {isHistoryModalOpen ? (
+        <HistoryModal
+          onCloseModal={() => {
+            setIsHistoryModalOpen(false);
+          }}
+        />
+      ) : null}
+
+      {isMintModalOpen ? (
+        <MintModal
+          onCloseModal={() => {
+            setIsMintModalOpen(false);
+          }}
+          sourceChain={sourceChain}
+          targetChain={targetChain}
+          setInputTokenId={setInputTokenId}
+          setTokenIds={setTokenIds}
+          refCode={refCode}
+          logIndex={sourceChain.logIndex}
+        />
+      ) : null}
       <div
         className={
-          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col"
+          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
         }
       >
-        <div className={"container mx-auto h-full flex flex-col"}>
-          <div className={"w-full flex items-center justify-between mt-16"}>
-            <div className="flex flex-col items-end select-none">
-              <h1 className={"text-4xl font-bold"}>DappGate</h1>
-              <div
-                className={
-                  "px-6 py-1 rounded-3xl border-2 border-white text-[12px] transition-all hover:bg-white hover:text-black"
-                }
+        <div className={"container mx-auto gap-2 h-full flex flex-col"}>
+          <div
+            className={
+              "w-full flex flex-row items-center justify-between mt-16 gap-2"
+            }
+          >
+            <DappGateLogo/>
+            <div className="flex flex-col-reverse md:flex-row gap-3">
+              <button
+                className="backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                onClick={() => setIsModalOpen(true)}
               >
-                Alpha
-              </div>
+                Referral
+              </button>
+              <ConnectButton />
             </div>
-            {/*             <div className={"flex gap-4"}>
-              <button>Refer</button>
-              <a href={"/"}>FAQ</a>
+          </div>
+          <div className="flex flex-row justify-center mt-5 mb-5">
+            <div className={"flex gap-4"}>
+              <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
-            </div> */}
-            <ConnectButton />
+              <button onClick={() => setIsHistoryModalOpen(true)}>
+                History
+              </button>
+            </div>
           </div>
           <div
             className={
-              "h-full w-full min-h-fit flex flex-col gap-6 items-center justify-center"
+              "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
             }
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
-              <Tab.List className="p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
+              <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-4 py-2.5 rounded-lg text-white outline-none  ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
                           : "bg-transparent"
@@ -561,7 +406,7 @@ export default function Home() {
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-6 py-2 rounded-lg ml-2 text-white ${
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
                         selected
                           ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
                           : "bg-transparent"
@@ -571,215 +416,493 @@ export default function Home() {
                     </button>
                   )}
                 </Tab>
+
+                <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
+                    >
+                      Gas Refuel
+                    </button>
+                  )}
+                </Tab>
               </Tab.List>
             </Tab.Group>
-            {tabIndex !== 0 ? (
-              <div
-                className={`w-full max-w-[800px] h-[452px] bg-white bg-opacity-5 backdrop-blur-[4px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
-              >
-                <div className={"flex justify-between items-center mt-8"}>
-                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span
-                          className="block truncate text-transparent"
-                          style={{ textShadow: "0 0 8px #ffffff" }}
-                        >
-                          {sourceChain.name}
-                        </span>
-                      </Listbox.Button>
-                    </div>
-                  </Listbox>
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    cursor="not-allowed"
+            {tabIndex == 1 ? (
+              oftHyperBridge ? (
+                <div
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                >
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => {
+                        setOFTHyperBridge(false);
+                      }}
+                    >
+                      Bridge
+                    </button>
+                  </div>
+                  <div
+                    className={
+                      "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
+                    }
                   >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
+                    <ListboxSourceMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
                     />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
 
-                  <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-not-allowed rounded-lg bg-white bg-opacity-5 py-3 px-4 text-lg focus:outline-none ">
-                        <span
-                          className="block truncate text-transparent"
-                          style={{ textShadow: "0 0 8px #ffffff" }}
-                        >
-                          {targetChain.name}
-                        </span>
-                      </Listbox.Button>
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={false}
+                    />
+
+                    <div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
+                        {networks
+                          .filter((network) => {
+                            return !network.disabledNetworks?.includes(
+                              sourceChain?.chainId
+                            );
+                          })
+                          .map((network, i) => {
+                            return (
+                              <button
+                                key={i}
+                                onClick={() => handleButtonClick(i)}
+                                className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                  !(selectedHyperBridges as Network[]).some(
+                                    (selectedNetwork) =>
+                                      selectedNetwork.chainId ===
+                                      network.chainId
+                                  )
+                                    ? "grayscale"
+                                    : "grayscale-0"
+                                } p-2 `}
+                              >
+                                <Image
+                                  src={`/chains/${network.image}`}
+                                  alt={network.name}
+                                  width={40}
+                                  height={40}
+                                  className="rounded-full"
+                                />
+                                <h2 className="p-2 flex-1">{network.name}</h2>
+                              </button>
+                            );
+                          })}
+                      </div>
                     </div>
-                  </Listbox>
+                  </div>
+
+                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    Token Amount to bridge per network
+                  </div>
+                  <div className="flex flex-row  w-full sm:w-full">
+                    <input
+                      type="range"
+                      min="0"
+                      max="20"
+                      value={tokenAmountHyperBridge}
+                      className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      onChange={(e) =>
+                        setTokenAmountHyperBridge(Number(e.target.value))
+                      }
+                    />
+
+                    <OFTHyperClaimButton
+                      sourceChain={sourceChain}
+                      targetChain={targetChain}
+                      setInputTokenId={setInputTokenId}
+                      setTokenIds={setTokenIds}
+                      refCode={refCode}
+                      logIndex={sourceChain.logIndex}
+                      tokenAmountHyperBridge={tokenAmountHyperBridge}
+                      selectedHyperBridges={selectedHyperBridges}
+                    />
+                  </div>
+
+                  <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">DGATE To Bridge</div>
+                  </div>
+
+                  <OFTHyperBridgeButton
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    inputTokenId={inputTokenId}
+                    setInputTokenId={setInputTokenId}
+                    tokenIds={tokenIds}
+                    setTokenIds={setTokenIds}
+                    setLayerZeroTxHashes={setLayerZeroTxHashes}
+                    setEstimatedGas={setEstimatedGas}
+                    tokenAmountHyperBridge={tokenAmountHyperBridge}
+                    selectedHyperBridges={selectedHyperBridges}
+                  />
+                </div>
+              ) : (
+                <div
+                  className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                >
+                  <div className="flex flex-row justify-between items-center">
+                    <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                    <button
+                      className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                      onClick={() => {
+                        setOFTHyperBridge(true);
+                      }}
+                    >
+                      OFT Hyper Bridge
+                    </button>
+                  </div>
+                  <div
+                    className={
+                      "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
+                    }
+                  >
+                    <ListboxSourceMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={true}
+                    />
+                    <ListboxTargetMenu
+                      value={targetChain}
+                      sourceValue={sourceChain}
+                      onChange={onChangeTargetChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+                  </div>
+
+                  <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    Claim Tokens
+                  </div>
+                  <div className="flex flex-row justify-between items-center w-full sm:w-full">
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
+                      placeholder="Amount To Claim"
+                      value={inputOFTAmount}
+                      onChange={(e) => setInputOFTAmount(e.target.value)}
+                    />
+
+                    <OFTClaimButton
+                      sourceChain={sourceChain}
+                      targetChain={targetChain}
+                      setInputTokenId={setInputTokenId}
+                      setTokenIds={setTokenIds}
+                      refCode={refCode}
+                      logIndex={sourceChain.logIndex}
+                      inputOFTAmount={inputOFTAmount}
+                    />
+                  </div>
+
+                  <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                    <div className="text-white-700">$DLGATE To Bridge</div>
+                    <div className="text-white-700">
+                      Balance: {Number(balanceOfDlgate?.formatted) || 0}
+                    </div>
+                  </div>
+                  {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                  <div className="relative flex flex-row justify-between w-full sm:w-full">
+                    {/** In input box create a max option for balance max */}
+
+                    <input
+                      type="text"
+                      className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                      placeholder="Amount To Bridge"
+                      value={dlgateBridgeAmount}
+                      onChange={(e) => setDlgateBridgeAmount(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                      onClick={handleDlgateMax}
+                    >
+                      Max
+                    </button>
+                  </div>
+
+                  <OFTBridgeButton
+                    sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    inputTokenId={inputTokenId}
+                    setInputTokenId={setInputTokenId}
+                    tokenIds={tokenIds}
+                    setTokenIds={setTokenIds}
+                    setLayerZeroTxHashes={setLayerZeroTxHashes}
+                    setEstimatedGas={setEstimatedGas}
+                    dlgateBridgeAmount={dlgateBridgeAmount}
+                  />
+                </div>
+              )
+            ) : tabIndex == 2 ? (
+              <div
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
+              >
+                <div className="flex flex-row justify-between items-center">
+                  <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
+                </div>
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8 mb-5"
+                  }
+                >
+                  <ListboxSourceMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+                  <CircleSvg
+                    onArrowClick={onArrowClick}
+                    isClickable={true}
+                  />
+                  <ListboxTargetMenu
+                      value={targetChain}
+                      sourceValue={sourceChain}
+                      onChange={onChangeTargetChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+                </div>
+                <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  <div className="text-white-700 break-words max-w-[60%]">
+                    Input amount of ${targetChain.symbol} to receive on{" "}
+                    {targetChain.name}
+                  </div>
+                  <div className="text-white-700">
+                    Max: {Number(balanceOfData?.formatted).toFixed(3) || 0}{" "}
+                    {targetChain.symbol}
+                  </div>
+                </div>
+                {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
+                <div className="relative flex flex-row justify-between  w-full sm:w-full">
+                  {/** In input box create a max option for balance max */}
+
+                  <input
+                    type="text"
+                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
+                    placeholder={targetChain.symbol + " amount to bridge"}
+                    value={gasRefuelAmount}
+                    onChange={(e) => setGasRefuelAmount(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    onClick={handleMax}
+                  >
+                    Max
+                  </button>
+                </div>
+
+                <OFTRefuelButton
+                  sourceChain={sourceChain}
+                  targetChain={targetChain}
+                  gasRefuelAmount={gasRefuelAmount}
+                  estimatedGas={estimatedGas}
+                  tokenIds={tokenIds}
+                  inputTokenId={inputTokenId}
+                  setTokenIds={setTokenIds}
+                  setLayerZeroTxHashes={setLayerZeroTxHashes}
+                  setEstimatedGas={setEstimatedGas}
+                  setInputTokenId={setInputTokenId}
+                />
+                <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
+                  Disclaimer
+                  <span className="text-xs md:text-sm">
+                    The token bridge is a service that allows users to transfer
+                    tokens between different blockchains. However, it is not a
+                    financial product and does not offer any guarantees about
+                    the price or liquidity of tokens. The service provider is
+                    not liable for any loss or damage arising from the use of
+                    the token bridge.
+                  </span>
+                </div>
+              </div>
+            ) : onftHyperBridge ? (
+              <div
+                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+              >
+                <div className="flex flex-row justify-between items-center">
+                  <h1 className={"text-3xl font-semibold"}>NFT Bridge</h1>
+                  <button
+                    className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                    onClick={() => {
+                      setONFTHyperBridge(false);
+                    }}
+                  >
+                    Bridge
+                  </button>
+                </div>
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
+                  }
+                >
+                    <ListboxSourceMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={false}
+                    />
+                  <div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
+                      {networks
+                        .filter((network) => {
+                          return !network.disabledNetworks?.includes(
+                            sourceChain?.chainId
+                          );
+                        })
+                        .map((network, i) => {
+                          return (
+                            <button
+                              key={i}
+                              onClick={() => handleButtonClick(i)}
+                              className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
+                                !(selectedHyperBridges as Network[]).some(
+                                  (selectedNetwork) =>
+                                    selectedNetwork.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
+                            >
+                              <Image
+                                src={`/chains/${network.image}`}
+                                alt={network.name}
+                                width={40}
+                                height={40}
+                                className="rounded-full"
+                              />
+                              <h2 className="p-2">{network.name}</h2>
+                            </button>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </div>
+
+
+                <ONFTHyperMintButton
+                  sourceChain={sourceChain}
+                  targetChain={targetChain}
+                  setInputTokenId={setInputTokenId}
+                  tokenIds={tokenIds}
+                  setTokenIds={setTokenIds}
+                  refCode={refCode}
+                  selectedHyperBridges={selectedHyperBridges}
+                  setHyperBridgeNFTIds={setHyperBridgeNFTIds}
+                  hyperBridgeNFTIds={hyperBridgeNFTIds}
+                />
+
+                <div>
+  
+                <div
+                     
+                      className="grid grid-cols-4 gap-4 mt-4"
+                    >
+                 {hyperBridgeNFTIds.length > 0  &&   hyperBridgeNFTIds?.map((nftId:any, index: number) => {
+                 
+                 {/** exclude source chain */}
+                  if (selectedHyperBridges.filter((x: any) => x !== 0)[index].chainId === sourceChain.chainId) return null;
+
+                  return (              
+                        <div  key={index} className="flex flex-col items-center">
+   
+                        <Image
+                          src={`/chains/${selectedHyperBridges.filter((x: any) => x !== 0)[index].image}`}
+                          alt={selectedHyperBridges.filter((x: any) => x !== 0)[index].name}
+                          width={40}
+                          height={40}
+                          className="rounded-full mr-2 mt-2 mb-2 p-1"
+                        />
+                      <p className="text-lg text-white-900">
+                          NFT ID: {nftId}
+                        </p>
+  
+                        <ONFTHyperBridgeButton
+                          sourceChain={sourceChain}
+                          targetChain={selectedHyperBridges.filter((x: any) => x !== 0)[index]}
+                          tokenId={nftId}
+                          tokenIds={tokenIds}
+                          inputTokenId={inputTokenId}
+                          setInputTokenId={setInputTokenId}
+                          setTokenIds={setTokenIds}
+                          setLayerZeroTxHashes={setLayerZeroTxHashes}
+                          setEstimatedGas={setEstimatedGas}
+                        />
+                        </div>
+  
+                      
+                  );
+                })
+                  
+                }  </div>
+
                 </div>
               </div>
             ) : (
               <div
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
-                <h1 className={"text-3xl font-semibold"}>Bridge</h1>
-                <div className={"flex justify-between items-center mt-8"}>
-                  <Listbox value={sourceChain} onChange={onChangeSourceChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={`/chains/${sourceChain.image}`}
-                            alt={targetChain.name}
-                            className="w-6 h-6 rounded-full"
-                          />
-                          <span className="block truncate">
-                            {sourceChain.name}
-                          </span>
-                        </div>
-
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                          <FontAwesomeIcon icon={faAngleDown} />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((network, i) => (
-                            <Listbox.Option
-                              key={i}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                }`
-                              }
-                              value={network}
-                            >
-                              {({ selected }) => (
-                                <div className="flex items-center gap-2">
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                      <FontAwesomeIcon icon={faCheck} />
-                                    </span>
-                                  ) : null}
-                                  <img
-                                    src={`/chains/${network.image}`}
-                                    alt={network.name}
-                                    className="w-6 h-6 rounded-full"
-                                  />
-                                  <span className="block truncate">
-                                    {network.name}
-                                  </span>
-                                </div>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
-                  <svg
-                    width="58"
-                    height="45"
-                    viewBox="0 0 48 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={onArrowClick}
-                    cursor="pointer"
+                <div className="flex flex-row justify-between items-center">
+                  <h1 className={"text-3xl font-semibold"}>NFT Bridge</h1>
+                  <button
+                    className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                    onClick={() => {
+                      setONFTHyperBridge(true);
+                    }}
                   >
-                    <circle
-                      cx="17.4"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
+                    NFT Hyper Bridge
+                  </button>
+                </div>
+                <div
+                  className={
+                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
+                  }
+                >
+                  <ListboxSourceMenu
+                      value={sourceChain}
+                      onChange={onChangeSourceChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
                     />
-                    <circle
-                      cx="30.6031"
-                      cy="17.4"
-                      r="16.4"
-                      stroke="white"
-                      strokeWidth="2"
+                    <CircleSvg
+                      onArrowClick={onArrowClick}
+                      isClickable={true}
                     />
-                  </svg>
-
-                  <Listbox value={targetChain} onChange={onChangeTargetChain}>
-                    <div className="relative w-[36%]">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none ">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="pointer-events-none flex items-center">
-                            <FontAwesomeIcon icon={faAngleDown} />
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="block truncate">
-                              {targetChain.name}
-                            </span>
-                            <img
-                              src={`/chains/${targetChain.image}`}
-                              alt={targetChain.name}
-                              className="w-6 h-6 rounded-full"
-                            />
-                          </div>
-                        </div>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white bg-opacity-20 backdrop-blur-[3px]  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {networks.map((network, i) => (
-                            <Listbox.Option
-                              key={i}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-white text-black"
-                                    : "text-gray-300"
-                                }`
-                              }
-                              value={network}
-                            >
-                              {({ selected }) => (
-                                <div className="flex items-center gap-2">
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-                                      <FontAwesomeIcon icon={faCheck} />
-                                    </span>
-                                  ) : null}
-                                  <img
-                                    src={`/chains/${network.image}`}
-                                    alt={network.name}
-                                    className="w-6 h-6 rounded-full"
-                                  />
-                                  <span className="block truncate">
-                                    {network.name}
-                                  </span>
-                                </div>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                  <ListboxTargetMenu
+                      value={targetChain}
+                      sourceValue={sourceChain}
+                      onChange={onChangeTargetChain}
+                      options={filteredNetworks}
+                      searchValue={searchTerm}
+                      setSearchValue={setSearchTerm}
+                    />
                 </div>
                 <div
                   className={
@@ -790,29 +913,12 @@ export default function Home() {
                     setInputTokenId={setInputTokenId}
                     setTokenIds={setTokenIds}
                     sourceChain={sourceChain}
+                    targetChain={targetChain}
+                    refCode={refCode!}
+                    logIndex={sourceChain.logIndex}
                   />
+
                   <div className="flex flex-col items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      cursor="pointer"
-                      onClick={() => setShowInput((prev) => !prev)}
-                      className="self-start w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-                      ></path>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      ></path>
-                    </svg>
                     <BridgeButton
                       sourceChain={sourceChain}
                       targetChain={targetChain}
@@ -821,7 +927,20 @@ export default function Home() {
                       tokenIds={tokenIds}
                       setTokenIds={setTokenIds}
                       setLayerZeroTxHashes={setLayerZeroTxHashes}
+                      setEstimatedGas={setEstimatedGas}
                     />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      cursor="pointer"
+                      onClick={() => setShowInput((prev) => !prev)}
+                      className="w-8 h-8 mt-2 cursor-pointer"
+                    >
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    </svg>
                     <div
                       className={`w-[150px] mt-4 transition-all overflow-hidden ${
                         !showInput ? "max-h-[0px]" : "max-h-[200px]"
@@ -831,9 +950,11 @@ export default function Home() {
                         placeholder="Token ID"
                         onChange={(e) => setInputTokenId(e.target.value)}
                         value={inputTokenId}
+                        type="number"
                         className={`bg-white/10 border-white border-[1px] rounded-lg px-8 py-2 w-full text-center`}
                       />
                     </div>
+                    <span className="mt-3">Estimated gas: {estimatedGas}</span>
                   </div>
                 </div>
                 <div
@@ -930,33 +1051,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          <div className={"mt-auto pb-16 flex justify-between items-center"}>
-            <p className={"text-gray-400 font-light"}>
-              DappGate by{" "}
-              <a
-                href={"https://dappad.app/"}
-                className={"text-white font-bold"}
-              >
-                DappLabs
-              </a>
-            </p>
-            <div className={"flex gap-4 text-xl text-gray-400 "}>
-              <a
-                href="https://twitter.com/Dappadofficial"
-                target="_blank"
-                className={"hover:text-gray-100 transition-all"}
-              >
-                <FontAwesomeIcon icon={faTwitter} />
-              </a>
-              <a
-                href={"https://discord.gg/dappadlaunchpad"}
-                target="_blank"
-                className={"hover:text-gray-100 transition-all"}
-              >
-                <FontAwesomeIcon icon={faDiscord} />
-              </a>
-            </div>
-          </div>
+          <Footer/>
         </div>
       </div>
       <div className={"relative w-full h-full"}>
@@ -973,10 +1068,10 @@ export default function Home() {
             }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
+              className={`absolute h-[80vh] aspect-square bg-color-[${sourceChain?.colorClass}] left-0 translate-x-[-50%] rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${targetChain.colorClass} translate-x-[50%] right-0 rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${targetChain?.colorClass} translate-x-[50%] right-0 rounded-full`}
             ></div>
           </div>
         </div>

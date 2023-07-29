@@ -3,10 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const data = await request.json();
-
-  await axios.get(
-    `https://gas.zkl.app/77ee866aa47d42cfaebe715c593cf393/${data.tokenId}`
+  const refDataResponse = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/bridge/${data.walletAddress}`
   );
 
-  return NextResponse.json(data);
+  return NextResponse.json(refDataResponse.data);
 }

@@ -11,6 +11,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import OFTBridge from "../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -21,15 +22,21 @@ type Props = {
   setTokenIds: any;
   refCode?: string;
   logIndex?: number;
+  tokenAmountHyperBridge: number;
+  selectedHyperBridges: any;
+
 };
 
-const MintButton: React.FC<Props> = ({
+const OFTHyperClaimButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   setInputTokenId,
   setTokenIds,
   refCode,
   logIndex,
+  tokenAmountHyperBridge,
+  selectedHyperBridges
+
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,16 +46,18 @@ const MintButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { data: costData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "cost",
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "fee",
   });
 
+
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000"),
+    value: BigInt((costData as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    args: [account,tokenAmountHyperBridge * selectedHyperBridges?.length],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -123,6 +132,9 @@ const MintButton: React.FC<Props> = ({
     if (!isSuccess) {
       return alert("An unknown error occured. Please try again.");
     }
+    if (!tokenAmountHyperBridge) {
+      return alert("Please enter a valid amount.");
+    }
     try {
       setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
@@ -143,10 +155,10 @@ const MintButton: React.FC<Props> = ({
       onClick={onMint}
       disabled={loading}
       className={
-        "flex items-center gap-1 bg-white/10 border-white border-[1px] rounded-lg px-16 py-2"
+        "flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
       }
     >
-      Mint
+      Claim {tokenAmountHyperBridge}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -167,4 +179,4 @@ const MintButton: React.FC<Props> = ({
   );
 };
 
-export default MintButton;
+export default OFTHyperClaimButton;
