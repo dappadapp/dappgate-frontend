@@ -28,7 +28,11 @@ body {
   opacity: 0.2;
 }
 .bg-effect {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0.5)
+  );
 }
 .bg-blur:after {
   position: absolute;
@@ -62,14 +66,21 @@ body {
   background-color: #ffffff;
 }
 
-.arda {
-  background-blend-mode: screen;
-  animation: arda 4s infinite linear;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-.arda *:nth-child(2) {
+
+.bridge-animaton {
+  background-blend-mode: screen;
+  animation: bridge-animaton 4s infinite linear;
+}
+.bridge-animaton *:nth-child(2) {
   animation: transparent 4s infinite linear;
 }
-@keyframes arda {
+
+@keyframes bridge-animaton {
   0% {
     transform: rotate(0deg);
   }
@@ -78,10 +89,9 @@ body {
     width: 0;
   }
 }
+
 @keyframes transparent {
   100% {
     opacity: 0.5;
   }
 }
-
-

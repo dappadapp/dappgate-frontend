@@ -1,4 +1,4 @@
-import { Network } from "../utils/networks";
+import { Network } from "@/app/page";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -35,6 +35,7 @@ const OFTBridgeButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
   dlgateBridgeAmount,
+
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -45,16 +46,12 @@ const OFTBridgeButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
-    args: [
-      `${targetChain.layerzeroChainId}`,
-      account,
-      "1000000000000000000",
-      false,
-      "0x",
-    ],
+    args: [`${targetChain.layerzeroChainId}`,account, "1000000000000000000",false,"0x"],
   });
 
-  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
+const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
 
   const {
     config: sendFromConfig,
@@ -65,9 +62,8 @@ const OFTBridgeButton: React.FC<Props> = ({
     abi: OFTBridge,
     functionName: "sendFrom",
     value:
-      BigInt(
-        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-      ) + BigInt("10000000000000"),
+      BigInt(gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452") +
+      BigInt("10000000000000"),
     args: [
       account,
       targetChain.layerzeroChainId,
@@ -87,17 +83,12 @@ const OFTBridgeButton: React.FC<Props> = ({
       setEstimatedGas(
         `${
           Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
-              BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) / BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [
-    gasEstimateDataArray,
-    setEstimatedGas,
-    connectedChain?.nativeCurrency.symbol,
-  ]);
+  }, [gasEstimateDataArray, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
 
   const onBridge = async () => {
     if (!account) {
@@ -182,11 +173,11 @@ const OFTBridgeButton: React.FC<Props> = ({
       onClick={onBridge}
       disabled={!dlgateBridgeAmount || loading}
       className={
-        " bg-blue-600 py-3 px-4 flex items-center text-xl mt-4 w-1/3 self-center justify-center text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg  relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
-      {true && (
+      {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
