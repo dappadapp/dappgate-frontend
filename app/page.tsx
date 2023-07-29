@@ -1085,10 +1085,7 @@ export default function Home({
                             key={i}
                             onClick={() => handleButtonClick(i)}
                             className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
-                              !(selectedHyperBridges as Network[]).some(
-                                (selectedNetwork) =>
-                                  selectedNetwork.chainId === network.chainId
-                              )
+                              !selectedButtons[i]
                                 ? "grayscale"
                                 : "grayscale-0"
                             } p-2 `}
@@ -1390,11 +1387,7 @@ export default function Home({
                             key={i}
                             onClick={() => handleButtonClick(i)}
                             className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                              !(selectedHyperBridges as Network[]).some(
-                                (selectedNetwork) =>
-                                  selectedNetwork.chainId ===
-                                  network.chainId
-                              )
+                              !selectedButtons[i]
                                 ? "grayscale"
                                 : "grayscale-0"
                             } p-2 `}
@@ -1505,11 +1498,7 @@ export default function Home({
                             key={i}
                             onClick={() => handleButtonClick(i)}
                             className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                              !(selectedHyperBridges as Network[]).some(
-                                (selectedNetwork) =>
-                                  selectedNetwork.chainId ===
-                                  network.chainId
-                              )
+                              !selectedButtons[i]
                                 ? "grayscale"
                                 : "grayscale-0"
                             } p-2 `}
