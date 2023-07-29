@@ -60,6 +60,8 @@ import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
+
+
 export interface Network {
   name: string;
   chainId: number;
@@ -77,7 +79,7 @@ export interface Network {
 }
 
 
-export const networks: Network[] = [
+const networks: Network[] = [
 
   {
     name: bsc.name,
@@ -480,6 +482,8 @@ export default function Home({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+
+
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [tokenIds, setTokenIds] = useState({});
