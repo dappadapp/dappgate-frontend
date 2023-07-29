@@ -955,7 +955,12 @@ export default function Home({
                                  className={`bg-white/10 border-white border-[1px] rounded-lg px-8 py-2 w-full text-center`}
                                />
                              </div>
+                             {estimatedGas
+                             ?
                              <span className="mt-3">Estimated gas: {estimatedGas}</span>
+                             :
+                             null
+                            }
                            </div>
                          </div>
                          <div
