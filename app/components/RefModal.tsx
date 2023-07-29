@@ -5,7 +5,7 @@ import { QRCodeSVG } from "qrcode.react";
 import copySvg from "@/assets/images/copy-regular.svg";
 import Image from "next/image";
 type Props = {
-  onCloseModal: any;
+  onCloseModal: () => void;
 };
 
 function RefModal({ onCloseModal }: Props) {
@@ -48,7 +48,6 @@ function RefModal({ onCloseModal }: Props) {
       className={
         "z-[999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0"
       }
-      onClick={() => onCloseModal()}
     >
       {walletAddress ? (
         <div
