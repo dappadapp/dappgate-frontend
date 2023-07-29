@@ -38,30 +38,9 @@ import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 import { networks } from "../utils/networks";
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
+import { Network } from "../utils/networks";
 
 
-export interface Network {
-  name: string;
-  chainId: number;
-  layerzeroChainId: number;
-  nftContractAddress: string;
-  tokenContractAddress: string;
-  gasRefuelContractAddress?: string;
-  relayerAddress?: string;
-  blockConfirmation: number;
-  colorClass: string;
-  image: string;
-  logIndex?: number;
-  disabledNetworks?: number[];
-  symbol?: string;
-}
-type Props = {
-  selectedHyperBridges: any;
-  setSelectedHyperBridges: any;
-  oftHyperBridge: any;
-  setOFTHyperBridge: any;
-  onftHyperBridge: any;
-}
 
 const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
   ssr: false,
