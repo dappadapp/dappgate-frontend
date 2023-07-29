@@ -354,7 +354,7 @@ const networks: Network[] = [
     chainId: zkSync.id,
     layerzeroChainId: 165,
     nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
-    tokenContractAddress: "0x2eB64561cAC289D3d165e1F3B8ddC6A2DFDb901D",
+    tokenContractAddress: "0xE29669E892ea8E5f4C3d7c42dB5a81631366d3Da",
     relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
     blockConfirmation: 1,
     colorClass: "bg-[#8C8DFC]",
