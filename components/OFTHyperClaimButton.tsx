@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import { Network } from "../utils/networks";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import {

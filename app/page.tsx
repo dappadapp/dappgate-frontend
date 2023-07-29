@@ -20,6 +20,28 @@ import formatAddress from "@/utils/formatAddress";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import {
+  arbitrum,
+  avalanche,
+  bsc,
+  canto,
+  fantom,
+  gnosis,
+  goerli,
+  harmonyOne,
+  klaytn,
+  mainnet,
+  metis,
+  moonbeam,
+  moonriver,
+  optimism,
+  optimismGoerli,
+  polygon,
+  polygonZkEvm,
+  zkSync,
+} from "wagmi/chains";
+
+
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
@@ -36,9 +58,12 @@ import ONFTHyperMintButton from "@/components/ONFTHyperMintButton";
 import CircleSvg from "./components/CircleSvg";
 import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
-import { networks } from "../utils/networks";
+import {networks} from "../utils/networks";
+import {Network} from "../utils/networks";
+
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
-import { Network } from "../utils/networks";
+
+
 
 
 
@@ -118,10 +143,12 @@ export default function Home({
   // balance useeffect
   useEffect(() => {
     if (!balanceOfData) return;
+
   }, [account, sourceChain, balanceOfData]);
   console.log("balanceOfData", balanceOfData);
   useEffect(() => {
     if (!searchParams?.ref) return;
+  
     setRefCode(searchParams?.ref as string);
   }, [searchParams?.ref]);
 
@@ -1041,10 +1068,10 @@ export default function Home({
             }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass} left-0 translate-x-[-50%] rounded-full`}
+              className={`absolute h-[80vh] aspect-square bg-color-[${sourceChain?.colorClass}] left-0 translate-x-[-50%] rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${targetChain.colorClass} translate-x-[50%] right-0 rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${targetChain?.colorClass} translate-x-[50%] right-0 rounded-full`}
             ></div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import { Network } from "../utils/networks";
 import { ethers } from "ethers";
 import { fetchTransaction } from '@wagmi/core'
 import React, { use, useEffect, useState } from "react";
