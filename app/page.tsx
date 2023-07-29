@@ -323,7 +323,7 @@ const networks: Network[] = [
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xDDF5882761b35B6B29CBe177E7Ff874AE367465e",
+    tokenContractAddress: "0x24a454482133cFA9e7dCF6007A22c7387C5f8178",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
