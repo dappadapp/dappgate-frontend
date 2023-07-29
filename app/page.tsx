@@ -91,7 +91,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
-    disabledNetworks: [122, 8217],
+    disabledNetworks: [5, 420, 122, 8217],
     symbol: "BNB",
   },
   {
@@ -104,7 +104,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
-    disabledNetworks: [1116],
+    disabledNetworks: [5, 420, 1116],
     symbol: "AVAX",
   },
   /*   {
@@ -126,7 +126,7 @@ const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
-    disabledNetworks: [8217],
+    disabledNetworks: [5, 420, 8217],
     symbol: "MATIC",
   },
   {
@@ -139,7 +139,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
-    disabledNetworks: [122, 1116, 8217],
+    disabledNetworks: [5, 420, 122, 1116, 8217],
     symbol: "ETH",
   },
   {
@@ -152,7 +152,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
-    disabledNetworks: [66, 122, 1116, 8217],
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217],
     symbol: "ETH",
   },
   {
@@ -165,7 +165,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
-    disabledNetworks: [66, 122, 1116, 8217],
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217],
     symbol: "FTM",
   },
   /*   {
@@ -188,7 +188,7 @@ const networks: Network[] = [
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
     disabledNetworks: [
-      66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170,
     ],
     symbol: "ONE",
@@ -222,7 +222,7 @@ const networks: Network[] = [
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
     disabledNetworks: [
-      66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170,
     ],
     symbol: "GLMR",
@@ -238,7 +238,7 @@ const networks: Network[] = [
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
     disabledNetworks: [
-      10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 42170,
+      5, 420, 10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 42170,
       1666600000,
     ],
     symbol: "FUSE",
@@ -253,7 +253,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
-    disabledNetworks: [66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
+    disabledNetworks: [5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
     symbol: "GNO",
   },
   {
@@ -268,7 +268,7 @@ const networks: Network[] = [
     colorClass: "bg-[#f82e08]",
     image: "klaytn.svg",
     disabledNetworks: [
-      10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700, 42161,
+      5, 420, 10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700, 42161,
       42170, 1666600000,
     ],
     symbol: "KLAY",
@@ -283,7 +283,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
-    disabledNetworks: [66, 324, 1101, 1116, 1666600000],
+    disabledNetworks: [5, 420, 66, 324, 1101, 1116, 1666600000],
     symbol: "METIS",
   },
   {
@@ -297,7 +297,7 @@ const networks: Network[] = [
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
     disabledNetworks: [
-      10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700, 8217,
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700, 8217,
       42161, 42170, 43114, 1666600000,
     ],
     symbol: "CORE",
@@ -313,7 +313,7 @@ const networks: Network[] = [
     colorClass: "bg-[#000000]",
     image: "okex.svg",
     disabledNetworks: [
-      10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700, 8217,
       42170, 1666600000,
     ],
     symbol: "OKT",
@@ -329,7 +329,7 @@ const networks: Network[] = [
     colorClass: "bg-[#7939D5]",
     image: "polygon-zkevm.svg",
     disabledNetworks: [
-      66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
+      5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "MATIC",
   },
@@ -344,7 +344,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
-    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    disabledNetworks: [5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "CANTO",
   },
   {
@@ -358,7 +358,7 @@ const networks: Network[] = [
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
     logIndex: 3,
-    disabledNetworks: [66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000],
+    disabledNetworks: [5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "ETH",
   },
   {
@@ -372,7 +372,7 @@ const networks: Network[] = [
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
     disabledNetworks: [
-      66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170, 1666600000,
+      5, 420, 66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "MOVR",
   },
@@ -386,7 +386,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
-    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    disabledNetworks: [5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "TENET",
   },
   {
@@ -399,7 +399,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
-    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    disabledNetworks: [5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "ETH",
   },
   {
@@ -412,7 +412,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
-    disabledNetworks: [66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
+    disabledNetworks: [5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000],
     symbol: "MTRG",
   },
   {
@@ -425,7 +425,7 @@ const networks: Network[] = [
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
     disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
+      5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "KAVA",
   },
@@ -438,6 +438,7 @@ const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#373737]",
     image: "ethereum.svg",
+    disabledNetworks: [56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088, 1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222],
     symbol: "ETH",
   },
   {
@@ -450,6 +451,7 @@ const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#FF0420]",
     image: "ethereum-opt.svg",
+    disabledNetworks: [56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088, 1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222],
     symbol: "ETH",
   },
   /*
