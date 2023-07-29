@@ -22,17 +22,21 @@ type Props = {
   setTokenIds: any;
   refCode?: string;
   logIndex?: number;
-  inputOFTAmount: string;
+  tokenAmountHyperBridge: number;
+  selectedHyperBridges: any;
+
 };
 
-const OFTClaimButton: React.FC<Props> = ({
+const OFTHyperClaimButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   setInputTokenId,
   setTokenIds,
   refCode,
   logIndex,
-  inputOFTAmount,
+  tokenAmountHyperBridge,
+  selectedHyperBridges
+
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,12 +51,13 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "fee",
   });
 
+
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000") * BigInt(inputOFTAmount),
-    args: [account,inputOFTAmount],
+    value: BigInt((costData as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    args: [account,tokenAmountHyperBridge * selectedHyperBridges?.length],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -127,7 +132,7 @@ const OFTClaimButton: React.FC<Props> = ({
     if (!isSuccess) {
       return alert("An unknown error occured. Please try again.");
     }
-    if (!inputOFTAmount) {
+    if (!tokenAmountHyperBridge) {
       return alert("Please enter a valid amount.");
     }
     try {
@@ -153,7 +158,7 @@ const OFTClaimButton: React.FC<Props> = ({
         "flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
       }
     >
-      Claim
+      Claim {tokenAmountHyperBridge}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -174,4 +179,4 @@ const OFTClaimButton: React.FC<Props> = ({
   );
 };
 
-export default OFTClaimButton;
+export default OFTHyperClaimButton;
