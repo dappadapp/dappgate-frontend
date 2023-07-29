@@ -65,7 +65,7 @@ const OFTClaimButton: React.FC<Props> = ({
     if (!mintTxResultData) return;
     console.log("mintTxResultData", mintTxResultData);
     const tokenId = BigInt(
-      mintTxResultData.logs[logIndex || 0].topics[3] as string
+      mintTxResultData?.logs[logIndex || 0].topics[3] as string
     ).toString();
 
     const postMint = async () => {
