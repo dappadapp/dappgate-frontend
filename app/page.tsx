@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { Listbox, Tab, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faCheck, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
@@ -773,10 +773,13 @@ export default function Home({
             <DappGateLogo/>
             <div className="flex flex-col-reverse md:flex-row gap-3">
               <button
-                className="backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
+                className="backdrop-blur-sm font-semibold border px-3 py-1 sm:px-5 sm:py-2 lg:px-10 lg:py-3.5 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
                 onClick={() => setIsModalOpen(true)}
               >
                 Referral
+                <FontAwesomeIcon
+                className="ml-2"
+                icon={faUserPlus}/>
               </button>
               <ConnectButton />
             </div>
@@ -952,7 +955,12 @@ export default function Home({
                                  className={`bg-white/10 border-white border-[1px] rounded-lg px-8 py-2 w-full text-center`}
                                />
                              </div>
+                             {estimatedGas
+                             ?
                              <span className="mt-3">Estimated gas: {estimatedGas}</span>
+                             :
+                             null
+                            }
                            </div>
                          </div>
                          <div

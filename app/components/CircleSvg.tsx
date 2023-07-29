@@ -20,7 +20,7 @@ const CircleSvg = ({
       xmlns="http://www.w3.org/2000/svg"
       onClick={handleClick}
       cursor="pointer"
-      className="mt-5"
+      className="m-5"
     >
       <circle
         cx="17.4"
