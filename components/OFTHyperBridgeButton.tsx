@@ -177,8 +177,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         const postBridgeHistory = async () => {
           await axios.post("/api/history", {
             tx: txHash,
-            srcChain: sourceChain.chainId,
-            dstChain: targetChain.chainId,
+            srcChain: sourceChain.name,
+            dstChain: targetChain.name,
             tokenId: tokenIds,
             walletAddress: account,
             ref: "",

@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
   
   const refDataResponse = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}&ref=${data.ref}`
+    `${process.env.NEXT_PUBLIC_API_URL}/bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}&ref=${data.ref}&type=${data.type}`
   );
   return NextResponse.json(refDataResponse.data);
 }

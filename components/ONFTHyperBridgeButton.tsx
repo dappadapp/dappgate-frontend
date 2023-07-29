@@ -140,9 +140,9 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
       const postBridgeHistory = async () => {
         await axios.post("/api/history", {
           tx: txHash,
-          srcChain: sourceChain.chainId,
-          dstChain: targetChain.chainId,
-          tokenId: tokenIds,
+          srcChain: sourceChain.name,
+          dstChain: targetChain.name,
+          tokenId: tokenId,
           walletAddress: account,
           ref: "",
           type: "onft",
