@@ -25,11 +25,11 @@ type Props = {
   refCode?: string;
   logIndex?: number;
   selectedHyperBridges: any;
+  setHyperBridgeNFTIds: any;
+  hyperBridgeNFTIds: any;
 };
 
 
-// Define the type of your array elements
-type MyArrayType = string;
 const ONFTHyperMintButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
@@ -39,6 +39,8 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   refCode,
   logIndex,
   selectedHyperBridges,
+  setHyperBridgeNFTIds,
+  hyperBridgeNFTIds,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +48,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-  const [nftIds, setNftIds] = useState<MyArrayType[]>([]);
+
 
   const { data: costData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -60,9 +62,8 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
-    value: BigInt("1000000000000000")
-     // BigInt((costData as string) || "500000000000000") *
-      //BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    value:  BigInt((costData as string) || "500000000000000") *
+      BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
   });
 
   const { data: mintResult, writeAsync: mint } = useContractWrite(mintConfig);
@@ -73,13 +74,9 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   });*/
 
   const addNftId = async(nftId: string) => {
-    setNftIds((nftIds) => [...nftIds, nftId]);
+    setHyperBridgeNFTIds((hyperBridgeNFTIds: any) => [...hyperBridgeNFTIds, nftId]);
   };
 
-  useEffect(() => {
-    console.log("nftIds", nftIds);
-
-  }, [nftIds]);
 
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
@@ -106,29 +103,20 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       selectedHyperBridges.filter((x: any) => x !== 0).forEach(async() => {
         const result = await mint();
         setMintTxHash(result.hash);
-
-        console.log("result hash", result);
-      
         toast("Mint transaction sent, waiting confirmation...");
 
         const data = await waitForTransaction({
           hash: result?.hash,
         });
 
-        console.log("data", data);
-
         const tokenId = BigInt(
           data?.logs[logIndex || 0].topics[3] as string
         ).toString();
 
-        console.log("tokenId", tokenId);
-
         if (tokenId) {
           await addNftId(tokenId);
         }
-
-        console.log("nftIds", nftIds);
-
+        console.log("nftIds", hyperBridgeNFTIds);
 
       });
     } catch (error) {
@@ -137,7 +125,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       setLoading(false);
     }
 
-    console.log("nftIds", nftIds);
+    console.log("nftIds", hyperBridgeNFTIds);
   };
 
 
@@ -146,7 +134,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       onClick={onMint}
       disabled={loading}
       className={
-        "flex rounded-lg bg-blue-600 py-3 px-4 text-center text-lg  mt-2  mb-4"
+        "flex items-center rounded-lg bg-blue-600 py-3 px-4 text-lg mt-2 mb-4 justify-center"
       }
     >
       Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")"}

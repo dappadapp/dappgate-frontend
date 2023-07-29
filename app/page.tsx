@@ -37,6 +37,7 @@ import CircleSvg from "./components/CircleSvg";
 import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 import { networks } from "../utils/networks";
+import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
 
 
 export interface Network {
@@ -53,6 +54,13 @@ export interface Network {
   logIndex?: number;
   disabledNetworks?: number[];
   symbol?: string;
+}
+type Props = {
+  selectedHyperBridges: any;
+  setSelectedHyperBridges: any;
+  oftHyperBridge: any;
+  setOFTHyperBridge: any;
+  onftHyperBridge: any;
 }
 
 const ConnectButton: any = dynamic(() => import("@/components/ConnectButton"), {
@@ -92,12 +100,12 @@ export default function Home({
     Array(networks.length).fill(true)
   );
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
+  const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
 
   // fill with individual network data
 
-  const [selectedHyperBridges, setSelectedHyperBridges] = useState<
-    Network[] | number
-  >(networks);
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(networks);
+
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -295,6 +303,8 @@ export default function Home({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+  console.log("hyperbridge", hyperBridgeNFTIds);
   return (
     <div
       className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
@@ -798,7 +808,55 @@ export default function Home({
                   setTokenIds={setTokenIds}
                   refCode={refCode}
                   selectedHyperBridges={selectedHyperBridges}
+                  setHyperBridgeNFTIds={setHyperBridgeNFTIds}
+                  hyperBridgeNFTIds={hyperBridgeNFTIds}
                 />
+
+                <div>
+  
+                <div
+                     
+                      className="grid grid-cols-4 gap-4 mt-4"
+                    >
+                 {hyperBridgeNFTIds.length > 0  &&   hyperBridgeNFTIds?.map((nftId:any, index: number) => {
+                 
+                 {/** exclude source chain */}
+                  if (selectedHyperBridges.filter((x: any) => x !== 0)[index].chainId === sourceChain.chainId) return null;
+
+                  return (              
+                        <div  key={index} className="flex flex-col items-center">
+   
+                        <Image
+                          src={`/chains/${selectedHyperBridges.filter((x: any) => x !== 0)[index].image}`}
+                          alt={selectedHyperBridges.filter((x: any) => x !== 0)[index].name}
+                          width={40}
+                          height={40}
+                          className="rounded-full mr-2 mt-2 mb-2 p-1"
+                        />
+                      <p className="text-lg text-white-900">
+                          NFT ID: {nftId}
+                        </p>
+  
+                        <ONFTHyperBridgeButton
+                          sourceChain={sourceChain}
+                          targetChain={selectedHyperBridges.filter((x: any) => x !== 0)[index]}
+                          tokenId={nftId}
+                          tokenIds={tokenIds}
+                          inputTokenId={inputTokenId}
+                          setInputTokenId={setInputTokenId}
+                          setTokenIds={setTokenIds}
+                          setLayerZeroTxHashes={setLayerZeroTxHashes}
+                          setEstimatedGas={setEstimatedGas}
+                        />
+                        </div>
+  
+                      
+                  );
+                })
+                  
+                }  </div>
+
+                </div>
               </div>
             ) : (
               <div
