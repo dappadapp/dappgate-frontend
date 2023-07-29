@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import { Network } from "../utils/networks";
 import axios from "axios";
 import { ethers } from "ethers";
 import React, { use, useEffect, useState } from "react";
@@ -38,7 +38,6 @@ const OFTRefuelButton: React.FC<Props> = ({
   estimatedGas,
   setEstimatedGas,
   gasRefuelAmount,
-
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -47,28 +46,25 @@ const OFTRefuelButton: React.FC<Props> = ({
   const [adapterParam, setAdapterParams] = useState("");
   const [gasEstimate, setGasEstimate] = useState(BigInt(0));
 
-
-
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateGasBridgeFee",
-    args: [`${targetChain.layerzeroChainId}`,false,adapterParam],
+    args: [`${targetChain.layerzeroChainId}`, false, adapterParam],
   });
 
   useEffect(() => {
-    if(gasEstimateDataArray){
+    if (gasEstimateDataArray) {
       setGasEstimate(BigInt(gasEstimateDataArray[0]));
-      if(gasEstimate) {
-        const adapterParams = ethers.solidityPacked(["uint16","uint","uint","address"], [2, 200000,BigInt(Number(gasRefuelAmount) * 10 ** 18),account]);
+      if (gasEstimate) {
+        const adapterParams = ethers.solidityPacked(
+          ["uint16", "uint", "uint", "address"],
+          [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+        );
         setAdapterParams(adapterParams);
       }
-
     }
   }, [gasEstimateData, gasRefuelAmount]);
-
-
-
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
   const {
@@ -95,20 +91,25 @@ const OFTRefuelButton: React.FC<Props> = ({
       setEstimatedGas(
         `${
           Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) / BigInt(1e18)
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateDataArray, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [
+    gasEstimateDataArray,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+  ]);
 
   const onBridge = async () => {
-    if(!gasRefuelAmount) return alert("Please enter a valid amount");
-    if (Number(gasRefuelAmount) <= 0) return alert("Please enter a valid amount");
 
-    if(!gasEstimate)
-      return alert( "It looks like the bridge between these chains are closed.");
-      
+    console.log("gasEstimateData", gasEstimateData);
+    if (!gasRefuelAmount) return alert("Please enter a valid amount");
+    if (Number(gasRefuelAmount) <= 0)
+      return alert("Please enter a valid amount");
+
     if (!account) {
       return alert("Please connect your wallet first.");
     }
@@ -190,7 +191,7 @@ const OFTRefuelButton: React.FC<Props> = ({
       onClick={onBridge}
       disabled={!gasRefuelAmount || loading}
       className={
-        "rounded-lg bg-blue-600 py-3 px-4 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "self-center bg-blue-600 flex justify-center items-center px-4 w-1/3 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge

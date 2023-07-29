@@ -212,7 +212,7 @@ function HistoryModal({ onCloseModal }: Props) {
       }>
       <div
         className={
-          "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
+          "p-20 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
         }>
         <div className="flex justify-between mb-2">
           <h1 className={"text-xl sm:text-3xl"}>Transaction History</h1>

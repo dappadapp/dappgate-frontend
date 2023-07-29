@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import { Network } from "../utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -81,6 +81,8 @@ const BridgeButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
+    if (!gasEstimateData)
+      return alert("It looks like the bridge between these chains are closed.");
     if (!sendFrom) {
       console.log("error", error?.message);
       if (
