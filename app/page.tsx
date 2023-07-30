@@ -193,6 +193,116 @@ const networks: Network[] = [
     ],
     symbol: "ONE",
   },
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,
+    ],
+    symbol: "ETH",
+  },
+  {
+    name: "Base",
+    chainId: 8453,
+    layerzeroChainId: 184,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#2967FF]",
+    image: "base.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,
+    ],
+    symbol: "ETH",
+  },
+  {
+    name: "Mantle",
+    chainId: 8453,
+    layerzeroChainId: 181,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "mantle.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 2222,
+    ],
+    symbol: "MNT",
+  },
+  {
+    name: "OKT (OKX)",
+    chainId: 66,
+    layerzeroChainId: 155,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xC86Bb3231B641064459295ecC861db7CFe4a73DD",
+    relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
+    blockConfirmation: 1,
+    colorClass: "bg-[#000000]",
+    image: "okex.svg",
+    disabledNetworks: [
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
+      7700, 8217, 42170, 1666600000,
+    ],
+    symbol: "OKT",
+  },
+  {
+    name: polygonZkEvm.name,
+    chainId: polygonZkEvm.id,
+    layerzeroChainId: 158,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x24a454482133cFA9e7dCF6007A22c7387C5f8178",
+    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7939D5]",
+    image: "polygon-zkevm.svg",
+    disabledNetworks: [
+      5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
+    ],
+    symbol: "MATIC",
+  },
+  {
+    name: zkSync.name,
+    chainId: zkSync.id,
+    layerzeroChainId: 165,
+    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
+    tokenContractAddress: "0xE29669E892ea8E5f4C3d7c42dB5a81631366d3Da",
+    relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
+    blockConfirmation: 1,
+    colorClass: "bg-[#8C8DFC]",
+    image: "zksync-era.svg",
+    logIndex: 3,
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000,
+    ],
+    symbol: "ETH",
+  },
+  {
+    name: "Arbitrum Nova",
+    chainId: 42170,
+    layerzeroChainId: 175,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x818529140C65Ad9152bcE5d87fF42632820CEBFB",
+    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E37B1E]",
+    image: "arb-nova.svg",
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
+    ],
+    symbol: "ETH",
+  },
   /*   {
       name: "Dexalot",
       chainId: 432204,
@@ -212,20 +322,17 @@ const networks: Network[] = [
       image: "celo.svg",
     }, */
   {
-    name: moonbeam.name,
-    chainId: moonbeam.id,
-    layerzeroChainId: 126,
-    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    tokenContractAddress: "0x9d3d5f9B419544e137443119aced184E50561FDA",
-    relayerAddress: "0xccCDD23E11F3f47C37fC0a7C3BE505901912C6Cc",
+    name: gnosis.name,
+    chainId: gnosis.id,
+    layerzeroChainId: 145,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x74f57E1171a0360670AED3b3DbC3a997Fb493d16",
+    relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     blockConfirmation: 1,
-    colorClass: "bg-[#1fcceb]",
-    image: "moonbeam.svg",
-    disabledNetworks: [
-      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
-      8217, 42170,
-    ],
-    symbol: "GLMR",
+    colorClass: "bg-[#57ac86]",
+    image: "gnosis.svg",
+    disabledNetworks: [5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
+    symbol: "GNO",
   },
   {
     name: "Fuse",
@@ -242,19 +349,6 @@ const networks: Network[] = [
       42170, 1666600000,
     ],
     symbol: "FUSE",
-  },
-  {
-    name: gnosis.name,
-    chainId: gnosis.id,
-    layerzeroChainId: 145,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x74f57E1171a0360670AED3b3DbC3a997Fb493d16",
-    relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
-    blockConfirmation: 1,
-    colorClass: "bg-[#57ac86]",
-    image: "gnosis.svg",
-    disabledNetworks: [5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
-    symbol: "GNO",
   },
   {
     name: klaytn.name,
@@ -303,37 +397,6 @@ const networks: Network[] = [
     symbol: "CORE",
   },
   {
-    name: "OKT (OKX)",
-    chainId: 66,
-    layerzeroChainId: 155,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xC86Bb3231B641064459295ecC861db7CFe4a73DD",
-    relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
-    blockConfirmation: 1,
-    colorClass: "bg-[#000000]",
-    image: "okex.svg",
-    disabledNetworks: [
-      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
-      7700, 8217, 42170, 1666600000,
-    ],
-    symbol: "OKT",
-  },
-  {
-    name: polygonZkEvm.name,
-    chainId: polygonZkEvm.id,
-    layerzeroChainId: 158,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x24a454482133cFA9e7dCF6007A22c7387C5f8178",
-    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7939D5]",
-    image: "polygon-zkevm.svg",
-    disabledNetworks: [
-      5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
-    ],
-    symbol: "MATIC",
-  },
-  {
     name: canto.name,
     chainId: canto.id,
     layerzeroChainId: 159,
@@ -350,20 +413,20 @@ const networks: Network[] = [
     symbol: "CANTO",
   },
   {
-    name: zkSync.name,
-    chainId: zkSync.id,
-    layerzeroChainId: 165,
-    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
-    tokenContractAddress: "0xE29669E892ea8E5f4C3d7c42dB5a81631366d3Da",
-    relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
+    name: moonbeam.name,
+    chainId: moonbeam.id,
+    layerzeroChainId: 126,
+    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0x9d3d5f9B419544e137443119aced184E50561FDA",
+    relayerAddress: "0xccCDD23E11F3f47C37fC0a7C3BE505901912C6Cc",
     blockConfirmation: 1,
-    colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg",
-    logIndex: 3,
+    colorClass: "bg-[#1fcceb]",
+    image: "moonbeam.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000,
+      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
+      8217, 42170,
     ],
-    symbol: "ETH",
+    symbol: "GLMR",
   },
   {
     name: moonriver.name,
@@ -397,21 +460,6 @@ const networks: Network[] = [
     symbol: "TENET",
   },
   {
-    name: "Arbitrum Nova",
-    chainId: 42170,
-    layerzeroChainId: 175,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x818529140C65Ad9152bcE5d87fF42632820CEBFB",
-    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E37B1E]",
-    image: "arb-nova.svg",
-    disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
-    ],
-    symbol: "ETH",
-  },
-  {
     name: "Meter.io",
     chainId: 82,
     layerzeroChainId: 176,
@@ -439,54 +487,6 @@ const networks: Network[] = [
       5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "KAVA",
-  },
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000,
-    ],
-    symbol: "ETH",
-  },
-  {
-    name: "Base",
-    chainId: 8453,
-    layerzeroChainId: 184,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#2967FF]",
-    image: "base.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000,
-    ],
-    symbol: "ETH",
-  },
-  {
-    name: "Mantle",
-    chainId: 8453,
-    layerzeroChainId: 181,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "mantle.svg",
-    disabledNetworks: [
-      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 2222,
-    ],
-    symbol: "MNT",
   },
   {
     name: goerli.name,
@@ -1147,13 +1147,11 @@ export default function Home({
                   <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
                   <div>
                     {/** wRITE A EXPLANATION FOR THIS STEP */}
-                  
-                    
-                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
+
+                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
                       Step1: Select the multiple destination chains to bridge
-                  </div>
-                   
-                 
+                    </div>
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
@@ -1190,9 +1188,10 @@ export default function Home({
                 </div>
 
                 <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-                      Step2: Mint {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs on {sourceChain.name} to bridge
+                  Step2: Mint{" "}
+                  {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs
+                  on {sourceChain.name} to bridge
                 </div>
-                   
 
                 <ONFTHyperMintButton
                   sourceChain={sourceChain}
@@ -1201,20 +1200,20 @@ export default function Home({
                   tokenIds={tokenIds}
                   setTokenIds={setTokenIds}
                   refCode={refCode}
+                  logIndex={sourceChain.logIndex}
                   selectedHyperBridges={selectedHyperBridges}
                   setHyperBridgeNFTIds={setHyperBridgeNFTIds}
                   hyperBridgeNFTIds={hyperBridgeNFTIds}
                 />
 
                 <div>
-            
-                   
                   <div className="grid grid-cols-4 gap-4 mt-4">
                     {hyperBridgeNFTIds.length > 0 &&
                       hyperBridgeNFTIds?.map((nftId: any, index: number) => {
                         <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-                        Step3: Now you can bridge your NFTs to destination chains selected in Step 1
-                         </div>
+                          Step3: Now you can bridge your NFTs to destination
+                          chains selected in Step 1
+                        </div>;
                         if (
                           selectedHyperBridges.filter((x: any) => x !== 0)[
                             index
