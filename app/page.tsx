@@ -838,7 +838,7 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      NFT Bridge
+                      ONFT Bridge
                     </button>
                   )}
                 </Tab>
@@ -852,7 +852,7 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      NFT Hyper Bridge
+                      ONFT HyperBridge
                     </button>
                   )}
                 </Tab>
@@ -879,7 +879,7 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      Token Bridge
+                      OFT Bridge
                     </button>
                   )}
                 </Tab>
@@ -892,7 +892,7 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      Token Hyper Bridge
+                      OFT HyperBridge
                     </button>
                   )}
                 </Tab>
@@ -904,7 +904,7 @@ export default function Home({
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>NFT Bridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
                 </div>
                 <div
                   className={
@@ -1082,7 +1082,7 @@ export default function Home({
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>NFT Bridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
                 </div>
                 <div
                   className={
@@ -1098,6 +1098,14 @@ export default function Home({
                   />
                   <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
                   <div>
+                    {/** wRITE A EXPLANATION FOR THIS STEP */}
+                  
+                    
+                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
+                      Step1: Select the multiple destination chains to bridge
+                  </div>
+                   
+                 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
@@ -1133,6 +1141,11 @@ export default function Home({
                   </div>
                 </div>
 
+                <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
+                      Step2: Mint {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs on {sourceChain.name} to bridge
+                </div>
+                   
+
                 <ONFTHyperMintButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
@@ -1146,12 +1159,14 @@ export default function Home({
                 />
 
                 <div>
+            
+                   
                   <div className="grid grid-cols-4 gap-4 mt-4">
                     {hyperBridgeNFTIds.length > 0 &&
                       hyperBridgeNFTIds?.map((nftId: any, index: number) => {
-                        {
-                          /** exclude source chain */
-                        }
+                        <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
+                        Step3: Now you can bridge your NFTs to destination chains selected in Step 1
+                         </div>
                         if (
                           selectedHyperBridges.filter((x: any) => x !== 0)[
                             index
