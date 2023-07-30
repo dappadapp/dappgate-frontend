@@ -219,7 +219,7 @@ const networks: Network[] = [
     chainId: 8453,
     layerzeroChainId: 184,
     nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "",
+    tokenContractAddress: "0x0aAa15291dcaDB13512d55a25Ea419309A38ab52",
     relayerAddress: "", // not available in layer zero
     blockConfirmation: 1,
     colorClass: "bg-[#2967FF]",
@@ -1185,11 +1185,18 @@ export default function Home({
                                 className="rounded-full"
                               />
                               <h2 className="p-2">{network.name}</h2>
-                           
-                             {
-                               !selectedButtons[i] ? <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCircleXmark} /> :  <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCheckCircle} />
-                             }
-                             
+
+                              {!selectedButtons[i] ? (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCircleXmark}
+                                />
+                              ) : (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCheckCircle}
+                                />
+                              )}
                             </button>
                           );
                         })}
@@ -1413,7 +1420,9 @@ export default function Home({
                 </div>
 
                 <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">Step 2: Bridge $DLGATE to {targetChain.name} </div>
+                  <div className="text-white-700">
+                    Step 2: Bridge $DLGATE to {targetChain.name}{" "}
+                  </div>
                   <div className="text-white-700">
                     Balance: {Number(balanceOfDlgate?.formatted) || 0}
                   </div>
@@ -1455,15 +1464,13 @@ export default function Home({
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>OFT  HyperBridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>OFT HyperBridge</h1>
                 </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                   }
                 >
-
-          
                   <ListboxSourceMenu
                     value={sourceChain}
                     onChange={onChangeSourceChain}
@@ -1475,9 +1482,9 @@ export default function Home({
                   <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
 
                   <div>
-                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-2">
+                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-2">
                       Step 1: Select multiple destination chains to bridge
-                  </div>
+                    </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
@@ -1505,11 +1512,17 @@ export default function Home({
                               />
                               <h2 className="p-2 flex-1">{network.name}</h2>
 
-                                    
-                             {
-                               !selectedButtons[i] ? <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCircleXmark} /> :  <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCheckCircle} />
-                             }
-                             
+                              {!selectedButtons[i] ? (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCircleXmark}
+                                />
+                              ) : (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCheckCircle}
+                                />
+                              )}
                             </button>
                           );
                         })}
@@ -1532,7 +1545,7 @@ export default function Home({
                     }
                   />
 
-                    {/** Show user preview of the transaction amount price and counts for networks */}
+                  {/** Show user preview of the transaction amount price and counts for networks */}
 
                   <OFTHyperClaimButton
                     sourceChain={sourceChain}
@@ -1548,8 +1561,9 @@ export default function Home({
 
                 <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700">
-
-                    Step 3: Bridge  {selectedHyperBridges.filter((x: any) => x !== 0).length} $DLGATE tokens per network to selected networks in Step 1
+                    Step 3: Bridge{" "}
+                    {selectedHyperBridges.filter((x: any) => x !== 0).length}{" "}
+                    $DLGATE tokens per network to selected networks in Step 1
                   </div>
                 </div>
 
