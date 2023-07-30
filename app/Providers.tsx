@@ -36,6 +36,7 @@ import {
   metisGoerli,
   canto,
   moonriver,
+  base,
   sepolia,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -319,6 +320,35 @@ const kava = {
   },
 } as const satisfies Chain;
 
+const linea = {
+  id: 59144,
+  name: "Linea",
+  network: "linea",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ethereum",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://linea-mainnet.infura.io/v3"],
+    },
+    public: {
+      http: ["https://linea-mainnet.infura.io/v3"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Meter Explorer",
+      url: "https://lineascan.build/",
+    },
+    default: {
+      name: "Meter Explorer",
+      url: "https://lineascan.build/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -356,6 +386,8 @@ const chains = [
   arbNova,
   meter,
   kava,
+  base,
+  linea,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

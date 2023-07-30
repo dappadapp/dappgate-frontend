@@ -441,6 +441,54 @@ const networks: Network[] = [
     symbol: "KAVA",
   },
   {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,
+    ],
+    symbol: "ETH",
+  },
+  {
+    name: "Base",
+    chainId: 8453,
+    layerzeroChainId: 184,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#2967FF]",
+    image: "base.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,
+    ],
+    symbol: "ETH",
+  },
+  {
+    name: "Mantle",
+    chainId: 8453,
+    layerzeroChainId: 181,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "mantle.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 2222,
+    ],
+    symbol: "MNT",
+  },
+  {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,
