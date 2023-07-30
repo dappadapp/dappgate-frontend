@@ -1,8 +1,8 @@
 import { Network } from "@/app/page";
 import { ethers } from "ethers";
-import { fetchTransaction } from '@wagmi/core'
+import { fetchTransaction } from "@wagmi/core";
 import React, { use, useEffect, useState } from "react";
-import { waitForTransaction } from '@wagmi/core'
+import { waitForTransaction } from "@wagmi/core";
 import {
   useAccount,
   useContractRead,
@@ -29,7 +29,6 @@ type Props = {
   hyperBridgeNFTIds: any;
 };
 
-
 const ONFTHyperMintButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
@@ -49,34 +48,38 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-
   const { data: costData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "cost",
   });
 
-
-
-  const { config: mintConfig, isSuccess } = usePrepareContractWrite({
+  const {
+    config: mintConfig,
+    isSuccess,
+    error,
+  } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "mint",
-    value:  BigInt((costData as string) || "500000000000000") *
-      BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    value: BigInt((costData as string) || "500000000000000"),
   });
 
+  console.log("error", error);
+
   const { data: mintResult, writeAsync: mint } = useContractWrite(mintConfig);
-/*
+  /*
   const { data: mintTxResultData, refetch } = useWaitForTransaction({
     hash: mintResult?.hash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });*/
 
-  const addNftId = async(nftId: string) => {
-    setHyperBridgeNFTIds((hyperBridgeNFTIds: any) => [...hyperBridgeNFTIds, nftId]);
+  const addNftId = async (nftId: string) => {
+    setHyperBridgeNFTIds((hyperBridgeNFTIds: any) => [
+      ...hyperBridgeNFTIds,
+      nftId,
+    ]);
   };
-
 
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
@@ -100,25 +103,26 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      selectedHyperBridges.filter((x: any) => x !== 0).forEach(async() => {
-        const result = await mint();
-        setMintTxHash(result.hash);
-        toast("Mint transaction sent, waiting confirmation...");
+      selectedHyperBridges
+        .filter((x: any) => x !== 0)
+        .forEach(async () => {
+          const result = await mint();
+          setMintTxHash(result.hash);
+          toast("Mint transaction sent, waiting confirmation...");
 
-        const data = await waitForTransaction({
-          hash: result?.hash,
+          const data = await waitForTransaction({
+            hash: result?.hash,
+          });
+
+          const tokenId = BigInt(
+            data?.logs[logIndex || 0].topics[3] as string
+          ).toString();
+
+          if (tokenId) {
+            await addNftId(tokenId);
+          }
+          console.log("nftIds", hyperBridgeNFTIds);
         });
-
-        const tokenId = BigInt(
-          data?.logs[logIndex || 0].topics[3] as string
-        ).toString();
-
-        if (tokenId) {
-          await addNftId(tokenId);
-        }
-        console.log("nftIds", hyperBridgeNFTIds);
-
-      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -127,7 +131,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
     console.log("nftIds", hyperBridgeNFTIds);
   };
-
 
   return (
     <button

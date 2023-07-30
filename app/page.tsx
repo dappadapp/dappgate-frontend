@@ -664,6 +664,7 @@ export default function Home({
     console.log("newSelectedHyperBridges", newSelectedHyperBridges);
 
     setSelectedHyperBridges(newSelectedHyperBridges);
+    setSelectedButtons(Array(newSelectedHyperBridges.length).fill(true));
   };
 
   const onChangeTargetChain = async (selectedNetwork: Network) => {
