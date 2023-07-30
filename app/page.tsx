@@ -1297,11 +1297,11 @@ export default function Home({
                   />
                 </div>
                 <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700 break-words max-w-[60%]">
+                  <div className="text-white-700 break-words max-w-[60%] text-base">
                     Input amount of ${targetChain.symbol} to receive on{" "}
                     {targetChain.name}
                   </div>
-                  <div className="text-white-700">
+                  <div className="text-white-700 text-base">
                     Max: {Number(balanceOfData?.formatted).toFixed(3) || 0}{" "}
                     {targetChain.symbol}
                   </div>
@@ -1381,7 +1381,7 @@ export default function Home({
                 </div>
 
                 <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  Claim Tokens
+                  Step 1: Claim $DLGATE from {sourceChain.name} to bridge
                 </div>
                 <div className="flex flex-row justify-between items-center w-full sm:w-full">
                   <input
@@ -1404,7 +1404,7 @@ export default function Home({
                 </div>
 
                 <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">$DLGATE To Bridge</div>
+                  <div className="text-white-700">Step 2: Bridge $DLGATE to {targetChain.name} </div>
                   <div className="text-white-700">
                     Balance: {Number(balanceOfDlgate?.formatted) || 0}
                   </div>
