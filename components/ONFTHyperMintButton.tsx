@@ -89,6 +89,11 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
+    if (
+      selectedHyperBridges.every((v: any, i: any, arr: any) => v === arr[0])
+    ) {
+      return alert("You didn't choose any destination chains.");
+    }
     if (!mint)
       return alert(
         "Make sure you have enough ETH and you're on the correct network."
