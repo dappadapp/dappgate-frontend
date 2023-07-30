@@ -7,6 +7,11 @@ import {
   faAngleDown,
   faCheck,
   faUserPlus,
+  faUserCheck,
+  faX,
+  faCircleCheck,
+  faCheckCircle,
+  faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -1182,6 +1187,11 @@ export default function Home({
                                 className="rounded-full"
                               />
                               <h2 className="p-2">{network.name}</h2>
+                           
+                             {
+                               !selectedButtons[i] ? <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCircleXmark} /> :  <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCheckCircle} />
+                             }
+                             
                             </button>
                           );
                         })}
@@ -1466,7 +1476,7 @@ export default function Home({
                   <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
 
                   <div>
-                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg mt-2">
+                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-2">
                       Step 1: Select multiple destination chains to bridge
                   </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
@@ -1495,6 +1505,12 @@ export default function Home({
                                 className="rounded-full"
                               />
                               <h2 className="p-2 flex-1">{network.name}</h2>
+
+                                    
+                             {
+                               !selectedButtons[i] ? <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCircleXmark} /> :  <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCheckCircle} />
+                             }
+                             
                             </button>
                           );
                         })}
@@ -1516,6 +1532,8 @@ export default function Home({
                       setTokenAmountHyperBridge(Number(e.target.value))
                     }
                   />
+
+                    {/** Show user preview of the transaction amount price and counts for networks */}
 
                   <OFTHyperClaimButton
                     sourceChain={sourceChain}
