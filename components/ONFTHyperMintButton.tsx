@@ -138,10 +138,11 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={loading}
+      disabled={ !(selectedHyperBridges.filter((x: any) => x !== 0)) || loading}
       className={
-        "flex items-center rounded-lg bg-blue-600 py-3 px-4 text-lg mt-2 mb-4 justify-center"
+        "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
+      
     >
       Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")"}
       {loading && (

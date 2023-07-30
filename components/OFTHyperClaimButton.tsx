@@ -153,9 +153,9 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={loading}
+      disabled={!tokenAmountHyperBridge || loading}
       className={
-        "flex rounded-lg bg-blue-600 py-3 px-4 text-left text-lg  mt-2 ml-3 mb-4"
+        "rounded-lg bg-blue-600 py-3 px-4 text-left text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
       }
     >
       Claim {tokenAmountHyperBridge}

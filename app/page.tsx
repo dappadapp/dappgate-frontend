@@ -68,6 +68,7 @@ import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
+import BridgeModal from "./components/BridgeModal";
 
 export interface Network {
   name: string;
@@ -568,6 +569,7 @@ export default function Home({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isMintModalOpen, setIsMintModalOpen] = useState(false);
+  const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
@@ -830,6 +832,20 @@ export default function Home({
         />
       ) : null}
 
+    {isBridgeModalOpen ? (
+        <BridgeModal
+          onCloseModal={() => {
+            setIsBridgeModalOpen(false);
+          }}
+          sourceChain={sourceChain}
+          targetChain={targetChain}
+          setInputTokenId={setInputTokenId}
+          setTokenIds={setTokenIds}
+          refCode={refCode}
+          logIndex={sourceChain.logIndex}
+        />
+      ) : null}
+
       {isMintModalOpen ? (
         <MintModal
           onCloseModal={() => {
@@ -996,6 +1012,12 @@ export default function Home({
                   />
 
                   <div className="flex flex-col items-center">
+                    <button 
+                        className="text-white text-sm sm:text-base font-semibold" 
+                        onClick={() => setIsBridgeModalOpen(true)}
+                      >
+                      Bridge
+                    </button>
                     <BridgeButton
                       sourceChain={sourceChain}
                       targetChain={targetChain}
@@ -1207,7 +1229,7 @@ export default function Home({
                 <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
                   Step2: Mint{" "}
                   {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs
-                  on {sourceChain.name} to bridge
+                  on {sourceChain.name} to bridge 
                 </div>
 
                 <ONFTHyperMintButton
@@ -1335,7 +1357,7 @@ export default function Home({
                   />
                   <button
                     type="button"
-                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-red-500/40 text-white rounded-md"
                     onClick={handleMax}
                   >
                     Max
@@ -1440,7 +1462,7 @@ export default function Home({
                   />
                   <button
                     type="button"
-                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-blue-500 text-white rounded-md"
+                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-red-500/40 text-white rounded-md"
                     onClick={handleDlgateMax}
                   >
                     Max
