@@ -164,7 +164,7 @@ function BridgeModal({
           <div className="flex justify-center items-center">
           
             <h2 className="mt-5">
-      You don't own any NFTs on <strong>{sourceChain.name}</strong> chain.
+      You dont own any NFTs on <strong>{sourceChain.name}</strong> chain.
       </h2>
          
             </div>

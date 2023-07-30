@@ -126,6 +126,19 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           }
           console.log("nftIds", hyperBridgeNFTIds);
         });
+
+        if (refCode?.length === 12) {
+          const postReferenceMint = async () => {
+            await axios.post("/api/referenceMint", {
+              id: 0,
+              walletAddress: account,
+              chainId: sourceChain.chainId,
+              ref: refCode,
+              tx_id: mintTxHash,
+            });
+          };
+          postReferenceMint();
+        }
     } catch (error) {
       console.log(error);
     } finally {

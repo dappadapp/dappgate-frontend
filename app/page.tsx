@@ -1001,7 +1001,7 @@ export default function Home({
 
             {tabIndex == 0 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
@@ -1178,7 +1178,7 @@ export default function Home({
               </div>
             ) : tabIndex == 1 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT HyperBridge</h1>
@@ -1331,7 +1331,7 @@ export default function Home({
               </div>
             ) : tabIndex == 2 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
@@ -1414,7 +1414,7 @@ export default function Home({
               </div>
             ) : tabIndex == 3 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
@@ -1507,7 +1507,7 @@ export default function Home({
               </div>
             ) : tabIndex == 4 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>OFT HyperBridge</h1>
@@ -1657,7 +1657,7 @@ export default function Home({
               </div>
             ) : tabIndex == 5 ? (
               <div
-                className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
@@ -1743,6 +1743,7 @@ export default function Home({
                     logIndex={sourceChain.logIndex}
                     tokenAmountHyperBridge={tokenAmountHyperBridge}
                     selectedHyperBridges={selectedHyperBridges}
+                    setCostData={setCostData}
                   />
                 </div>
 
