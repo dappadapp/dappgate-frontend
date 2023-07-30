@@ -65,8 +65,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     value: BigInt((costData as string) || "500000000000000"),
   });
 
-  console.log("error", error);
-
   const { data: mintResult, writeAsync: mint } = useContractWrite(mintConfig);
   /*
   const { data: mintTxResultData, refetch } = useWaitForTransaction({
