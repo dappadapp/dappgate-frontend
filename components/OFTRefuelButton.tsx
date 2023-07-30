@@ -17,25 +17,15 @@ import OFTBridge from "../config/abi/OFTBridge.json";
 type Props = {
   sourceChain: Network;
   targetChain: Network;
-  tokenIds: any;
-  inputTokenId: string;
-  setInputTokenId: any;
-  setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
   gasRefuelAmount: string;
-  estimatedGas: string;
 };
 
 const OFTRefuelButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
-  tokenIds,
-  inputTokenId,
-  setInputTokenId,
-  setTokenIds,
   setLayerZeroTxHashes,
-  estimatedGas,
   setEstimatedGas,
   gasRefuelAmount,
 }) => {
@@ -104,7 +94,6 @@ const OFTRefuelButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
-
     console.log("gasEstimateData", gasEstimateData);
     if (!gasRefuelAmount) return alert("Please enter a valid amount");
     if (Number(gasRefuelAmount) <= 0)
@@ -139,7 +128,6 @@ const OFTRefuelButton: React.FC<Props> = ({
     if (!isSuccess) {
       return alert("An unknown error occured.");
     }
-    if (tokenIds.length === 0) return alert("No tokenIds");
     try {
       setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
@@ -147,23 +135,6 @@ const OFTRefuelButton: React.FC<Props> = ({
       }
       const { hash: txHash } = await bridgeGas();
       setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
-      setTokenIds((prev: any) => {
-        const newArray = prev?.[sourceChain.chainId]?.[account as string]
-          ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
-          : [];
-        const tokenIdData = {
-          ...prev,
-          [sourceChain.chainId]: {
-            ...prev?.[sourceChain.chainId],
-            [account as string]: newArray,
-          },
-        };
-        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-        return tokenIdData;
-      });
-      setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
 
       // post bridge history
       const postBridgeHistory = async () => {
@@ -171,7 +142,7 @@ const OFTRefuelButton: React.FC<Props> = ({
           tx: txHash,
           srcChain: sourceChain.chainId,
           dstChain: targetChain.chainId,
-          tokenId: tokenIds,
+          tokenId: gasRefuelAmount,
           walletAddress: account,
           ref: "",
           type: "refuel",
@@ -179,7 +150,7 @@ const OFTRefuelButton: React.FC<Props> = ({
       };
       postBridgeHistory();
 
-      toast("Bridge transaction sent!");
+      toast("Refuel transaction sent!");
     } catch (error) {
       console.log(error);
     } finally {

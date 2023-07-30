@@ -17,28 +17,18 @@ import axios from "axios";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
-  setInputTokenId: any;
-  setTokenIds: any;
   refCode?: string;
-  logIndex?: number;
   tokenAmountHyperBridge: number;
   selectedHyperBridges: any;
   setCostData: any;
-
 };
 
 const OFTHyperClaimButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
-  setInputTokenId,
-  setTokenIds,
   refCode,
-  logIndex,
   tokenAmountHyperBridge,
   selectedHyperBridges,
   setCostData,
-
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,13 +43,19 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     functionName: "fee",
   });
 
-
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
-    args: [account,tokenAmountHyperBridge * selectedHyperBridges?.length],
+    value:
+      BigInt((costData as string) || "500000000000000") *
+      BigInt(tokenAmountHyperBridge) *
+      BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+    args: [
+      account,
+      tokenAmountHyperBridge *
+        selectedHyperBridges.filter((x: any) => x !== 0).length,
+    ],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -68,49 +64,28 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     confirmations: sourceChain.blockConfirmation,
   });
   useEffect(() => {
-    if(!costData) return;
+    if (!costData) return;
 
     console.log("costData", costData);
 
     setCostData(costData);
-
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (!mintTxResultData) return;
     console.log("mintTxResultData", mintTxResultData);
-    const tokenId = BigInt(
-      mintTxResultData.logs[logIndex || 0].topics[3] as string
-    ).toString();
 
     const postMint = async () => {
       await axios.post("/api/mint", {
-        tokenId,
+        tokenId: tokenAmountHyperBridge,
       });
     };
     postMint();
-    setInputTokenId(tokenId);
-   
-    setTokenIds((prev: any) => {
-      const newArray = prev?.[sourceChain.chainId]?.[account as string]
-        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-              (value, index, self) => self.indexOf(value) === index
-            )
-        : [tokenId];
-      const tokenIdData = {
-        ...prev,
-        [sourceChain.chainId]: {
-          ...prev?.[sourceChain.chainId],
-          [account as string]: newArray,
-        },
-      };
-      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-      return tokenIdData;
-    });
+
     if (refCode?.length === 12) {
       const postReferenceMint = async () => {
         await axios.post("/api/referenceMint", {
-          id: tokenId,
+          id: tokenAmountHyperBridge,
           walletAddress: account,
           chainId: sourceChain.chainId,
           ref: refCode,
@@ -123,7 +98,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
-    toast(`NFT minted with the id of ${tokenId}!`);
+    toast(`Tokens minted!`);
   }, [mintTxResultData]);
 
   const getOwnRef = (paramsRefCode: string) => {

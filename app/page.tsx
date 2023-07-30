@@ -83,7 +83,7 @@ export interface Network {
   colorClass: string;
   image: string;
   logIndex?: number;
-  disabledNetworks?: number[];
+  disabledNetworks: number[];
   symbol?: string;
   chainName?: string;
 }
@@ -236,8 +236,8 @@ const networks: Network[] = [
     colorClass: "bg-[#2967FF]",
     image: "base.svg",
     disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000,
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82,
     ],
     symbol: "ETH",
     chainName: "base-mainnet",
@@ -254,7 +254,7 @@ const networks: Network[] = [
     image: "mantle.svg",
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 2222,
+      82,
     ],
     symbol: "MNT",
     chainName: "mantle-mainnet",
@@ -614,7 +614,7 @@ export default function Home({
 
   const initialSelectedHyperBridges = networks.filter(
     (network) =>
-      !networks[0].disabledNetworks?.includes(network.chainId) &&
+      !networks[0].disabledNetworks.includes(network.chainId) &&
       networks[0].chainId !== network.chainId
   );
   const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
@@ -738,7 +738,7 @@ export default function Home({
 
     const newSelectedHyperBridges = networks.filter(
       (network) =>
-        !selectedNetwork.disabledNetworks?.includes(network.chainId) &&
+        !selectedNetwork.disabledNetworks.includes(network.chainId) &&
         network.chainId !== selectedNetwork.chainId
     );
 
@@ -1207,7 +1207,7 @@ export default function Home({
                       {networks
                         .filter((network) => {
                           return (
-                            !sourceChain.disabledNetworks?.includes(
+                            !sourceChain.disabledNetworks.includes(
                               network.chainId
                             ) && network.chainId !== sourceChain.chainId
                           );
@@ -1392,13 +1392,8 @@ export default function Home({
                   sourceChain={sourceChain}
                   targetChain={targetChain}
                   gasRefuelAmount={gasRefuelAmount}
-                  estimatedGas={estimatedGas}
-                  tokenIds={tokenIds}
-                  inputTokenId={inputTokenId}
-                  setTokenIds={setTokenIds}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
-                  setInputTokenId={setInputTokenId}
                 />
                 <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
@@ -1456,11 +1451,7 @@ export default function Home({
 
                   <OFTClaimButton
                     sourceChain={sourceChain}
-                    targetChain={targetChain}
-                    setInputTokenId={setInputTokenId}
-                    setTokenIds={setTokenIds}
                     refCode={refCode}
-                    logIndex={sourceChain.logIndex}
                     inputOFTAmount={inputOFTAmount}
                   />
                 </div>
@@ -1496,10 +1487,6 @@ export default function Home({
                 <OFTBridgeButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
-                  inputTokenId={inputTokenId}
-                  setInputTokenId={setInputTokenId}
-                  tokenIds={tokenIds}
-                  setTokenIds={setTokenIds}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
                   dlgateBridgeAmount={dlgateBridgeAmount}
@@ -1534,8 +1521,10 @@ export default function Home({
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
-                          return !network.disabledNetworks?.includes(
-                            sourceChain?.chainId
+                          return (
+                            !sourceChain.disabledNetworks.includes(
+                              network.chainId
+                            ) && network.chainId !== sourceChain.chainId
                           );
                         })
                         .map((network, i) => {
@@ -1595,11 +1584,7 @@ export default function Home({
 
                   <OFTHyperClaimButton
                     sourceChain={sourceChain}
-                    targetChain={targetChain}
-                    setInputTokenId={setInputTokenId}
-                    setTokenIds={setTokenIds}
                     refCode={refCode}
-                    logIndex={sourceChain.logIndex}
                     tokenAmountHyperBridge={tokenAmountHyperBridge}
                     selectedHyperBridges={selectedHyperBridges}
                     setCostData={setCostData}
@@ -1632,8 +1617,24 @@ export default function Home({
                           </td>
                         </tr>
                         <tr>
-                          <td className="font-bold pr-4">Total Estimated Fee:</td>
-                          <td>{ethers.formatEther(BigInt((costData as unknown as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length)) } {sourceChain?.symbol}</td>
+                          <td className="font-bold pr-4">
+                            Total Estimated Fee:
+                          </td>
+                          <td>
+                            {ethers.formatEther(
+                              BigInt(
+                                (costData as unknown as string) ||
+                                  "500000000000000"
+                              ) *
+                                BigInt(tokenAmountHyperBridge) *
+                                BigInt(
+                                  selectedHyperBridges.filter(
+                                    (x: any) => x !== 0
+                                  ).length
+                                )
+                            )}{" "}
+                            {sourceChain?.symbol}
+                          </td>
                         </tr>
 
                         {/* Add more transaction details here */}
@@ -1645,10 +1646,6 @@ export default function Home({
                 <OFTHyperBridgeButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
-                  inputTokenId={inputTokenId}
-                  setInputTokenId={setInputTokenId}
-                  tokenIds={tokenIds}
-                  setTokenIds={setTokenIds}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
                   tokenAmountHyperBridge={tokenAmountHyperBridge}
@@ -1689,8 +1686,10 @@ export default function Home({
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
-                          return !network.disabledNetworks?.includes(
-                            sourceChain?.chainId
+                          return (
+                            !sourceChain.disabledNetworks.includes(
+                              network.chainId
+                            ) && network.chainId !== sourceChain.chainId
                           );
                         })
                         .map((network, i) => {
@@ -1736,11 +1735,7 @@ export default function Home({
 
                   <OFTHyperClaimButton
                     sourceChain={sourceChain}
-                    targetChain={targetChain}
-                    setInputTokenId={setInputTokenId}
-                    setTokenIds={setTokenIds}
                     refCode={refCode}
-                    logIndex={sourceChain.logIndex}
                     tokenAmountHyperBridge={tokenAmountHyperBridge}
                     selectedHyperBridges={selectedHyperBridges}
                     setCostData={setCostData}
@@ -1754,10 +1749,6 @@ export default function Home({
                 <OFTHyperBridgeButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
-                  inputTokenId={inputTokenId}
-                  setInputTokenId={setInputTokenId}
-                  tokenIds={tokenIds}
-                  setTokenIds={setTokenIds}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
                   tokenAmountHyperBridge={tokenAmountHyperBridge}

@@ -17,21 +17,13 @@ import axios from "axios";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
-  setInputTokenId: any;
-  setTokenIds: any;
   refCode?: string;
-  logIndex?: number;
   inputOFTAmount: string;
 };
 
 const OFTClaimButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
-  setInputTokenId,
-  setTokenIds,
   refCode,
-  logIndex,
   inputOFTAmount,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
@@ -51,8 +43,10 @@ const OFTClaimButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000") * BigInt(inputOFTAmount),
-    args: [account,inputOFTAmount],
+    value:
+      BigInt((costData as string) || "500000000000000") *
+      BigInt(inputOFTAmount),
+    args: [account, inputOFTAmount],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -64,37 +58,18 @@ const OFTClaimButton: React.FC<Props> = ({
   useEffect(() => {
     if (!mintTxResultData) return;
     console.log("mintTxResultData", mintTxResultData);
-    const tokenId = BigInt(
-      mintTxResultData?.logs[logIndex || 0].topics[3] as string
-    ).toString();
 
     const postMint = async () => {
       await axios.post("/api/mint", {
-        tokenId,
+        tokenId: inputOFTAmount,
       });
     };
     postMint();
-    setInputTokenId(tokenId);
-    setTokenIds((prev: any) => {
-      const newArray = prev?.[sourceChain.chainId]?.[account as string]
-        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-              (value, index, self) => self.indexOf(value) === index
-            )
-        : [tokenId];
-      const tokenIdData = {
-        ...prev,
-        [sourceChain.chainId]: {
-          ...prev?.[sourceChain.chainId],
-          [account as string]: newArray,
-        },
-      };
-      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-      return tokenIdData;
-    });
+
     if (refCode?.length === 12) {
       const postReferenceMint = async () => {
         await axios.post("/api/referenceMint", {
-          id: tokenId,
+          id: inputOFTAmount,
           walletAddress: account,
           chainId: sourceChain.chainId,
           ref: refCode,
@@ -107,7 +82,7 @@ const OFTClaimButton: React.FC<Props> = ({
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
-    toast(`NFT minted with the id of ${tokenId}!`);
+    toast(`Tokens minted!`);
   }, [mintTxResultData]);
 
   const getOwnRef = (paramsRefCode: string) => {
