@@ -1130,7 +1130,7 @@ export default function Home({
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>ONFT HyperBridge</h1>
                 </div>
                 <div
                   className={
@@ -1380,7 +1380,7 @@ export default function Home({
                   />
                 </div>
 
-                <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                <div className="flex flex-start text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   Step 1: Claim $DLGATE from {sourceChain.name} to bridge
                 </div>
                 <div className="flex flex-row justify-between items-center w-full sm:w-full">
@@ -1403,7 +1403,7 @@ export default function Home({
                   />
                 </div>
 
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700">Step 2: Bridge $DLGATE to {targetChain.name} </div>
                   <div className="text-white-700">
                     Balance: {Number(balanceOfDlgate?.formatted) || 0}
@@ -1446,13 +1446,15 @@ export default function Home({
                 className={`w-full max-w-[800px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>OFT  HyperBridge</h1>
                 </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                   }
                 >
+
+          
                   <ListboxSourceMenu
                     value={sourceChain}
                     onChange={onChangeSourceChain}
@@ -1464,6 +1466,9 @@ export default function Home({
                   <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
 
                   <div>
+                  <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg mt-2">
+                      Step 1: Select multiple destination chains to bridge
+                  </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
                       {networks
                         .filter((network) => {
@@ -1497,8 +1502,8 @@ export default function Home({
                   </div>
                 </div>
 
-                <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  Token Amount to bridge per network
+                <div className="flex flex-start text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  Step 2: Claim $DLGATE amount to bridge per network
                 </div>
                 <div className="flex flex-row  w-full sm:w-full">
                   <input
@@ -1524,8 +1529,11 @@ export default function Home({
                   />
                 </div>
 
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">DGATE To Bridge</div>
+                <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
+                  <div className="text-white-700">
+
+                    Step 3: Bridge  {selectedHyperBridges.filter((x: any) => x !== 0).length} $DLGATE tokens per network to selected networks in Step 1
+                  </div>
                 </div>
 
                 <OFTHyperBridgeButton
