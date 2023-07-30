@@ -188,10 +188,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         postBridgeHistory();
     
       });
-    
-     
-
-
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);

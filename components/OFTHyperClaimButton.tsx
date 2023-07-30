@@ -1,6 +1,6 @@
 import { Network } from "@/app/page";
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -24,6 +24,7 @@ type Props = {
   logIndex?: number;
   tokenAmountHyperBridge: number;
   selectedHyperBridges: any;
+  setCostData: any;
 
 };
 
@@ -35,7 +36,8 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   refCode,
   logIndex,
   tokenAmountHyperBridge,
-  selectedHyperBridges
+  selectedHyperBridges,
+  setCostData,
 
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
@@ -65,6 +67,14 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     hash: mintTxHash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
+  useEffect(() => {
+    if(!costData) return;
+
+    console.log("costData", costData);
+
+    setCostData(costData);
+
+  },[]);
 
   useEffect(() => {
     if (!mintTxResultData) return;
@@ -80,6 +90,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     };
     postMint();
     setInputTokenId(tokenId);
+   
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(

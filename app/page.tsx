@@ -28,6 +28,7 @@ import BridgeButton from "@/components/BridgeButton";
 import formatAddress from "@/utils/formatAddress";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ethers } from "ethers";
 
 import {
   arbitrum,
@@ -84,6 +85,7 @@ export interface Network {
   logIndex?: number;
   disabledNetworks?: number[];
   symbol?: string;
+  chainName?: string;
 }
 
 const networks: Network[] = [
@@ -99,6 +101,7 @@ const networks: Network[] = [
     image: "bsc.svg",
     disabledNetworks: [5, 420, 122, 8217],
     symbol: "BNB",
+    chainName: "bsc-mainnet",
   },
   {
     name: avalanche.name,
@@ -112,6 +115,7 @@ const networks: Network[] = [
     image: "avalanche.svg",
     disabledNetworks: [5, 420, 1116],
     symbol: "AVAX",
+    chainName: "avalanche-mainnet",
   },
   /*   {
         name: "Aptos",
@@ -134,6 +138,7 @@ const networks: Network[] = [
     logIndex: 2,
     disabledNetworks: [5, 420, 8217],
     symbol: "MATIC",
+    chainName: "matic-mainnet",
   },
   {
     name: arbitrum.name,
@@ -147,6 +152,7 @@ const networks: Network[] = [
     image: "arbitrum.svg",
     disabledNetworks: [5, 420, 122, 1116, 8217],
     symbol: "ETH",
+    chainName: "arbitrum-mainnet",
   },
   {
     name: optimism.name,
@@ -160,6 +166,7 @@ const networks: Network[] = [
     image: "optimism.svg",
     disabledNetworks: [5, 420, 66, 122, 1116, 8217],
     symbol: "ETH",
+    chainName: "optimism-mainnet",
   },
   {
     name: fantom.name,
@@ -173,6 +180,7 @@ const networks: Network[] = [
     image: "fantom.svg",
     disabledNetworks: [5, 420, 66, 122, 1116, 8217],
     symbol: "FTM",
+    chainName: "fantom-mainnet",
   },
   /*   {
       name: dfk.name,
@@ -198,6 +206,7 @@ const networks: Network[] = [
       8217, 42170,
     ],
     symbol: "ONE",
+    chainName: "harmony-mainnet",
   },
   {
     name: "Linea",
@@ -214,6 +223,7 @@ const networks: Network[] = [
       1666600000,
     ],
     symbol: "ETH",
+    chainName: "linea-mainnet",
   },
   {
     name: "Base",
@@ -230,6 +240,7 @@ const networks: Network[] = [
       1666600000,
     ],
     symbol: "ETH",
+    chainName: "base-mainnet",
   },
   {
     name: "Mantle",
@@ -246,6 +257,7 @@ const networks: Network[] = [
       82, 2222,
     ],
     symbol: "MNT",
+    chainName: "mantle-mainnet",
   },
   {
     name: "OKT (OKX)",
@@ -277,6 +289,7 @@ const networks: Network[] = [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "MATIC",
+    chainName: "polygon-zkevm-mainnet",
   },
   {
     name: zkSync.name,
@@ -308,6 +321,7 @@ const networks: Network[] = [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
     ],
     symbol: "ETH",
+    chainName: "arbitrum-nova-mainnet",
   },
   /*   {
       name: "Dexalot",
@@ -339,6 +353,7 @@ const networks: Network[] = [
     image: "gnosis.svg",
     disabledNetworks: [5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000],
     symbol: "GNO",
+    chainName: "gnosis-mainnet",
   },
   {
     name: "Fuse",
@@ -355,6 +370,7 @@ const networks: Network[] = [
       42170, 1666600000,
     ],
     symbol: "FUSE",
+    chainName: "fuse-mainnet",
   },
   {
     name: klaytn.name,
@@ -372,6 +388,7 @@ const networks: Network[] = [
       42161, 42170, 1666600000,
     ],
     symbol: "KLAY",
+    chainName: "klaytn-mainnet",
   },
   {
     name: metis.name,
@@ -385,6 +402,7 @@ const networks: Network[] = [
     image: "metis.svg",
     disabledNetworks: [5, 420, 66, 324, 1101, 1116, 1666600000],
     symbol: "METIS",
+    chainName: "metis-mainnet",
   },
   {
     name: "CoreDAO",
@@ -401,6 +419,7 @@ const networks: Network[] = [
       8217, 42161, 42170, 43114, 1666600000,
     ],
     symbol: "CORE",
+    chainName: "coredao-mainnet",
   },
   {
     name: canto.name,
@@ -417,6 +436,7 @@ const networks: Network[] = [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
     ],
     symbol: "CANTO",
+    chainName: "canto-mainnet",
   },
   {
     name: moonbeam.name,
@@ -433,6 +453,7 @@ const networks: Network[] = [
       8217, 42170,
     ],
     symbol: "GLMR",
+    chainName: "moonbeam-mainnet",
   },
   {
     name: moonriver.name,
@@ -449,6 +470,7 @@ const networks: Network[] = [
       1666600000,
     ],
     symbol: "MOVR",
+    chainName: "moonriver-mainnet",
   },
   {
     name: "Tenet",
@@ -464,6 +486,7 @@ const networks: Network[] = [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
     ],
     symbol: "TENET",
+    chainName: "tenet-mainnet",
   },
   {
     name: "Meter.io",
@@ -479,6 +502,7 @@ const networks: Network[] = [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000,
     ],
     symbol: "MTRG",
+    chainName: "meter-mainnet",
   },
   {
     name: "Kava",
@@ -493,6 +517,7 @@ const networks: Network[] = [
       5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
     ],
     symbol: "KAVA",
+    chainName: "kava-mainnet",
   },
   {
     name: goerli.name,
@@ -508,6 +533,7 @@ const networks: Network[] = [
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222,
     ],
     symbol: "ETH",
+    chainName: "eth-goerli",
   },
   {
     name: optimismGoerli.name,
@@ -524,6 +550,7 @@ const networks: Network[] = [
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222,
     ],
     symbol: "ETH",
+    chainName: "optimism-goerli",
   },
   /*
   {
@@ -581,6 +608,7 @@ export default function Home({
   );
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
   const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
+  const [costData, setCostData] = useState(0);
 
   // fill with individual network data
 
@@ -832,7 +860,7 @@ export default function Home({
         />
       ) : null}
 
-    {isBridgeModalOpen ? (
+      {isBridgeModalOpen ? (
         <BridgeModal
           onCloseModal={() => {
             setIsBridgeModalOpen(false);
@@ -843,6 +871,9 @@ export default function Home({
           setTokenIds={setTokenIds}
           refCode={refCode}
           logIndex={sourceChain.logIndex}
+          tokenIds={tokenIds}
+          setLayerZeroTxHashes={setLayerZeroTxHashes}
+          setEstimatedGas={setEstimatedGas}
         />
       ) : null}
 
@@ -1012,22 +1043,15 @@ export default function Home({
                   />
 
                   <div className="flex flex-col items-center">
-                    <button 
-                        className="text-white text-sm sm:text-base font-semibold" 
-                        onClick={() => setIsBridgeModalOpen(true)}
-                      >
+                    <button
+                      className={
+                        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+                      }
+                      onClick={() => setIsBridgeModalOpen(true)}
+                    >
                       Bridge
                     </button>
-                    <BridgeButton
-                      sourceChain={sourceChain}
-                      targetChain={targetChain}
-                      inputTokenId={inputTokenId}
-                      setInputTokenId={setInputTokenId}
-                      tokenIds={tokenIds}
-                      setTokenIds={setTokenIds}
-                      setLayerZeroTxHashes={setLayerZeroTxHashes}
-                      setEstimatedGas={setEstimatedGas}
-                    />
+
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -1229,7 +1253,7 @@ export default function Home({
                 <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
                   Step2: Mint{" "}
                   {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs
-                  on {sourceChain.name} to bridge 
+                  on {sourceChain.name} to bridge
                 </div>
 
                 <ONFTHyperMintButton
@@ -1423,7 +1447,7 @@ export default function Home({
                 </div>
                 <div className="flex flex-row justify-between items-center w-full sm:w-full">
                   <input
-                    type="text"
+                    type="number"
                     className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="Amount To Claim"
                     value={inputOFTAmount}
@@ -1578,6 +1602,7 @@ export default function Home({
                     logIndex={sourceChain.logIndex}
                     tokenAmountHyperBridge={tokenAmountHyperBridge}
                     selectedHyperBridges={selectedHyperBridges}
+                    setCostData={setCostData}
                   />
                 </div>
 
@@ -1586,6 +1611,34 @@ export default function Home({
                     Step 3: Bridge{" "}
                     {selectedHyperBridges.filter((x: any) => x !== 0).length}{" "}
                     $DLGATE tokens per network to selected networks in Step 1
+                  </div>
+                </div>
+                <div className="flex justify-center mt-5  mb-4">
+                  <div className="border rounded-md shadow-md p-4 px-8 py-8">
+                    <h1 className="text-xl font-bold mb-4">
+                      Transaction Preview
+                    </h1>
+                    <table className="w-fit">
+                      <tbody>
+                        <tr>
+                          <td className="font-bold pr-4">Destination Chains</td>
+                          <td>
+                            You have selected{" "}
+                            {
+                              selectedHyperBridges.filter((x: any) => x !== 0)
+                                .length
+                            }{" "}
+                            destinatin chains{" "}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="font-bold pr-4">Total Estimated Fee:</td>
+                          <td>{ethers.formatEther(BigInt((costData as unknown as string) || "500000000000000") * BigInt(tokenAmountHyperBridge) * BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length)) } {sourceChain?.symbol}</td>
+                        </tr>
+
+                        {/* Add more transaction details here */}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
