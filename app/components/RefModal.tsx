@@ -53,8 +53,8 @@ function RefModal({ onCloseModal }: Props) {
     const loginButton = (
       <TwitterLogin
       authCallback={authHandler}
-      consumerKey={"YlRNRERDRFVmRmxMVDRzd0VPcFI6MTpjaQ"}
-      consumerSecret={"O4jl-si_zGN5NwBNhA0FY_G5zXdxDDbZUPmZmE6WzDmGGyJlPc"}
+      consumerKey={"QzlRZHVfajBmYUpHeGZydzAxdGs6MTpjaQ"}
+      consumerSecret={"KeodkYtWe8cFKyobMVr9dcydg8siiUKpTYSaQMMbeOAV5L4qxi"}
     />
     );
    
