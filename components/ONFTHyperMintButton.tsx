@@ -89,9 +89,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (
-      selectedHyperBridges.every((v: any, i: any, arr: any) => v === arr[0])
-    ) {
+    if (!selectedHyperBridges.length) {
       return alert("You didn't choose any destination chains.");
     }
     if (!mint)
@@ -127,30 +125,30 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           console.log("nftIds", hyperBridgeNFTIds);
         });
 
-        if (refCode?.length === 12) {
-          const postReferenceMint = async () => {
-            await axios.post("/api/referenceMint", {
-              id: 0,
-              walletAddress: account,
-              chainId: sourceChain.chainId,
-              ref: refCode,
-              tx_id: mintTxHash,
-            });
-          };
-          postReferenceMint();
-        }
+      if (refCode?.length === 12) {
+        const postReferenceMint = async () => {
+          await axios.post("/api/referenceMint", {
+            id: 0,
+            walletAddress: account,
+            chainId: sourceChain.chainId,
+            ref: refCode,
+            tx_id: mintTxHash,
+          });
+        };
+        postReferenceMint();
+      }
 
-        if (mintTxHash && sourceChain) {
-          const postHashMint = async () => {
-            await axios.post("/api/hash", {
-              type: "mint",
-              hash: mintTxHash,
-              ref: refCode,
-              chainId: sourceChain?.chainId,
-            });
-          };
-          postHashMint();
-        }
+      if (mintTxHash && sourceChain) {
+        const postHashMint = async () => {
+          await axios.post("/api/hash", {
+            type: "mint",
+            hash: mintTxHash,
+            ref: refCode,
+            chainId: sourceChain?.chainId,
+          });
+        };
+        postHashMint();
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -163,11 +161,10 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={ !(selectedHyperBridges.filter((x: any) => x !== 0)) || loading}
+      disabled={!selectedHyperBridges.filter((x: any) => x !== 0) || loading}
       className={
         "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
-      
     >
       Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")"}
       {loading && (
