@@ -74,8 +74,8 @@ const MintButton: React.FC<Props> = ({
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-              (value, index, self) => self.indexOf(value) === index
-            )
+            (value, index, self) => self.indexOf(value) === index
+          )
         : [tokenId];
       const tokenIdData = {
         ...prev,
@@ -98,7 +98,6 @@ const MintButton: React.FC<Props> = ({
         });
       };
       postReferenceMint();
-
 
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
@@ -129,7 +128,7 @@ const MintButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (!mint)
+    if (!mint || !costData)
       return alert(
         "Make sure you have enough ETH and you're on the correct network."
       );
