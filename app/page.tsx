@@ -71,6 +71,7 @@ import Footer from "./components/Footer";
 
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
 import BridgeModal from "./components/BridgeModal";
+import TransferModal from "./components/TransferModal";
 
 export interface Network {
   name: string;
@@ -600,6 +601,7 @@ export default function Home({
   const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [mintCounter, setMintCounter] = useState(0);
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
   const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
   const [oftHyperBridge, setOFTHyperBridge] = useState(false);
@@ -861,6 +863,15 @@ export default function Home({
         />
       ) : null}
 
+
+      {isTransferModalOpen ? (
+        <TransferModal
+          onCloseModal={() => {
+            setIsTransferModalOpen(false);
+          }}
+        />
+      ) : null}
+
       {isBridgeModalOpen ? (
         <BridgeModal
           onCloseModal={() => {
@@ -920,6 +931,9 @@ export default function Home({
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>
                 History
+              </button>
+              <button onClick={() => setIsTransferModalOpen(true)}>
+                Transfer
               </button>
             </div>
           </div>
