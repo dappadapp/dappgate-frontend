@@ -121,21 +121,21 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
   const onMint = async () => {
     if (!account) {
-      return alert("Please connect your wallet first.");
+      return toast("Please connect your wallet first.");
     }
 
     if (!selectedHyperBridges.length) {
       return alert("You didn't choose any destination chains.");
     }
     if (!mint)
-      return alert(
+      return toast(
         "Make sure you have enough ETH and you're on the correct network."
       );
     if (!isSuccess) {
-      return alert("An unknown error occured. Please try again.");
+      return toast("An unknown error occured. Please try again.");
     }
     if (!tokenAmountHyperBridge) {
-      return alert("Please enter a valid amount.");
+      return toast("Please enter a valid amount.");
     }
     try {
       setLoading(true);
