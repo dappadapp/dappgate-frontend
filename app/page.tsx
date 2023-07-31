@@ -650,7 +650,7 @@ export default function Home({
   });
 
   // get balance of user on source chain
-  const { data: balanceOfDlgate } = useBalance({
+  const { data: balanceOfDlgate, refetch: refetchDlgateBalance } = useBalance({
     address: account as `0x${string}`,
     chainId: sourceChain.chainId,
     token: sourceChain.tokenContractAddress as `0x${string}`,
@@ -1539,6 +1539,7 @@ export default function Home({
                     sourceChain={sourceChain}
                     refCode={refCode}
                     inputOFTAmount={inputOFTAmount}
+                    refetchDlgateBalance={refetchDlgateBalance}
                   />
                 </div>
 

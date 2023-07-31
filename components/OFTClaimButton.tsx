@@ -19,12 +19,14 @@ type Props = {
   sourceChain: Network;
   refCode?: string;
   inputOFTAmount: string;
+  refetchDlgateBalance: any;
 };
 
 const OFTClaimButton: React.FC<Props> = ({
   sourceChain,
   refCode,
   inputOFTAmount,
+  refetchDlgateBalance,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,7 +80,6 @@ const OFTClaimButton: React.FC<Props> = ({
       };
       postReferenceMint();
 
-
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
           await axios.post("/api/hash", {
@@ -91,6 +92,8 @@ const OFTClaimButton: React.FC<Props> = ({
         postHashMint();
       }
     }
+
+    refetchDlgateBalance();
 
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
