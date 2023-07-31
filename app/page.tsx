@@ -606,9 +606,7 @@ export default function Home({
   const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("");
   const [oftHyperBridge, setOFTHyperBridge] = useState(false);
   const [onftHyperBridge, setONFTHyperBridge] = useState(false);
-  const [selectedButtons, setSelectedButtons] = useState(
-    Array(networks.length).fill(true)
-  );
+
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
   const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
   const [costData, setCostData] = useState(0);
@@ -750,7 +748,6 @@ export default function Home({
     console.log("newSelectedHyperBridges", newSelectedHyperBridges);
 
     setSelectedHyperBridges(newSelectedHyperBridges);
-    setSelectedButtons(Array(newSelectedHyperBridges.length).fill(true));
   };
 
   const onChangeTargetChain = async (selectedNetwork: Network) => {
@@ -817,15 +814,20 @@ export default function Home({
     }
   };
 
-  const handleButtonClick = (index: number) => {
-    setSelectedButtons((prevState) =>
-      prevState.map((selected, i) => (i === index ? !selected : selected))
+  const handleButtonClick = (index: number, network?: any) => {
+    if (!network) return;
+    let selectedNetworks = selectedHyperBridges;
+    let isExist = selectedNetworks.some(
+      (selectedNetwork) => selectedNetwork.chainId === network.chainId
     );
-    setSelectedHyperBridges((prevState) =>
-      (prevState as any as Network[]).map((selected: any, i: any) =>
-        i === index ? (selected ? 0 : networks[i]) : selected
-      )
-    );
+    if (isExist) {
+      selectedNetworks = selectedNetworks.filter(
+        (selectedNetwork) => selectedNetwork.chainId !== network.chainId
+      );
+    } else {
+      selectedNetworks.push(network);
+    }
+    setSelectedHyperBridges(selectedNetworks);
   };
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -862,7 +864,6 @@ export default function Home({
           }}
         />
       ) : null}
-
 
       {isTransferModalOpen ? (
         <TransferModal
@@ -1231,9 +1232,12 @@ export default function Home({
                           return (
                             <button
                               key={i}
-                              onClick={() => handleButtonClick(i)}
+                              onClick={() => handleButtonClick(i, network)}
                               className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
-                                !selectedButtons[i]
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
                                   ? "grayscale"
                                   : "grayscale-0"
                               } p-2 `}
@@ -1247,7 +1251,10 @@ export default function Home({
                               />
                               <h2 className="p-2">{network.name}</h2>
 
-                              {!selectedButtons[i] ? (
+                              {!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              ) ? (
                                 <FontAwesomeIcon
                                   className="absolute top-0 right-0 p-1"
                                   icon={faCircleXmark}
@@ -1546,9 +1553,12 @@ export default function Home({
                           return (
                             <button
                               key={i}
-                              onClick={() => handleButtonClick(i)}
+                              onClick={() => handleButtonClick(i, network)}
                               className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedButtons[i]
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
                                   ? "grayscale"
                                   : "grayscale-0"
                               } p-2 `}
@@ -1562,7 +1572,10 @@ export default function Home({
                               />
                               <h2 className="p-2 flex-1">{network.name}</h2>
 
-                              {!selectedButtons[i] ? (
+                              {!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              ) ? (
                                 <FontAwesomeIcon
                                   className="absolute top-0 right-0 p-1"
                                   icon={faCircleXmark}
@@ -1711,9 +1724,12 @@ export default function Home({
                           return (
                             <button
                               key={i}
-                              onClick={() => handleButtonClick(i)}
+                              onClick={() => handleButtonClick(i, network)}
                               className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedButtons[i]
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
                                   ? "grayscale"
                                   : "grayscale-0"
                               } p-2 `}
