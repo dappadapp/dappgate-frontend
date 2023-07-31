@@ -43,6 +43,17 @@ function RefModal({ onCloseModal }: Props) {
     setShowQRCode(!showQRCode);
   };
 
+  const handleTwitterAuth = () => {
+    axios
+      .get('https://api.twitter.com/oauth/authenticate?oauth_token=YlRNRERDRFVmRmxMVDRzd0VPcFI6MTpjaQ')
+      .then((response) => {
+        console.log("response",response);
+      })
+      .catch((error) => {
+        console.error('Error obtaining access token:', error);
+      });
+  };
+
   return (
     <div
       className={
@@ -55,6 +66,13 @@ function RefModal({ onCloseModal }: Props) {
             "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
           }
         >
+          <button 
+            onClick={handleTwitterAuth}
+            className={ "bg-blue-500 text-white px-4 py-2 rounded-lg" }
+          >
+            Twitter Auth
+          </button>
+          
           <div className="flex  justify-between mb-2">
             <h1 className={"text-3xl"}>Referral Program</h1>
             <div
