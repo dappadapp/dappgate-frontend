@@ -1081,7 +1081,11 @@ export default function Home({
                       className={
                         "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
                       }
-                      onClick={() => setIsBridgeModalOpen(true)}
+                      onClick={() => {
+                        if (!account)
+                          return alert("Please connect your wallet first.");
+                        setIsBridgeModalOpen(true);
+                      }}
                     >
                       Bridge
                     </button>
