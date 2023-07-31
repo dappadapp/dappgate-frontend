@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import StargateWidget from "./StargateWidget";
 
 type Props = {
@@ -17,7 +18,6 @@ function TransferModal({ onCloseModal }: Props) {
         }
       >
         <div className="flex justify-end mb-5">
-
           <div
             onClick={() => onCloseModal()}
             className="right-0 z-[9999] font-medium rounded-md flex justify-center items-center cursor-pointer border border-gray-400 w-8 h-8"
