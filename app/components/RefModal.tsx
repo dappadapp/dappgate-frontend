@@ -4,7 +4,8 @@ import { useAccount } from "wagmi";
 import { QRCodeSVG } from "qrcode.react";
 import copySvg from "@/assets/images/copy-regular.svg";
 import Image from "next/image";
-import TwitterLogin from "react-twitter-login";
+
+import { useSession, signIn, signOut } from "next-auth/react"
 type Props = {
   onCloseModal: () => void;
 };
@@ -49,15 +50,10 @@ function RefModal({ onCloseModal }: Props) {
     console.log(err, data);
   };
 
+  const { data: session, status } = useSession()
 
-    const loginButton = (
-      <TwitterLogin
-      authCallback={authHandler}
-      consumerKey={"QzlRZHVfajBmYUpHeGZydzAxdGs6MTpjaQ"}
-      consumerSecret={"KeodkYtWe8cFKyobMVr9dcydg8siiUKpTYSaQMMbeOAV5L4qxi"}
-    />
-    );
-   
+
+ console.log("session", session)
 
   return (
     <div
@@ -72,7 +68,15 @@ function RefModal({ onCloseModal }: Props) {
           }
         >
 
-          {loginButton}
+
+              <button onClick={() => signIn()} className="bg-white bg-opacity-60 hover:bg-opacity-100 p-1.5 rounded-lg">
+                Sign In
+              </button>
+              <button onClick={() => signOut()} className="bg-white bg-opacity-60 hover:bg-opacity-100 p-1.5 rounded-lg">
+                Sign Out
+              </button>
+
+
        
           <div className="flex  justify-between mb-2">
             <h1 className={"text-3xl"}>Referral Program</h1>
