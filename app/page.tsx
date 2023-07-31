@@ -1839,7 +1839,7 @@ export default function Home({
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-right" theme="dark" />
+      <ToastContainer position="top-right" theme="dark" />
     </div>
   );
 }
