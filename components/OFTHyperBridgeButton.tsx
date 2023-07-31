@@ -41,13 +41,15 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     abi: OFTBridge,
     functionName: "estimateSendFee",
     args: [
-      `${targetChain.layerzeroChainId}`,
+      lzTargetChainId,
       account,
       "1000000000000000000",
       false,
       "0x",
     ],
   });
+
+
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
@@ -73,6 +75,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       "",
     ],
   });
+
+
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
@@ -139,11 +143,14 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
+      console.log("selectedHyperBridges", selectedHyperBridges);
       selectedHyperBridges?.forEach(
         async (transaction: {
-          targetChainId: React.SetStateAction<number>;
+          layerzeroChainId: React.SetStateAction<number>;
         }) => {
-          setLzTargetChainId(transaction.targetChainId);
+
+          console.log("transaction", transaction);
+          setLzTargetChainId(transaction?.layerzeroChainId);
 
           const { hash: txHash } = await sendFrom();
           setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
