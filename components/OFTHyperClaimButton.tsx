@@ -95,11 +95,11 @@ const OFTHyperClaimButton: React.FC<Props> = ({
       postReferenceMint();
     }
 
-    if (refCode?.length === 12 && mintTxResultData && sourceChain.chainId) {
+    if (mintTxHash && sourceChain.chainId) {
       const postHashMint = async () => {
         await axios.post("/api/hash", {
           type: "mint",
-          hash: mintTxResultData,
+          hash: mintTxHash,
           ref: refCode,
         });
       };
