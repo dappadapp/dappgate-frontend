@@ -77,6 +77,18 @@ const OFTClaimButton: React.FC<Props> = ({
         });
       };
       postReferenceMint();
+
+
+      if (refCode?.length === 12 && mintTxResultData && sourceChain.chainId) {
+        const postHashMint = async () => {
+          await axios.post("/api/hash", {
+            type: "mint",
+            hash: mintTxResultData,
+            ref: refCode,
+          });
+        };
+        postHashMint();
+      }
     }
 
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
@@ -125,10 +137,10 @@ const OFTClaimButton: React.FC<Props> = ({
       onClick={onMint}
       disabled={!inputOFTAmount || loading}
       className={
-        "rounded-lg bg-blue-600 py-3 px-4 text-left text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "rounded-lg bg-blue-600 py-3 px-4 text-left text-sm text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
-      Claim
+      OFT Claim
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"

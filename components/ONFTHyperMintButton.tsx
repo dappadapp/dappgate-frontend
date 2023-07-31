@@ -139,6 +139,17 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           };
           postReferenceMint();
         }
+
+        if (refCode?.length === 12 && mintTxHash && sourceChain.chainId) {
+          const postHashMint = async () => {
+            await axios.post("/api/hash", {
+              type: "mint",
+              hash: mintTxHash,
+              ref: refCode,
+            });
+          };
+          postHashMint();
+        }
     } catch (error) {
       console.log(error);
     } finally {

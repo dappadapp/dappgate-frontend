@@ -155,7 +155,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
         "rounded-lg bg-blue-600 py-3 px-4 text-left text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
       }
     >
-      Claim {tokenAmountHyperBridge}
+      OFT Claim {tokenAmountHyperBridge}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
