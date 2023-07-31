@@ -96,10 +96,10 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
   const onBridge = async () => {
     if (!account) {
-      return alert("Please connect your wallet first.");
+      return toast("Please connect your wallet first.");
     }
     if (!gasEstimateData)
-      return alert("It looks like the bridge between these chains are closed.");
+      return toast("It looks like the bridge between these chains are closed.");
     if (!sendFrom) {
       console.log("error", error?.message);
 
@@ -108,14 +108,14 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           "ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)"
         )
       ) {
-        return alert("Insufficient token balance, first claim your tokens.");
+        return toast("Insufficient token balance, first claim your tokens.");
       }
       if (
         error?.message.includes(
           "LzApp: destination chain is not a trusted source"
         )
       ) {
-        return alert(
+        return toast(
           "It looks like the bridge between these chains are closed."
         );
       }
@@ -123,16 +123,16 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       if (
         error?.message.includes("Execution reverted for an unknown reason.")
       ) {
-        return alert(
+        return toast(
           "It looks like the bridge between these chains are not supported by LayerZero."
         );
       }
-      return alert(
+      return toast(
         "Make sure you have enough gas and you're on the correct network."
       );
     }
     if (!isSuccess) {
-      return alert("An unknown error occured.");
+      return toast("An unknown error occured.");
     }
     try {
       setLoading(true);
