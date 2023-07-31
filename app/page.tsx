@@ -1746,7 +1746,7 @@ export default function Home({
                               selectedHyperBridges.filter((x: any) => x !== 0)
                                 .length
                             }{" "}
-                            destinatin chains{" "}
+                            destination chains{" "}
                           </td>
                         </tr>
                         <tr>
