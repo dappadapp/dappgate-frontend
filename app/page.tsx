@@ -652,6 +652,10 @@ export default function Home({
     token: sourceChain.tokenContractAddress as `0x${string}`,
   });
 
+  const inlineStyles = {
+    color: "#EFEFEF !important",
+  };
+
   // balance useeffect
   useEffect(() => {
     if (!balanceOfData) return;
@@ -1225,11 +1229,48 @@ export default function Home({
                     searchValue={searchTerm}
                     setSearchValue={setSearchTerm}
                   />
-                  <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
+                  <div className="w-2/4 flex flex-col justify-center items-center mt-4 mb-8">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-10 h-10"
+                      style={{
+                        transform: "rotate(120deg)",
+                        position: "absolute",
+                        transformOrigin: "left center",
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-10 h-10"
+                      style={{
+                        transform: "rotate(60deg)",
+                        position: "absolute",
+                        transformOrigin: "left center",
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </div>
                   <div>
-                    {/** wRITE A EXPLANATION FOR THIS STEP */}
-
-                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
+                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg mt-5">
                       Step1: Select the multiple destination chains to bridge
                     </div>
 
@@ -1448,7 +1489,7 @@ export default function Home({
                 className={`w-full max-w-[900px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
+                  <h1 className={"text-3xl font-semibold"}>OFT Bridge</h1>
                 </div>
                 <div
                   className={
@@ -1463,64 +1504,6 @@ export default function Home({
                     setSearchValue={setSearchTerm}
                   />
                   <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
-
-                  <div className="w-1/4 flex flex-col justify-center items-center">
-  <div className="relative -mt-4 -ml-4">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth="1.5"
-      stroke="currentColor"
-      className="w-6 h-6"
-      style={{ position: "absolute" }}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-      />
-    </svg>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth="1.5"
-      stroke="currentColor"
-      className="w-6 h-6"
-      style={{
-        transform: "rotate(45deg)",
-        position: "absolute",
-        transformOrigin: "left center"
-      }}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-      />
-    </svg>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth="1.5"
-      stroke="currentColor"
-      className="w-6 h-6"
-      style={{
-        transform: "rotate(-45deg)",
-        position: "absolute",
-        transformOrigin: "left center"
-      }}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-      />
-    </svg>
-  </div>
-</div>
 
                   <ListboxTargetMenu
                     value={targetChain}
@@ -1607,10 +1590,49 @@ export default function Home({
                     setSearchValue={setSearchTerm}
                   />
 
-                  <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
+                  <div className="w-2/4 flex flex-col justify-center items-center mt-5 mb-8">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-10 h-10"
+                      style={{
+                        transform: "rotate(120deg)",
+                        position: "absolute",
+                        transformOrigin: "left center",
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-10 h-10"
+                      style={{
+                        transform: "rotate(60deg)",
+                        position: "absolute",
+                        transformOrigin: "left center",
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </div>
 
                   <div>
-                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-2">
+                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-5">
                       Step 1: Select multiple destination chains to bridge
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
@@ -1765,9 +1787,8 @@ export default function Home({
                     "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                   }
                 >
-                    <StargateWidget />
-              
-              </div>
+                  <StargateWidget />
+                </div>
               </div>
             ) : null}
           </div>
