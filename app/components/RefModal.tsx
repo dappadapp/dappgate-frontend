@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 import { QRCodeSVG } from "qrcode.react";
 import copySvg from "@/assets/images/copy-regular.svg";
 import Image from "next/image";
+import TwitterLogin from "react-twitter-login";
 type Props = {
   onCloseModal: () => void;
 };
@@ -43,16 +44,20 @@ function RefModal({ onCloseModal }: Props) {
     setShowQRCode(!showQRCode);
   };
 
-  const handleTwitterAuth = () => {
-    axios
-      .get('https://api.twitter.com/oauth/authenticate?oauth_token=YlRNRERDRFVmRmxMVDRzd0VPcFI6MTpjaQ')
-      .then((response) => {
-        console.log("response",response);
-      })
-      .catch((error) => {
-        console.error('Error obtaining access token:', error);
-      });
+
+  const authHandler = (err: any, data: any) => {
+    console.log(err, data);
   };
+
+
+    const loginButton = (
+      <TwitterLogin
+      authCallback={authHandler}
+      consumerKey={"YlRNRERDRFVmRmxMVDRzd0VPcFI6MTpjaQ"}
+      consumerSecret={"O4jl-si_zGN5NwBNhA0FY_G5zXdxDDbZUPmZmE6WzDmGGyJlPc"}
+    />
+    );
+   
 
   return (
     <div
@@ -66,13 +71,9 @@ function RefModal({ onCloseModal }: Props) {
             "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
           }
         >
-          <button 
-            onClick={handleTwitterAuth}
-            className={ "bg-blue-500 text-white px-4 py-2 rounded-lg" }
-          >
-            Twitter Auth
-          </button>
-          
+
+          {loginButton}
+       
           <div className="flex  justify-between mb-2">
             <h1 className={"text-3xl"}>Referral Program</h1>
             <div
