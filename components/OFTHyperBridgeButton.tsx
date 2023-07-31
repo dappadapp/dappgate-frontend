@@ -49,6 +49,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     ],
   });
 
+  console.log("lzTargetChainId", lzTargetChainId);
+
 
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
@@ -99,6 +101,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
+
+   
     if (!account) {
       return alert("Please connect your wallet first.");
     }
@@ -144,13 +148,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       console.log("selectedHyperBridges", selectedHyperBridges);
-      selectedHyperBridges?.forEach(
-        async (transaction: {
-          layerzeroChainId: React.SetStateAction<number>;
-        }) => {
+      selectedHyperBridges?.forEach(async(transaction: any) => {
+      
 
           console.log("transaction", transaction);
-          setLzTargetChainId(transaction?.layerzeroChainId);
+          setLzTargetChainId(transaction.layerzeroChainId);
 
           const { hash: txHash } = await sendFrom();
           setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
