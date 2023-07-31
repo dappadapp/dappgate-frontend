@@ -1,6 +1,6 @@
 import { Network } from "@/app/page";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -36,7 +36,10 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [lzTargetChainId, setLzTargetChainId] = useState(0);
 
-  const { data: gasEstimateData } = useContractRead({
+
+  console.log("tokenAmountHyperBridge", tokenAmountHyperBridge);
+
+  const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
@@ -51,6 +54,12 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
   console.log("lzTargetChainId", lzTargetChainId);
 
+  console.log("gasEstimateData", gasEstimateData);
+
+
+  useEffect(() => {
+     refetch();
+  }, [lzTargetChainId]);
 
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
@@ -71,7 +80,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       account,
       lzTargetChainId,
       account,
-      tokenAmountHyperBridge * 10 ** 18,
+      tokenAmountHyperBridge * 1000000000000000000,
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",
@@ -96,18 +105,26 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     }
   }, [
     gasEstimateDataArray,
-    setEstimatedGas,
+    selectedHyperBridges,
     connectedChain?.nativeCurrency.symbol,
   ]);
 
   const onBridge = async () => {
 
+    console.log("selectedHyperBridges", selectedHyperBridges);
+   
+    if (connectedChain?.id !== sourceChain.chainId) {
+      await switchNetworkAsync?.(sourceChain.chainId);
+    }
    
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (!gasEstimateData)
-      return alert("It looks like the bridge between these chains are closed.");
+
+    if (!selectedHyperBridges.length) {
+      return alert("You didn't choose any destination chains.");
+    }
+
     if (!sendFrom) {
       console.log("error", error?.message);
 
@@ -144,15 +161,13 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     }
     try {
       setLoading(true);
-      if (connectedChain?.id !== sourceChain.chainId) {
-        await switchNetworkAsync?.(sourceChain.chainId);
-      }
-      console.log("selectedHyperBridges", selectedHyperBridges);
+
       selectedHyperBridges?.forEach(async(transaction: any) => {
       
 
           console.log("transaction", transaction);
-          setLzTargetChainId(transaction.layerzeroChainId);
+          setLzTargetChainId(transaction?.layerzeroChainId);
+          await refetch();
 
           const { hash: txHash } = await sendFrom();
           setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
@@ -175,6 +190,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     } finally {
       setLoading(false);
     }

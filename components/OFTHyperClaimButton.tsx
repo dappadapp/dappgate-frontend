@@ -123,6 +123,10 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
+
+    if (!selectedHyperBridges.length) {
+      return alert("You didn't choose any destination chains.");
+    }
     if (!mint)
       return alert(
         "Make sure you have enough ETH and you're on the correct network."
