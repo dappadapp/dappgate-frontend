@@ -120,6 +120,17 @@ const OFTHyperClaimButton: React.FC<Props> = ({
       postReferenceMint();
     }
 
+    if (refCode?.length === 12 && mintTxResultData && sourceChain.chainId) {
+      const postHashMint = async () => {
+        await axios.post("/api/hash", {
+          type: "mint",
+          hash: mintTxResultData,
+          ref: refCode,
+        });
+      };
+      postHashMint();
+    }
+
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
