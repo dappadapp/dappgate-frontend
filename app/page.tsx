@@ -247,7 +247,7 @@ const networks: Network[] = [
   },
   {
     name: "Mantle",
-    chainId: 8453,
+    chainId: 5000,
     layerzeroChainId: 181,
     nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
     tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
