@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 
 function StargateWidget() {
   return (
-    <div className="max-w-[450px] mt-8">
+    <div className="max-w-[600px] mt-8">
       <style jsx global>{`
         .MuiScopedCssBaseline-root {
           background-color: transparent !important;

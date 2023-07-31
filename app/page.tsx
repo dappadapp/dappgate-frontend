@@ -72,6 +72,7 @@ import Footer from "./components/Footer";
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
 import BridgeModal from "./components/BridgeModal";
 import TransferModal from "./components/TransferModal";
+import StargateWidget from "./components/StargateWidget";
 
 export interface Network {
   name: string;
@@ -933,7 +934,7 @@ export default function Home({
                 History
               </button>
               <button onClick={() => setIsTransferModalOpen(true)}>
-                Transfer
+                Stargate Bridge
               </button>
             </div>
           </div>
@@ -1008,6 +1009,19 @@ export default function Home({
                       }`}
                     >
                       OFT HyperBridge
+                    </button>
+                  )}
+                </Tab>
+                <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
+                    >
+                      Stargate Bridge
                     </button>
                   )}
                 </Tab>
@@ -1442,6 +1456,65 @@ export default function Home({
                     setSearchValue={setSearchTerm}
                   />
                   <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
+
+                  <div className="w-1/4 flex flex-col justify-center items-center">
+  <div className="relative -mt-4 -ml-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="w-6 h-6"
+      style={{ position: "absolute" }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="w-6 h-6"
+      style={{
+        transform: "rotate(45deg)",
+        position: "absolute",
+        transformOrigin: "left center"
+      }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="w-6 h-6"
+      style={{
+        transform: "rotate(-45deg)",
+        position: "absolute",
+        transformOrigin: "left center"
+      }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </div>
+</div>
+
                   <ListboxTargetMenu
                     value={targetChain}
                     sourceValue={sourceChain}
@@ -1672,103 +1745,16 @@ export default function Home({
                 className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Token Bridge</h1>
-                  <button
-                    className="mb-2 backdrop-blur-sm font-semibold border p-2 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
-                    onClick={() => {
-                      setOFTHyperBridge(false);
-                    }}
-                  >
-                    Bridge
-                  </button>
+                  <h1 className={"text-3xl font-semibold"}>Stargate Bridge</h1>
                 </div>
                 <div
                   className={
                     "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
                   }
                 >
-                  <ListboxSourceMenu
-                    value={sourceChain}
-                    onChange={onChangeSourceChain}
-                    options={filteredNetworks}
-                    searchValue={searchTerm}
-                    setSearchValue={setSearchTerm}
-                  />
-
-                  <CircleSvg onArrowClick={onArrowClick} isClickable={false} />
-
-                  <div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
-                      {networks
-                        .filter((network) => {
-                          return (
-                            !sourceChain.disabledNetworks.includes(
-                              network.chainId
-                            ) && network.chainId !== sourceChain.chainId
-                          );
-                        })
-                        .map((network, i) => {
-                          return (
-                            <button
-                              key={i}
-                              onClick={() => handleButtonClick(i)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedButtons[i]
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
-                            >
-                              <Image
-                                src={`/chains/${network.image}`}
-                                alt={network.name}
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                              />
-                              <h2 className="p-2 flex-1">{network.name}</h2>
-                            </button>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-start text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  Token Amount to bridge per network
-                </div>
-                <div className="flex flex-row  w-full sm:w-full">
-                  <input
-                    type="range"
-                    min="0"
-                    max="20"
-                    value={tokenAmountHyperBridge}
-                    className="w-10/12 flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    onChange={(e) =>
-                      setTokenAmountHyperBridge(Number(e.target.value))
-                    }
-                  />
-
-                  <OFTHyperClaimButton
-                    sourceChain={sourceChain}
-                    refCode={refCode}
-                    tokenAmountHyperBridge={tokenAmountHyperBridge}
-                    selectedHyperBridges={selectedHyperBridges}
-                    setCostData={setCostData}
-                  />
-                </div>
-
-                <div className="flex text-xl xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700">DGATE To Bridge</div>
-                </div>
-
-                <OFTHyperBridgeButton
-                  sourceChain={sourceChain}
-                  targetChain={targetChain}
-                  setLayerZeroTxHashes={setLayerZeroTxHashes}
-                  setEstimatedGas={setEstimatedGas}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge}
-                  selectedHyperBridges={selectedHyperBridges}
-                />
+                    <StargateWidget />
+              
+              </div>
               </div>
             ) : null}
           </div>
