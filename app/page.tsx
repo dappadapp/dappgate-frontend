@@ -674,6 +674,7 @@ export default function Home({
   useEffect(() => {
     if (!bridgeTxResultData) return;
     toast("Bridge successful!");
+    refetchDlgateBalance();
     // hide card
     setIsAnimationStarted(true);
 
