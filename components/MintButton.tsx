@@ -59,7 +59,6 @@ const MintButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
-    console.log("mintTxResultData", mintTxResultData);
     const tokenId = BigInt(
       mintTxResultData.logs[logIndex || 0].topics[3] as string
     ).toString();

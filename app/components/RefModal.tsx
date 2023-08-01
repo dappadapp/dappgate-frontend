@@ -5,7 +5,7 @@ import { QRCodeSVG } from "qrcode.react";
 import copySvg from "@/assets/images/copy-regular.svg";
 import Image from "next/image";
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
 type Props = {
   onCloseModal: () => void;
 };
@@ -32,9 +32,16 @@ function RefModal({ onCloseModal }: Props) {
     });
     setTotalRef(data.mints);
     setRate(data.rate);
-    setRefLink(`https://gate.dappad.app/?ref=${data.ref}`);
+    setRefLink(
+      `https://gate.dappad.app/?ref=${
+        session?.user?.profile?.data?.username || data.ref
+      }`
+    );
   };
 
+  const handleSignIn = async () => {
+    await signIn("twitter", { callbackUrl: "https://gate.dappad.app/" });
+  };
   const twitterShare = () => {
     // twitter intent
     const url = `https://twitter.com/intent/tweet?text=Experience the future of omnichain using dappgate with me ${refLink} @DappGate`;
@@ -45,15 +52,12 @@ function RefModal({ onCloseModal }: Props) {
     setShowQRCode(!showQRCode);
   };
 
-
   const authHandler = (err: any, data: any) => {
     console.log(err, data);
   };
 
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
-
- console.log("session", session)
 
   return (
     <div
@@ -67,17 +71,6 @@ function RefModal({ onCloseModal }: Props) {
             "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
           }
         >
-
-
-              <button onClick={() => signIn()} className="bg-white bg-opacity-60 hover:bg-opacity-100 p-1.5 rounded-lg">
-                Sign In
-              </button>
-              <button onClick={() => signOut()} className="bg-white bg-opacity-60 hover:bg-opacity-100 p-1.5 rounded-lg">
-                Sign Out
-              </button>
-
-
-       
           <div className="flex  justify-between mb-2">
             <h1 className={"text-3xl"}>Referral Program</h1>
             <div
@@ -87,11 +80,23 @@ function RefModal({ onCloseModal }: Props) {
               X
             </div>
           </div>
-          <p className={"opacity-75"}>
+
+          <div className="flex justify-between">
+            <button
+              onClick={handleSignIn}
+              className=" bg-white bg-opacity-100 hover:bg-opacity-100 p-3 rounded-lg text-black mt-5"
+            >
+              {" "}
+              Claim Twitter Username{" "}
+            </button>
+          </div>
+          <p className={"opacity-75 mt-5"}>
             Invite your friends and get rewarded with USDC
           </p>
           <div
-            className={"w-full mt-12 flex p-4 bg-white bg-opacity-5 rounded-lg"}
+            className={
+              "w-full mt-4 mb-2 flex p-4 bg-white bg-opacity-5 rounded-lg"
+            }
           >
             Your rewards
             <br />

@@ -59,7 +59,7 @@ const OFTClaimButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
-    console.log("mintTxResultData", mintTxResultData);
+
 
     const postMint = async () => {
       await axios.post("/api/mint", {

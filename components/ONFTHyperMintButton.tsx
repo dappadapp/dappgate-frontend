@@ -122,7 +122,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           if (tokenId) {
             await addNftId(tokenId);
           }
-          console.log("nftIds", hyperBridgeNFTIds);
         });
 
       if (refCode?.length === 12) {
@@ -155,7 +154,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       setLoading(false);
     }
 
-    console.log("nftIds", hyperBridgeNFTIds);
   };
 
   return (

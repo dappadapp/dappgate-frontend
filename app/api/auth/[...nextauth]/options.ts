@@ -1,15 +1,34 @@
-import type { NextAuthOptions } from 'next-auth'
-import TwitterProvider from 'next-auth/providers/twitter'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import type { NextAuthOptions } from "next-auth";
+import TwitterProvider from "next-auth/providers/twitter";
+import axios from "axios";
+import NextAuth, { Awaitable, Session, User } from "next-auth";
+type ExtendedUserType = User & {
+  username?: string;
+  uid?: string;
+  profile?: object;
+};
 
 export const options: NextAuthOptions = {
-    providers: [
+  providers: [
+    TwitterProvider({
+      clientId: "a0QxT0FWNzItYU50RWI2Y19pYV86MTpjaQ",
+      clientSecret: "NdzOyAROzRUISFyXjgy51528dIzK0Dfcycer8eqOMRQLjB3XoL",
+      version: "2.0",
+    }),
+  ],
 
-        TwitterProvider({
-            clientId: "Sl8yakRUS05XQVdTMEVnekVvaWs6MTpjaQ",
-            clientSecret: "H2HA32k3TIKWZaWi2KrrEUWf3LI9ANP7tGGcfAbuA978P7Z4H5" ,
-            version: "2.0", // opt-in to Twitter OAuth 2.0
-        }),
+  callbacks: {
+    async jwt({ token, account, profile }) {
+      if (profile) {
+        token.username = profile;
+      }
+      return token;
+    },
+    async session({ session, token, user }): Promise<Session> {
+      (session.user as ExtendedUserType).uid = token.sub;
+      (session.user as ExtendedUserType).profile = token.username as object;
 
-    ],
-}
+      return session;
+    },
+  },
+};

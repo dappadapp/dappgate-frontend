@@ -37,8 +37,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const [lzTargetChainId, setLzTargetChainId] = useState(0);
 
 
-  console.log("tokenAmountHyperBridge", tokenAmountHyperBridge);
-
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
@@ -51,10 +49,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       "0x",
     ],
   });
-
-  console.log("lzTargetChainId", lzTargetChainId);
-
-  console.log("gasEstimateData", gasEstimateData);
 
 
   useEffect(() => {
@@ -110,8 +104,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
-
-    console.log("selectedHyperBridges", selectedHyperBridges);
    
     if (connectedChain?.id !== sourceChain.chainId) {
       await switchNetworkAsync?.(sourceChain.chainId);
@@ -164,8 +156,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
       selectedHyperBridges?.forEach(async(transaction: any) => {
       
-
-          console.log("transaction", transaction);
           setLzTargetChainId(transaction?.layerzeroChainId);
           await refetch();
 

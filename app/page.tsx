@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, use, useEffect, useState } from "react";
 import { Listbox, Tab, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -73,7 +73,7 @@ import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
 import BridgeModal from "./components/BridgeModal";
 import TransferModal from "./components/TransferModal";
 import StargateWidget from "./components/StargateWidget";
-
+import { useSession, signIn, signOut } from "next-auth/react";
 export interface Network {
   name: string;
   chainId: number;
@@ -616,6 +616,8 @@ export default function Home({
   const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
   const [costData, setCostData] = useState(0);
 
+  const { data: session, status } = useSession();
+
   // fill with individual network data
 
   const initialSelectedHyperBridges = networks.filter(
@@ -660,11 +662,37 @@ export default function Home({
     color: "#EFEFEF !important",
   };
 
+  useEffect(() => {
+    if (!session) return;
+    axios
+      .post("/api/username", {
+        walletAddress: account as string,
+      })
+      .then((res) => {
+        if (res.data !== session?.user?.profile?.data?.username) {
+          axios
+            .post("/api/twitter", {
+              walletAddress: account as string,
+              username: session?.user?.profile?.data?.username as string,
+            })
+            .then((res) => {
+              toast("You claimed Twitter handle successfully!");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [session]);
+
   // balance useeffect
   useEffect(() => {
     if (!balanceOfData) return;
   }, [account, sourceChain, balanceOfData]);
-  console.log("balanceOfData", balanceOfData);
+
   useEffect(() => {
     if (!searchParams?.ref) return;
 
@@ -691,10 +719,6 @@ export default function Home({
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
 
-  // TODO: send a balanceOf() call just in case user still has the token IDS on initial page load.
-  // Do the same check after clicking the bridge button
-
-  // console.log("ownerOfData", ownerOfData);
 
   useEffect(() => {
     const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
@@ -752,10 +776,6 @@ export default function Home({
         !selectedNetwork.disabledNetworks.includes(network.chainId) &&
         network.chainId !== selectedNetwork.chainId
     );
-
-    console.log("selectedNetwork", selectedNetwork);
-
-    console.log("newSelectedHyperBridges", newSelectedHyperBridges);
 
     setSelectedHyperBridges(newSelectedHyperBridges);
   };
@@ -846,7 +866,6 @@ export default function Home({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log("hyperbridge", hyperBridgeNFTIds);
   return (
     <div
       className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
