@@ -28,6 +28,7 @@
     "ethers": "^6.6.2",
     "lokijs": "^1.5.12",
     "next": "13.4.7",
+    "next-auth": "^4.22.3",
     "pino-pretty": "^10.0.0",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",

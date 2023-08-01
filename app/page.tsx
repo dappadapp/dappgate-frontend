@@ -921,7 +921,7 @@ export default function Home({
         <div className={"container mx-auto gap-2 h-full flex flex-col"}>
           <div
             className={
-              "w-full flex flex-row items-center justify-between mt-16 gap-2"
+              "w-full flex flex-row items-center justify-between mt-10 gap-2"
             }
           >
             <DappGateLogo />
@@ -942,9 +942,6 @@ export default function Home({
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>
                 History
-              </button>
-              <button onClick={() => setIsTransferModalOpen(true)}>
-                Stargate Bridge
               </button>
             </div>
           </div>

@@ -19,7 +19,7 @@ function StargateWidget() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-10 h-10 animate-spin"
+            className="w-20 h-20 animate-spin"
           >
             <path
               strokeLinecap="round"
