@@ -670,40 +670,7 @@ export default function Home({
 
   useEffect(() => {
     if (!session) return;
-
-    axios
-      .post("/api/username", {
-        walletAddress: account as string,
-      })
-      .then((res) => {
-
-        console.log("first",!res.data);
-        if (
-          res.data !== "" &&
-          res.data !== undefined &&
-          res.data !== null &&
-          session
-        ) {
-
-          if(session?.user?.profile?.data?.username !== res.data){
-          axios
-            .post("/api/twitter", {
-              walletAddress: account as string,
-              username: session?.user?.profile?.data?.username as string,
-            })
-            .then((res) => {
-              toast("You claimed Twitter handle successfully!");
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      }
-       
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    handleTwitter();
   }, [session, account,isModalOpen]);
 
   // balance useeffect
@@ -849,6 +816,33 @@ export default function Home({
     setMintCounter(data?.counter);
   };
 
+  const handleTwitter = async () => {
+    try {
+
+      const userName =  await axios.post("/api/username", {
+        walletAddress: account as string,
+      });
+
+      console.log("userName",userName?.data);
+
+      if(!userName?.data && session?.user){
+        
+        const claim = await axios.post("/api/twitter", {
+          walletAddress: account as string,
+          username: session?.user?.profile?.data?.username as string,
+        })
+
+        console.log("claim",claim?.data);
+
+        if(claim?.data == "ok"){
+          toast("You claimed Twitter handle successfully!");
+        }
+      }
+    }
+      catch (error) {
+        console.log(error);
+      }
+    }
   const handleMax = () => {
     if (balanceOfData) {
       setGasRefuelAmount(balanceOfData?.formatted);
