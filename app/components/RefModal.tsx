@@ -8,9 +8,10 @@ import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 type Props = {
   onCloseModal: () => void;
+  refCode?: string;
 };
 
-function RefModal({ onCloseModal }: Props) {
+function RefModal({ onCloseModal, refCode }: Props) {
   const { address: walletAddress } = useAccount();
   const [totalRef, setTotalRef] = useState(0);
   const [rate, setRate] = useState(0);
@@ -19,7 +20,7 @@ function RefModal({ onCloseModal }: Props) {
   const [isCopied, setIsCopied] = useState<"link" | "button" | null>();
   useEffect(() => {
     fetchTotalNORefs();
-  }, [walletAddress]);
+  }, [walletAddress, refCode]);
 
   useEffect(() => {
     if (!isCopied) return;
@@ -30,13 +31,21 @@ function RefModal({ onCloseModal }: Props) {
     const { data } = await axios.post("/api/reference", {
       walletAddress,
     });
+
+    const { data: username } = await axios.post("/api/username", {
+      walletAddress: walletAddress,
+    });
+
     setTotalRef(data.mints);
     setRate(data.rate);
-    setRefLink(
-      `https://gate.dappad.app/?ref=${
-        session?.user?.profile?.data?.username || data.ref
-      }`
-    );
+
+    if (username == undefined || username == null || username == "") {
+      setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
+    } else {
+      setRefLink(
+        `https://gate.dappad.app/?ref=${session?.user?.profile?.data?.username}`
+      );
+    }
   };
 
   const handleSignIn = async () => {
@@ -57,7 +66,6 @@ function RefModal({ onCloseModal }: Props) {
   };
 
   const { data: session, status } = useSession();
-
 
   return (
     <div
@@ -85,6 +93,7 @@ function RefModal({ onCloseModal }: Props) {
             <button
               onClick={handleSignIn}
               className=" bg-white bg-opacity-100 hover:bg-opacity-100 p-3 rounded-lg text-black mt-5"
+
             >
               {" "}
               Claim Twitter Username{" "}

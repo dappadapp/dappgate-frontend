@@ -662,14 +662,26 @@ export default function Home({
     color: "#EFEFEF !important",
   };
 
+  const getRef = async (str: string) => {
+    let splitString = str.split("");
+    let reverseArray = splitString.reverse();
+    return reverseArray.join("").substring(0, 12);
+  };
+
   useEffect(() => {
     if (!session) return;
+
     axios
       .post("/api/username", {
         walletAddress: account as string,
       })
       .then((res) => {
-        if (res.data !== session?.user?.profile?.data?.username) {
+        if (
+          res.data !== "" &&
+          res.data !== null &&
+          res.data !== undefined &&
+          session?.user?.profile?.data?.username !== res.data
+        ) {
           axios
             .post("/api/twitter", {
               walletAddress: account as string,
@@ -686,7 +698,7 @@ export default function Home({
       .catch((err) => {
         console.log(err);
       });
-  }, [session]);
+  }, [session, account]);
 
   // balance useeffect
   useEffect(() => {
@@ -694,10 +706,10 @@ export default function Home({
   }, [account, sourceChain, balanceOfData]);
 
   useEffect(() => {
-    if (!searchParams?.ref) return;
-
-    setRefCode(searchParams?.ref as string);
-  }, [searchParams?.ref]);
+    getRef(account as `0x${string}`).then((res) => {
+      setRefCode(res as string);
+    });
+  }, [account, refCode, isModalOpen]);
 
   useEffect(() => {
     if (!bridgeTxResultData) return;
@@ -718,7 +730,6 @@ export default function Home({
       setIsAnimationEnd(false);
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
-
 
   useEffect(() => {
     const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
@@ -875,6 +886,7 @@ export default function Home({
           onCloseModal={() => {
             setIsModalOpen(false);
           }}
+          refCode={refCode}
         />
       ) : null}
 
