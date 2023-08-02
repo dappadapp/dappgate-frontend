@@ -41,7 +41,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
 
     if (username && session) {
       setRefLink(
-        `https://gate.dappad.app/?ref=${session?.user?.profile?.data?.username}`
+        `https://gate.dappad.app/?ref=${username}`
       );
     } else {
       setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
@@ -50,6 +50,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
 
   const handleSignIn = async () => {
     await signIn("twitter", { callbackUrl: "https://gate.dappad.app/" });
+
   };
   const twitterShare = () => {
     // twitter intent

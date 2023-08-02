@@ -670,6 +670,7 @@ export default function Home({
 
   useEffect(() => {
     if (!session) return;
+
     handleTwitter();
   }, [session, account,isModalOpen]);
 
@@ -817,8 +818,13 @@ export default function Home({
   };
 
   const handleTwitter = async () => {
-    try {
 
+    if(!account)
+      toast("Please connect wallet first!");
+
+      console.log("session",session);
+
+    try {
       const userName =  await axios.post("/api/username", {
         walletAddress: account as string,
       });
@@ -827,14 +833,15 @@ export default function Home({
 
       if(!userName?.data && session?.user){
         
+        console.log("userName 2",userName?.data);
         const claim = await axios.post("/api/twitter", {
-          walletAddress: account as string,
+          wallet: account as string,
           username: session?.user?.profile?.data?.username as string,
         })
 
         console.log("claim",claim?.data);
 
-        if(claim?.data == "ok"){
+        if(claim?.data === "ok"){
           toast("You claimed Twitter handle successfully!");
         }
       }
