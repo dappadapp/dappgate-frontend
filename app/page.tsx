@@ -1112,7 +1112,7 @@ export default function Home({
                     setTokenIds={setTokenIds}
                     sourceChain={sourceChain}
                     targetChain={targetChain}
-                    refCode={refCode!}
+                    refCode={refCode}
                     logIndex={sourceChain.logIndex}
                   />
 
