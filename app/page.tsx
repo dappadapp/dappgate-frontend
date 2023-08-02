@@ -676,12 +676,16 @@ export default function Home({
         walletAddress: account as string,
       })
       .then((res) => {
+
+        console.log("first",!res.data);
         if (
           res.data !== "" &&
-          res.data !== null &&
           res.data !== undefined &&
-          session?.user?.profile?.data?.username !== res.data
+          res.data !== null &&
+          session
         ) {
+
+          if(session?.user?.profile?.data?.username !== res.data){
           axios
             .post("/api/twitter", {
               walletAddress: account as string,
@@ -694,11 +698,13 @@ export default function Home({
               console.log(err);
             });
         }
+      }
+       
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [session, account]);
+  }, [session, account,isModalOpen]);
 
   // balance useeffect
   useEffect(() => {

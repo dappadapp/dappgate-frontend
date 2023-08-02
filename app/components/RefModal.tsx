@@ -39,12 +39,12 @@ function RefModal({ onCloseModal, refCode }: Props) {
     setTotalRef(data.mints);
     setRate(data.rate);
 
-    if (username == undefined || username == null || username == "") {
-      setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
-    } else {
+    if (username && session) {
       setRefLink(
         `https://gate.dappad.app/?ref=${session?.user?.profile?.data?.username}`
       );
+    } else {
+      setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
     }
   };
 
