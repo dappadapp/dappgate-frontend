@@ -76,13 +76,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    if (connectedChain?.id !== sourceChain.chainId) {
-       switchNetworkAsync?.(sourceChain.chainId);
-    }
-
-  }, [account, sourceChain.chainId]);
-
-  useEffect(() => {
     refetch();
     setLzTargetChainId(
       selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0

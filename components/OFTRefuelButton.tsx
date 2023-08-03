@@ -38,27 +38,16 @@ const OFTRefuelButton: React.FC<Props> = ({
   const [adapterParam, setAdapterParams] = useState("");
   const [gasEstimate, setGasEstimate] = useState(BigInt(0));
 
-  const { data: gasEstimateData } = useContractRead({
+  const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateGasBridgeFee",
     args: [`${targetChain.layerzeroChainId}`, false, adapterParam],
   });
 
-  useEffect(() => {
-    if (gasEstimateDataArray) {
-      setGasEstimate(BigInt(gasEstimateDataArray[0]));
-      if (gasEstimate) {
-        const adapterParams = ethers.solidityPacked(
-          ["uint16", "uint", "uint", "address"],
-          [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
-        );
-        setAdapterParams(adapterParams);
-      }
-    }
-  }, [account, gasEstimate, gasEstimateData, gasRefuelAmount]);
-
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
 
   const {
     config: sendFromConfig,
@@ -68,7 +57,9 @@ const OFTRefuelButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "bridgeGas",
-    value: gasEstimate,
+    value: BigInt(
+      gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+    ),
     args: [
       targetChain.layerzeroChainId,
       "0x0000000000000000000000000000000000000000",
@@ -78,6 +69,14 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
+
+    const adapterParams = ethers.solidityPacked(
+      ["uint16", "uint", "uint", "address"],
+      [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+    );
+    setAdapterParams(adapterParams);
+
+
     if (gasEstimateDataArray) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
@@ -94,7 +93,15 @@ const OFTRefuelButton: React.FC<Props> = ({
     gasEstimateDataArray,
     setEstimatedGas,
     connectedChain?.nativeCurrency.symbol,
+    sourceChain,
+    gasRefuelAmount,
+    account,
   ]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
 
   const onBridge = async () => {
     if (Number(balanceOfData?.formatted) === 0)

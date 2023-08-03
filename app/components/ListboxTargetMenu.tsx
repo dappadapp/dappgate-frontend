@@ -63,7 +63,7 @@ const ListboxTargetMenu = (
               <Listbox.Option
                 key={i}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 disabled:bg-blue-400 ${
                     active
                       ? "bg-white text-black"
                       : "text-white"
@@ -85,7 +85,7 @@ const ListboxTargetMenu = (
 }
 
 const defaultOptionRenderer = (option:any, selected:any) => (
-  <div className="flex items-center gap-2">
+  <div className="flex items-center gap-2 disabled:opacity-25">
     {selected ? (
       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
         <FontAwesomeIcon icon={faCheck} />

@@ -53,6 +53,9 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
 
+
+  console.log("gasEstimateData", gasEstimateData);
+
   const {
     config: sendFromConfig,
     isSuccess,
@@ -80,6 +83,8 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
+
+    console.log("estimatedGas", estimatedGas);
 
     setBridgeCostData(estimatedGas);
   }, [

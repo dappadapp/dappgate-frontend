@@ -125,7 +125,7 @@ const networks: Network[] = [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
       80001,
     ],
-    symbol: "MATIC",
+    symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
   },
 
@@ -181,144 +181,6 @@ const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: "linea-mainnet",
-  },
-
-  {
-    name: bsc.name,
-    chainId: bsc.id,
-    layerzeroChainId: 102,
-    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
-    tokenContractAddress: "0xdea2895F965BD71EC0899ba0B20581f2FcC40A3C",
-    relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E8B30B]",
-    image: "bsc.svg",
-    disabledNetworks: [5, 420, 122, 8217, 80001],
-    symbol: "BNB",
-    chainName: "bsc-mainnet",
-  },
-  {
-    name: avalanche.name,
-    chainId: avalanche.id,
-    layerzeroChainId: 106,
-    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
-    tokenContractAddress: "0x6c4495b2eD95Ad3A2050aad60D410fA9782F08cA",
-    relayerAddress: "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E84142]",
-    image: "avalanche.svg",
-    disabledNetworks: [5, 420, 1116, 80001],
-    symbol: "AVAX",
-    chainName: "avalanche-mainnet",
-  },
-  /*   {
-        name: "Aptos",
-        chainId: 108,
-        layerzeroChainId: 10109,
-        nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-        blockConfirmation: 1,
-        colorClass: "bg-[#E8B30B]"
-      }, */
-  {
-    name: polygon.name,
-    chainId: polygon.id,
-    layerzeroChainId: 109,
-    nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
-    tokenContractAddress: "0x9e01792EbE32909AA9B569bA542A932BFb3D4031",
-    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7F43DF]",
-    image: "polygon.svg",
-    logIndex: 2,
-    disabledNetworks: [5, 420, 8217, 80001],
-    symbol: "MATIC",
-    chainName: "matic-mainnet",
-  },
-  {
-    name: arbitrum.name,
-    chainId: arbitrum.id,
-    layerzeroChainId: 110,
-    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
-    tokenContractAddress: "0xA6964d554f5A3a1DD2f8a2bab9853Bdb883eFA32",
-    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    blockConfirmation: 1,
-    colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg",
-    disabledNetworks: [5, 420, 122, 1116, 8217, 80001],
-    symbol: "ETH",
-    chainName: "arbitrum-mainnet",
-  },
-  {
-    name: optimism.name,
-    chainId: optimism.id,
-    layerzeroChainId: 111,
-    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
-    tokenContractAddress: "0xFC340113B34056669924da8c6a22f3D9b78A3bCa",
-    relayerAddress: "0x81E792e5a9003CC1C8BF5569A00f34b65d75b017",
-    blockConfirmation: 1,
-    colorClass: "bg-[#FF0420]",
-    image: "optimism.svg",
-    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
-    symbol: "ETH",
-    chainName: "optimism-mainnet",
-  },
-  {
-    name: fantom.name,
-    chainId: fantom.id,
-    layerzeroChainId: 112,
-    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
-    tokenContractAddress: "0x6B0B71E1786345818f79921522baC1fb546cc09d",
-    relayerAddress: "0x52EEA5c490fB89c7A0084B32FEAB854eefF07c82",
-    blockConfirmation: 1,
-    colorClass: "bg-[#196aff]",
-    image: "fantom.svg",
-    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
-    symbol: "FTM",
-    chainName: "fantom-mainnet",
-  },
-  /*   {
-      name: dfk.name,
-      chainId: dfk.id,
-      layerzeroChainId: 115,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#81bb04]",
-      image: "dfk.svg",
-    }, */
-  {
-    name: harmonyOne.name,
-    chainId: harmonyOne.id,
-    layerzeroChainId: 116,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x3acE23E0EA29790855e55Bfb81da3B85D49469D5",
-    relayerAddress: "0x7cbd185f21bef4d87310d0171ad5f740bc240e26",
-    blockConfirmation: 1,
-    colorClass: "bg-[#41dccc]",
-    image: "harmony.svg",
-    disabledNetworks: [
-      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
-      8217, 42170, 80001,
-    ],
-    symbol: "ONE",
-    chainName: "harmony-mainnet",
-  },
-
-  {
-    name: "OKT (OKX)",
-    chainId: 66,
-    layerzeroChainId: 155,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xC86Bb3231B641064459295ecC861db7CFe4a73DD",
-    relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
-    blockConfirmation: 1,
-    colorClass: "bg-[#000000]",
-    image: "okex.svg",
-    disabledNetworks: [
-      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
-      7700, 8217, 42170, 1666600000, 80001,
-    ],
-    symbol: "OKT",
-    chainName: undefined,
   },
 
   {
@@ -526,6 +388,7 @@ const networks: Network[] = [
     layerzeroChainId: 177,
     nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "",
     blockConfirmation: 1,
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
@@ -536,6 +399,146 @@ const networks: Network[] = [
     symbol: "KAVA",
     chainName: "kava-mainnet",
   },
+
+  {
+    name: bsc.name,
+    chainId: bsc.id,
+    layerzeroChainId: 102,
+    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    tokenContractAddress: "0xdea2895F965BD71EC0899ba0B20581f2FcC40A3C",
+    relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E8B30B]",
+    image: "bsc.svg",
+    disabledNetworks: [5, 420, 122, 8217, 80001],
+    symbol: "BNB",
+    chainName: "bsc-mainnet",
+  },
+  {
+    name: avalanche.name,
+    chainId: avalanche.id,
+    layerzeroChainId: 106,
+    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    tokenContractAddress: "0x6c4495b2eD95Ad3A2050aad60D410fA9782F08cA",
+    relayerAddress: "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E84142]",
+    image: "avalanche.svg",
+    disabledNetworks: [5, 420, 1116, 80001],
+    symbol: "AVAX",
+    chainName: "avalanche-mainnet",
+  },
+  /*   {
+        name: "Aptos",
+        chainId: 108,
+        layerzeroChainId: 10109,
+        nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+        blockConfirmation: 1,
+        colorClass: "bg-[#E8B30B]"
+      }, */
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 109,
+    nftContractAddress: "0x9F810ccdfBe675Dd8aD62e5107726078286b3178",
+    tokenContractAddress: "0x9e01792EbE32909AA9B569bA542A932BFb3D4031",
+    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg",
+    logIndex: 2,
+    disabledNetworks: [5, 420, 8217, 80001],
+    symbol: "MATIC",
+    chainName: "matic-mainnet",
+  },
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    tokenContractAddress: "0xA6964d554f5A3a1DD2f8a2bab9853Bdb883eFA32",
+    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+    blockConfirmation: 1,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    disabledNetworks: [5, 420, 122, 1116, 8217, 80001],
+    symbol: "ETH",
+    chainName: "arbitrum-mainnet",
+  },
+  {
+    name: optimism.name,
+    chainId: optimism.id,
+    layerzeroChainId: 111,
+    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    tokenContractAddress: "0xFC340113B34056669924da8c6a22f3D9b78A3bCa",
+    relayerAddress: "0x81E792e5a9003CC1C8BF5569A00f34b65d75b017",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FF0420]",
+    image: "optimism.svg",
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
+    symbol: "ETH",
+    chainName: "optimism-mainnet",
+  },
+  {
+    name: fantom.name,
+    chainId: fantom.id,
+    layerzeroChainId: 112,
+    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    tokenContractAddress: "0x6B0B71E1786345818f79921522baC1fb546cc09d",
+    relayerAddress: "0x52EEA5c490fB89c7A0084B32FEAB854eefF07c82",
+    blockConfirmation: 1,
+    colorClass: "bg-[#196aff]",
+    image: "fantom.svg",
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
+    symbol: "FTM",
+    chainName: "fantom-mainnet",
+  },
+  /*   {
+      name: dfk.name,
+      chainId: dfk.id,
+      layerzeroChainId: 115,
+      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
+      blockConfirmation: 1,
+      colorClass: "bg-[#81bb04]",
+      image: "dfk.svg",
+    }, */
+  {
+    name: harmonyOne.name,
+    chainId: harmonyOne.id,
+    layerzeroChainId: 116,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x3acE23E0EA29790855e55Bfb81da3B85D49469D5",
+    relayerAddress: "0x7cbd185f21bef4d87310d0171ad5f740bc240e26",
+    blockConfirmation: 1,
+    colorClass: "bg-[#41dccc]",
+    image: "harmony.svg",
+    disabledNetworks: [
+      5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
+      8217, 42170, 80001,
+    ],
+    symbol: "ONE",
+    chainName: "harmony-mainnet",
+  },
+
+  {
+    name: "OKT (OKX)",
+    chainId: 66,
+    layerzeroChainId: 155,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xC86Bb3231B641064459295ecC861db7CFe4a73DD",
+    relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
+    blockConfirmation: 1,
+    colorClass: "bg-[#000000]",
+    image: "okex.svg",
+    disabledNetworks: [
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
+      7700, 8217, 42170, 1666600000, 80001,
+    ],
+    symbol: "OKT",
+    chainName: undefined,
+  },
+
+  
   {
     name: goerli.name,
     chainId: goerli.id,
@@ -894,7 +897,7 @@ export default function Home({
   );
 
   const gasRefuelNetworks = networks.filter(
-    (network) => network.relayerAddress !== ""
+    (network) =>   network.name.toLowerCase().includes(searchTerm.toLowerCase()) && network.relayerAddress !== ""
   );
 
   return (
@@ -1088,7 +1091,7 @@ export default function Home({
 
             {tabIndex == 0 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
@@ -1282,7 +1285,7 @@ export default function Home({
               </div>
             ) : tabIndex == 1 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT HyperBridge</h1>
@@ -1405,10 +1408,11 @@ export default function Home({
 
                 <TransactionPreview
                   selectedHyperBridges={selectedHyperBridges}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  tokenAmountHyperBridge={selectedHyperBridges.length}
                   mintCostData={mintCostData}
                   sourceChain={sourceChain}
                   bridgeCostData={bridgeCostData}
+                  symbol={"NFT"}
                 />
 
                 <ONFTHyperMintButton
@@ -1490,7 +1494,7 @@ export default function Home({
               </div>
             ) : tabIndex == 2 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
@@ -1569,7 +1573,7 @@ export default function Home({
               </div>
             ) : tabIndex == 3 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>OFT Bridge</h1>
@@ -1656,7 +1660,7 @@ export default function Home({
               </div>
             ) : tabIndex == 4 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>OFT HyperBridge</h1>
@@ -1808,10 +1812,11 @@ export default function Home({
 
                 <TransactionPreview
                   selectedHyperBridges={selectedHyperBridges}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  tokenAmountHyperBridge={tokenAmountHyperBridge * selectedHyperBridges.length}
                   mintCostData={mintCostData}
                   bridgeCostData={bridgeCostData}
                   sourceChain={sourceChain}
+                  symbol={"$DLGATE"}
                 />
 
                 <OFTHyperBridgeButton
@@ -1827,7 +1832,7 @@ export default function Home({
               </div>
             ) : tabIndex == 5 ? (
               <div
-                className={`w-full max-w-[900px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Stargate Bridge</h1>

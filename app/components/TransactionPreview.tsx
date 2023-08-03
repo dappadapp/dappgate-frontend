@@ -12,6 +12,8 @@ type Props = {
   mintCostData: any;
   sourceChain: Network;
   bridgeCostData: any;
+  symbol: string;
+
 };
 
 const TransactionPreview = ({
@@ -20,15 +22,13 @@ const TransactionPreview = ({
   mintCostData,
   sourceChain,
   bridgeCostData,
+  symbol,
 }: Props) => {
-  useEffect(() => {}, [
-    selectedHyperBridges,
-    tokenAmountHyperBridge,
-    mintCostData,
-    sourceChain,
-    bridgeCostData,
-  ]);
 
+
+
+  console.log("bridgeCostData", bridgeCostData);
+  console.log("selectedHyperBridges", selectedHyperBridges);
   return (
     <>
       <div className="flex justify-center mt-5  mb-4">
@@ -44,6 +44,16 @@ const TransactionPreview = ({
                   destination chains{" "}
                 </td>
               </tr>
+
+              <tr>
+                <td className="font-bold pr-4"> Total Token Amount:</td>
+                <td>
+                 {tokenAmountHyperBridge}
+                 {" "} {symbol}
+                 
+                </td>
+              </tr>
+              
               <tr>
                 <td className="font-bold pr-4">Mint Estimated Cost:</td>
                 <td>
@@ -58,7 +68,7 @@ const TransactionPreview = ({
                 <td>
                   {
                     (Number(bridgeCostData) *
-                      Number(selectedHyperBridges?.length)) as unknown as string
+  Number(selectedHyperBridges?.length)) as unknown as string
                   }{" "}
                   {sourceChain?.symbol}
                 </td>
