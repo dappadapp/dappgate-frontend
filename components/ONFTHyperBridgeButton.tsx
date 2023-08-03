@@ -22,6 +22,9 @@ type Props = {
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
   tokenId: any;
+  estimatedGas: any;
+  setBridgeCostData: any;
+  selectedHyperBridges: any;
 };
 
 const ONFTHyperBridgeButton: React.FC<Props> = ({
@@ -34,6 +37,9 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
   tokenId,
+  estimatedGas,
+  setBridgeCostData,
+  selectedHyperBridges,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -46,6 +52,10 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     functionName: "estimateFees",
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
+
+
+
+  console.log("gasEstimateData", gasEstimateData);
 
   const {
     config: sendFromConfig,
@@ -76,8 +86,16 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
+
+
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+
+  
+
+    setBridgeCostData(estimatedGas);
+
+  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol, estimatedGas, setBridgeCostData,selectedHyperBridges]);
+
 
   const onBridge = async () => {
     if (!account) {

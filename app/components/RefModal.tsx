@@ -18,6 +18,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
   const [refLink, setRefLink] = useState("");
   const [showQRCode, setShowQRCode] = useState(false);
   const [isCopied, setIsCopied] = useState<"link" | "button" | null>();
+  
   useEffect(() => {
     fetchTotalNORefs();
   }, [walletAddress, refCode]);
@@ -31,6 +32,8 @@ function RefModal({ onCloseModal, refCode }: Props) {
     const { data } = await axios.post("/api/reference", {
       walletAddress,
     });
+
+    console.log("data", data);
 
     const { data: username } = await axios.post("/api/username", {
       walletAddress: walletAddress,

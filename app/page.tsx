@@ -74,6 +74,7 @@ import BridgeModal from "./components/BridgeModal";
 import TransferModal from "./components/TransferModal";
 import StargateWidget from "./components/StargateWidget";
 import { useSession, signIn, signOut } from "next-auth/react";
+import TransactionPreview from "./components/TransactionPreview";
 export interface Network {
   name: string;
   chainId: number;
@@ -92,6 +93,104 @@ export interface Network {
 }
 
 const networks: Network[] = [
+
+  {
+    name: zkSync.name,
+    chainId: zkSync.id,
+    layerzeroChainId: 165,
+    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
+    tokenContractAddress: "0xE29669E892ea8E5f4C3d7c42dB5a81631366d3Da",
+    relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
+    blockConfirmation: 1,
+    colorClass: "bg-[#8C8DFC]",
+    image: "zksync-era.svg",
+    logIndex: 3,
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: undefined
+  },
+
+  {
+    name: polygonZkEvm.name,
+    chainId: polygonZkEvm.id,
+    layerzeroChainId: 158,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x24a454482133cFA9e7dCF6007A22c7387C5f8178",
+    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
+    blockConfirmation: 1,
+    colorClass: "bg-[#7939D5]",
+    image: "polygon-zkevm.svg",
+    disabledNetworks: [
+      5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
+      80001,
+    ],
+    symbol: "MATIC",
+    chainName: "polygon-zkevm-mainnet",
+  },
+
+
+
+  {
+    name: "Base",
+    chainId: 8453,
+    layerzeroChainId: 184,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x0aAa15291dcaDB13512d55a25Ea419309A38ab52",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#2967FF]",
+    image: "base.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 80001,
+    ],
+    symbol: "ETH",
+    chainName: "base-mainnet",
+  },
+
+
+  {
+    name: "Mantle",
+    chainId: 5000,
+    layerzeroChainId: 181,
+    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "mantle.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 80001,
+    ],
+    symbol: "MNT",
+    chainName: "mantle-mainnet",
+  },
+
+ 
+
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: "linea-mainnet",
+  },
+  
+
+
   {
     name: bsc.name,
     chainId: bsc.id,
@@ -211,57 +310,7 @@ const networks: Network[] = [
     symbol: "ONE",
     chainName: "harmony-mainnet",
   },
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
-    ],
-    symbol: "ETH",
-    chainName: "linea-mainnet",
-  },
-  {
-    name: "Base",
-    chainId: 8453,
-    layerzeroChainId: 184,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "0x0aAa15291dcaDB13512d55a25Ea419309A38ab52",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#2967FF]",
-    image: "base.svg",
-    disabledNetworks: [
-      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 80001,
-    ],
-    symbol: "ETH",
-    chainName: "base-mainnet",
-  },
-  {
-    name: "Mantle",
-    chainId: 5000,
-    layerzeroChainId: 181,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
-    tokenContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "mantle.svg",
-    disabledNetworks: [
-      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 80001,
-    ],
-    symbol: "MNT",
-    chainName: "mantle-mainnet",
-  },
+ 
   {
     name: "OKT (OKX)",
     chainId: 66,
@@ -277,40 +326,10 @@ const networks: Network[] = [
       7700, 8217, 42170, 1666600000, 80001,
     ],
     symbol: "OKT",
+    chainName: undefined
   },
-  {
-    name: polygonZkEvm.name,
-    chainId: polygonZkEvm.id,
-    layerzeroChainId: 158,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0x24a454482133cFA9e7dCF6007A22c7387C5f8178",
-    relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
-    blockConfirmation: 1,
-    colorClass: "bg-[#7939D5]",
-    image: "polygon-zkevm.svg",
-    disabledNetworks: [
-      5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
-      80001,
-    ],
-    symbol: "MATIC",
-    chainName: "polygon-zkevm-mainnet",
-  },
-  {
-    name: zkSync.name,
-    chainId: zkSync.id,
-    layerzeroChainId: 165,
-    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
-    tokenContractAddress: "0xE29669E892ea8E5f4C3d7c42dB5a81631366d3Da",
-    relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
-    blockConfirmation: 1,
-    colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg",
-    logIndex: 3,
-    disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
-    ],
-    symbol: "ETH",
-  },
+
+
   {
     name: "Arbitrum Nova",
     chainId: 42170,
@@ -614,7 +633,8 @@ export default function Home({
 
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
   const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
-  const [costData, setCostData] = useState(0);
+  const [mintCostData, setMintCostData] = useState(0);
+  const [bridgeCostData, setBridgeCostData] = useState(0);
 
   const { data: session, status } = useSession();
 
@@ -672,7 +692,7 @@ export default function Home({
     if (!session) return;
 
     handleTwitter();
-  }, [session, account,isModalOpen]);
+  }, [session, account, isModalOpen]);
 
   // balance useeffect
   useEffect(() => {
@@ -683,7 +703,7 @@ export default function Home({
     getRef(account as `0x${string}`).then((res) => {
       setRefCode(res as string);
     });
-  }, [account, refCode, isModalOpen]);
+  }, [account]);
 
   useEffect(() => {
     if (!bridgeTxResultData) return;
@@ -720,6 +740,10 @@ export default function Home({
     }
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, [account, sourceChain]);
+
+  useEffect(() => {
+  
+  }, []);
 
   useEffect(() => {
     mintCounterFunc();
@@ -818,38 +842,34 @@ export default function Home({
   };
 
   const handleTwitter = async () => {
+    if (!account) toast("Please connect wallet first!");
 
-    if(!account)
-      toast("Please connect wallet first!");
-
-      console.log("session",session);
+    console.log("session", session);
 
     try {
-      const userName =  await axios.post("/api/username", {
+      const userName = await axios.post("/api/username", {
         walletAddress: account as string,
       });
 
-      console.log("userName",userName?.data);
+      console.log("userName", userName?.data);
 
-      if(!userName?.data && session?.user){
-        
-        console.log("userName 2",userName?.data);
+      if (!userName?.data && session?.user) {
+        console.log("userName 2", userName?.data);
         const claim = await axios.post("/api/twitter", {
           wallet: account as string,
           username: session?.user?.profile?.data?.username as string,
-        })
+        });
 
-        console.log("claim",claim?.data);
+        console.log("claim", claim?.data);
 
-        if(claim?.data === "ok"){
+        if (claim?.data === "ok") {
           toast("You claimed Twitter handle successfully!");
         }
       }
+    } catch (error) {
+      console.log(error);
     }
-      catch (error) {
-        console.log(error);
-      }
-    }
+  };
   const handleMax = () => {
     if (balanceOfData) {
       setGasRefuelAmount(balanceOfData?.formatted);
@@ -862,7 +882,7 @@ export default function Home({
     }
   };
 
-  const handleButtonClick = (index: number, network?: any) => {
+  const handleButtonClick = async (index: number, network?: any) => {
     if (!network) return;
     let selectedNetworks = selectedHyperBridges;
     let isExist = selectedNetworks.some(
@@ -875,13 +895,27 @@ export default function Home({
     } else {
       selectedNetworks.push(network);
     }
+
+  
     setSelectedHyperBridges(selectedNetworks);
+
   };
+
+  useEffect(() => {
+    if (!selectedHyperBridges) return;
+    console.log("selectedNetworks", selectedHyperBridges);
+  }, [selectedHyperBridges]);
+
+
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const gasRefuelNetworks = networks.filter((network) =>
+    network.relayerAddress !== ""
   );
 
   return (
@@ -1117,18 +1151,31 @@ export default function Home({
                   />
 
                   <div className="flex flex-col items-center">
-                    <button
-                      className={
-                        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
-                      }
-                      onClick={() => {
-                        if (!account)
-                          return alert("Please connect your wallet first.");
-                        setIsBridgeModalOpen(true);
-                      }}
-                    >
-                      Bridge
-                    </button>
+                    {sourceChain?.chainName !== undefined ? (
+                      <button
+                        className={
+                          "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+                        }
+                        onClick={() => {
+                          if (!account)
+                            return alert("Please connect your wallet first.");
+                          setIsBridgeModalOpen(true);
+                        }}
+                      >
+                        Bridge
+                      </button>
+                    ) : (
+                      <BridgeButton
+                        sourceChain={sourceChain}
+                        targetChain={targetChain}
+                        inputTokenId={inputTokenId}
+                        setInputTokenId={setInputTokenId}
+                        tokenIds={tokenIds}
+                        setTokenIds={setTokenIds}
+                        setLayerZeroTxHashes={setLayerZeroTxHashes}
+                        setEstimatedGas={setEstimatedGas}
+                      />
+                    )}
 
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1377,6 +1424,15 @@ export default function Home({
                   on {sourceChain.name} to bridge
                 </div>
 
+                <TransactionPreview 
+                selectedHyperBridges={selectedHyperBridges}
+                tokenAmountHyperBridge={tokenAmountHyperBridge}
+                mintCostData={mintCostData}
+                sourceChain={sourceChain}
+                bridgeCostData={bridgeCostData}
+                />
+
+
                 <ONFTHyperMintButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
@@ -1388,6 +1444,7 @@ export default function Home({
                   selectedHyperBridges={selectedHyperBridges}
                   setHyperBridgeNFTIds={setHyperBridgeNFTIds}
                   hyperBridgeNFTIds={hyperBridgeNFTIds}
+                  setMintCostData={setMintCostData}
                 />
 
                 <div>
@@ -1443,6 +1500,9 @@ export default function Home({
                               setTokenIds={setTokenIds}
                               setLayerZeroTxHashes={setLayerZeroTxHashes}
                               setEstimatedGas={setEstimatedGas}
+                              estimatedGas={estimatedGas}
+                              setBridgeCostData={setBridgeCostData}
+                              selectedHyperBridges={selectedHyperBridges}
                             />
                           </div>
                         );
@@ -1474,7 +1534,7 @@ export default function Home({
                     value={targetChain}
                     sourceValue={sourceChain}
                     onChange={onChangeTargetChain}
-                    options={filteredNetworks}
+                    options={gasRefuelNetworks}
                     searchValue={searchTerm}
                     setSearchValue={setSearchTerm}
                   />
@@ -1515,6 +1575,7 @@ export default function Home({
                   gasRefuelAmount={gasRefuelAmount}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
+                  balanceOfData={balanceOfData}
                 />
                 <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
@@ -1755,7 +1816,7 @@ export default function Home({
                     refCode={refCode}
                     tokenAmountHyperBridge={tokenAmountHyperBridge}
                     selectedHyperBridges={selectedHyperBridges}
-                    setCostData={setCostData}
+                    setMintCostData={setMintCostData}
                   />
                 </div>
 
@@ -1766,58 +1827,25 @@ export default function Home({
                     $DLGATE tokens per network to selected networks in Step 1
                   </div>
                 </div>
-                <div className="flex justify-center mt-5  mb-4">
-                  <div className="border rounded-md shadow-md p-4 px-8 py-8">
-                    <h1 className="text-xl font-bold mb-4">
-                      Transaction Preview
-                    </h1>
-                    <table className="w-fit">
-                      <tbody>
-                        <tr>
-                          <td className="font-bold pr-4">Destination Chains</td>
-                          <td>
-                            You have selected{" "}
-                            {
-                              selectedHyperBridges.filter((x: any) => x !== 0)
-                                .length
-                            }{" "}
-                            destination chains{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="font-bold pr-4">
-                            Total Estimated Fee:
-                          </td>
-                          <td>
-                            {ethers.formatEther(
-                              BigInt(
-                                (costData as unknown as string) ||
-                                  "500000000000000"
-                              ) *
-                                BigInt(tokenAmountHyperBridge) *
-                                BigInt(
-                                  selectedHyperBridges.filter(
-                                    (x: any) => x !== 0
-                                  ).length
-                                )
-                            )}{" "}
-                            {sourceChain?.symbol}
-                          </td>
-                        </tr>
+   
 
-                        {/* Add more transaction details here */}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                <TransactionPreview 
+                selectedHyperBridges={selectedHyperBridges}
+                tokenAmountHyperBridge={tokenAmountHyperBridge}
+                mintCostData={mintCostData}
+                bridgeCostData={bridgeCostData}
+                sourceChain={sourceChain}
+                />
 
                 <OFTHyperBridgeButton
                   sourceChain={sourceChain}
                   targetChain={targetChain}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
+                  estimatedGas={estimatedGas}
                   setEstimatedGas={setEstimatedGas}
                   tokenAmountHyperBridge={tokenAmountHyperBridge}
                   selectedHyperBridges={selectedHyperBridges}
+                  setBridgeCostData={setBridgeCostData}
                 />
               </div>
             ) : tabIndex == 5 ? (

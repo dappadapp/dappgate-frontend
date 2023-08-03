@@ -27,6 +27,7 @@ type Props = {
   selectedHyperBridges: any;
   setHyperBridgeNFTIds: any;
   hyperBridgeNFTIds: any;
+  setMintCostData: any;
 };
 
 const ONFTHyperMintButton: React.FC<Props> = ({
@@ -40,6 +41,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   selectedHyperBridges,
   setHyperBridgeNFTIds,
   hyperBridgeNFTIds,
+  setMintCostData,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-  const { data: costData } = useContractRead({
+  const { data: costData, refetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
     functionName: "cost",
@@ -85,6 +87,17 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     return reverseArray.join("").substring(0, 12);
   };
 
+  const updateMintCostData = async () => {
+    if (costData) {
+      setMintCostData(Number(costData) * selectedHyperBridges?.length);
+    }
+  };
+
+  
+  useEffect(() => {
+    refetch();
+   updateMintCostData();
+  }, [selectedHyperBridges,sourceChain,costData,refetch]);
   const onMint = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");

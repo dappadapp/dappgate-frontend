@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
+import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
@@ -20,6 +21,8 @@ type Props = {
   setEstimatedGas: any;
   tokenAmountHyperBridge: number;
   selectedHyperBridges: any;
+  setBridgeCostData: any;
+  estimatedGas: any;
 };
 
 const OFTHyperBridgeButton: React.FC<Props> = ({
@@ -29,13 +32,18 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   setEstimatedGas,
   tokenAmountHyperBridge,
   selectedHyperBridges,
+  setBridgeCostData,
+  estimatedGas,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-  const [lzTargetChainId, setLzTargetChainId] = useState(0);
+  const [lzTargetChainId, setLzTargetChainId] = useState(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
 
+
+  console.log("lzTargetChainId", selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
+  console.log("tokenAmountHyperBridge", tokenAmountHyperBridge);
 
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -51,12 +59,9 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   });
 
 
-  useEffect(() => {
-     refetch();
-  }, [lzTargetChainId]);
-
-
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
 
   const {
     config: sendFromConfig,
@@ -74,12 +79,18 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       account,
       lzTargetChainId,
       account,
-      tokenAmountHyperBridge * 1000000000000000000,
+      ethers.parseEther(selectedHyperBridges.length.toString()).toString(),
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",
     ],
   });
+
+  useEffect(() => {
+     refetch();
+     setLzTargetChainId(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
+ }, [account,selectedHyperBridges]);
+
 
 
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
@@ -94,13 +105,19 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
               BigInt(1e18)
           ) / coefficient
-        } ${connectedChain?.nativeCurrency.symbol}`
+        } `
       );
+
+
+    
     }
+    setLzTargetChainId(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
+    setBridgeCostData(estimatedGas);
+    refetch();
   }, [
-    gasEstimateDataArray,
-    selectedHyperBridges,
-    connectedChain?.nativeCurrency.symbol,
+    gasEstimateData,
+    tokenAmountHyperBridge,
+    selectedHyperBridges
   ]);
 
   const onBridge = async () => {
@@ -155,6 +172,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       setLoading(true);
 
       selectedHyperBridges?.forEach(async(transaction: any) => {
+
+        console.log("transaction", transaction);
       
           setLzTargetChainId(transaction?.layerzeroChainId);
           await refetch();
