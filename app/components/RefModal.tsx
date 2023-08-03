@@ -18,7 +18,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
   const [refLink, setRefLink] = useState("");
   const [showQRCode, setShowQRCode] = useState(false);
   const [isCopied, setIsCopied] = useState<"link" | "button" | null>();
-  
+
   useEffect(() => {
     fetchTotalNORefs();
   }, [walletAddress, refCode]);
@@ -43,9 +43,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
     setRate(data.rate);
 
     if (username && session) {
-      setRefLink(
-        `https://gate.dappad.app/?ref=${username}`
-      );
+      setRefLink(`https://gate.dappad.app/?ref=${username}`);
     } else {
       setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
     }
@@ -53,7 +51,6 @@ function RefModal({ onCloseModal, refCode }: Props) {
 
   const handleSignIn = async () => {
     await signIn("twitter", { callbackUrl: "https://gate.dappad.app/" });
-
   };
   const twitterShare = () => {
     // twitter intent
@@ -97,7 +94,6 @@ function RefModal({ onCloseModal, refCode }: Props) {
             <button
               onClick={handleSignIn}
               className=" bg-white bg-opacity-100 hover:bg-opacity-100 p-3 rounded-lg text-black mt-5"
-
             >
               {" "}
               Claim Twitter Username{" "}

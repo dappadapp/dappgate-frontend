@@ -93,7 +93,6 @@ export interface Network {
 }
 
 const networks: Network[] = [
-
   {
     name: zkSync.name,
     chainId: zkSync.id,
@@ -109,7 +108,7 @@ const networks: Network[] = [
       5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
     ],
     symbol: "ETH",
-    chainName: undefined
+    chainName: undefined,
   },
 
   {
@@ -130,8 +129,6 @@ const networks: Network[] = [
     chainName: "polygon-zkevm-mainnet",
   },
 
-
-
   {
     name: "Base",
     chainId: 8453,
@@ -149,7 +146,6 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: "base-mainnet",
   },
-
 
   {
     name: "Mantle",
@@ -169,8 +165,6 @@ const networks: Network[] = [
     chainName: "mantle-mainnet",
   },
 
- 
-
   {
     name: "Linea",
     chainId: 59144,
@@ -188,8 +182,6 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: "linea-mainnet",
   },
-  
-
 
   {
     name: bsc.name,
@@ -310,7 +302,7 @@ const networks: Network[] = [
     symbol: "ONE",
     chainName: "harmony-mainnet",
   },
- 
+
   {
     name: "OKT (OKX)",
     chainId: 66,
@@ -326,9 +318,8 @@ const networks: Network[] = [
       7700, 8217, 42170, 1666600000, 80001,
     ],
     symbol: "OKT",
-    chainName: undefined
+    chainName: undefined,
   },
-
 
   {
     name: "Arbitrum Nova",
@@ -741,9 +732,7 @@ export default function Home({
     setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
   }, [account, sourceChain]);
 
-  useEffect(() => {
-  
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     mintCounterFunc();
@@ -844,23 +833,16 @@ export default function Home({
   const handleTwitter = async () => {
     if (!account) toast("Please connect wallet first!");
 
-    console.log("session", session);
-
     try {
       const userName = await axios.post("/api/username", {
         walletAddress: account as string,
       });
 
-      console.log("userName", userName?.data);
-
       if (!userName?.data && session?.user) {
-        console.log("userName 2", userName?.data);
         const claim = await axios.post("/api/twitter", {
           wallet: account as string,
           username: session?.user?.profile?.data?.username as string,
         });
-
-        console.log("claim", claim?.data);
 
         if (claim?.data === "ok") {
           toast("You claimed Twitter handle successfully!");
@@ -883,30 +865,27 @@ export default function Home({
   };
 
   const handleButtonClick = async (index: number, network?: any) => {
+    console.log("network", network);
+
     if (!network) return;
     let selectedNetworks = selectedHyperBridges;
     let isExist = selectedNetworks.some(
       (selectedNetwork) => selectedNetwork.chainId === network.chainId
     );
     if (isExist) {
+      console.log("networkisExist", network);
       selectedNetworks = selectedNetworks.filter(
         (selectedNetwork) => selectedNetwork.chainId !== network.chainId
       );
+      setSelectedHyperBridges(selectedNetworks);
     } else {
-      selectedNetworks.push(network);
+      setSelectedHyperBridges([...selectedHyperBridges, network]);
     }
-
-  
-    setSelectedHyperBridges(selectedNetworks);
-
   };
 
   useEffect(() => {
-    if (!selectedHyperBridges) return;
-    console.log("selectedNetworks", selectedHyperBridges);
+    console.log("selectedHyperBridges", selectedHyperBridges);
   }, [selectedHyperBridges]);
-
-
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -914,8 +893,8 @@ export default function Home({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const gasRefuelNetworks = networks.filter((network) =>
-    network.relayerAddress !== ""
+  const gasRefuelNetworks = networks.filter(
+    (network) => network.relayerAddress !== ""
   );
 
   return (
@@ -1424,14 +1403,13 @@ export default function Home({
                   on {sourceChain.name} to bridge
                 </div>
 
-                <TransactionPreview 
-                selectedHyperBridges={selectedHyperBridges}
-                tokenAmountHyperBridge={tokenAmountHyperBridge}
-                mintCostData={mintCostData}
-                sourceChain={sourceChain}
-                bridgeCostData={bridgeCostData}
+                <TransactionPreview
+                  selectedHyperBridges={selectedHyperBridges}
+                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  mintCostData={mintCostData}
+                  sourceChain={sourceChain}
+                  bridgeCostData={bridgeCostData}
                 />
-
 
                 <ONFTHyperMintButton
                   sourceChain={sourceChain}
@@ -1827,14 +1805,13 @@ export default function Home({
                     $DLGATE tokens per network to selected networks in Step 1
                   </div>
                 </div>
-   
 
-                <TransactionPreview 
-                selectedHyperBridges={selectedHyperBridges}
-                tokenAmountHyperBridge={tokenAmountHyperBridge}
-                mintCostData={mintCostData}
-                bridgeCostData={bridgeCostData}
-                sourceChain={sourceChain}
+                <TransactionPreview
+                  selectedHyperBridges={selectedHyperBridges}
+                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  mintCostData={mintCostData}
+                  bridgeCostData={bridgeCostData}
+                  sourceChain={sourceChain}
                 />
 
                 <OFTHyperBridgeButton

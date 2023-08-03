@@ -39,29 +39,18 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-  const [lzTargetChainId, setLzTargetChainId] = useState(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
-
-
-  console.log("lzTargetChainId", selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
-  console.log("tokenAmountHyperBridge", tokenAmountHyperBridge);
+  const [lzTargetChainId, setLzTargetChainId] = useState(
+    selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
+  );
 
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
-    args: [
-      lzTargetChainId,
-      account,
-      "1000000000000000000",
-      false,
-      "0x",
-    ],
+    args: [lzTargetChainId, account, "1000000000000000000", false, "0x"],
   });
 
-
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
-
-  console.log("gasEstimateDataArray", gasEstimateDataArray);
 
   const {
     config: sendFromConfig,
@@ -87,11 +76,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   });
 
   useEffect(() => {
-     refetch();
-     setLzTargetChainId(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
- }, [account,selectedHyperBridges]);
-
-
+    refetch();
+    setLzTargetChainId(
+      selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
+    );
+  }, [account, selectedHyperBridges]);
 
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
@@ -107,25 +96,19 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ) / coefficient
         } `
       );
-
-
-    
     }
-    setLzTargetChainId(selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0);
+    setLzTargetChainId(
+      selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
+    );
     setBridgeCostData(estimatedGas);
     refetch();
-  }, [
-    gasEstimateData,
-    tokenAmountHyperBridge,
-    selectedHyperBridges
-  ]);
+  }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges]);
 
   const onBridge = async () => {
-   
     if (connectedChain?.id !== sourceChain.chainId) {
       await switchNetworkAsync?.(sourceChain.chainId);
     }
-   
+
     if (!account) {
       return toast("Please connect your wallet first.");
     }
@@ -135,8 +118,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     }
 
     if (!sendFrom) {
-      console.log("error", error?.message);
-
       if (
         error?.message.includes(
           "ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)"
@@ -171,31 +152,27 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     try {
       setLoading(true);
 
-      selectedHyperBridges?.forEach(async(transaction: any) => {
+      selectedHyperBridges?.forEach(async (transaction: any) => {
+        setLzTargetChainId(transaction?.layerzeroChainId);
+        await refetch();
 
-        console.log("transaction", transaction);
-      
-          setLzTargetChainId(transaction?.layerzeroChainId);
-          await refetch();
+        const { hash: txHash } = await sendFrom();
+        setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
-          const { hash: txHash } = await sendFrom();
-          setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
-
-          // post bridge history
-          const postBridgeHistory = async () => {
-            await axios.post("/api/history", {
-              tx: txHash,
-              srcChain: sourceChain.chainId,
-              dstChain: targetChain.chainId,
-              tokenId: tokenAmountHyperBridge,
-              walletAddress: account,
-              ref: "",
-              type: "oft",
-            });
-          };
-          postBridgeHistory();
-        }
-      );
+        // post bridge history
+        const postBridgeHistory = async () => {
+          await axios.post("/api/history", {
+            tx: txHash,
+            srcChain: sourceChain.chainId,
+            dstChain: targetChain.chainId,
+            tokenId: tokenAmountHyperBridge,
+            walletAddress: account,
+            ref: "",
+            type: "oft",
+          });
+        };
+        postBridgeHistory();
+      });
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);

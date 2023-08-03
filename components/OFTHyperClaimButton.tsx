@@ -66,10 +66,11 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   useEffect(() => {
     if (!costData) return;
 
-
-    setMintCostData(      BigInt((costData as string) || "500000000000000") *
-    BigInt(tokenAmountHyperBridge) *
-    BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length));
+    setMintCostData(
+      BigInt((costData as string) || "500000000000000") *
+        BigInt(tokenAmountHyperBridge) *
+        BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length)
+    );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData]);
 
   useEffect(() => {
@@ -84,7 +85,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
     if (refCode?.length === 12) {
       const postReferenceMint = async () => {
-        const result =  await axios.post("/api/referenceMintOFT", {
+        const result = await axios.post("/api/referenceMintOFT", {
           id: tokenAmountHyperBridge,
           walletAddress: account,
           chainId: sourceChain.chainId,
@@ -92,8 +93,6 @@ const OFTHyperClaimButton: React.FC<Props> = ({
           tx_id: mintTxHash,
           amount: tokenAmountHyperBridge,
         });
-
-        console.log("result", result);
       };
       postReferenceMint();
     }

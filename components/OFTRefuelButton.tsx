@@ -29,7 +29,7 @@ const OFTRefuelButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
   gasRefuelAmount,
-  balanceOfData
+  balanceOfData,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -56,11 +56,10 @@ const OFTRefuelButton: React.FC<Props> = ({
         setAdapterParams(adapterParams);
       }
     }
-  }, [account,gasEstimate,gasEstimateData, gasRefuelAmount]);
+  }, [account, gasEstimate, gasEstimateData, gasRefuelAmount]);
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
-  console.log("gasEstimateDataArray", gasRefuelAmount);
   const {
     config: sendFromConfig,
     isSuccess,
@@ -98,10 +97,10 @@ const OFTRefuelButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
-
-    console.log("gasRefuelAmount", balanceOfData);
-
-    if (Number(balanceOfData?.formatted) === 0) return toast("Layerzero relayer dont have enough gas to bridge, try again later.");
+    if (Number(balanceOfData?.formatted) === 0)
+      return toast(
+        "Layerzero relayer dont have enough gas to bridge, try again later."
+      );
     if (!gasRefuelAmount) return toast("Please enter a valid amount");
     if (Number(gasRefuelAmount) <= 0)
       return toast("Please enter a valid amount");

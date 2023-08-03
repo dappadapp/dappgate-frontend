@@ -53,10 +53,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     args: [`${targetChain.layerzeroChainId}`, inputTokenId],
   });
 
-
-
-  console.log("gasEstimateData", gasEstimateData);
-
   const {
     config: sendFromConfig,
     isSuccess,
@@ -68,10 +64,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     value:
       BigInt((gasEstimateData as string) || "13717131402195452") +
       BigInt("10000000000000"),
-    args: [
-      targetChain.layerzeroChainId,
-      tokenId,
-    ],
+    args: [targetChain.layerzeroChainId, tokenId],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
@@ -86,22 +79,23 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
-
-
     }
 
-  
-
     setBridgeCostData(estimatedGas);
-
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol, estimatedGas, setBridgeCostData,selectedHyperBridges]);
-
+  }, [
+    gasEstimateData,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+    estimatedGas,
+    setBridgeCostData,
+    selectedHyperBridges,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
     }
-    
+
     if (!sendFrom) {
       console.log("error", error?.message);
       if (

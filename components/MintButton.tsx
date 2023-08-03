@@ -57,9 +57,6 @@ const MintButton: React.FC<Props> = ({
     confirmations: sourceChain.blockConfirmation,
   });
 
-
-  console.log("refcode check", refCode?.length === 12);
-
   useEffect(() => {
     if (!mintTxResultData) return;
     const tokenId = BigInt(
@@ -90,7 +87,6 @@ const MintButton: React.FC<Props> = ({
       return tokenIdData;
     });
     if (refCode?.length === 12) {
-
       const postReferenceMint = async () => {
         await axios.post("/api/referenceMint", {
           id: tokenId,
@@ -100,7 +96,7 @@ const MintButton: React.FC<Props> = ({
           tx_id: mintTxHash,
         });
       };
-       postReferenceMint();
+      postReferenceMint();
 
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
