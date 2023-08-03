@@ -76,6 +76,13 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   });
 
   useEffect(() => {
+    if (connectedChain?.id !== sourceChain.chainId) {
+       switchNetworkAsync?.(sourceChain.chainId);
+    }
+
+  }, [account, sourceChain.chainId]);
+
+  useEffect(() => {
     refetch();
     setLzTargetChainId(
       selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
@@ -86,6 +93,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (gasEstimateDataArray) {
+
+      console.log("gasEstimateDataArray", gasEstimateDataArray);
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
@@ -100,6 +109,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     setLzTargetChainId(
       selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
     );
+
+    console.log("estimatedGas", estimatedGas);
     setBridgeCostData(estimatedGas);
     refetch();
   }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges]);

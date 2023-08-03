@@ -68,7 +68,6 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
     setMintCostData(
       BigInt((costData as string) || "500000000000000") *
-        BigInt(tokenAmountHyperBridge) *
         BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length)
     );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData]);

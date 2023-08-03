@@ -93,6 +93,13 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     }
   };
 
+  useEffect(() => {
+    if (connectedChain?.id !== sourceChain.chainId) {
+       switchNetworkAsync?.(sourceChain.chainId);
+    }
+
+  }, [account, sourceChain.chainId]);
+
   
   useEffect(() => {
     refetch();
