@@ -33,8 +33,6 @@ function RefModal({ onCloseModal, refCode }: Props) {
       walletAddress,
     });
 
-    console.log("data", data);
-
     const { data: username } = await axios.post("/api/username", {
       walletAddress: walletAddress,
     });

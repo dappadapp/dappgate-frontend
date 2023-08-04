@@ -59,11 +59,6 @@ const OFTClaimButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
-
-
-    console.log("mintTxResultData", mintTxResultData);
-
-
     const postMint = async () => {
       await axios.post("/api/mint", {
         tokenId: inputOFTAmount,
@@ -71,7 +66,6 @@ const OFTClaimButton: React.FC<Props> = ({
     };
     postMint();
     
-    console.log("refCode", refCode);
     if (String(refCode)?.length === 12) {
       const postReferenceMint = async () => {
       const result =  await axios.post("/api/referenceMintOFT", {
@@ -82,7 +76,6 @@ const OFTClaimButton: React.FC<Props> = ({
           tx_id: mintTxHash,
           amount: inputOFTAmount,
         });
-        console.log("result", result);
       };
       postReferenceMint();
 

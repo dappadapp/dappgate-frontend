@@ -538,7 +538,6 @@ const networks: Network[] = [
     chainName: undefined,
   },
 
-  
   {
     name: goerli.name,
     chainId: goerli.id,
@@ -629,6 +628,7 @@ export default function Home({
   const [hyperBridgeNFTIds, setHyperBridgeNFTIds] = useState<string[]>([]);
   const [mintCostData, setMintCostData] = useState(0);
   const [bridgeCostData, setBridgeCostData] = useState(0);
+  const [loader, setLoader] = useState(false);
 
   const { data: session, status } = useSession();
 
@@ -666,6 +666,12 @@ export default function Home({
   });
 
   // get balance of user on source chain
+  const { data: balanceOfUser } = useBalance({
+    address: account as `0x${string}`,
+    chainId: sourceChain?.chainId,
+  });
+
+  // get balance of user on source chain
   const { data: balanceOfDlgate, refetch: refetchDlgateBalance } = useBalance({
     address: account as `0x${string}`,
     chainId: sourceChain.chainId,
@@ -698,6 +704,10 @@ export default function Home({
       setRefCode(res as string);
     });
   }, [account]);
+
+  useEffect(() => {
+    setLoader(false);
+  }, [hyperBridgeNFTIds]);
 
   useEffect(() => {
     if (!bridgeTxResultData) return;
@@ -868,15 +878,12 @@ export default function Home({
   };
 
   const handleButtonClick = async (index: number, network?: any) => {
-    console.log("network", network);
-
     if (!network) return;
     let selectedNetworks = selectedHyperBridges;
     let isExist = selectedNetworks.some(
       (selectedNetwork) => selectedNetwork.chainId === network.chainId
     );
     if (isExist) {
-      console.log("networkisExist", network);
       selectedNetworks = selectedNetworks.filter(
         (selectedNetwork) => selectedNetwork.chainId !== network.chainId
       );
@@ -886,10 +893,6 @@ export default function Home({
     }
   };
 
-  useEffect(() => {
-    console.log("selectedHyperBridges", selectedHyperBridges);
-  }, [selectedHyperBridges]);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredNetworks = networks.filter((network) =>
@@ -897,7 +900,9 @@ export default function Home({
   );
 
   const gasRefuelNetworks = networks.filter(
-    (network) =>   network.name.toLowerCase().includes(searchTerm.toLowerCase()) && network.relayerAddress !== ""
+    (network) =>
+      network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      network.relayerAddress !== ""
   );
 
   return (
@@ -1427,6 +1432,7 @@ export default function Home({
                   setHyperBridgeNFTIds={setHyperBridgeNFTIds}
                   hyperBridgeNFTIds={hyperBridgeNFTIds}
                   setMintCostData={setMintCostData}
+                  setLoader={setLoader}
                 />
 
                 <div>
@@ -1485,11 +1491,31 @@ export default function Home({
                               estimatedGas={estimatedGas}
                               setBridgeCostData={setBridgeCostData}
                               selectedHyperBridges={selectedHyperBridges}
+                              hyperBridgeNFTIds={hyperBridgeNFTIds}
                             />
                           </div>
                         );
                       })}{" "}
                   </div>
+
+                  {loader && (
+                    <div className="flex py-2 px-1 justify-center mt-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-14 h-14 animate-spin"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                        />
+                      </svg>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : tabIndex == 2 ? (
@@ -1523,9 +1549,11 @@ export default function Home({
                 </div>
                 <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700 break-words max-w-[60%] text-base">
-                    Input amount of ${targetChain.symbol} to receive on{" "}
-                    {targetChain.name}
+                    ${sourceChain.name}{" "}
+                    {Number(balanceOfUser?.formatted).toFixed(4) || 0}{" "}
+                    {sourceChain.symbol}
                   </div>
+                  <div className="text-white-700 break-words max-w-[60%] text-base"></div>
                   <div className="text-white-700 text-base">
                     Max: {Number(balanceOfData?.formatted).toFixed(3) || 0}{" "}
                     {targetChain.symbol}
@@ -1538,7 +1566,7 @@ export default function Home({
                   <input
                     type="text"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    placeholder={targetChain.symbol + " amount to bridge"}
+                    placeholder={`Input Amount of ${targetChain.symbol} to receive on ${targetChain.name}`}
                     value={gasRefuelAmount}
                     onChange={(e) => setGasRefuelAmount(e.target.value)}
                   />
@@ -1812,7 +1840,9 @@ export default function Home({
 
                 <TransactionPreview
                   selectedHyperBridges={selectedHyperBridges}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge * selectedHyperBridges.length}
+                  tokenAmountHyperBridge={
+                    tokenAmountHyperBridge * selectedHyperBridges.length
+                  }
                   mintCostData={mintCostData}
                   bridgeCostData={bridgeCostData}
                   sourceChain={sourceChain}

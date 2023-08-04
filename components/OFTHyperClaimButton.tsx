@@ -49,12 +49,16 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     functionName: "mint",
     value:
       BigInt((costData as string) || "500000000000000") *
-      BigInt(tokenAmountHyperBridge) *
-      BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length),
+      BigInt(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      ),
     args: [
       account,
-      tokenAmountHyperBridge *
-        selectedHyperBridges.filter((x: any) => x !== 0).length,
+      Number(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      ).toString(),
     ],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
@@ -68,7 +72,10 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
     setMintCostData(
       BigInt((costData as string) || "500000000000000") *
-        BigInt(selectedHyperBridges.filter((x: any) => x !== 0).length)
+        BigInt(
+          (tokenAmountHyperBridge *
+            selectedHyperBridges?.length) as unknown as string
+        )
     );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData]);
 

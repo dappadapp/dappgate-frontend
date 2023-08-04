@@ -13,7 +13,6 @@ type Props = {
   sourceChain: Network;
   bridgeCostData: any;
   symbol: string;
-
 };
 
 const TransactionPreview = ({
@@ -24,11 +23,6 @@ const TransactionPreview = ({
   bridgeCostData,
   symbol,
 }: Props) => {
-
-
-
-  console.log("bridgeCostData", bridgeCostData);
-  console.log("selectedHyperBridges", selectedHyperBridges);
   return (
     <>
       <div className="flex justify-center mt-5  mb-4">
@@ -44,37 +38,37 @@ const TransactionPreview = ({
                   destination chains{" "}
                 </td>
               </tr>
-
               <tr>
                 <td className="font-bold pr-4"> Total Token Amount:</td>
                 <td>
-                 {tokenAmountHyperBridge}
-                 {" "} {symbol}
-                 
+                  {tokenAmountHyperBridge} {symbol}
                 </td>
               </tr>
-              
               <tr>
                 <td className="font-bold pr-4">Mint Estimated Cost:</td>
                 <td>
                   {ethers.formatEther(
-                    BigInt(mintCostData as unknown as string)
+                    (BigInt(mintCostData)  as unknown as string)
                   )}{" "}
                   {sourceChain?.symbol}
                 </td>
               </tr>
-              <tr>
-                <td className="font-bold pr-4">Bridge Estimated Cost:</td>
-                <td>
-                  {
-                    (Number(bridgeCostData) *
-  Number(selectedHyperBridges?.length)) as unknown as string
-                  }{" "}
-                  {sourceChain?.symbol}
-                </td>
-              </tr>
-
-              {/* Add more transaction details here */}
+              {symbol !== "NFT" && (
+                <tr>
+                  <td className="font-bold pr-4">Bridge Estimated Cost:</td>
+                  <td>
+                    {
+                      tokenAmountHyperBridge === 0 ? 0 :
+                      (Number(bridgeCostData) *
+                        Number(
+                          selectedHyperBridges?.length
+                        )) as unknown as string
+                    }{" "}
+                    {sourceChain?.symbol}
+                  </td>
+                </tr>
+              )}{" "}
+             
             </tbody>
           </table>
         </div>

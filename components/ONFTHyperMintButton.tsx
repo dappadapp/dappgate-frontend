@@ -28,6 +28,7 @@ type Props = {
   setHyperBridgeNFTIds: any;
   hyperBridgeNFTIds: any;
   setMintCostData: any;
+  setLoader: any;
 };
 
 const ONFTHyperMintButton: React.FC<Props> = ({
@@ -42,6 +43,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   setHyperBridgeNFTIds,
   hyperBridgeNFTIds,
   setMintCostData,
+  setLoader,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -93,7 +95,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     }
   };
 
-
   
   useEffect(() => {
     refetch();
@@ -123,6 +124,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         .forEach(async () => {
           const result = await mint();
           setMintTxHash(result.hash);
+          setLoader(true);
           toast("Mint transaction sent, waiting confirmation...");
 
           const data = await waitForTransaction({
@@ -162,10 +164,15 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         };
         postHashMint();
       }
+
+      setLoader(false);
     } catch (error) {
       console.log(error);
+      setLoader(false);
     } finally {
       setLoading(false);
+      setLoader(false);
+     
     }
 
   };
