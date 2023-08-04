@@ -199,6 +199,22 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: "arbitrum-nova-mainnet",
   },
+  {
+    name: "Celo",
+    chainId: 42220,
+    layerzeroChainId: 125,
+    nftContractAddress: "0xBddc99fCFc76c3433F448F15B327b46eC7A6CC4d",
+    tokenContractAddress: "0x6B0B71E1786345818f79921522baC1fb546cc09d",
+    relayerAddress: "0x15e51701f245f6d5bd0fee87bcaf55b0841451b3",
+    blockConfirmation: 1,
+    colorClass: "bg-[#FBCC5C]",
+    image: "celo.svg",
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+    ], // TODO: UPDATE
+    symbol: "CELO",
+    chainName: "celo-mainnet",
+  },
   /*   {
       name: "Dexalot",
       chainId: 432204,
