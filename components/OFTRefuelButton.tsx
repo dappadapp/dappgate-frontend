@@ -67,15 +67,15 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-
-    const adapterParams = ethers.solidityPacked(
-      ["uint16", "uint", "uint", "address"],
-      [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
-    );
-    setAdapterParams(adapterParams);
-
-
     if (gasEstimateDataArray) {
+
+      const adapterParams = ethers.solidityPacked(
+        ["uint16", "uint", "uint", "address"],
+        [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+      );
+      setAdapterParams(adapterParams);
+  
+
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
@@ -93,12 +93,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     connectedChain?.nativeCurrency.symbol,
     sourceChain,
     gasRefuelAmount,
-    account,
   ]);
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
 
   const onBridge = async () => {

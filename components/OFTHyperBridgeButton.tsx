@@ -52,6 +52,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
+
   const {
     config: sendFromConfig,
     isSuccess,
@@ -96,18 +98,14 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ) / coefficient
         } `
       );
+
+      setBridgeCostData(ethers.formatEther(  (BigInt(
+        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+      ) + BigInt("10000000000000")).toString()));
     }
 
-  }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges]);
+  }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges, account]);
 
-  useEffect(() => {
-    
-    setLzTargetChainId(
-      selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
-    );
-
-    setBridgeCostData(estimatedGas);
-  }, [estimatedGas, selectedHyperBridges, tokenAmountHyperBridge, account]);
 
   const onBridge = async () => {
     if (connectedChain?.id !== sourceChain.chainId) {

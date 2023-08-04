@@ -112,6 +112,24 @@ const networks: Network[] = [
   },
 
   {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: "linea-mainnet",
+  },
+
+  {
     name: polygonZkEvm.name,
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
@@ -165,23 +183,7 @@ const networks: Network[] = [
     chainName: "mantle-mainnet",
   },
 
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
-    relayerAddress: "", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
-    ],
-    symbol: "ETH",
-    chainName: "linea-mainnet",
-  },
+  
 
   {
     name: "Arbitrum Nova",
@@ -463,7 +465,7 @@ const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
-    disabledNetworks: [5, 420, 8217, 80001],
+    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453 ],
     symbol: "MATIC",
     chainName: "matic-mainnet",
   },
@@ -565,7 +567,7 @@ const networks: Network[] = [
     image: "ethereum.svg",
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
-      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,42220
     ],
     symbol: "ETH",
     chainName: "eth-goerli",
@@ -1112,7 +1114,7 @@ export default function Home({
 
             {tabIndex == 0 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
@@ -1306,7 +1308,7 @@ export default function Home({
               </div>
             ) : tabIndex == 1 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>ONFT HyperBridge</h1>
@@ -1380,41 +1382,41 @@ export default function Home({
                         .map((network, i) => {
                           return (
                             <button
-                              key={i}
-                              onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
-                                !selectedHyperBridges.some(
-                                  (selectedBridge) =>
-                                    selectedBridge.chainId === network.chainId
-                                )
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
-                            >
-                              <Image
-                                src={`/chains/${network.image}`}
-                                alt={network.name}
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                              />
-                              <h2 className="p-2">{network.name}</h2>
-
-                              {!selectedHyperBridges.some(
+                            key={i}
+                            onClick={() => handleButtonClick(i, network)}
+                            className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
+                              !selectedHyperBridges.some(
                                 (selectedBridge) =>
                                   selectedBridge.chainId === network.chainId
-                              ) ? (
-                                <FontAwesomeIcon
-                                  className="absolute top-0 right-0 p-1"
-                                  icon={faCircleXmark}
-                                />
-                              ) : (
-                                <FontAwesomeIcon
-                                  className="absolute top-0 right-0 p-1"
-                                  icon={faCheckCircle}
-                                />
-                              )}
-                            </button>
+                              )
+                                ? "grayscale"
+                                : "grayscale-0"
+                            } p-2 `}
+                          >
+                            <Image
+                              src={`/chains/${network.image}`}
+                              alt={network.name}
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                            <h2 className="p-2">{network.name}</h2>
+
+                            {!selectedHyperBridges.some(
+                              (selectedBridge) =>
+                                selectedBridge.chainId === network.chainId
+                            ) ? (
+                              <FontAwesomeIcon
+                                className="absolute top-0 right-0 p-1"
+                                icon={faCircleXmark}
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                className="absolute top-0 right-0 p-1"
+                                icon={faCheckCircle}
+                              />
+                            )}
+                          </button>
                           );
                         })}
                     </div>
@@ -1536,7 +1538,7 @@ export default function Home({
               </div>
             ) : tabIndex == 2 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
@@ -1566,12 +1568,12 @@ export default function Home({
                 <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700 break-words max-w-[60%] text-base">
                     ${sourceChain.name}{" "}
-                    {Number(balanceOfUser?.formatted).toFixed(4) || 0}{" "}
+                    {Number(balanceOfUser?.formatted || 0).toFixed(4) || 0}{" "}
                     {sourceChain.symbol}
                   </div>
                   <div className="text-white-700 break-words max-w-[60%] text-base"></div>
                   <div className="text-white-700 text-base">
-                    Max: {Number(balanceOfData?.formatted).toFixed(3) || 0}{" "}
+                    Max: {Number(balanceOfData?.formatted || 0).toFixed(3) || 0}{" "}
                     {targetChain.symbol}
                   </div>
                 </div>
@@ -1617,7 +1619,7 @@ export default function Home({
               </div>
             ) : tabIndex == 3 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>OFT Bridge</h1>
@@ -1704,7 +1706,7 @@ export default function Home({
               </div>
             ) : tabIndex == 4 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>OFT HyperBridge</h1>
@@ -1878,7 +1880,7 @@ export default function Home({
               </div>
             ) : tabIndex == 5 ? (
               <div
-                className={`w-full max-w-[950px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
+                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
                   <h1 className={"text-3xl font-semibold"}>Stargate Bridge</h1>

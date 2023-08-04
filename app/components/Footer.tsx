@@ -7,7 +7,7 @@ const Footer = () => {
             <p className={"text-gray-400 font-light"}>
               DappGate by{" "}
               <a
-                href={"https://dappad.app/"}
+                href={"https://dapplabs.tech/"}
                 className={"text-white font-bold"}
               >
                 DappLabs
@@ -15,14 +15,14 @@ const Footer = () => {
             </p>
             <div className={"flex gap-4 text-xl text-gray-400 "}>
               <a
-                href="https://twitter.com/Dappadofficial"
+                href="https://twitter.com/DappGate"
                 target="_blank"
                 className={"hover:text-gray-100 transition-all"}
               >
                 <FontAwesomeIcon icon={faTwitter} />
               </a>
               <a
-                href={"https://discord.gg/dappadlaunchpad"}
+                href={"https://discord.gg/HWvqJWKBvm"}
                 target="_blank"
                 className={"hover:text-gray-100 transition-all"}
               >

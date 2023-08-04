@@ -23,7 +23,10 @@ const TransactionPreview = ({
   bridgeCostData,
   symbol,
 }: Props) => {
+
+  console.log("mintCostData", bridgeCostData)
   return (
+
     <>
       <div className="flex justify-center mt-5  mb-4">
         <div className="border rounded-md shadow-md p-4 px-8 py-8">
@@ -50,7 +53,7 @@ const TransactionPreview = ({
                   {ethers.formatEther(
                     (BigInt(mintCostData)  as unknown as string)
                   )}{" "}
-                  {sourceChain?.symbol}
+                  {sourceChain?.symbol}{" "} + Gas
                 </td>
               </tr>
               {symbol !== "NFT" && (
@@ -62,9 +65,9 @@ const TransactionPreview = ({
                       (Number(bridgeCostData) *
                         Number(
                           selectedHyperBridges?.length
-                        )) as unknown as string
+                        ))?.toFixed(5) as unknown as string
                     }{" "}
-                    {sourceChain?.symbol}
+                    {sourceChain?.symbol}{" "} + Gas
                   </td>
                 </tr>
               )}{" "}
