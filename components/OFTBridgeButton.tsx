@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
+import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
@@ -48,6 +49,8 @@ const OFTBridgeButton: React.FC<Props> = ({
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
+
   const {
     config: sendFromConfig,
     isSuccess,
@@ -59,12 +62,12 @@ const OFTBridgeButton: React.FC<Props> = ({
     value:
       BigInt(
         gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-      ) + BigInt("10000000000000"),
+      ) + BigInt("1000000000000"),
     args: [
       account,
       targetChain.layerzeroChainId,
       account,
-      1000000000000000000,
+      ethers.parseEther(dlgateBridgeAmount?.toString()),
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",

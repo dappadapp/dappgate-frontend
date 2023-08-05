@@ -70,7 +70,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       account,
       lzTargetChainId,
       account,
-      ethers.parseEther(tokenAmountHyperBridge.toString()),
+      ethers.parseEther(tokenAmountHyperBridge?.toString()),
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",
