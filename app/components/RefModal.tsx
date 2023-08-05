@@ -34,7 +34,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
     });
     console.log("REFERE", data);
 
-    setTotalRef(+(data.mints as number).toFixed(4));
+    setTotalRef(+(data.mints as number).toFixed(2));
     setRate(data.rate);
     setRefLink(`https://dappgate.io/?ref=${data.ref}`);
 
@@ -97,7 +97,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
           </div>
           */}
           <p className={"opacity-75 mt-5"}>
-            Invite your friends and get rewarded with USDC
+            Invite your friends and get rewarded with APPA
           </p>
           <div
             className={
