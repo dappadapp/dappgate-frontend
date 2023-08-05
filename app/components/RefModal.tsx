@@ -87,7 +87,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
               X
             </div>
           </div>
-
+              {/*
           <div className="flex justify-between">
             <button
               onClick={handleSignIn}
@@ -97,6 +97,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
               Claim Twitter Username{" "}
             </button>
           </div>
+          */}
           <p className={"opacity-75 mt-5"}>
             Invite your friends and get rewarded with USDC
           </p>
