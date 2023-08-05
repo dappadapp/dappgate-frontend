@@ -714,8 +714,12 @@ export default function Home({
   useEffect(() => {
     if (!account?.length) return;
     createFunction(account);
-    if (searchParams) setRefCode(searchParams["ref"] as string);
   }, [account]);
+
+  useEffect(() => {
+    if (!searchParams?.ref) return;
+    setRefCode(searchParams?.ref as string);
+  }, [searchParams?.ref]);
 
   const createFunction = async (account: string) => {
     const { data } = await axios.post("/api/create", {
