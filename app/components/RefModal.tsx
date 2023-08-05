@@ -97,7 +97,8 @@ function RefModal({ onCloseModal, refCode }: Props) {
           </div>
           */}
           <p className={"opacity-75 mt-5"}>
-            Invite your friends and get rewarded with USDC
+            Share your referral link with your friends, and when your friends
+            mint a token or NFT, you will get rewarded with USDC.
           </p>
           <div
             className={
