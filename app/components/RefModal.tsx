@@ -97,7 +97,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
           </div>
           */}
           <p className={"opacity-75 mt-5"}>
-            Invite your friends and get rewarded with APPA
+            Invite your friends and get rewarded with USDC
           </p>
           <div
             className={
