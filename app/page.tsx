@@ -1223,7 +1223,7 @@ export default function Home({
                 <div className="mt-4 mb-8 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
                   <span className="text-xs md:text-sm">
-                    Please be aware that any bridge fees encountered while using our platform are not associated with us, nor do we have control over these charges. These fees are fully calculated and processed on LayerZero's backend. We make no representations or warranties regarding these fees, and we cannot influence or predict the value of these fees. Thank you for your understanding.
+                    Please be aware that any bridge fees encountered while using our platform are not associated with us, nor do we have control over these charges. These fees are fully calculated and processed on LayerZero&apos;s backend. We make no representations or warranties regarding these fees, and we cannot influence or predict the value of these fees. Thank you for your understanding.
                   </span>
                 </div>
                 <a
