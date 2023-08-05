@@ -1367,7 +1367,7 @@ export default function Home({
                   </div>
                   <div>
                     <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg mt-5">
-                      Step1: Select the multiple destination chains to bridge
+                      Step1: Select multiple destination chains to bridge
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
@@ -1384,7 +1384,7 @@ export default function Home({
                             <button
                             key={i}
                             onClick={() => handleButtonClick(i, network)}
-                            className={`flex items-center md:h-14 justify-center rounded-md bg-green-600 ${
+                            className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
                               !selectedHyperBridges.some(
                                 (selectedBridge) =>
                                   selectedBridge.chainId === network.chainId
@@ -1400,7 +1400,7 @@ export default function Home({
                               height={40}
                               className="rounded-full"
                             />
-                            <h2 className="p-2">{network.name}</h2>
+                            <h2 className="p-2 flex-1">{network.name}</h2>
 
                             {!selectedHyperBridges.some(
                               (selectedBridge) =>
@@ -1766,7 +1766,7 @@ export default function Home({
                   </div>
 
                   <div>
-                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg xl:text-base mt-5">
+                    <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg mt-5">
                       Step 1: Select multiple destination chains to bridge
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
