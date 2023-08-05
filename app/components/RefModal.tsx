@@ -32,6 +32,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
     const { data } = await axios.post("/api/reference", {
       walletAddress,
     });
+    console.log("REFERE", data);
 
     setTotalRef(data.mints);
     setRate(data.rate);
