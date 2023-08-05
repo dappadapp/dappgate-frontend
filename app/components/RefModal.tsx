@@ -34,7 +34,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
     });
     console.log("REFERE", data);
 
-    setTotalRef(data.mints);
+    setTotalRef(+(data.mints as number).toFixed(4));
     setRate(data.rate);
     setRefLink(`https://dappgate.io/?ref=${data.ref}`);
 
