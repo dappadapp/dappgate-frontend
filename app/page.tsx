@@ -879,7 +879,7 @@ export default function Home({
 
   const handleDlgateMax = () => {
     if (balanceOfDlgate) {
-      setDlgateBridgeAmount(balanceOfDlgate?.formatted || "0");
+      setDlgateBridgeAmount(Number(balanceOfDlgate?.formatted));
     }
   };
 
