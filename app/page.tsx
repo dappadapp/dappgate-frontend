@@ -105,10 +105,11 @@ const networks: Network[] = [
     image: "zksync-era.svg",
     logIndex: 3,
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001, 1101,
     ],
     symbol: "ETH",
     chainName: undefined,
+
   },
 
   {
@@ -141,7 +142,7 @@ const networks: Network[] = [
     image: "polygon-zkevm.svg",
     disabledNetworks: [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
-      80001,
+      80001, 324
     ],
     symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
@@ -570,7 +571,7 @@ const networks: Network[] = [
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,42220
     ],
     symbol: "ETH",
-    chainName: "eth-goerli",
+    chainName: undefined,
   },
   {
     name: polygonMumbai.name,
@@ -701,9 +702,9 @@ export default function Home({
   };
 
   const getRef = async (str: string) => {
-    let splitString = str.split("");
-    let reverseArray = splitString.reverse();
-    return reverseArray.join("").substring(0, 12);
+    let splitString = str?.split("");
+    let reverseArray = splitString?.reverse();
+    return reverseArray?.join("").substring(0, 12);
   };
 
   useEffect(() => {
@@ -747,21 +748,7 @@ export default function Home({
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
 
-  useEffect(() => {
-    const tokenIdsLocalStorage = localStorage.getItem("tokenIds");
-    if (!tokenIdsLocalStorage) {
-      localStorage.setItem("tokenIds", JSON.stringify({}));
-    } else {
-      if (account) {
-        setInputTokenId(
-          JSON.parse(tokenIdsLocalStorage)[sourceChain.chainId]?.[
-            account
-          ]?.[0] || ""
-        );
-      }
-    }
-    setTokenIds(tokenIdsLocalStorage ? JSON.parse(tokenIdsLocalStorage) : {});
-  }, [account, sourceChain]);
+
 
   useEffect(() => {}, []);
 
@@ -862,7 +849,7 @@ export default function Home({
   };
 
   const handleTwitter = async () => {
-    if (!account) toast("Please connect wallet first!");
+    if (!account) return;
 
     try {
       const userName = await axios.post("/api/username", {

@@ -41,9 +41,9 @@ function RefModal({ onCloseModal, refCode }: Props) {
     setRate(data.rate);
 
     if (username && session) {
-      setRefLink(`https://gate.dappad.app/?ref=${username}`);
+      setRefLink(`https://dappgate.io/?ref=${username}`);
     } else {
-      setRefLink(`https://gate.dappad.app/?ref=${refCode}`);
+      setRefLink(`https://dappgate.io/?ref=${refCode}`);
     }
   };
 
