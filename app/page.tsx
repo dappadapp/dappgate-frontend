@@ -713,7 +713,8 @@ export default function Home({
 
   useEffect(() => {
     if (!account?.length) return;
-    createFunction(account);
+    createWalletData(account);
+    saveWalletAndIP(account);
   }, [account]);
 
   useEffect(() => {
@@ -721,13 +722,16 @@ export default function Home({
     setRefCode(searchParams?.ref as string);
   }, [searchParams?.ref]);
 
-  const createFunction = async (account: string) => {
+  const createWalletData = async (account: string) => {
     const { data } = await axios.post("/api/create", {
       wallet: account,
     });
-    console.log(data);
   };
-
+  const saveWalletAndIP = async (account: string) => {
+    const { data } = await axios.post("/api/saveIP", {
+      wallet: account,
+    });
+  };
   useEffect(() => {
     setLoader(false);
   }, [hyperBridgeNFTIds]);
@@ -752,7 +756,7 @@ export default function Home({
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     mintCounterFunc();
@@ -880,7 +884,7 @@ export default function Home({
 
   const handleDlgateMax = () => {
     if (balanceOfDlgate) {
-      setDlgateBridgeAmount((balanceOfDlgate?.formatted));
+      setDlgateBridgeAmount(balanceOfDlgate?.formatted);
     }
   };
 
@@ -1021,10 +1025,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       ONFT Bridge
                     </button>
@@ -1034,10 +1039,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       ONFT HyperBridge
                     </button>
@@ -1047,10 +1053,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Gas Refuel
                     </button>
@@ -1059,10 +1066,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       OFT Bridge
                     </button>
@@ -1071,10 +1079,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       OFT HyperBridge
                     </button>
@@ -1083,10 +1092,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Stargate Bridge
                     </button>
@@ -1178,8 +1188,9 @@ export default function Home({
                       <FontAwesomeIcon icon={faAngleDown} />
                     </svg>
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                        }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -1197,10 +1208,11 @@ export default function Home({
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
-                    ? "max-h-[1000px]"
-                    : "max-h-0"
-                    }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
+                    layerZeroTxHashes.length !== 0
+                      ? "max-h-[1000px]"
+                      : "max-h-0"
+                  }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -1223,7 +1235,13 @@ export default function Home({
                 <div className="mt-4 mb-8 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
                   <span className="text-xs md:text-sm">
-                    Please be aware that any bridge fees encountered while using our platform are not associated with us, nor do we have control over these charges. These fees are fully calculated and processed on LayerZero&apos;s backend. We make no representations or warranties regarding these fees, and we cannot influence or predict the value of these fees. Thank you for your understanding.
+                    Please be aware that any bridge fees encountered while using
+                    our platform are not associated with us, nor do we have
+                    control over these charges. These fees are fully calculated
+                    and processed on LayerZero&apos;s backend. We make no
+                    representations or warranties regarding these fees, and we
+                    cannot influence or predict the value of these fees. Thank
+                    you for your understanding.
                   </span>
                 </div>
                 <a
@@ -1371,13 +1389,14 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                                (selectedBridge) =>
-                                  selectedBridge.chainId === network.chainId
-                              )
-                                ? "grayscale"
-                                : "grayscale-0"
-                                } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1460,10 +1479,11 @@ export default function Home({
                             className="flex flex-col items-center"
                           >
                             <Image
-                              src={`/chains/${selectedHyperBridges.filter(
-                                (x: any) => x !== 0
-                              )[index].image
-                                }`}
+                              src={`/chains/${
+                                selectedHyperBridges.filter(
+                                  (x: any) => x !== 0
+                                )[index].image
+                              }`}
                               alt={
                                 selectedHyperBridges.filter(
                                   (x: any) => x !== 0
@@ -1768,13 +1788,14 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                                (selectedBridge) =>
-                                  selectedBridge.chainId === network.chainId
-                              )
-                                ? "grayscale"
-                                : "grayscale-0"
-                                } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1891,22 +1912,27 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "bridge-animaton" : ""
+            }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass
-                }  ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${
+                sourceChain.colorClass
+              }  ${
+                isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-                } rounded-full`}
+              } rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${targetChain.colorClass
-                } ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square  ${
+                targetChain.colorClass
+              } ${
+                isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-                } rounded-full`}
+              } rounded-full`}
             ></div>
           </div>
         </div>
