@@ -37,6 +37,7 @@ const BridgeButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
+  const [mintTxHash, setMintTxHash] = useState("");
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -63,6 +64,7 @@ const BridgeButton: React.FC<Props> = ({
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
+  console.log("gasEstimateData", gasEstimateData);
   useEffect(() => {
     if (gasEstimateData) {
       const coefficient =
@@ -75,7 +77,7 @@ const BridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol,mintTxHash,inputTokenId]);
 
   const onBridge = async () => {
     if (!account) {
@@ -114,6 +116,7 @@ const BridgeButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const { hash: txHash } = await sendFrom();
+      setMintTxHash(txHash);
       setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]

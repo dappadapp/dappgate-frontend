@@ -1191,7 +1191,7 @@ export default function Home({
                     </div>
                     {estimatedGas ? (
                       <span className="mt-3">
-                        Estimated gas: {estimatedGas}
+                        Estimated Cost: {estimatedGas} + Gas
                       </span>
                     ) : null}
                   </div>
