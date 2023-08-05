@@ -637,7 +637,7 @@ export default function Home({
   const [mintCounter, setMintCounter] = useState(0);
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
-  const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState(0);
+  const [dlgateBridgeAmount, setDlgateBridgeAmount] = useState("0");
   const [oftHyperBridge, setOFTHyperBridge] = useState(false);
   const [onftHyperBridge, setONFTHyperBridge] = useState(false);
 
@@ -879,7 +879,7 @@ export default function Home({
 
   const handleDlgateMax = () => {
     if (balanceOfDlgate) {
-      setDlgateBridgeAmount(Number(balanceOfDlgate?.formatted));
+      setDlgateBridgeAmount((balanceOfDlgate?.formatted));
     }
   };
 
