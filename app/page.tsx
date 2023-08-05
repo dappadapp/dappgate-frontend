@@ -105,11 +105,11 @@ const networks: Network[] = [
     image: "zksync-era.svg",
     logIndex: 3,
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001, 1101,
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      1101,
     ],
     symbol: "ETH",
     chainName: undefined,
-
   },
 
   {
@@ -142,7 +142,7 @@ const networks: Network[] = [
     image: "polygon-zkevm.svg",
     disabledNetworks: [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
-      80001, 324
+      80001, 324,
     ],
     symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
@@ -183,8 +183,6 @@ const networks: Network[] = [
     symbol: "MNT",
     chainName: "mantle-mainnet",
   },
-
-  
 
   {
     name: "Arbitrum Nova",
@@ -466,7 +464,7 @@ const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
-    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453 ],
+    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453],
     symbol: "MATIC",
     chainName: "matic-mainnet",
   },
@@ -568,7 +566,8 @@ const networks: Network[] = [
     image: "ethereum.svg",
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
-      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,42220
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      42220,
     ],
     symbol: "ETH",
     chainName: undefined,
@@ -719,10 +718,19 @@ export default function Home({
   }, [account, sourceChain, balanceOfData]);
 
   useEffect(() => {
+    if (!account?.length) return;
+    createFunction(account);
     getRef(account as `0x${string}`).then((res) => {
       setRefCode(res as string);
     });
   }, [account]);
+
+  const createFunction = async (account: string) => {
+    const { data } = await axios.post("/api/create", {
+      wallet: account,
+    });
+    console.log(data);
+  };
 
   useEffect(() => {
     setLoader(false);
@@ -747,8 +755,6 @@ export default function Home({
       setIsAnimationEnd(false);
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
-
-
 
   useEffect(() => {}, []);
 
@@ -1369,41 +1375,41 @@ export default function Home({
                         .map((network, i) => {
                           return (
                             <button
-                            key={i}
-                            onClick={() => handleButtonClick(i, network)}
-                            className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                              !selectedHyperBridges.some(
+                              key={i}
+                              onClick={() => handleButtonClick(i, network)}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
+                            >
+                              <Image
+                                src={`/chains/${network.image}`}
+                                alt={network.name}
+                                width={40}
+                                height={40}
+                                className="rounded-full"
+                              />
+                              <h2 className="p-2 flex-1">{network.name}</h2>
+
+                              {!selectedHyperBridges.some(
                                 (selectedBridge) =>
                                   selectedBridge.chainId === network.chainId
-                              )
-                                ? "grayscale"
-                                : "grayscale-0"
-                            } p-2 `}
-                          >
-                            <Image
-                              src={`/chains/${network.image}`}
-                              alt={network.name}
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                            <h2 className="p-2 flex-1">{network.name}</h2>
-
-                            {!selectedHyperBridges.some(
-                              (selectedBridge) =>
-                                selectedBridge.chainId === network.chainId
-                            ) ? (
-                              <FontAwesomeIcon
-                                className="absolute top-0 right-0 p-1"
-                                icon={faCircleXmark}
-                              />
-                            ) : (
-                              <FontAwesomeIcon
-                                className="absolute top-0 right-0 p-1"
-                                icon={faCheckCircle}
-                              />
-                            )}
-                          </button>
+                              ) ? (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCircleXmark}
+                                />
+                              ) : (
+                                <FontAwesomeIcon
+                                  className="absolute top-0 right-0 p-1"
+                                  icon={faCheckCircle}
+                                />
+                              )}
+                            </button>
                           );
                         })}
                     </div>
