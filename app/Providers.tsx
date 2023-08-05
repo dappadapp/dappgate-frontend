@@ -331,10 +331,10 @@ const linea = {
   },
   rpcUrls: {
     default: {
-      http: ["https://linea-mainnet.infura.io/v3"],
+      http: ["https://rpc.linea.build/"],
     },
     public: {
-      http: ["https://linea-mainnet.infura.io/v3"],
+      http: ["https://rpc.linea.build/"],
     },
   },
   blockExplorers: {
