@@ -111,7 +111,20 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
-
+  {
+    name: bsc.name,
+    chainId: bsc.id,
+    layerzeroChainId: 102,
+    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    tokenContractAddress: "0xdea2895F965BD71EC0899ba0B20581f2FcC40A3C",
+    relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+    blockConfirmation: 1,
+    colorClass: "bg-[#E8B30B]",
+    image: "bsc.svg",
+    disabledNetworks: [5, 420, 122, 8217, 80001],
+    symbol: "BNB",
+    chainName: "bsc-mainnet",
+  },
   {
     name: "Linea",
     chainId: 59144,
@@ -417,20 +430,6 @@ const networks: Network[] = [
     chainName: "kava-mainnet",
   },
 
-  {
-    name: bsc.name,
-    chainId: bsc.id,
-    layerzeroChainId: 102,
-    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
-    tokenContractAddress: "0xdea2895F965BD71EC0899ba0B20581f2FcC40A3C",
-    relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
-    blockConfirmation: 1,
-    colorClass: "bg-[#E8B30B]",
-    image: "bsc.svg",
-    disabledNetworks: [5, 420, 122, 8217, 80001],
-    symbol: "BNB",
-    chainName: "bsc-mainnet",
-  },
   {
     name: avalanche.name,
     chainId: avalanche.id,
