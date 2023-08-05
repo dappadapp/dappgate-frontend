@@ -95,11 +95,10 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     }
   };
 
-  
   useEffect(() => {
     refetch();
-   updateMintCostData();
-  }, [selectedHyperBridges,sourceChain,costData,refetch]);
+    updateMintCostData();
+  }, [selectedHyperBridges, sourceChain, costData, refetch]);
   const onMint = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
@@ -152,7 +151,18 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         };
         postReferenceMint();
       }
-
+      const postMintHistory = async () => {
+        await axios.post("/api/history", {
+          tx: mintTxHash,
+          srcChain: sourceChain.chainId,
+          dstChain: targetChain.chainId,
+          tokenId: tokenIds[0],
+          walletAddress: account,
+          ref: "",
+          type: "mint",
+        });
+      };
+      postMintHistory();
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
           await axios.post("/api/hash", {
@@ -172,9 +182,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     } finally {
       setLoading(false);
       setLoader(false);
-     
     }
-
   };
 
   return (

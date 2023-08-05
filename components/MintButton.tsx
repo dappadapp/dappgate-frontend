@@ -69,6 +69,18 @@ const MintButton: React.FC<Props> = ({
       });
     };
     postMint();
+    const postMintHistory = async () => {
+      await axios.post("/api/history", {
+        tx: mintTxHash,
+        srcChain: sourceChain.chainId,
+        dstChain: targetChain.chainId,
+        tokenId: tokenId,
+        walletAddress: account,
+        ref: "",
+        type: "mint",
+      });
+    };
+    postMintHistory();
     setInputTokenId(tokenId);
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]

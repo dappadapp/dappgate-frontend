@@ -10,6 +10,7 @@ type Transaction = {
   tx: string;
   srcChain: string;
   dstChain: string;
+  type: string;
   tokenId: number;
   timestamp: number;
 };
@@ -87,13 +88,19 @@ function HistoryModal({ onCloseModal }: Props) {
                     className={index % 2 === 0 ? "bg-transparent" : ""}
                   >
                     <td className="px-4 py-2">
-                      <a
-                        href={`https://layerzeroscan.com/tx/${transaction.tx}`}
-                        target="_blank"
-                        className="text-orange-400 underline"
-                      >
-                        {shortenTransactionHash(transaction.tx)}
-                      </a>
+                      {transaction.type === "mint" ? (
+                        <span className="text-orange-400 underline">
+                          {shortenTransactionHash(transaction.tx)}
+                        </span>
+                      ) : (
+                        <a
+                          href={`https://layerzeroscan.com/tx/${transaction.tx}`}
+                          target="_blank"
+                          className="text-orange-400 underline"
+                        >
+                          {shortenTransactionHash(transaction.tx)}
+                        </a>
+                      )}
                     </td>
                     <td className="px-4 py-2">{transaction.srcChain}</td>
                     <td className="px-4 py-2">{transaction.dstChain}</td>
