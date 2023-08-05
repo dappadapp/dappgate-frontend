@@ -33,23 +33,20 @@ function RefModal({ onCloseModal, refCode }: Props) {
       walletAddress,
     });
 
-    const { data: username } = await axios.post("/api/username", {
-      walletAddress: walletAddress,
-    });
-
     setTotalRef(data.mints);
     setRate(data.rate);
+    setRefLink(`https://dappgate.io/?ref=${data.ref}`);
 
-    if (username && session) {
-      setRefLink(`https://dappgate.io/?ref=${username}`);
-    } else {
-      setRefLink(`https://dappgate.io/?ref=${refCode}`);
-    }
+    // if (username && session) {
+    //   setRefLink(`https://dappgate.io/?ref=${username}`);
+    // } else {
+    // }
   };
 
   const handleSignIn = async () => {
-    await signIn("twitter", { callbackUrl: "https://gate.dappad.app/" });
+    await signIn("twitter", { callbackUrl: "https://dappgate.io/" });
   };
+
   const twitterShare = () => {
     // twitter intent
     const url = `https://twitter.com/intent/tweet?text=Experience the future of omnichain using dappgate with me ${refLink} @DappGate`;
@@ -87,7 +84,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
               X
             </div>
           </div>
-              {/*
+          {/*
           <div className="flex justify-between">
             <button
               onClick={handleSignIn}
