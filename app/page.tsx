@@ -700,12 +700,6 @@ export default function Home({
     color: "#EFEFEF !important",
   };
 
-  const getRef = async (str: string) => {
-    let splitString = str?.split("");
-    let reverseArray = splitString?.reverse();
-    return reverseArray?.join("").substring(0, 12);
-  };
-
   useEffect(() => {
     if (!session) return;
 
@@ -720,9 +714,7 @@ export default function Home({
   useEffect(() => {
     if (!account?.length) return;
     createFunction(account);
-    getRef(account as `0x${string}`).then((res) => {
-      setRefCode(res as string);
-    });
+    if (searchParams) setRefCode(searchParams["ref"] as string);
   }, [account]);
 
   const createFunction = async (account: string) => {
