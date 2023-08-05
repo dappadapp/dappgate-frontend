@@ -9,6 +9,7 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
+import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 
@@ -20,6 +21,7 @@ type Props = {
   setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  setNftOwned: any;
   tokenId: any;
 };
 
@@ -31,6 +33,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   setTokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  setNftOwned,
   tokenId,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -68,10 +71,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
-          ) / coefficient
+        `${Number(
+          ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+        ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
@@ -115,12 +117,15 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const { hash: txHash } = await sendFrom();
+      const data = await waitForTransaction({
+        hash: txHash,
+      })
       setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
+            .slice(1)
+            .filter((value, index, self) => self.indexOf(value) === index)
           : [];
         const tokenIdData = {
           ...prev,
@@ -147,6 +152,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
         });
       };
       postBridgeHistory();
+
+      setNftOwned((prev: any) => prev.filter((nft: any) => nft.token_id !== tokenId))
 
       toast("Bridge transaction sent!");
     } catch (error) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
 import MintButton from "@/components/MintButton";
 import MerklyLZAbi from "../../config/abi/MerklyLZ.json";
@@ -33,6 +33,11 @@ function BridgeModal({
 }: Props) {
   const { address: walletAddress } = useAccount();
 
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [nftOwned, setNftOwned] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const {
     data: nftBalance,
     isError,
@@ -44,11 +49,6 @@ function BridgeModal({
     functionName: "balanceOf",
     args: [walletAddress],
   });
-
-  const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [nftOwned, setNftOwned] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -115,6 +115,7 @@ function BridgeModal({
                 setTokenIds={setTokenIds}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
+                setNftOwned={setNftOwned}
               />
             </div>
           </div>
@@ -190,6 +191,12 @@ function BridgeModal({
               </div>
             </>
           )}
+          <div className="mt-8 text-sm md:text-base flex flex-col text-gray-400 max-w-[450px] md:max-w-[550px]">
+            Disclaimer
+            <span className="text-xs md:text-sm">
+              The loading time for Non-Fungible Tokens (NFTs) viewed through our platform is not within our control and we are not associated with these potential delays. Various factors, such as the server status, the chain you're using, and the number of NFTs you own, can affect the loading time.
+            </span>
+          </div>
         </div>
       </div>
     </>
