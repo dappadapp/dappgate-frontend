@@ -17,12 +17,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <script
-          async={true}
-          src="https://www.bugherd.com/sidebarv2.js?apikey=nxxbdfcqnjekctcasqbxqg"
-        />
-      </head>
       <body className={inter.className}>
         <NextAuthProvider>
         <Providers>{children}</Providers>

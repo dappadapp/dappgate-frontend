@@ -110,6 +110,24 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: "base-mainnet",
   },
+
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
+    blockConfirmation: 1,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: "linea-mainnet",
+  },
   {
     name: zkSync.name,
     chainId: zkSync.id,
@@ -157,23 +175,7 @@ const networks: Network[] = [
     chainName: "avalanche-mainnet",
   },
 
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
-    tokenContractAddress: "0xb13044854014131565a6A7E46dc24a0e3e9D163C",
-    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
-    blockConfirmation: 1,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
-    ],
-    symbol: "ETH",
-    chainName: "linea-mainnet",
-  },
+
 
   {
     name: polygonZkEvm.name,
