@@ -1,8 +1,8 @@
 import Providers from "./Providers";
 import "./globals.scss";
 import { Inter } from "next/font/google";
-import { NextAuthProvider } from "./provider"
-
+import { NextAuthProvider } from "./provider";
+import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,9 +17,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          strategy="lazyOnload"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-7KXLVFJGFD`}
+        />
+        <Script strategy="lazyOnload">
+          {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-7KXLVFJGFD', {
+                    page_path: window.location.pathname,
+                    });
+        `}
+        </Script>
+      </head>
       <body className={inter.className}>
         <NextAuthProvider>
-        <Providers>{children}</Providers>
+          <Providers>{children}</Providers>
         </NextAuthProvider>
       </body>
     </html>
