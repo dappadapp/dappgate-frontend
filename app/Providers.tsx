@@ -38,6 +38,7 @@ import {
   moonriver,
   base,
   sepolia,
+  scrollTestnet,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -388,6 +389,7 @@ const chains = [
   kava,
   base,
   linea,
+  scrollTestnet,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

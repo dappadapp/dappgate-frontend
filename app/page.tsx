@@ -50,6 +50,7 @@ import {
   polygon,
   polygonMumbai,
   polygonZkEvm,
+  scrollTestnet,
   zkSync,
 } from "wagmi/chains";
 
@@ -176,8 +177,6 @@ const networks: Network[] = [
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
   },
-
-
 
   {
     name: polygonZkEvm.name,
@@ -592,6 +591,24 @@ const networks: Network[] = [
     ],
     symbol: "MATIC",
     chainName: "polygon-mumbai",
+  },
+  {
+    name: scrollTestnet.name,
+    chainId: scrollTestnet.id,
+    layerzeroChainId: 10170,
+    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755",
+    tokenContractAddress: "0x41819496e2d0EBF6a078D54Caa3bd3549e7B298e",
+    relayerAddress: "",
+    blockConfirmation: 2,
+    colorClass: "bg-[#E5D1B8]",
+    image: "scroll.svg",
+    disabledNetworks: [
+      56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      42220,
+    ],
+    symbol: "ETH",
+    chainName: undefined,
   },
   /*
   {
