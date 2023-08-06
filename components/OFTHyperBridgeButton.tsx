@@ -9,6 +9,7 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
+import { writeContract, readContract } from "@wagmi/core";
 import { toast } from "react-toastify";
 import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
@@ -58,6 +59,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     config: sendFromConfig,
     isSuccess,
     error,
+    data: configData,
   } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
@@ -84,7 +86,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     );
   }, [account, selectedHyperBridges]);
 
-  const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
+  const { writeAsync: sendFrom, data: writeData } =
+    useContractWrite(sendFromConfig);
 
   useEffect(() => {
     if (gasEstimateDataArray) {
@@ -99,13 +102,22 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         } `
       );
 
-      setBridgeCostData(ethers.formatEther(  (BigInt(
-        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-      ) + BigInt("10000000000000")).toString()));
+      setBridgeCostData(
+        ethers.formatEther(
+          (
+            BigInt(
+              gasEstimateDataArray
+                ? gasEstimateDataArray[0]
+                : "13717131402195452"
+            ) + BigInt("10000000000000")
+          ).toString()
+        )
+      );
     }
-
   }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges, account]);
 
+  console.log("writeData", writeData);
+  console.log("configData", configData);
 
   const onBridge = async () => {
     if (connectedChain?.id !== sourceChain.chainId) {
@@ -155,11 +167,41 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     try {
       setLoading(true);
 
-      selectedHyperBridges?.forEach(async (transaction: any) => {
-        setLzTargetChainId(transaction?.layerzeroChainId);
-        await refetch();
+      selectedHyperBridges?.map(async (network: Network) => {
+        setLzTargetChainId(network?.layerzeroChainId);
+        console.log("lzTargetChainId", lzTargetChainId);
 
-        const { hash: txHash } = await sendFrom();
+        const gasEstimateArray: any = await readContract({
+          address: sourceChain.tokenContractAddress as `0x${string}`,
+          abi: OFTBridge,
+          functionName: "estimateSendFee",
+          args: [
+            network.layerzeroChainId,
+            account,
+            "1000000000000000000",
+            false,
+            "0x",
+          ],
+        });
+
+        const { hash: txHash } = await writeContract({
+          address: sourceChain.tokenContractAddress as `0x${string}`,
+          abi: OFTBridge,
+          functionName: "sendFrom",
+          value:
+            BigInt(
+              gasEstimateArray ? gasEstimateArray[0] : "13717131402195452"
+            ) + BigInt("10000000000000"),
+          args: [
+            account,
+            network.layerzeroChainId,
+            account,
+            ethers.parseEther(tokenAmountHyperBridge?.toString()),
+            "0x0000000000000000000000000000000000000000",
+            "0x0000000000000000000000000000000000000000",
+            "",
+          ],
+        });
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
         // post bridge history
@@ -167,7 +209,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           await axios.post("/api/history", {
             tx: txHash,
             srcChain: sourceChain.chainId,
-            dstChain: targetChain.chainId,
+            dstChain: network.chainId,
             tokenId: tokenAmountHyperBridge,
             walletAddress: account,
             ref: "",
