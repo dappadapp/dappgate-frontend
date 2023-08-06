@@ -19,6 +19,7 @@ import dynamic from "next/dynamic";
 import {
   useAccount,
   useBalance,
+  useContractReads,
   useNetwork,
   useSwitchNetwork,
   useWaitForTransaction,
@@ -75,6 +76,7 @@ import TransferModal from "./components/TransferModal";
 import StargateWidget from "./components/StargateWidget";
 import { useSession, signIn, signOut } from "next-auth/react";
 import TransactionPreview from "./components/TransactionPreview";
+import OFTBridge from "../config/abi/OFTBridge.json";
 export interface Network {
   name: string;
   chainId: number;
@@ -651,6 +653,36 @@ export default function Home({
   const [loader, setLoader] = useState(false);
 
   const { data: session, status } = useSession();
+
+  // fetching disabled bridges data
+  const { data: disabledBridgesData } = useContractReads({
+    contracts: networks.map((network) => ({
+      address: sourceChain.tokenContractAddress as `0x${string}`,
+      abi: OFTBridge as any,
+      functionName: "estimateSendFee",
+      args: [
+        `${network.layerzeroChainId}`,
+        "0x0000000000000000000000000000000000000000",
+        "1",
+        false,
+        "0x",
+      ],
+    })),
+  });
+
+  useEffect(() => {
+    if (!disabledBridgesData) return;
+    console.log("disabledBridgesData", disabledBridgesData);
+    const disabledNetworks = disabledBridgesData.map((data, i) => {
+      if (data.status === "failure") return networks[i].chainId;
+    });
+    setSourceChain((prev) => ({
+      ...prev,
+      disabledNetworks: disabledNetworks as number[],
+    }));
+  }, [disabledBridgesData]);
+
+  console.log("sourceChain", sourceChain);
 
   // fill with individual network data
 
