@@ -58,6 +58,7 @@ import HistoryModal from "./components/HistoryModal";
 import Image from "next/image";
 import MintModal from "./components/MintModal";
 import FAQModal from "./components/FAQModal";
+import CookiesModal from "./components/CookiesModal";
 import OFTClaimButton from "@/components/OFTClaimButton";
 import OFTBridgeButton from "@/components/OFTBridgeButton";
 import OFTRefuelButton from "@/components/OFTRefuelButton";
@@ -954,6 +955,8 @@ export default function Home({
     <div
       className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
     >
+      <CookiesModal/>
+      
       {isModalOpen ? (
         <RefModal
           onCloseModal={() => {
