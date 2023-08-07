@@ -67,7 +67,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       account,
       targetChain.layerzeroChainId,
       account,
-      ethers.parseEther(dlgateBridgeAmount?.toString()),
+      ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
       "",
