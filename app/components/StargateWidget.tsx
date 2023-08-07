@@ -48,7 +48,7 @@ function StargateWidget() {
           async
         ></script>
         {/* @ts-ignore */}
-        <stargate-widget theme="dark" partnerId="0x0017" />
+        <stargate-widget theme="dark" partnerId="0x0017" feeCollector="0x3772f434d796A1B974E9B2cD37055a075F3450be" tenthBps="100" />
         {loading ? null : (
           <div className="absolute bottom-32 self-center opacity-30 flex items-center gap-2">
             Powered by Stargate
