@@ -52,6 +52,7 @@ import {
   polygonZkEvm,
   scrollTestnet,
   zkSync,
+  sepolia,
 } from "wagmi/chains";
 
 import RefModal from "./components/RefModal";
@@ -278,7 +279,7 @@ const networks: Network[] = [
       5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000, 80001,
     ],
     symbol: "GNO",
-    chainName: "gnosis-mainnet",
+    chainName: undefined,
   },
   {
     name: "Fuse",
