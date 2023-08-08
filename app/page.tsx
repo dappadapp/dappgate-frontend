@@ -836,7 +836,6 @@ export default function Home({
         !sourceChain.disabledNetworks.includes(network.chainId) &&
         sourceChain.chainId !== network.chainId
     );
-    console.log('sklan')
     setSelectedHyperBridges(selectedHyperBridges_)
   }, [sourceChain]);
 
