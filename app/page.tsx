@@ -629,7 +629,7 @@ const networks: Network[] = [
       42220,
     ],
     symbol: "ETH",
-    chainName: undefined,
+    chainName: "eth-sepolia",
   },
   /*
   {
@@ -750,21 +750,16 @@ export default function Home({
     confirmations: sourceChain.blockConfirmation,
   });
 
-  // get balance of user on source chain
-  const { data: balanceOfData } = useBalance({
-    address: targetChain.relayerAddress as `0x${string}`,
-    chainId: targetChain.chainId,
-  });
-
+  // gas refuel max value fetch
   const { data: gasRefuelMaxData } = useContractRead({
     address: sourceChain.relayerAddress as `0x${string}`,
     abi: RelayerAbi,
     functionName: "dstConfigLookup",
-    args: [`${targetChain.layerzeroChainId}`, "1"],
+    args: [`${targetChain.layerzeroChainId}`, "2"],
     chainId: sourceChain.chainId,
   });
 
-  console.log("gasRefuelMaxData", gasRefuelMaxData);
+  const gasRefuelMaxValue = gasRefuelMaxData ? (Number(((gasRefuelMaxData as any)?.[0]) * 1000n / BigInt(1e18)) / 1000) : 0
 
   // get balance of user on source chain
   const { data: balanceOfUser } = useBalance({
@@ -788,11 +783,6 @@ export default function Home({
 
     handleTwitter();
   }, [session, account, isModalOpen]);
-
-  // balance useeffect
-  useEffect(() => {
-    if (!balanceOfData) return;
-  }, [account, sourceChain, balanceOfData]);
 
   useEffect(() => {
     if (!account?.length) return;
@@ -839,7 +829,7 @@ export default function Home({
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   useEffect(() => {
     mintCounterFunc();
@@ -1108,11 +1098,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                        : "bg-transparent"
+                        }`}
                     >
                       ONFT Bridge
                     </button>
@@ -1122,11 +1111,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                        : "bg-transparent"
+                        }`}
                     >
                       ONFT HyperBridge
                     </button>
@@ -1136,11 +1124,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       Gas Refuel
                     </button>
@@ -1149,11 +1136,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       OFT Bridge
                     </button>
@@ -1162,11 +1148,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       OFT HyperBridge
                     </button>
@@ -1175,11 +1160,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       Stargate Bridge
                     </button>
@@ -1271,9 +1255,8 @@ export default function Home({
                       <FontAwesomeIcon icon={faAngleDown} />
                     </svg>
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
-                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
-                      }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+                        }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -1291,11 +1274,10 @@ export default function Home({
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
-                    layerZeroTxHashes.length !== 0
-                      ? "max-h-[1000px]"
-                      : "max-h-0"
-                  }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
+                    ? "max-h-[1000px]"
+                    : "max-h-0"
+                    }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -1472,14 +1454,13 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedHyperBridges.some(
-                                  (selectedBridge) =>
-                                    selectedBridge.chainId === network.chainId
-                                )
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              )
+                                ? "grayscale"
+                                : "grayscale-0"
+                                } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1562,11 +1543,10 @@ export default function Home({
                             className="flex flex-col items-center"
                           >
                             <Image
-                              src={`/chains/${
-                                selectedHyperBridges.filter(
-                                  (x: any) => x !== 0
-                                )[index].image
-                              }`}
+                              src={`/chains/${selectedHyperBridges.filter(
+                                (x: any) => x !== 0
+                              )[index].image
+                                }`}
                               alt={
                                 selectedHyperBridges.filter(
                                   (x: any) => x !== 0
@@ -1662,7 +1642,7 @@ export default function Home({
                   <div className="text-white-700 break-words max-w-[60%] text-base"></div>
                   <div className="text-white-700 text-base">
                     Max:{" "}
-                    {Number((gasRefuelMaxData as any)[0] || 0).toFixed(3) || 0}{" "}
+                    {gasRefuelMaxValue}{" "}
                     {targetChain.symbol}
                   </div>
                 </div>
@@ -1692,7 +1672,7 @@ export default function Home({
                   gasRefuelAmount={gasRefuelAmount}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
-                  balanceOfData={(gasRefuelMaxData as any)[0]}
+                  balanceOfData={gasRefuelMaxValue}
                 />
                 <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
@@ -1872,14 +1852,13 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedHyperBridges.some(
-                                  (selectedBridge) =>
-                                    selectedBridge.chainId === network.chainId
-                                )
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              )
+                                ? "grayscale"
+                                : "grayscale-0"
+                                } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1996,27 +1975,22 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "bridge-animaton" : ""
-            }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
+              }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                sourceChain.colorClass
-              }  ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass
+                }  ${isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-              } rounded-full`}
+                } rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${
-                targetChain.colorClass
-              } ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square  ${targetChain.colorClass
+                } ${isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-              } rounded-full`}
+                } rounded-full`}
             ></div>
           </div>
         </div>
