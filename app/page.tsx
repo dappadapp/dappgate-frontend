@@ -666,7 +666,7 @@ export default function Home({
   const [showInput, setShowInput] = useState(false);
   const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
-  const [inputOFTAmount, setInputOFTAmount] = useState("");
+  const [inputOFTAmount, setInputOFTAmount] = useState("0");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
@@ -1734,7 +1734,11 @@ export default function Home({
                     placeholder="e.g. 1000"
                     value={inputOFTAmount}
                     onChange={(e) => {
-                      if (e.target.value.length === 0) {
+                      if (
+                        e.target.value.length === 0 ||
+                        e.target.value.includes(".")
+                      ) {
+                        console.log(e.target.value);
                         setInputOFTAmount("0");
                         return;
                       }
@@ -1768,7 +1772,10 @@ export default function Home({
                     placeholder="Amount To Bridge"
                     value={dlgateBridgeAmount}
                     onChange={(e) => {
-                      if (e.target.value.length === 0) {
+                      if (
+                        e.target.value.length === 0 ||
+                        e.target.value.includes(".")
+                      ) {
                         setDlgateBridgeAmount("0");
                         return;
                       }
