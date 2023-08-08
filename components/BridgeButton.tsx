@@ -42,8 +42,14 @@ const BridgeButton: React.FC<Props> = ({
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
-    functionName: "estimateFees",
-    args: [`${targetChain.layerzeroChainId}`, inputTokenId],
+    functionName: "estimateSendFee",
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      "0x0000000000000000000000000000000000000000",
+      inputTokenId,
+      false,
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80", // version: 1, value: 400000
+    ],
   });
 
   const {
@@ -53,7 +59,7 @@ const BridgeButton: React.FC<Props> = ({
   } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: MerklyLZAbi,
-    functionName: "crossChain",
+    functionName: "sendFrom",
     value:
       BigInt((gasEstimateData as string) || "13717131402195452") +
       BigInt("10000000000000"),
@@ -77,7 +83,13 @@ const BridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol,mintTxHash,inputTokenId]);
+  }, [
+    gasEstimateData,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+    mintTxHash,
+    inputTokenId,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
