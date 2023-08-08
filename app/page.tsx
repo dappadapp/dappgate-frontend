@@ -19,6 +19,7 @@ import dynamic from "next/dynamic";
 import {
   useAccount,
   useBalance,
+  useContractRead,
   useContractReads,
   useNetwork,
   useSwitchNetwork,
@@ -79,6 +80,7 @@ import StargateWidget from "./components/StargateWidget";
 import { useSession, signIn, signOut } from "next-auth/react";
 import TransactionPreview from "./components/TransactionPreview";
 import OFTBridge from "../config/abi/OFTBridge.json";
+import RelayerAbi from "../config/abi/RelayerV2.json";
 export interface Network {
   name: string;
   chainId: number;
@@ -611,6 +613,24 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
+  {
+    name: sepolia.name,
+    chainId: sepolia.id,
+    layerzeroChainId: 161,
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    tokenContractAddress: "0x851c3bf14f9360076cB5D5e7360F1A05902CDf05",
+    relayerAddress: "0x306B9a8953B9462F8b826e6768a93C8EA7454965",
+    blockConfirmation: 2,
+    colorClass: "bg-[#777777]",
+    image: "ethereum.svg",
+    disabledNetworks: [
+      56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      42220,
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+  },
   /*
   {
     name: mainnet.name,
@@ -735,6 +755,16 @@ export default function Home({
     address: targetChain.relayerAddress as `0x${string}`,
     chainId: targetChain.chainId,
   });
+
+  const { data: gasRefuelMaxData } = useContractRead({
+    address: sourceChain.relayerAddress as `0x${string}`,
+    abi: RelayerAbi,
+    functionName: "dstConfigLookup",
+    args: [`${targetChain.layerzeroChainId}`, "1"],
+    chainId: sourceChain.chainId,
+  });
+
+  console.log("gasRefuelMaxData", gasRefuelMaxData);
 
   // get balance of user on source chain
   const { data: balanceOfUser } = useBalance({
@@ -930,8 +960,8 @@ export default function Home({
     }
   };
   const handleMax = () => {
-    if (balanceOfData) {
-      setGasRefuelAmount(balanceOfData?.formatted);
+    if ((gasRefuelMaxData as any)[0]) {
+      setGasRefuelAmount(`${(gasRefuelMaxData as any)[0] / 1e18}`);
     }
   };
 
@@ -1631,7 +1661,8 @@ export default function Home({
                   </div>
                   <div className="text-white-700 break-words max-w-[60%] text-base"></div>
                   <div className="text-white-700 text-base">
-                    Max: {Number(balanceOfData?.formatted || 0).toFixed(3) || 0}{" "}
+                    Max:{" "}
+                    {Number((gasRefuelMaxData as any)[0] || 0).toFixed(3) || 0}{" "}
                     {targetChain.symbol}
                   </div>
                 </div>
@@ -1661,7 +1692,7 @@ export default function Home({
                   gasRefuelAmount={gasRefuelAmount}
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   setEstimatedGas={setEstimatedGas}
-                  balanceOfData={balanceOfData}
+                  balanceOfData={(gasRefuelMaxData as any)[0]}
                 />
                 <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
                   Disclaimer
