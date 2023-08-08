@@ -711,18 +711,15 @@ export default function Home({
 
   useEffect(() => {
     if (!disabledBridgesData) return;
-    console.log("disabledBridgesData", disabledBridgesData);
     const disabledNetworks = disabledBridgesData.map((data, i) => {
       if (data.status === "failure") return networks[i].chainId;
-      else return 0
+      else return 0;
     });
     setSourceChain((prev) => ({
       ...prev,
       disabledNetworks: disabledNetworks as number[],
     }));
   }, [disabledBridgesData]);
-
-  console.log("sourceChain", sourceChain);
 
   // fill with individual network data
 
@@ -760,7 +757,9 @@ export default function Home({
     chainId: sourceChain.chainId,
   });
 
-  const gasRefuelMaxValue = gasRefuelMaxData ? (Number(((gasRefuelMaxData as any)?.[0]) * 1000n / BigInt(1e18)) / 1000) : 0
+  const gasRefuelMaxValue = gasRefuelMaxData
+    ? Number(((gasRefuelMaxData as any)?.[0] * 1000n) / BigInt(1e18)) / 1000
+    : 0;
 
   // get balance of user on source chain
   const { data: balanceOfUser } = useBalance({
@@ -836,7 +835,7 @@ export default function Home({
         !sourceChain.disabledNetworks.includes(network.chainId) &&
         sourceChain.chainId !== network.chainId
     );
-    setSelectedHyperBridges(selectedHyperBridges_)
+    setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
 
   useEffect(() => {
@@ -1106,10 +1105,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       ONFT Bridge
                     </button>
@@ -1119,10 +1119,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
                     >
                       ONFT HyperBridge
                     </button>
@@ -1132,10 +1133,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Gas Refuel
                     </button>
@@ -1144,10 +1146,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       OFT Bridge
                     </button>
@@ -1156,10 +1159,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       OFT HyperBridge
                     </button>
@@ -1168,10 +1172,11 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
-                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                        : "bg-transparent"
-                        }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       Stargate Bridge
                     </button>
@@ -1263,8 +1268,9 @@ export default function Home({
                       <FontAwesomeIcon icon={faAngleDown} />
                     </svg>
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
-                        }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
+                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
+                      }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -1282,10 +1288,11 @@ export default function Home({
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
-                    ? "max-h-[1000px]"
-                    : "max-h-0"
-                    }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
+                    layerZeroTxHashes.length !== 0
+                      ? "max-h-[1000px]"
+                      : "max-h-0"
+                  }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -1462,13 +1469,14 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                                (selectedBridge) =>
-                                  selectedBridge.chainId === network.chainId
-                              )
-                                ? "grayscale"
-                                : "grayscale-0"
-                                } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1501,9 +1509,8 @@ export default function Home({
                 </div>
 
                 <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-                  Step2: Mint{" "}
-                  {selectedHyperBridges.length} NFTs
-                  on {sourceChain.name} to bridge
+                  Step2: Mint {selectedHyperBridges.length} NFTs on{" "}
+                  {sourceChain.name} to bridge
                 </div>
 
                 <TransactionPreview
@@ -1538,7 +1545,10 @@ export default function Home({
                           Step3: Now you can bridge your NFTs to destination
                           chains selected in Step 1
                         </div>;
-                        if (selectedHyperBridges[index].chainId === sourceChain.chainId)
+                        if (
+                          selectedHyperBridges[index].chainId ===
+                          sourceChain.chainId
+                        )
                           return null;
 
                         return (
@@ -1634,9 +1644,7 @@ export default function Home({
                   </div>
                   <div className="text-white-700 break-words max-w-[60%] text-base"></div>
                   <div className="text-white-700 text-base">
-                    Max:{" "}
-                    {gasRefuelMaxValue}{" "}
-                    {targetChain.symbol}
+                    Max: {" " + gasRefuelMaxValue + " "} {targetChain.symbol}
                   </div>
                 </div>
                 {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
@@ -1644,11 +1652,17 @@ export default function Home({
                   {/** In input box create a max option for balance max */}
 
                   <input
-                    type="text"
+                    type="number"
                     className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
                     placeholder={`Input Amount of ${targetChain.symbol} to receive on ${targetChain.name}`}
                     value={gasRefuelAmount}
-                    onChange={(e) => setGasRefuelAmount(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value.length === 0) {
+                        setGasRefuelAmount("0");
+                        return;
+                      }
+                      setGasRefuelAmount(e.target.value);
+                    }}
                   />
                   <button
                     type="button"
@@ -1719,7 +1733,13 @@ export default function Home({
                     className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="e.g. 1000"
                     value={inputOFTAmount}
-                    onChange={(e) => setInputOFTAmount(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value.length === 0) {
+                        setInputOFTAmount("0");
+                        return;
+                      }
+                      setInputOFTAmount(e.target.value);
+                    }}
                   />
 
                   <OFTClaimButton
@@ -1743,11 +1763,17 @@ export default function Home({
                   {/** In input box create a max option for balance max */}
 
                   <input
-                    type="text"
+                    type="number"
                     className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
                     placeholder="Amount To Bridge"
                     value={dlgateBridgeAmount}
-                    onChange={(e) => setDlgateBridgeAmount(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value.length === 0) {
+                        setDlgateBridgeAmount("0");
+                        return;
+                      }
+                      setDlgateBridgeAmount(e.target.value);
+                    }}
                   />
                   <button
                     type="button"
@@ -1845,13 +1871,14 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                                (selectedBridge) =>
-                                  selectedBridge.chainId === network.chainId
-                              )
-                                ? "grayscale"
-                                : "grayscale-0"
-                                } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                                !selectedHyperBridges.some(
+                                  (selectedBridge) =>
+                                    selectedBridge.chainId === network.chainId
+                                )
+                                  ? "grayscale"
+                                  : "grayscale-0"
+                              } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1911,8 +1938,7 @@ export default function Home({
 
                 <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700">
-                    Step 3: Bridge{" "}
-                    {selectedHyperBridges.length}{" "}
+                    Step 3: Bridge {" " + selectedHyperBridges.length + " "}{" "}
                     $DLGATE tokens per network to selected networks in Step 1
                   </div>
                 </div>
@@ -1968,22 +1994,27 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "bridge-animaton" : ""
+            }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass
-                }  ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${
+                sourceChain.colorClass
+              }  ${
+                isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-                } rounded-full`}
+              } rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${targetChain.colorClass
-                } ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square  ${
+                targetChain.colorClass
+              } ${
+                isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-                } rounded-full`}
+              } rounded-full`}
             ></div>
           </div>
         </div>
