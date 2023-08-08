@@ -714,6 +714,7 @@ export default function Home({
     console.log("disabledBridgesData", disabledBridgesData);
     const disabledNetworks = disabledBridgesData.map((data, i) => {
       if (data.status === "failure") return networks[i].chainId;
+      else return 0
     });
     setSourceChain((prev) => ({
       ...prev,
@@ -727,8 +728,8 @@ export default function Home({
 
   const initialSelectedHyperBridges = networks.filter(
     (network) =>
-      !networks[0].disabledNetworks.includes(network.chainId) &&
-      networks[0].chainId !== network.chainId
+      !sourceChain.disabledNetworks.includes(network.chainId) &&
+      sourceChain.chainId !== network.chainId
   );
   const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
     initialSelectedHyperBridges
@@ -829,7 +830,15 @@ export default function Home({
     }, ANIMATION_END_TIME);
   }, [isAnimationEnd]);
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    const selectedHyperBridges_ = networks.filter(
+      (network) =>
+        !sourceChain.disabledNetworks.includes(network.chainId) &&
+        sourceChain.chainId !== network.chainId
+    );
+    console.log('sklan')
+    setSelectedHyperBridges(selectedHyperBridges_)
+  }, [sourceChain]);
 
   useEffect(() => {
     mintCounterFunc();
@@ -1494,7 +1503,7 @@ export default function Home({
 
                 <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
                   Step2: Mint{" "}
-                  {selectedHyperBridges.filter((x: any) => x !== 0).length} NFTs
+                  {selectedHyperBridges.length} NFTs
                   on {sourceChain.name} to bridge
                 </div>
 
@@ -1530,11 +1539,7 @@ export default function Home({
                           Step3: Now you can bridge your NFTs to destination
                           chains selected in Step 1
                         </div>;
-                        if (
-                          selectedHyperBridges.filter((x: any) => x !== 0)[
-                            index
-                          ].chainId === sourceChain.chainId
-                        )
+                        if (selectedHyperBridges[index].chainId === sourceChain.chainId)
                           return null;
 
                         return (
@@ -1543,15 +1548,8 @@ export default function Home({
                             className="flex flex-col items-center"
                           >
                             <Image
-                              src={`/chains/${selectedHyperBridges.filter(
-                                (x: any) => x !== 0
-                              )[index].image
-                                }`}
-                              alt={
-                                selectedHyperBridges.filter(
-                                  (x: any) => x !== 0
-                                )[index].name
-                              }
+                              src={`/chains/${selectedHyperBridges[index].image}`}
+                              alt={selectedHyperBridges[index].name}
                               width={40}
                               height={40}
                               className="rounded-full mr-2 mt-2 mb-2 p-1"
@@ -1562,11 +1560,7 @@ export default function Home({
 
                             <ONFTHyperBridgeButton
                               sourceChain={sourceChain}
-                              targetChain={
-                                selectedHyperBridges.filter(
-                                  (x: any) => x !== 0
-                                )[index]
-                              }
+                              targetChain={selectedHyperBridges[index]}
                               tokenId={nftId}
                               tokenIds={tokenIds}
                               inputTokenId={inputTokenId}
@@ -1919,7 +1913,7 @@ export default function Home({
                 <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
                   <div className="text-white-700">
                     Step 3: Bridge{" "}
-                    {selectedHyperBridges.filter((x: any) => x !== 0).length}{" "}
+                    {selectedHyperBridges.length}{" "}
                     $DLGATE tokens per network to selected networks in Step 1
                   </div>
                 </div>
