@@ -36,16 +36,16 @@ function RefModal({ onCloseModal, refCode }: Props) {
 
     setTotalRef(+(data.mints as number).toFixed(2));
     setRate(data.rate);
-    setRefLink(`https://dappgate.io/?ref=${data.ref}`);
+    setRefLink(`https://dappgate.app/?ref=${data.ref}`);
 
     // if (username && session) {
-    //   setRefLink(`https://dappgate.io/?ref=${username}`);
+    //   setRefLink(`https://dappgate.app/?ref=${username}`);
     // } else {
     // }
   };
 
   const handleSignIn = async () => {
-    await signIn("twitter", { callbackUrl: "https://dappgate.io/" });
+    await signIn("twitter", { callbackUrl: "https://dappgate.app/" });
   };
 
   const twitterShare = () => {
