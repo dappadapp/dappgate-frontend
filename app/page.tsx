@@ -958,7 +958,7 @@ export default function Home({
   };
   const handleMax = () => {
     if ((gasRefuelMaxData as any)[0]) {
-      setGasRefuelAmount(`${(gasRefuelMaxData as any)[0] / 1e18}`);
+      setGasRefuelAmount(`${parseInt((gasRefuelMaxData as any)[0]) / 1e18}`);
     }
   };
 
