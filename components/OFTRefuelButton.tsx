@@ -11,7 +11,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import { toast } from "react-toastify";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
 
 type Props = {
@@ -36,9 +36,8 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
-  const [gasEstimate, setGasEstimate] = useState(BigInt(0));
 
-  const { data: gasEstimateData, refetch } = useContractRead({
+  const { data: gasEstimateData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateGasBridgeFee",
@@ -74,16 +73,15 @@ const OFTRefuelButton: React.FC<Props> = ({
         [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
-  
+
 
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
-              BigInt(1e18)
-          ) / coefficient
+        `${Number(
+          (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+          BigInt(1e18)
+        ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }

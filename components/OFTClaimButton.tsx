@@ -10,7 +10,7 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -38,7 +38,7 @@ const OFTClaimButton: React.FC<Props> = ({
   const { data: costData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
-    functionName: "fee",
+    functionName: "mintFee",
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
@@ -65,10 +65,10 @@ const OFTClaimButton: React.FC<Props> = ({
       });
     };
     postMint();
-    
+
     if (String(refCode)?.length === 12) {
       const postReferenceMint = async () => {
-      const result =  await axios.post("/api/referenceMintOFT", {
+        const result = await axios.post("/api/referenceMintOFT", {
           id: inputOFTAmount,
           walletAddress: account,
           chainId: sourceChain.chainId,

@@ -10,7 +10,6 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -40,7 +39,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   const { data: costData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
-    functionName: "fee",
+    functionName: "mintFee",
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
@@ -72,10 +71,10 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
     setMintCostData(
       BigInt((costData as string) || "500000000000000") *
-        BigInt(
-          (tokenAmountHyperBridge *
-            selectedHyperBridges?.length) as unknown as string
-        )
+      BigInt(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      )
     );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData]);
 

@@ -10,7 +10,7 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -40,13 +40,13 @@ const MintButton: React.FC<Props> = ({
 
   const { data: costData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "cost",
+    abi: ONFTAbi,
+    functionName: "mintFee",
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
+    abi: ONFTAbi,
     functionName: "mint",
     value: BigInt((costData as string) || "500000000000000"),
   });
@@ -85,8 +85,8 @@ const MintButton: React.FC<Props> = ({
     setTokenIds((prev: any) => {
       const newArray = prev?.[sourceChain.chainId]?.[account as string]
         ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
+          (value, index, self) => self.indexOf(value) === index
+        )
         : [tokenId];
       const tokenIdData = {
         ...prev,

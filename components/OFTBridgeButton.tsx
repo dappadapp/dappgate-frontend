@@ -10,7 +10,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import { toast } from "react-toastify";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
 import { ethers } from "ethers";
 
@@ -40,16 +40,20 @@ const OFTBridgeButton: React.FC<Props> = ({
     functionName: "estimateSendFee",
     args: [
       `${targetChain.layerzeroChainId}`,
-      account,
+      "0x0000000000000000000000000000000000000000",
       "1000000000000000000",
       false,
-      "0x",
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80", // version: 1, value: 400000
     ],
+    chainId: sourceChain.chainId,
   });
 
-  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
-
-  console.log("gasEstimateDataArray", gasEstimateDataArray);
+  const { data: bridgeFeeData } = useContractRead({
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "bridgeFee",
+    chainId: sourceChain.chainId,
+  });
 
   const {
     config: sendFromConfig,
@@ -60,36 +64,35 @@ const OFTBridgeButton: React.FC<Props> = ({
     abi: OFTBridge,
     functionName: "sendFrom",
     value:
-      BigInt(
-        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-      ) + BigInt("1000000000000"),
+      BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+      BigInt((bridgeFeeData as string) || "0") +
+      BigInt("10000000000000"),
     args: [
       account,
       targetChain.layerzeroChainId,
       account,
       ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
+      account,
       "0x0000000000000000000000000000000000000000",
-      "0x0000000000000000000000000000000000000000",
-      "",
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80"
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateDataArray) {
+    if (gasEstimateData) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
-              BigInt(1e18)
-          ) / coefficient
+        `${Number(
+          (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
+          BigInt(1e18)
+        ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
   }, [
-    gasEstimateDataArray,
+    gasEstimateData,
     setEstimatedGas,
     connectedChain?.nativeCurrency.symbol,
   ]);

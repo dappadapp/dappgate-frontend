@@ -2,9 +2,24 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_minGasToTransfer",
+        "type": "uint256"
+      },
+      {
         "internalType": "address",
-        "name": "_endpoint",
+        "name": "_layerZeroEndpoint",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startMintId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_endMintId",
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",
@@ -12,12 +27,23 @@
   },
   {
     "inputs": [],
-    "name": "InsufficientGas",
+    "name": "ERC721EnumerableForbiddenBatchMint",
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "NotTokenOwner",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "ERC721OutOfBoundsIndex",
     "type": "error"
   },
   {
@@ -68,6 +94,38 @@
       }
     ],
     "name": "ApprovalForAll",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "_hashedPayload",
+        "type": "bytes32"
+      }
+    ],
+    "name": "CreditCleared",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "_hashedPayload",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "_payload",
+        "type": "bytes"
+      }
+    ],
+    "name": "CreditStored",
     "type": "event"
   },
   {
@@ -130,31 +188,31 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint16",
         "name": "_srcChainId",
         "type": "uint16"
       },
       {
-        "indexed": false,
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "_srcAddress",
+        "type": "bytes"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
-        "name": "_from",
+        "name": "_toAddress",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "counter",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "_tokenIds",
+        "type": "uint256[]"
       }
     ],
-    "name": "ReceivedNFT",
+    "name": "ReceiveFromChain",
     "type": "event"
   },
   {
@@ -192,6 +250,75 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "_toAddress",
+        "type": "bytes"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "_tokenIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "SendToChain",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_dstChainIdToBatchLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetDstChainIdToBatchLimit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_dstChainIdToTransferGas",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetDstChainIdToTransferGas",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": false,
         "internalType": "uint16",
         "name": "_dstChainId",
@@ -211,6 +338,19 @@
       }
     ],
     "name": "SetMinDstGas",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_minGasToTransferAndStore",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetMinGasToTransferAndStore",
     "type": "event"
   },
   {
@@ -303,6 +443,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "FUNCTION_TYPE_SEND",
+    "outputs": [
+      {
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -341,12 +494,12 @@
   },
   {
     "inputs": [],
-    "name": "cost",
+    "name": "baseExtension",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "string",
         "name": "",
-        "type": "uint256"
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -354,7 +507,65 @@
   },
   {
     "inputs": [],
-    "name": "counter",
+    "name": "baseTokenURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "batchMint",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bridgeFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "_payload",
+        "type": "bytes"
+      }
+    ],
+    "name": "clearCredits",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
+      }
+    ],
+    "name": "dstChainIdToBatchLimit",
     "outputs": [
       {
         "internalType": "uint256",
@@ -369,38 +580,103 @@
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "dstChainId",
+        "name": "",
         "type": "uint16"
-      },
+      }
+    ],
+    "name": "dstChainIdToTransferGas",
+    "outputs": [
       {
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "",
         "type": "uint256"
       }
     ],
-    "name": "crossChain",
-    "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "dstChainId",
+        "name": "_dstChainId",
         "type": "uint16"
       },
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
+        "internalType": "bytes",
+        "name": "_toAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_tokenIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_useZro",
+        "type": "bool"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_adapterParams",
+        "type": "bytes"
       }
     ],
-    "name": "estimateFees",
+    "name": "estimateSendBatchFee",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "nativeFee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "zroFee",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_toAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_useZro",
+        "type": "bool"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_adapterParams",
+        "type": "bytes"
+      }
+    ],
+    "name": "estimateSendFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "nativeFee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "zroFee",
         "type": "uint256"
       }
     ],
@@ -616,6 +892,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "maxMintId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint16",
@@ -641,9 +930,48 @@
   },
   {
     "inputs": [],
+    "name": "minGasToTransferAndStore",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "mint",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "moderatorAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -654,6 +982,19 @@
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nextMintId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -841,6 +1182,92 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_toAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_tokenIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_refundAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_zroPaymentAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_adapterParams",
+        "type": "bytes"
+      }
+    ],
+    "name": "sendBatchFrom",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_toAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_refundAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_zroPaymentAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_adapterParams",
+        "type": "bytes"
+      }
+    ],
+    "name": "sendFrom",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "operator",
         "type": "address"
       },
@@ -851,6 +1278,45 @@
       }
     ],
     "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_newBaseExtension",
+        "type": "string"
+      }
+    ],
+    "name": "setBaseExtension",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_baseTokenURI",
+        "type": "string"
+      }
+    ],
+    "name": "setBaseURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBridgeFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -886,12 +1352,35 @@
   {
     "inputs": [
       {
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
         "internalType": "uint256",
-        "name": "_cost",
+        "name": "_dstChainIdToBatchLimit",
         "type": "uint256"
       }
     ],
-    "name": "setCost",
+    "name": "setDstChainIdToBatchLimit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "_dstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_dstChainIdToTransferGas",
+        "type": "uint256"
+      }
+    ],
+    "name": "setDstChainIdToTransferGas",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -915,6 +1404,45 @@
       }
     ],
     "name": "setMinDstGas",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_minGasToTransferAndStore",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinGasToTransferAndStore",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMintFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_moderator",
+        "type": "address"
+      }
+    ],
+    "name": "setModerator",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -980,7 +1508,7 @@
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "_srcChainId",
+        "name": "_remoteChainId",
         "type": "uint16"
       },
       {
@@ -1010,6 +1538,40 @@
     "name": "setTrustedRemoteAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "storedCredits",
+    "outputs": [
+      {
+        "internalType": "uint16",
+        "name": "srcChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "toAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "creditsRemain",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1048,6 +1610,49 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenOfOwnerByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
       }
@@ -1058,6 +1663,19 @@
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1116,13 +1734,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "payable",
     "type": "function"
   }
 ]

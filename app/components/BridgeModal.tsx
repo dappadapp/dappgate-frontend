@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
 import MintButton from "@/components/MintButton";
-import MerklyLZAbi from "../../config/abi/MerklyLZ.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
 import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
 import ONFTGenericBridgeButton from "@/components/ONFTGenericBridgeButton";
 import Image from "next/image";
@@ -45,7 +45,7 @@ function BridgeModal({
   } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     chainId: sourceChain.chainId,
-    abi: MerklyLZAbi,
+    abi: ONFTAbi,
     functionName: "balanceOf",
     args: [walletAddress],
   });

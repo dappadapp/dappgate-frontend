@@ -11,7 +11,7 @@ import {
 } from "wagmi";
 import { writeContract, readContract } from "@wagmi/core";
 import { toast } from "react-toastify";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import OFTBridge from "../config/abi/OFTBridge.json";
 import { ethers } from "ethers";
 
@@ -48,34 +48,43 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
-    args: [lzTargetChainId, account, "1000000000000000000", false, "0x"],
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      "0x0000000000000000000000000000000000000000",
+      "1000000000000000000",
+      false,
+      "0x", // version: 1, value: 400000
+    ],
+    chainId: sourceChain.chainId,
   });
 
-  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
-
-  console.log("gasEstimateDataArray", gasEstimateDataArray);
+  const { data: bridgeFeeData } = useContractRead({
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
+    functionName: "bridgeFee",
+    chainId: sourceChain.chainId,
+  });
 
   const {
     config: sendFromConfig,
     isSuccess,
     error,
-    data: configData,
   } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "sendFrom",
     value:
-      BigInt(
-        gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-      ) + BigInt("10000000000000"),
+      BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+      BigInt((bridgeFeeData as string) || "0") +
+      BigInt("10000000000000"),
     args: [
       account,
-      lzTargetChainId,
+      targetChain.layerzeroChainId,
       account,
-      ethers.parseEther(tokenAmountHyperBridge?.toString()),
+      ethers.parseEther(tokenAmountHyperBridge.toString()),
+      account,
       "0x0000000000000000000000000000000000000000",
-      "0x0000000000000000000000000000000000000000",
-      "",
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80"
     ],
   });
 
@@ -90,24 +99,23 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateDataArray) {
+    if (gasEstimateData) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
-              BigInt(1e18)
-          ) / coefficient
-        } `
+        `${Number(
+          (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
+          BigInt(1e18)
+        ) / coefficient
+        } ${connectedChain?.nativeCurrency.symbol}`
       );
 
       setBridgeCostData(
         ethers.formatEther(
           (
             BigInt(
-              gasEstimateDataArray
-                ? gasEstimateDataArray[0]
+              gasEstimateData
+                ? (gasEstimateData as bigint[])?.[0]
                 : "13717131402195452"
             ) + BigInt("10000000000000")
           ).toString()
@@ -115,9 +123,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       );
     }
   }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges, account]);
-
-  console.log("writeData", writeData);
-  console.log("configData", configData);
 
   const onBridge = async () => {
     if (connectedChain?.id !== sourceChain.chainId) {
@@ -184,22 +189,28 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ],
         });
 
+        const bridgeFeeData_ = await readContract({
+          address: sourceChain.tokenContractAddress as `0x${string}`,
+          abi: OFTBridge,
+          functionName: "bridgeFee",
+        });
+
         const { hash: txHash } = await writeContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
           functionName: "sendFrom",
           value:
-            BigInt(
-              gasEstimateArray ? gasEstimateArray[0] : "13717131402195452"
-            ) + BigInt("10000000000000"),
+            BigInt(((gasEstimateArray as any)[0] as string) || "0") +
+            BigInt((bridgeFeeData_ as string) || "0") +
+            BigInt("10000000000000"),
           args: [
             account,
-            network.layerzeroChainId,
+            targetChain.layerzeroChainId,
             account,
-            ethers.parseEther(tokenAmountHyperBridge?.toString()),
+            ethers.parseEther(tokenAmountHyperBridge.toString()),
+            account,
             "0x0000000000000000000000000000000000000000",
-            "0x0000000000000000000000000000000000000000",
-            "",
+            "0x"
           ],
         });
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);

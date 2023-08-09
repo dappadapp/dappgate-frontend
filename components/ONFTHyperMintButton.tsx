@@ -12,7 +12,7 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -54,8 +54,8 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
   const { data: costData, refetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "cost",
+    abi: ONFTAbi,
+    functionName: "mintFee",
   });
 
   const {
@@ -64,12 +64,12 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     error,
   } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
+    abi: ONFTAbi,
     functionName: "mint",
     value: BigInt((costData as string) || "500000000000000"),
   });
 
-  const { data: mintResult, writeAsync: mint } = useContractWrite(mintConfig);
+  const { writeAsync: mint } = useContractWrite(mintConfig);
   /*
   const { data: mintTxResultData, refetch } = useWaitForTransaction({
     hash: mintResult?.hash as `0x${string}`,

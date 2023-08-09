@@ -10,7 +10,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import { toast } from "react-toastify";
-import MerklyLZAbi from "../config/abi/MerklyLZ.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 
 type Props = {
   sourceChain: Network;
@@ -50,9 +50,23 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "estimateFees",
-    args: [`${targetChain.layerzeroChainId}`, inputTokenId],
+    abi: ONFTAbi,
+    functionName: "estimateSendFee",
+    args: [
+      `${targetChain.layerzeroChainId}`,
+      "0x0000000000000000000000000000000000000000",
+      "1",
+      false,
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80", // version: 1, value: 400000
+    ],
+    chainId: sourceChain.chainId,
+  });
+
+  const { data: bridgeFeeData } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: ONFTAbi,
+    functionName: "bridgeFee",
+    chainId: sourceChain.chainId,
   });
 
   const {
@@ -61,24 +75,32 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     error,
   } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: MerklyLZAbi,
-    functionName: "crossChain",
+    abi: ONFTAbi,
+    functionName: "sendFrom",
     value:
-      BigInt((gasEstimateData as string) || "13717131402195452") +
+      BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+      BigInt((bridgeFeeData as string) || "0") +
       BigInt("10000000000000"),
-    args: [targetChain.layerzeroChainId, tokenId],
+    args: [
+      account,
+      targetChain.layerzeroChainId,
+      account,
+      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      account,
+      "0x0000000000000000000000000000000000000000",
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80"
+    ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasEstimateData) {
+    if ((gasEstimateData as any)?.[0]) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            ((gasEstimateData as bigint) * BigInt(coefficient)) / BigInt(1e18)
-          ) / coefficient
+        `${(Number(
+          ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) / BigInt(1e18)
+        ) / coefficient) + ((Number(((bridgeFeeData as bigint) * BigInt(coefficient)) / BigInt(1e18))) / coefficient)
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
@@ -134,8 +156,8 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
+            .slice(1)
+            .filter((value, index, self) => self.indexOf(value) === index)
           : [];
         const tokenIdData = {
           ...prev,
