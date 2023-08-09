@@ -694,7 +694,7 @@ export default function Home({
   // fetching disabled bridges data
   const { data: disabledBridgesData } = useContractReads({
     contracts: networks.map((network) => ({
-      address: sourceChain.tokenContractAddress as `0x${string}`,
+      address: sourceChain.nftContractAddress as `0x${string}`,
       abi: OFTBridge as any,
       functionName: "estimateSendFee",
       args: [
