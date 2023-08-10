@@ -1739,9 +1739,9 @@ export default function Home({
                     type="number"
                     className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="e.g. 1000"
-                    value={inputOFTAmount}
+                    value={(inputOFTAmount)}
                     onChange={(e) => {
-                      setInputOFTAmount(e.target.value);
+                      setInputOFTAmount((e.target.value));
                     }}
                   />
 

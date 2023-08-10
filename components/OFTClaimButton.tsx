@@ -1,6 +1,6 @@
 import { Network } from "@/app/page";
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -49,7 +49,7 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "mint",
     value:
       BigInt((costData as string) || "500000000000000") *
-      BigInt(inputOFTAmount),
+      BigInt(+inputOFTAmount < 0 ? inputOFTAmount : "0"),
     args: [account, inputOFTAmount],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
@@ -61,6 +61,8 @@ const OFTClaimButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (!mintTxResultData) return;
+
+
     const postMint = async () => {
       await axios.post("/api/mint", {
         tokenId: inputOFTAmount,
@@ -101,6 +103,13 @@ const OFTClaimButton: React.FC<Props> = ({
     setMintTxHash("");
     toast(`Tokens minted!`);
   }, [mintTxResultData]);
+
+  useEffect(() => {
+    if (!Number.isInteger(+inputOFTAmount) ||  +inputOFTAmount === 0) {
+      toast("Please input a valid amount.");
+      return;
+    }
+  }, [inputOFTAmount]);
 
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
