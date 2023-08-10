@@ -49,7 +49,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     abi: OFTBridge,
     functionName: "estimateSendFee",
     args: [
-      `${targetChain.layerzeroChainId}`,
+      lzTargetChainId,
       account,
       selectedHyperBridges.length,
       false,
@@ -67,38 +67,16 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-  const {
-    config: sendFromConfig,
-    isSuccess,
-    error,
-  } = usePrepareContractWrite({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
-    functionName: "sendFrom",
-    value:
-      BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
-      BigInt((bridgeFeeData as string) || "0") +
-      BigInt("10000000000000"),
-    args: [
-      account,
-      targetChain.layerzeroChainId,
-      account,
-      ethers.parseEther(tokenAmountHyperBridge.toString()),
-      account,
-      "0x0000000000000000000000000000000000000000",
-      "0x",
-    ],
-  });
+
 
   useEffect(() => {
     refetch();
     setLzTargetChainId(
       selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
     );
-  }, [account, selectedHyperBridges]);
+  }, [account, selectedHyperBridges,sourceChain, targetChain, tokenAmountHyperBridge]);
 
-  const { writeAsync: sendFrom, data: writeData } =
-    useContractWrite(sendFromConfig);
+
 
   useEffect(() => {
     if (gasEstimateData) {
@@ -146,38 +124,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       return toast("You didn't choose any destination chains.");
     }
 
-    if (!sendFrom) {
-      if (
-        error?.message.includes(
-          "ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)"
-        )
-      ) {
-        return toast("Insufficient token balance, first claim your tokens.");
-      }
-      if (
-        error?.message.includes(
-          "LzApp: destination chain is not a trusted source"
-        )
-      ) {
-        return toast(
-          "It looks like the bridge between these chains are closed."
-        );
-      }
-
-      if (
-        error?.message.includes("Execution reverted for an unknown reason.")
-      ) {
-        return toast(
-          "It looks like the bridge between these chains are not supported by LayerZero."
-        );
-      }
-      return toast(
-        "Make sure you have enough gas and you're on the correct network."
-      );
-    }
-    if (!isSuccess) {
-      return toast("An unknown error occured.");
-    }
+ 
     try {
       setLoading(true);
 
@@ -194,11 +141,12 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           args: [
             network.layerzeroChainId,
             account,
-            "1000000000000000000",
+            selectedHyperBridges.length * 10e18,
             false,
             "0x",
           ],
         });
+        console.log("gasEstimateArray2" , gasEstimateArray);
 
         const bridgeFeeData_ = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -219,12 +167,18 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             network?.layerzeroChainId,
             account,
             ethers.parseEther(tokenAmountHyperBridge.toString()),
-            account,
             "0x0000000000000000000000000000000000000000",
-            "0x",
+            "0x0000000000000000000000000000000000000000",
+            "",
           ],
+ 
         });
+
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
+
+        if(!txHash){
+          toast("An unknown error occured.");
+        }
 
         // post bridge history
         const postBridgeHistory = async () => {

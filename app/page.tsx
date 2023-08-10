@@ -1109,6 +1109,21 @@ export default function Home({
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
               <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
+          
+                <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
+                    >
+                      ONFT HyperBridge
+                    </button>
+                  )}
+                </Tab>
+
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
@@ -1123,19 +1138,6 @@ export default function Home({
                   )}
                 </Tab>
 
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
-                    >
-                      ONFT HyperBridge
-                    </button>
-                  )}
-                </Tab>
 
                 <Tab as={Fragment}>
                   {({ selected }) => (
@@ -1192,7 +1194,7 @@ export default function Home({
               </Tab.List>
             </Tab.Group>
 
-            {tabIndex == 0 ? (
+            {tabIndex == 1 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
@@ -1398,7 +1400,7 @@ export default function Home({
                   </svg>
                 </a>
               </div>
-            ) : tabIndex == 1 ? (
+            ) : tabIndex == 0 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
@@ -1959,7 +1961,7 @@ export default function Home({
                   setLayerZeroTxHashes={setLayerZeroTxHashes}
                   estimatedGas={estimatedGas}
                   setEstimatedGas={setEstimatedGas}
-                  tokenAmountHyperBridge={tokenAmountHyperBridge}
+                  tokenAmountHyperBridge={selectedHyperBridges.length}
                   selectedHyperBridges={selectedHyperBridges}
                   setBridgeCostData={setBridgeCostData}
                 />
