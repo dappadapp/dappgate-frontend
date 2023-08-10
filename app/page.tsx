@@ -103,7 +103,7 @@ const networks: Network[] = [
     name: "Linea",
     chainId: 59144,
     layerzeroChainId: 183,
-    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755",
+    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
     blockConfirmation: 1,
@@ -120,7 +120,7 @@ const networks: Network[] = [
     name: "Base",
     chainId: 8453,
     layerzeroChainId: 184,
-    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755",
+    nftContractAddress: "0x18c78a0B1fD00084C83E5B4365cdDee1e6cDba84",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
     blockConfirmation: 1,
@@ -137,7 +137,7 @@ const networks: Network[] = [
     name: zkSync.name,
     chainId: zkSync.id,
     layerzeroChainId: 165,
-    nftContractAddress: "0x65020a18bbC5e535601423972b1C28eAc79a09F6",
+    nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
     blockConfirmation: 1,
@@ -155,7 +155,7 @@ const networks: Network[] = [
     name: bsc.name,
     chainId: bsc.id,
     layerzeroChainId: 102,
-    nftContractAddress: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+    nftContractAddress: "0xF3C948662CCA02529F3708feDaaCd527b7a273DB",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
     blockConfirmation: 1,
@@ -169,7 +169,7 @@ const networks: Network[] = [
     name: avalanche.name,
     chainId: avalanche.id,
     layerzeroChainId: 106,
-    nftContractAddress: "0x9CBF2D3955CA59E471546C04FAF552De435E89B1",
+    nftContractAddress: "0x52bA2A207D2A3DBed14030ca6CAd7E32a270b2C5",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
     blockConfirmation: 1,
@@ -180,11 +180,11 @@ const networks: Network[] = [
     chainName: "avalanche-mainnet",
   },
 
-  {
+  /* {
     name: polygonZkEvm.name,
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818", // TODO: UPDATE WHEN NEW CONTRACTS COME
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
     blockConfirmation: 1,
@@ -196,13 +196,13 @@ const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
-  },
+  }, */
 
   {
     name: "Mantle",
     chainId: 5000,
     layerzeroChainId: 181,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa", // not available in layer zero
     blockConfirmation: 1,
@@ -220,7 +220,7 @@ const networks: Network[] = [
     name: "Arbitrum Nova",
     chainId: 42170,
     layerzeroChainId: 175,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xc84388999DCc40631904b1CBDC9FA27dc96fB5F4",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
     blockConfirmation: 1,
@@ -236,7 +236,7 @@ const networks: Network[] = [
     name: "Celo",
     chainId: 42220,
     layerzeroChainId: 125,
-    nftContractAddress: "0xBddc99fCFc76c3433F448F15B327b46eC7A6CC4d",
+    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x15e51701f245f6d5bd0fee87bcaf55b0841451b3",
     blockConfirmation: 1,
@@ -270,7 +270,7 @@ const networks: Network[] = [
     name: gnosis.name,
     chainId: gnosis.id,
     layerzeroChainId: 145,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xF3C948662CCA02529F3708feDaaCd527b7a273DB",
     tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     blockConfirmation: 1,
@@ -286,7 +286,7 @@ const networks: Network[] = [
     name: "Fuse",
     chainId: 122,
     layerzeroChainId: 138,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xAcAB363d0dE028BF4aAfB7c1079b3a0A3afFb65b",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     blockConfirmation: 1,
@@ -303,7 +303,7 @@ const networks: Network[] = [
     name: klaytn.name,
     chainId: klaytn.id,
     layerzeroChainId: 150,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x0386dA88F4A06E0E1B75BC0B6b3c07B5ac39A393",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     relayerAddress: "0x5b19bd330a84c049b62d5b0fc2ba120217a18c1c",
@@ -321,7 +321,7 @@ const networks: Network[] = [
     name: metis.name,
     chainId: metis.id,
     layerzeroChainId: 151,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x856Fe1ecD129535aa318E01aCd3f2a6BF2183184",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     blockConfirmation: 1,
@@ -335,7 +335,7 @@ const networks: Network[] = [
     name: "CoreDAO",
     chainId: 1116,
     layerzeroChainId: 153,
-    nftContractAddress: "0xD80F5AA411Ab5b84973b8866F615a4eC0244B8D9",
+    nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
     blockConfirmation: 1,
@@ -352,7 +352,7 @@ const networks: Network[] = [
     name: canto.name,
     chainId: canto.id,
     layerzeroChainId: 159,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     relayerAddress: "0x5b19bd330a84c049b62d5b0fc2ba120217a18c1c",
@@ -369,7 +369,7 @@ const networks: Network[] = [
     name: moonbeam.name,
     chainId: moonbeam.id,
     layerzeroChainId: 126,
-    nftContractAddress: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+    nftContractAddress: "0xb922d6C5d3E5Be60C694c6b47E3807d794A2C4D3",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xccCDD23E11F3f47C37fC0a7C3BE505901912C6Cc",
     blockConfirmation: 1,
@@ -386,7 +386,7 @@ const networks: Network[] = [
     name: moonriver.name,
     chainId: moonriver.id,
     layerzeroChainId: 167,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xe9ae261d3aff7d3fccf38fa2d612dd3897e07b2d",
     blockConfirmation: 1,
@@ -403,7 +403,7 @@ const networks: Network[] = [
     name: "Tenet",
     chainId: 1559,
     layerzeroChainId: 173,
-    nftContractAddress: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xAaB5A48CFC03Efa9cC34A2C1aAcCCB84b4b770e4",
     blockConfirmation: 1,
@@ -419,7 +419,7 @@ const networks: Network[] = [
     name: "Meter.io",
     chainId: 82,
     layerzeroChainId: 176,
-    nftContractAddress: "0x1A21779466dA680f872Eb58a10208b42D6d75508",
+    nftContractAddress: "0xce11b58d31580eab9cf24212fc746f8a8158d60d",
     tokenContractAddress: "0xF08Ff10ebF3504c5bD4A6ce0925185b663969bcb",
     relayerAddress: "0x442b4bef4d1df08ebbff119538318e21b3c61eb9",
     blockConfirmation: 1,
@@ -435,7 +435,7 @@ const networks: Network[] = [
     name: "Kava",
     chainId: 2222,
     layerzeroChainId: 177,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xC9D669637d3a1a4681E4dB161c3A4FB6f06c0eDF",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
     blockConfirmation: 1,
@@ -461,7 +461,7 @@ const networks: Network[] = [
     name: polygon.name,
     chainId: polygon.id,
     layerzeroChainId: 109,
-    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755",
+    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
     blockConfirmation: 1,
@@ -476,7 +476,7 @@ const networks: Network[] = [
     name: arbitrum.name,
     chainId: arbitrum.id,
     layerzeroChainId: 110,
-    nftContractAddress: "0x5fCF073e17d44f7E9FdbdCf9b8cA20f7BD36151d",
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
     tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
     relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
     blockConfirmation: 1,
@@ -490,7 +490,7 @@ const networks: Network[] = [
     name: optimism.name,
     chainId: optimism.id,
     layerzeroChainId: 111,
-    nftContractAddress: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+    nftContractAddress: "0x41E07e0b0fe07d4E7617acf0E2F6936CAeb2897D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x81E792e5a9003CC1C8BF5569A00f34b65d75b017",
     blockConfirmation: 1,
@@ -504,7 +504,7 @@ const networks: Network[] = [
     name: fantom.name,
     chainId: fantom.id,
     layerzeroChainId: 112,
-    nftContractAddress: "0xAcb168F30855c5C87D38a91818f8961C4046Da12",
+    nftContractAddress: "0xA544b558E679EF13C8a70b77D5C5a7C4f7B408fA",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x52EEA5c490fB89c7A0084B32FEAB854eefF07c82",
     blockConfirmation: 1,
@@ -527,7 +527,7 @@ const networks: Network[] = [
     name: harmonyOne.name,
     chainId: harmonyOne.id,
     layerzeroChainId: 116,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755",
     tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
     relayerAddress: "0x7cbd185f21bef4d87310d0171ad5f740bc240e26",
     blockConfirmation: 1,
@@ -545,7 +545,7 @@ const networks: Network[] = [
     name: "OKT (OKX)",
     chainId: 66,
     layerzeroChainId: 155,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0x5fCF073e17d44f7E9FdbdCf9b8cA20f7BD36151d",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
     blockConfirmation: 1,
@@ -616,7 +616,7 @@ const networks: Network[] = [
     name: sepolia.name,
     chainId: sepolia.id,
     layerzeroChainId: 161,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+    nftContractAddress: "0xD7a9fC47CADD6A7dDB8dFC7C28CB9F32B3f4CCcD",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x306B9a8953B9462F8b826e6768a93C8EA7454965",
     blockConfirmation: 2,
@@ -1104,11 +1104,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                        : "bg-transparent"
+                        }`}
                     >
                       ONFT Bridge
                     </button>
@@ -1118,11 +1117,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                        : "bg-transparent"
+                        }`}
                     >
                       ONFT HyperBridge
                     </button>
@@ -1132,11 +1130,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       Gas Refuel
                     </button>
@@ -1145,11 +1142,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       OFT Bridge
                     </button>
@@ -1158,11 +1154,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       OFT HyperBridge
                     </button>
@@ -1171,11 +1166,10 @@ export default function Home({
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${selected
+                        ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+                        : "bg-transparent"
+                        }`}
                     >
                       Stargate Bridge
                     </button>
@@ -1267,9 +1261,8 @@ export default function Home({
                       <FontAwesomeIcon icon={faAngleDown} />
                     </svg>
                     <div
-                      className={`w-[150px] mt-4 transition-all overflow-hidden ${
-                        !showInput ? "max-h-[0px]" : "max-h-[200px]"
-                      }`}
+                      className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+                        }`}
                     >
                       <input
                         placeholder="Token ID"
@@ -1287,11 +1280,10 @@ export default function Home({
                   </div>
                 </div>
                 <div
-                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
-                    layerZeroTxHashes.length !== 0
-                      ? "max-h-[1000px]"
-                      : "max-h-0"
-                  }`}
+                  className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0
+                    ? "max-h-[1000px]"
+                    : "max-h-0"
+                    }`}
                 >
                   <h1 className={"text-3xl font-semibold"}>
                     Layer Zero Transactions
@@ -1468,14 +1460,13 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedHyperBridges.some(
-                                  (selectedBridge) =>
-                                    selectedBridge.chainId === network.chainId
-                                )
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              )
+                                ? "grayscale"
+                                : "grayscale-0"
+                                } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -1877,14 +1868,13 @@ export default function Home({
                             <button
                               key={i}
                               onClick={() => handleButtonClick(i, network)}
-                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                                !selectedHyperBridges.some(
-                                  (selectedBridge) =>
-                                    selectedBridge.chainId === network.chainId
-                                )
-                                  ? "grayscale"
-                                  : "grayscale-0"
-                              } p-2 `}
+                              className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                                (selectedBridge) =>
+                                  selectedBridge.chainId === network.chainId
+                              )
+                                ? "grayscale"
+                                : "grayscale-0"
+                                } p-2 `}
                             >
                               <Image
                                 src={`/chains/${network.image}`}
@@ -2000,27 +1990,22 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "bridge-animaton" : ""
-            }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
+              }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                sourceChain.colorClass
-              }  ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${sourceChain.colorClass
+                }  ${isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-              } rounded-full`}
+                } rounded-full`}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${
-                targetChain.colorClass
-              } ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square  ${targetChain.colorClass
+                } ${isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-              } rounded-full`}
+                } rounded-full`}
             ></div>
           </div>
         </div>
