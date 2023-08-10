@@ -158,7 +158,11 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
       const tokenIds = batchMintTxResult.logs
         .map((log, i) =>
-          log.topics.length === 4 ? BigInt(log.topics[3]).toString() : "0"
+          i >= (sourceChain.logIndex || 0) &&
+          i < (sourceChain.logIndex || 0) + selectedHyperBridges.length &&
+          log.topics.length === 4
+            ? BigInt(log.topics[3]).toString()
+            : "0"
         )
         .filter((value) => value !== "0");
 
