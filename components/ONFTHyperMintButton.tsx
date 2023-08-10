@@ -58,6 +58,8 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     functionName: "mintFee",
   });
 
+
+
   const {
     config: mintConfig,
     isSuccess,
@@ -65,8 +67,13 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
-    functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000"),
+    functionName: "batchMint",
+    value: BigInt(((costData) as string) || "500000000000000") *
+    BigInt(
+      (
+        selectedHyperBridges?.length) as unknown as string
+    ),
+    args: [ BigInt(selectedHyperBridges?.length)],
   });
 
   const { writeAsync: mint } = useContractWrite(mintConfig);
@@ -118,9 +125,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      selectedHyperBridges
-        .filter((x: any) => x !== 0)
-        .forEach(async () => {
+
           const result = await mint();
           setMintTxHash(result.hash);
           setLoader(true);
@@ -129,15 +134,15 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           const data = await waitForTransaction({
             hash: result?.hash,
           });
+          console.log("data", data);
 
           const tokenId = BigInt(
             data?.logs[logIndex || 0].topics[3] as string
           ).toString();
 
-          if (tokenId) {
-            await addNftId(tokenId);
-          }
-        });
+          console.log("tokenId", tokenId);
+
+
 
       if (refCode?.length === 12) {
         const postReferenceMint = async () => {
