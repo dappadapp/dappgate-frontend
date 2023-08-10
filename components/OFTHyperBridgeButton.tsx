@@ -84,7 +84,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       ethers.parseEther(tokenAmountHyperBridge.toString()),
       account,
       "0x0000000000000000000000000000000000000000",
-      "0x00010000000000000000000000000000000000000000000000000000000000061a80"
+      "0x00010000000000000000000000000000000000000000000000000000000000055730",
     ],
   });
 
@@ -103,10 +103,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${Number(
-          (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
-          BigInt(1e18)
-        ) / coefficient
+        `${
+          Number(
+            (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
+              BigInt(1e18)
+          ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
 
@@ -210,7 +211,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             ethers.parseEther(tokenAmountHyperBridge.toString()),
             account,
             "0x0000000000000000000000000000000000000000",
-            "0x"
+            "0x",
           ],
         });
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);

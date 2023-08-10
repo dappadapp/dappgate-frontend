@@ -2,7 +2,7 @@ import { Network } from "@/app/page";
 import { ethers } from "ethers";
 import { fetchTransaction } from "@wagmi/core";
 import React, { use, useEffect, useState } from "react";
-import { waitForTransaction } from "@wagmi/core";
+import { waitForTransaction, writeContract } from "@wagmi/core";
 import {
   useAccount,
   useContractRead,
@@ -24,7 +24,7 @@ type Props = {
   setTokenIds: any;
   refCode?: string;
   logIndex?: number;
-  selectedHyperBridges: any;
+  selectedHyperBridges: Network[];
   setHyperBridgeNFTIds: any;
   hyperBridgeNFTIds: any;
   setMintCostData: any;
@@ -52,13 +52,37 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
+  const dstChainIds = selectedHyperBridges.map(
+    (bridge) => bridge.layerzeroChainId
+  );
+
   const { data: costData, refetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "mintFee",
+    chainId: sourceChain.chainId,
   });
 
+  const { data: gasEstimateData } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: ONFTAbi,
+    functionName: "estimateBatchBridgeFee",
+    args: [
+      dstChainIds,
+      "0x0000000000000000000000000000000000000000",
+      Array.from(Array(selectedHyperBridges.length).keys()),
+    ],
+    chainId: sourceChain.chainId,
+  });
 
+  console.log("gasEstimateData", gasEstimateData);
+
+  const { data: bridgeFeeData } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: ONFTAbi,
+    functionName: "bridgeFee",
+    chainId: sourceChain.chainId,
+  });
 
   const {
     config: mintConfig,
@@ -68,12 +92,10 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "batchMint",
-    value: BigInt(((costData) as string) || "500000000000000") *
-    BigInt(
-      (
-        selectedHyperBridges?.length) as unknown as string
-    ),
-    args: [ BigInt(selectedHyperBridges?.length)],
+    value:
+      BigInt((costData as string) || "500000000000000") *
+      BigInt(selectedHyperBridges.length),
+    args: [selectedHyperBridges.length],
   });
 
   const { writeAsync: mint } = useContractWrite(mintConfig);
@@ -126,25 +148,41 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
 
-          const result = await mint();
-          setMintTxHash(result.hash);
-          setLoader(true);
-          toast("Mint transaction sent, waiting confirmation...");
+      const { hash: batchMintTxHash } = await mint();
+      const batchMintTxResult = await waitForTransaction({
+        hash: batchMintTxHash,
+        confirmations: sourceChain.blockConfirmation || 1,
+      });
 
-          const data = await waitForTransaction({
-            hash: result?.hash,
-          });
-          console.log("data", data);
+      const tokenIds = batchMintTxResult.logs
+        .map((log) =>
+          log.topics.length === 4 ? BigInt(log.topics[3]).toString() : "0"
+        )
+        .filter((value) => value !== "0");
 
-          const tokenId = BigInt(
-            data?.logs[logIndex || 0].topics[3] as string
-          ).toString();
+      const { hash: batchBridgeTxHash } = await writeContract({
+        address: sourceChain.nftContractAddress as `0x${string}`,
+        abi: ONFTAbi,
+        functionName: "batchBridge",
+        value: (gasEstimateData as bigint) + (bridgeFeeData as bigint),
+        args: [
+          account,
+          dstChainIds,
+          account,
+          tokenIds,
+          account,
+          "0x0000000000000000000000000000000000000000",
+          "0x00010000000000000000000000000000000000000000000000000000000000055730",
+        ],
+      });
+      const batchBridgeTxResult = await waitForTransaction({
+        hash: batchBridgeTxHash,
+        confirmations: sourceChain.blockConfirmation || 1,
+      });
 
-          console.log("tokenId", tokenId);
+      console.log("txResult", batchBridgeTxResult);
 
-
-
-      if (refCode?.length === 12) {
+      /* if (refCode?.length === 12) {
         const postReferenceMint = async () => {
           await axios.post("/api/referenceMint", {
             id: 0,
@@ -178,7 +216,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           });
         };
         postHashMint();
-      }
+      } */
 
       setLoader(false);
     } catch (error) {

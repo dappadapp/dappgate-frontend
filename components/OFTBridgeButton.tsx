@@ -43,7 +43,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       "0x0000000000000000000000000000000000000000",
       "1000000000000000000",
       false,
-      "0x00010000000000000000000000000000000000000000000000000000000000061a80", // version: 1, value: 400000
+      "0x00010000000000000000000000000000000000000000000000000000000000055730", // version: 1, value: 400000
     ],
     chainId: sourceChain.chainId,
   });
@@ -74,7 +74,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
       account,
       "0x0000000000000000000000000000000000000000",
-      "0x00010000000000000000000000000000000000000000000000000000000000061a80"
+      "0x00010000000000000000000000000000000000000000000000000000000000055730",
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
@@ -84,18 +84,15 @@ const OFTBridgeButton: React.FC<Props> = ({
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${Number(
-          (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
-          BigInt(1e18)
-        ) / coefficient
+        `${
+          Number(
+            (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
+              BigInt(1e18)
+          ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [
-    gasEstimateData,
-    setEstimatedGas,
-    connectedChain?.nativeCurrency.symbol,
-  ]);
+  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
 
   const onBridge = async () => {
     if (!account) {
