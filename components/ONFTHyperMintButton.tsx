@@ -154,8 +154,10 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         confirmations: sourceChain.blockConfirmation || 1,
       });
 
+      console.log("batchMintTxResult", batchMintTxResult);
+
       const tokenIds = batchMintTxResult.logs
-        .map((log) =>
+        .map((log, i) =>
           log.topics.length === 4 ? BigInt(log.topics[3]).toString() : "0"
         )
         .filter((value) => value !== "0");
@@ -236,7 +238,11 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
     >
-      Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")" + " and Bridge"}
+      Mint{" "}
+      {"(" +
+        selectedHyperBridges.filter((x: any) => x !== 0).length +
+        ")" +
+        " and Bridge"}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -99,7 +99,6 @@ export interface Network {
 }
 
 const networks: Network[] = [
-
   {
     name: "Base",
     chainId: 8453,
@@ -107,7 +106,7 @@ const networks: Network[] = [
     nftContractAddress: "0x18c78a0B1fD00084C83E5B4365cdDee1e6cDba84",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#2967FF]",
     image: "base.svg",
     disabledNetworks: [
@@ -124,7 +123,7 @@ const networks: Network[] = [
     nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#1B1B1D]",
     image: "linea.svg",
     disabledNetworks: [
@@ -141,7 +140,7 @@ const networks: Network[] = [
     nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
     logIndex: 3,
@@ -159,7 +158,7 @@ const networks: Network[] = [
     nftContractAddress: "0xF3C948662CCA02529F3708feDaaCd527b7a273DB",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
     disabledNetworks: [5, 420, 122, 8217, 80001],
@@ -173,7 +172,7 @@ const networks: Network[] = [
     nftContractAddress: "0x52bA2A207D2A3DBed14030ca6CAd7E32a270b2C5",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
-    blockConfirmation: 12,
+    blockConfirmation: 5,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
     disabledNetworks: [5, 420, 1116, 80001],
@@ -206,7 +205,7 @@ const networks: Network[] = [
     nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa", // not available in layer zero
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     colorClass: "bg-[#1B1B1D]",
     image: "mantle.svg",
     disabledNetworks: [
@@ -224,7 +223,7 @@ const networks: Network[] = [
     nftContractAddress: "0xc84388999DCc40631904b1CBDC9FA27dc96fB5F4",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
     disabledNetworks: [
@@ -339,7 +338,7 @@ const networks: Network[] = [
     nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
-    blockConfirmation: 21,
+    blockConfirmation: 5,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
     disabledNetworks: [
@@ -373,7 +372,7 @@ const networks: Network[] = [
     nftContractAddress: "0xb922d6C5d3E5Be60C694c6b47E3807d794A2C4D3",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xccCDD23E11F3f47C37fC0a7C3BE505901912C6Cc",
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
     disabledNetworks: [
@@ -390,7 +389,7 @@ const networks: Network[] = [
     nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xe9ae261d3aff7d3fccf38fa2d612dd3897e07b2d",
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
     disabledNetworks: [
@@ -465,7 +464,7 @@ const networks: Network[] = [
     nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
-    blockConfirmation: 512,
+    blockConfirmation: 5,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
@@ -480,7 +479,7 @@ const networks: Network[] = [
     nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
     tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
     relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
     disabledNetworks: [5, 420, 122, 1116, 8217, 80001],
@@ -494,7 +493,7 @@ const networks: Network[] = [
     nftContractAddress: "0x41E07e0b0fe07d4E7617acf0E2F6936CAeb2897D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0x81E792e5a9003CC1C8BF5569A00f34b65d75b017",
-    blockConfirmation: 20,
+    blockConfirmation: 5,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
     disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
@@ -584,7 +583,7 @@ const networks: Network[] = [
     layerzeroChainId: 10109,
     nftContractAddress: "0xbB89Bb8aFB9EE4E9229A1AE7F11f196BA13514C9",
     tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     logIndex: 2,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
@@ -602,7 +601,7 @@ const networks: Network[] = [
     nftContractAddress: "0xE1b942049E7B744128FE9808D9d43FC2BB1376FD",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "",
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     colorClass: "bg-[#E5D1B8]",
     image: "scroll.svg",
     disabledNetworks: [
@@ -620,7 +619,7 @@ const networks: Network[] = [
     nftContractAddress: "0xD7a9fC47CADD6A7dDB8dFC7C28CB9F32B3f4CCcD",
     tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
     relayerAddress: "0x306B9a8953B9462F8b826e6768a93C8EA7454965",
-    blockConfirmation: 10,
+    blockConfirmation: 5,
     colorClass: "bg-[#777777]",
     image: "ethereum.svg",
     disabledNetworks: [
@@ -666,7 +665,7 @@ export default function Home({
   const [showInput, setShowInput] = useState(false);
   const [refCode, setRefCode] = useState<string>("");
   const [inputTokenId, setInputTokenId] = useState("");
-  const [inputOFTAmount, setInputOFTAmount] = useState("0");
+  const [inputOFTAmount, setInputOFTAmount] = useState("");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
@@ -957,11 +956,16 @@ export default function Home({
     }
   };
   const handleMax = () => {
-    console.log("cliecked")
+    console.log("cliecked");
 
     if ((gasRefuelMaxData as any)[0]) {
-      console.log("handleMax",`${ethers.formatEther(((gasRefuelMaxData as any)[0]).toString())}`);
-      setGasRefuelAmount(`${ethers.formatEther(((gasRefuelMaxData as any)[0]).toString())}`);
+      console.log(
+        "handleMax",
+        `${ethers.formatEther((gasRefuelMaxData as any)[0].toString())}`
+      );
+      setGasRefuelAmount(
+        `${ethers.formatEther((gasRefuelMaxData as any)[0].toString())}`
+      );
     }
   };
 
@@ -1737,14 +1741,6 @@ export default function Home({
                     placeholder="e.g. 1000"
                     value={inputOFTAmount}
                     onChange={(e) => {
-                      if (
-                        e.target.value.length === 0 ||
-                        e.target.value.includes(".")
-                      ) {
-                        console.log(e.target.value);
-                        setInputOFTAmount("0");
-                        return;
-                      }
                       setInputOFTAmount(e.target.value);
                     }}
                   />
@@ -1775,13 +1771,6 @@ export default function Home({
                     placeholder="Amount To Bridge"
                     value={dlgateBridgeAmount}
                     onChange={(e) => {
-                      if (
-                        e.target.value.length === 0 ||
-                        e.target.value.includes(".")
-                      ) {
-                        setDlgateBridgeAmount("0");
-                        return;
-                      }
                       setDlgateBridgeAmount(e.target.value);
                     }}
                   />
