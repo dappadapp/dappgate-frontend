@@ -150,7 +150,7 @@ const networks: Network[] = [
       1101,
     ],
     symbol: "ETH",
-    chainName: undefined,
+    chainName: "zksync-mainnet",
   },
   {
     name: bsc.name,
