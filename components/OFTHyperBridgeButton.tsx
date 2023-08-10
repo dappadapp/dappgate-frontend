@@ -50,8 +50,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     functionName: "estimateSendFee",
     args: [
       `${targetChain.layerzeroChainId}`,
-      "0x0000000000000000000000000000000000000000",
-      selectedHyperBridges.length * 1e18,
+      account,
+      selectedHyperBridges.length,
       false,
       "0x", // version: 1, value: 400000
     ],
@@ -181,6 +181,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     try {
       setLoading(true);
 
+      console.log("selectedHyperBridges", selectedHyperBridges);
+
       selectedHyperBridges?.map(async (network: Network) => {
         setLzTargetChainId(network?.layerzeroChainId);
         console.log("lzTargetChainId", lzTargetChainId);
@@ -214,7 +216,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             BigInt("10000000000000"),
           args: [
             account,
-            targetChain.layerzeroChainId,
+            network?.layerzeroChainId,
             account,
             ethers.parseEther(tokenAmountHyperBridge.toString()),
             account,
