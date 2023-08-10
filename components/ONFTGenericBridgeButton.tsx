@@ -41,6 +41,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
+  console.log("targetChain.layerzeroChainId", targetChain.layerzeroChainId);
+
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
@@ -78,11 +80,11 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       account,
       targetChain.layerzeroChainId,
       account,
-      tokenId,
+      tokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
       account,
       "0x0000000000000000000000000000000000000000",
       "0x00010000000000000000000000000000000000000000000000000000000000055730",
-    ],
+    ]
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
