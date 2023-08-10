@@ -112,6 +112,7 @@ const BridgeButton: React.FC<Props> = ({
     connectedChain?.nativeCurrency.symbol,
     mintTxHash,
     inputTokenId,
+    sourceChain,
   ]);
 
   const onBridge = async () => {

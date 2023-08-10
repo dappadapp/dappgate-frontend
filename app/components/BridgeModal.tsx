@@ -69,6 +69,8 @@ function BridgeModal({
       { headers }
     );
 
+    console.log(nfts);
+
     setNftOwned(
       nfts.data.data.items?.filter(
         (nft: any) =>

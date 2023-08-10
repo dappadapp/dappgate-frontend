@@ -51,12 +51,14 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     args: [
       `${targetChain.layerzeroChainId}`,
       "0x0000000000000000000000000000000000000000",
-      "1000000000000000000",
+      selectedHyperBridges.length * 1e18,
       false,
       "0x", // version: 1, value: 400000
     ],
     chainId: sourceChain.chainId,
   });
+
+  console.log("gasEstimateData", gasEstimateData);
 
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -123,7 +125,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         )
       );
     }
-  }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges, account]);
+  }, [gasEstimateData, tokenAmountHyperBridge, selectedHyperBridges, account,sourceChain]);
 
   const onBridge = async () => {
     if (connectedChain?.id !== sourceChain.chainId) {

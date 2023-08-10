@@ -104,7 +104,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
+  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol,sourceChain]);
 
   const onBridge = async () => {
     if (!account) {

@@ -41,6 +41,8 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "mintFee",
   });
 
+  console.log("costData", costData);
+
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,

@@ -236,7 +236,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
     >
-      Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")"}
+      Mint {"(" + selectedHyperBridges.filter((x: any) => x !== 0).length + ")" + " and Bridge"}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -119,6 +119,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     estimatedGas,
     selectedHyperBridges,
     hyperBridgeNFTIds,
+    sourceChain
   ]);
 
   const onBridge = async () => {
