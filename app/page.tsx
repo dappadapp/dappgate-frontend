@@ -116,23 +116,7 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: "base-mainnet",
   },
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
-    tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
-    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
-    blockConfirmation: 5,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
-    ],
-    symbol: "ETH",
-    chainName: undefined, // TODO: CHANGE TO linea-mainnet
-  },
+
   {
     name: zkSync.name,
     chainId: zkSync.id,
@@ -151,6 +135,24 @@ const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
+    tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
+    blockConfirmation: 5,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: undefined, // TODO: CHANGE TO linea-mainnet
+  },
+
   {
     name: bsc.name,
     chainId: bsc.id,
@@ -1110,6 +1112,21 @@ export default function Home({
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
               <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
           
+        
+                <Tab as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
+                        selected
+                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
+                          : "bg-transparent"
+                      }`}
+                    >
+                      ONFT Bridge
+                    </button>
+                  )}
+                </Tab>
+
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
@@ -1124,19 +1141,6 @@ export default function Home({
                   )}
                 </Tab>
 
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
-                    >
-                      ONFT Bridge
-                    </button>
-                  )}
-                </Tab>
 
 
                 <Tab as={Fragment}>
@@ -1194,7 +1198,7 @@ export default function Home({
               </Tab.List>
             </Tab.Group>
 
-            {tabIndex == 1 ? (
+            {tabIndex == 0 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
@@ -1400,7 +1404,7 @@ export default function Home({
                   </svg>
                 </a>
               </div>
-            ) : tabIndex == 0 ? (
+            ) : tabIndex == 1 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
