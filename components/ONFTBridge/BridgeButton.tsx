@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import type { Network } from "@/utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,39 +9,29 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
-import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
-import ONFTAbi from "../config/abi/ONFT.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
 
 type Props = {
   sourceChain: Network;
   targetChain: Network;
-  tokenIds: any;
-  setInputTokenId: any;
-  setTokenIds: any;
+  inputTokenId: string;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
-  setNftOwned: any;
-  tokenId: any;
 };
 
-const ONFTGenericBridgeButton: React.FC<Props> = ({
+const BridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
-  tokenIds,
-  setInputTokenId,
-  setTokenIds,
+  inputTokenId,
   setLayerZeroTxHashes,
   setEstimatedGas,
-  setNftOwned,
-  tokenId,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-
-  console.log("targetChain.layerzeroChainId", targetChain.layerzeroChainId);
+  const [mintTxHash, setMintTxHash] = useState("");
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -80,11 +70,11 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       account,
       targetChain.layerzeroChainId,
       account,
-      tokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
+      inputTokenId,
       account,
       "0x0000000000000000000000000000000000000000",
       "0x00010000000000000000000000000000000000000000000000000000000000055730",
-    ]
+    ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
@@ -93,7 +83,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
+        `${(
           Number(
             ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
               BigInt(1e18)
@@ -103,16 +93,23 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
             ((bridgeFeeData as bigint) * BigInt(coefficient)) / BigInt(1e18)
           ) /
             coefficient
-        } ${connectedChain?.nativeCurrency.symbol}`
+        ).toFixed(Math.log10(coefficient))} ${
+          connectedChain?.nativeCurrency.symbol
+        }`
       );
     }
-  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol,sourceChain]);
+  }, [
+    gasEstimateData,
+    bridgeFeeData,
+    setEstimatedGas,
+    connectedChain?.nativeCurrency.symbol,
+    mintTxHash,
+  ]);
 
   const onBridge = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
     }
-
     if (!sendFrom) {
       console.log("error", error?.message);
       if (
@@ -139,34 +136,14 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     if (!isSuccess) {
       return toast("An unknown error occured.");
     }
-    if (tokenIds.length === 0) return toast("No tokenIds");
     try {
       setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const { hash: txHash } = await sendFrom();
-      const data = await waitForTransaction({
-        hash: txHash,
-      });
+      setMintTxHash(txHash);
       setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
-      setTokenIds((prev: any) => {
-        const newArray = prev?.[sourceChain.chainId]?.[account as string]
-          ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
-          : [];
-        const tokenIdData = {
-          ...prev,
-          [sourceChain.chainId]: {
-            ...prev?.[sourceChain.chainId],
-            [account as string]: newArray,
-          },
-        };
-        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-        return tokenIdData;
-      });
-      setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
 
       // post bridge history
       const postBridgeHistory = async () => {
@@ -174,17 +151,13 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
           tx: txHash,
           srcChain: sourceChain.chainId,
           dstChain: targetChain.chainId,
-          tokenId: tokenId,
+          tokenId: inputTokenId,
           walletAddress: account,
           ref: "",
           type: "onft",
         });
       };
       postBridgeHistory();
-
-      setNftOwned((prev: any) =>
-        prev.filter((nft: any) => nft.token_id !== tokenId)
-      );
 
       toast("Bridge transaction sent!");
     } catch (error) {
@@ -197,9 +170,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!tokenId || loading}
+      disabled={!inputTokenId || loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed mt-1"
+        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
       Bridge
@@ -223,4 +196,4 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   );
 };
 
-export default ONFTGenericBridgeButton;
+export default BridgeButton;

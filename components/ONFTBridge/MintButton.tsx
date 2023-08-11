@@ -1,6 +1,5 @@
-import { Network } from "@/app/page";
-import { ethers } from "ethers";
-import React, { use, useEffect, useState } from "react";
+import type { Network } from "@/utils/networks";
+import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -10,24 +9,22 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import OFTBridge from "../config/abi/OFTBridge.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 type Props = {
   sourceChain: Network;
+  targetChain: Network;
   refCode?: string;
-  tokenAmountHyperBridge: number;
-  selectedHyperBridges: any;
-  setMintCostData: any;
+  logIndex?: number;
 };
 
-const OFTHyperClaimButton: React.FC<Props> = ({
+const MintButton: React.FC<Props> = ({
   sourceChain,
+  targetChain,
   refCode,
-  tokenAmountHyperBridge,
-  selectedHyperBridges,
-  setMintCostData,
+  logIndex,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,28 +34,16 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { data: costData } = useContractRead({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: ONFTAbi,
     functionName: "mintFee",
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    abi: ONFTAbi,
     functionName: "mint",
-    value:
-      BigInt((costData as string) || "500000000000000") *
-      BigInt(
-        (tokenAmountHyperBridge *
-          selectedHyperBridges?.length) as unknown as string
-      ),
-    args: [
-      account,
-      Number(
-        (tokenAmountHyperBridge *
-          selectedHyperBridges?.length) as unknown as string
-      ).toString(),
-    ],
+    value: BigInt((costData as string) || "500000000000000"),
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -66,58 +51,60 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     hash: mintTxHash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
-  useEffect(() => {
-    if (!costData) return;
-
-    setMintCostData(
-      BigInt((costData as string) || "500000000000000") *
-      BigInt(
-        (tokenAmountHyperBridge *
-          selectedHyperBridges?.length) as unknown as string
-      )
-    );
-  }, [tokenAmountHyperBridge, selectedHyperBridges, costData]);
 
   useEffect(() => {
     if (!mintTxResultData) return;
+    const tokenId = BigInt(
+      mintTxResultData.logs[logIndex || 0].topics[3] as string
+    ).toString();
 
     const postMint = async () => {
       await axios.post("/api/mint", {
-        tokenId: tokenAmountHyperBridge,
+        tokenId,
       });
     };
     postMint();
-
+    const postMintHistory = async () => {
+      await axios.post("/api/history", {
+        tx: mintTxHash,
+        srcChain: sourceChain.chainId,
+        dstChain: targetChain.chainId,
+        tokenId: tokenId,
+        walletAddress: account,
+        ref: "",
+        type: "mint",
+      });
+    };
+    postMintHistory();
     if (refCode?.length === 12) {
       const postReferenceMint = async () => {
-        const result = await axios.post("/api/referenceMintOFT", {
-          id: tokenAmountHyperBridge,
+        await axios.post("/api/referenceMint", {
+          id: tokenId,
           walletAddress: account,
           chainId: sourceChain.chainId,
           ref: refCode,
           tx_id: mintTxHash,
-          amount: tokenAmountHyperBridge,
         });
       };
       postReferenceMint();
-    }
 
-    if (mintTxHash && sourceChain) {
-      const postHashMint = async () => {
-        await axios.post("/api/hash", {
-          type: "mint",
-          hash: mintTxHash,
-          ref: refCode,
-          chainId: sourceChain?.chainId,
-        });
-      };
-      postHashMint();
+      if (mintTxHash && sourceChain) {
+        const postHashMint = async () => {
+          await axios.post("/api/hash", {
+            type: "mint",
+            hash: mintTxHash,
+            ref: refCode,
+            chainId: sourceChain?.chainId,
+          });
+        };
+        postHashMint();
+      }
     }
 
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
-    toast(`Tokens minted!`);
+    toast(`NFT minted with the id of ${tokenId}!`);
   }, [mintTxResultData]);
 
   const getOwnRef = (paramsRefCode: string) => {
@@ -130,19 +117,12 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     if (!account) {
       return toast("Please connect your wallet first.");
     }
-
-    if (!selectedHyperBridges.length) {
-      return alert("You didn't choose any destination chains.");
-    }
     if (!mint)
       return toast(
         "Make sure you have enough ETH and you're on the correct network."
       );
     if (!isSuccess) {
       return toast("An unknown error occured. Please try again.");
-    }
-    if (!tokenAmountHyperBridge) {
-      return toast("Please enter a valid amount.");
     }
     try {
       setLoading(true);
@@ -162,12 +142,12 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={!tokenAmountHyperBridge || loading}
+      disabled={loading}
       className={
-        "rounded-lg bg-blue-600 py-3 px-4 text-left text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
+        "flex items-center gap-1 bg-white/10 border-white border-[1px] rounded-lg px-16 py-2"
       }
     >
-      OFT Claim {tokenAmountHyperBridge}
+      Mint
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -188,4 +168,4 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   );
 };
 
-export default OFTHyperClaimButton;
+export default MintButton;

@@ -1,8 +1,6 @@
-import { Network } from "@/app/page";
-import { ethers } from "ethers";
-import { fetchTransaction } from "@wagmi/core";
-import React, { use, useEffect, useState } from "react";
-import { waitForTransaction, writeContract } from "@wagmi/core";
+import type { Network } from "@/utils/networks";
+import React, { useEffect, useState } from "react";
+import { waitForTransaction } from "@wagmi/core";
 import {
   useAccount,
   useContractRead,
@@ -10,9 +8,8 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useSwitchNetwork,
-  useWaitForTransaction,
 } from "wagmi";
-import ONFTAbi from "../config/abi/ONFT.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -21,7 +18,6 @@ type Props = {
   refCode?: string;
   selectedHyperBridges: Network[];
   setMintCostData: any;
-  setLoader: any;
   refetchUserONFTBalance: any;
 };
 
@@ -30,7 +26,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   refCode,
   selectedHyperBridges,
   setMintCostData,
-  setLoader,
   refetchUserONFTBalance,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
@@ -59,16 +54,15 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const updateMintCostData = async () => {
-    if (costData) {
-      setMintCostData(Number(costData) * selectedHyperBridges?.length);
-    }
-  };
-
   useEffect(() => {
     refetch();
+    const updateMintCostData = async () => {
+      if (costData) {
+        setMintCostData(Number(costData) * selectedHyperBridges?.length);
+      }
+    };
     updateMintCostData();
-  }, [selectedHyperBridges, sourceChain, costData, refetch]);
+  }, [selectedHyperBridges, costData, refetch, setMintCostData]);
   const onMint = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
@@ -93,8 +87,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       const batchMintTxResult = await waitForTransaction({
         hash: batchMintTxHash,
       });
-
-      console.log("batchMintTxResult", batchMintTxResult);
 
       const tokenIds = batchMintTxResult.logs
         .map((log, i) =>
@@ -146,14 +138,11 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         postHashMint();
       }
 
-      setLoader(false);
       refetchUserONFTBalance();
     } catch (error) {
       console.log(error);
-      setLoader(false);
     } finally {
       setLoading(false);
-      setLoader(false);
     }
   };
 

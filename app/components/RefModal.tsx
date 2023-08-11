@@ -5,48 +5,18 @@ import { QRCodeSVG } from "qrcode.react";
 import copySvg from "@/assets/images/copy-regular.svg";
 import Image from "next/image";
 
-import { useSession, signIn, signOut } from "next-auth/react";
 type Props = {
   onCloseModal: () => void;
   refCode?: string;
 };
 
 function RefModal({ onCloseModal, refCode }: Props) {
-  const { address: walletAddress } = useAccount();
+  const { address: account } = useAccount();
   const [totalRef, setTotalRef] = useState(0);
   const [rate, setRate] = useState(0);
   const [refLink, setRefLink] = useState("");
   const [showQRCode, setShowQRCode] = useState(false);
   const [isCopied, setIsCopied] = useState<"link" | "button" | null>();
-
-  useEffect(() => {
-    fetchTotalNORefs();
-  }, [walletAddress, refCode]);
-
-  useEffect(() => {
-    if (!isCopied) return;
-    setTimeout(() => setIsCopied(null), 1000);
-  }, [isCopied]);
-
-  const fetchTotalNORefs = async () => {
-    const { data } = await axios.post("/api/reference", {
-      walletAddress,
-    });
-    console.log("REFERE", data);
-
-    setTotalRef(+(data.mints as number).toFixed(2));
-    setRate(data.rate);
-    setRefLink(`https://dappgate.app/?ref=${data.ref}`);
-
-    // if (username && session) {
-    //   setRefLink(`https://dappgate.app/?ref=${username}`);
-    // } else {
-    // }
-  };
-
-  const handleSignIn = async () => {
-    await signIn("twitter", { callbackUrl: "https://dappgate.app/" });
-  };
 
   const twitterShare = () => {
     // twitter intent
@@ -58,11 +28,23 @@ function RefModal({ onCloseModal, refCode }: Props) {
     setShowQRCode(!showQRCode);
   };
 
-  const authHandler = (err: any, data: any) => {
-    console.log(err, data);
-  };
+  useEffect(() => {
+    const fetchTotalNORefs = async () => {
+      const { data } = await axios.post("/api/reference", {
+        walletAddress: account,
+      });
 
-  const { data: session, status } = useSession();
+      setTotalRef(+(data.mints as number).toFixed(2));
+      setRate(data.rate);
+      setRefLink(`https://dappgate.app/?ref=${data.ref}`);
+    };
+    fetchTotalNORefs();
+  }, [account]);
+
+  useEffect(() => {
+    if (!isCopied) return;
+    setTimeout(() => setIsCopied(null), 1000);
+  }, [isCopied]);
 
   return (
     <div
@@ -70,7 +52,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
         "z-[999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0"
       }
     >
-      {walletAddress ? (
+      {account ? (
         <div
           className={
             "p-16 max-w-[90vw] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"

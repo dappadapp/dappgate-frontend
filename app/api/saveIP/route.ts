@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
   if (!ip && forwardedFor) {
     ip = forwardedFor.split(",").at(0) ?? "Unknown";
   }
-  console.log("ipadddres", ip);
   const refDataResponse = await axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/saveip?wallet=${data.wallet}&ip=${ip}`
   );

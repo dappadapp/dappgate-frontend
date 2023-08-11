@@ -1,4 +1,4 @@
-import { Network } from "@/app/page";
+import type { Network } from "@/utils/networks";
 import axios from "axios";
 import { ethers } from "ethers";
 import React, { use, useEffect, useState } from "react";
@@ -11,8 +11,8 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import { toast } from "react-toastify";
-import ONFTAbi from "../config/abi/ONFT.json";
-import OFTBridge from "../config/abi/OFTBridge.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
+import OFTBridge from "../../config/abi/OFTBridge.json";
 
 type Props = {
   sourceChain: Network;
@@ -67,32 +67,30 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (gasEstimateDataArray) {
-
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
         [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
 
-
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${Number(
-          (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
-          BigInt(1e18)
-        ) / coefficient
+        `${
+          Number(
+            (BigInt(gasEstimateDataArray[0] as bigint) * BigInt(coefficient)) /
+              BigInt(1e18)
+          ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
   }, [
     gasEstimateDataArray,
+    account,
     setEstimatedGas,
     connectedChain?.nativeCurrency.symbol,
-    sourceChain,
     gasRefuelAmount,
   ]);
-
 
   const onBridge = async () => {
     if (Number(balanceOfData?.formatted) === 0)

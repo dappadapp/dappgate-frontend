@@ -16,12 +16,8 @@ type Transaction = {
 };
 
 function HistoryModal({ onCloseModal }: Props) {
-  const { address: walletAddress } = useAccount();
+  const { address: account } = useAccount();
   const [transactions, setTransactions] = useState([] as Transaction[]);
-
-  useEffect(() => {
-    fetchTransactionHistory();
-  }, [walletAddress]);
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -31,14 +27,20 @@ function HistoryModal({ onCloseModal }: Props) {
     return shortenedHash;
   };
 
-  const fetchTransactionHistory = async () => {
-    const { data }: { data: Transaction[] } = await axios.post("/api/bridge/", {
-      walletAddress,
-    });
-    //Sort TX by Date
-    data.sort((a, b) => b.timestamp - a.timestamp);
-    setTransactions(data);
-  };
+  useEffect(() => {
+    const fetchTransactionHistory = async () => {
+      const { data }: { data: Transaction[] } = await axios.post(
+        "/api/bridge/",
+        {
+          walletAddress: account,
+        }
+      );
+      //Sort TX by Date
+      data.sort((a, b) => b.timestamp - a.timestamp);
+      setTransactions(data);
+    };
+    fetchTransactionHistory();
+  }, [account]);
 
   return (
     <div

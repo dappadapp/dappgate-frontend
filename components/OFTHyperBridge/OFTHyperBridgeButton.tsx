@@ -1,40 +1,33 @@
-import { Network } from "@/app/page";
+import type { Network } from "@/utils/networks";
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
-  useContractWrite,
   useNetwork,
-  usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
 import { writeContract, readContract } from "@wagmi/core";
 import { toast } from "react-toastify";
-import ONFTAbi from "../config/abi/ONFT.json";
-import OFTBridge from "../config/abi/OFTBridge.json";
+import OFTBridge from "../../config/abi/OFTBridge.json";
 import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
   tokenAmountHyperBridge: number;
   selectedHyperBridges: any;
   setBridgeCostData: any;
-  estimatedGas: any;
 };
 
 const OFTHyperBridgeButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
   setLayerZeroTxHashes,
   setEstimatedGas,
   tokenAmountHyperBridge,
   selectedHyperBridges,
   setBridgeCostData,
-  estimatedGas,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -58,25 +51,12 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-  console.log("gasEstimateData", gasEstimateData);
-
-  const { data: bridgeFeeData } = useContractRead({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
-    functionName: "bridgeFee",
-    chainId: sourceChain.chainId,
-  });
-
-
-
   useEffect(() => {
     refetch();
     setLzTargetChainId(
       selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
     );
-  }, [account, selectedHyperBridges,sourceChain, targetChain, tokenAmountHyperBridge]);
-
-
+  }, [selectedHyperBridges, refetch]);
 
   useEffect(() => {
     if (gasEstimateData) {
@@ -105,10 +85,9 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     }
   }, [
     gasEstimateData,
-    tokenAmountHyperBridge,
-    selectedHyperBridges,
-    account,
-    sourceChain,
+    connectedChain?.nativeCurrency.symbol,
+    setBridgeCostData,
+    setEstimatedGas,
   ]);
 
   const onBridge = async () => {
@@ -124,15 +103,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       return toast("You didn't choose any destination chains.");
     }
 
- 
     try {
       setLoading(true);
 
-      console.log("selectedHyperBridges", selectedHyperBridges);
-
       selectedHyperBridges?.map(async (network: Network) => {
         setLzTargetChainId(network?.layerzeroChainId);
-        console.log("lzTargetChainId", lzTargetChainId);
 
         const gasEstimateArray: any = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -146,7 +121,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             "0x",
           ],
         });
-        console.log("gasEstimateArray2" , gasEstimateArray);
 
         const bridgeFeeData_ = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -171,12 +145,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             "0x0000000000000000000000000000000000000000",
             "",
           ],
- 
         });
 
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
-        if(!txHash){
+        if (!txHash) {
           toast("An unknown error occured.");
         }
 

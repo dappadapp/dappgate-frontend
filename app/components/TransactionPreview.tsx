@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Listbox, Transition } from "@headlessui/react";
 import { ethers } from "ethers";
-import { Network } from "../page";
+import { Network } from "@/utils/networks";
 
 type Props = {
   selectedHyperBridges: any;
   tokenAmountHyperBridge: number;
   mintCostData: any;
   sourceChain: Network;
-  bridgeCostData: any;
+  bridgeCostData?: any;
   symbol: string;
 };
 
@@ -23,10 +23,7 @@ const TransactionPreview = ({
   bridgeCostData,
   symbol,
 }: Props) => {
-
-  console.log("mintCostData", bridgeCostData)
   return (
-
     <>
       <div className="flex justify-center mt-5  mb-4">
         <div className="border rounded-md shadow-md p-4 px-8 py-8">
@@ -51,27 +48,25 @@ const TransactionPreview = ({
                 <td className="font-bold pr-4">Mint Estimated Cost:</td>
                 <td>
                   {ethers.formatEther(
-                    (BigInt(mintCostData)  as unknown as string)
+                    BigInt(mintCostData) as unknown as string
                   )}{" "}
-                  {sourceChain?.symbol}{" "} + Gas
+                  {sourceChain?.symbol} + Gas
                 </td>
               </tr>
               {symbol !== "NFT" && (
                 <tr>
                   <td className="font-bold pr-4">Bridge Estimated Cost:</td>
                   <td>
-                    {
-                      tokenAmountHyperBridge === 0 ? 0 :
-                      (Number(bridgeCostData) *
-                        Number(
-                          selectedHyperBridges?.length
-                        ))?.toFixed(5) as unknown as string
-                    }{" "}
-                    {sourceChain?.symbol}{" "} + Gas
+                    {tokenAmountHyperBridge === 0
+                      ? 0
+                      : ((
+                          Number(bridgeCostData || 0) *
+                          Number(selectedHyperBridges?.length)
+                        )?.toFixed(5) as unknown as string)}{" "}
+                    {sourceChain?.symbol} + Gas
                   </td>
                 </tr>
               )}{" "}
-             
             </tbody>
           </table>
         </div>

@@ -1,6 +1,5 @@
-import { Network } from "@/app/page";
-import { ethers } from "ethers";
-import React, { use, useEffect, useState } from "react";
+import type { Network } from "@/utils/networks";
+import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -10,25 +9,24 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import ONFTAbi from "../config/abi/ONFT.json";
-import OFTBridge from "../config/abi/OFTBridge.json";
+import OFTBridge from "../../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 type Props = {
   sourceChain: Network;
   refCode?: string;
-  inputOFTAmount: string;
-  refetchDlgateBalance: any;
-  setPendingTxs: any;
+  tokenAmountHyperBridge: number;
+  selectedHyperBridges: any;
+  setMintCostData: any;
 };
 
-const OFTClaimButton: React.FC<Props> = ({
+const OFTHyperClaimButton: React.FC<Props> = ({
   sourceChain,
   refCode,
-  inputOFTAmount,
-  refetchDlgateBalance,
-  setPendingTxs,
+  tokenAmountHyperBridge,
+  selectedHyperBridges,
+  setMintCostData,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,78 +41,83 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "mintFee",
   });
 
-  console.log("inputOFTAmount", inputOFTAmount);
-
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mint",
     value:
       BigInt((costData as string) || "500000000000000") *
-      BigInt(inputOFTAmount),
-    args: [account, inputOFTAmount],
+      BigInt(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      ),
+    args: [
+      account,
+      Number(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      ).toString(),
+    ],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const { data: mintTxResultData, status: txStatus } = useWaitForTransaction({
+  const { data: mintTxResultData } = useWaitForTransaction({
     hash: mintTxHash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
+  useEffect(() => {
+    if (!costData) return;
 
-
-  const addTx = async (txHash: string) => {
-    setPendingTxs((pendingTxs: any) => [
-      ...pendingTxs,
-      txHash,
-    ]);
-  };
+    setMintCostData(
+      BigInt((costData as string) || "500000000000000") *
+        BigInt(
+          (tokenAmountHyperBridge *
+            selectedHyperBridges?.length) as unknown as string
+        )
+    );
+  }, [tokenAmountHyperBridge, selectedHyperBridges, costData, setMintCostData]);
 
   useEffect(() => {
     if (!mintTxResultData) return;
 
-
     const postMint = async () => {
       await axios.post("/api/mint", {
-        tokenId: inputOFTAmount,
+        tokenId: tokenAmountHyperBridge,
       });
     };
     postMint();
 
-    if (String(refCode)?.length === 12) {
+    if (refCode?.length === 12) {
       const postReferenceMint = async () => {
         const result = await axios.post("/api/referenceMintOFT", {
-          id: inputOFTAmount,
+          id: tokenAmountHyperBridge,
           walletAddress: account,
           chainId: sourceChain.chainId,
           ref: refCode,
           tx_id: mintTxHash,
-          amount: inputOFTAmount,
+          amount: tokenAmountHyperBridge,
         });
       };
       postReferenceMint();
-
-      if (mintTxHash && sourceChain) {
-        const postHashMint = async () => {
-          await axios.post("/api/hash", {
-            type: "mint",
-            hash: mintTxHash,
-            ref: refCode,
-            chainId: sourceChain?.chainId,
-          });
-        };
-        postHashMint();
-      }
     }
 
-    refetchDlgateBalance();
+    if (mintTxHash && sourceChain) {
+      const postHashMint = async () => {
+        await axios.post("/api/hash", {
+          type: "mint",
+          hash: mintTxHash,
+          ref: refCode,
+          chainId: sourceChain?.chainId,
+        });
+      };
+      postHashMint();
+    }
 
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
     toast(`Tokens minted!`);
   }, [mintTxResultData]);
-
-
 
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
@@ -126,6 +129,10 @@ const OFTClaimButton: React.FC<Props> = ({
     if (!account) {
       return toast("Please connect your wallet first.");
     }
+
+    if (!selectedHyperBridges.length) {
+      return alert("You didn't choose any destination chains.");
+    }
     if (!mint)
       return toast(
         "Make sure you have enough ETH and you're on the correct network."
@@ -133,7 +140,7 @@ const OFTClaimButton: React.FC<Props> = ({
     if (!isSuccess) {
       return toast("An unknown error occured. Please try again.");
     }
-    if (!inputOFTAmount) {
+    if (!tokenAmountHyperBridge) {
       return toast("Please enter a valid amount.");
     }
     try {
@@ -143,7 +150,6 @@ const OFTClaimButton: React.FC<Props> = ({
       }
       const result = await mint();
       setMintTxHash(result.hash);
-      addTx(result.hash);
       toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);
@@ -155,12 +161,12 @@ const OFTClaimButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={!inputOFTAmount || loading}
+      disabled={!tokenAmountHyperBridge || loading}
       className={
-        "rounded-lg bg-blue-600 py-3 px-4 text-left text-sm text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
+        "rounded-lg bg-blue-600 py-3 px-4 text-left text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
       }
     >
-      OFT Claim
+      OFT Claim {tokenAmountHyperBridge}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -181,4 +187,4 @@ const OFTClaimButton: React.FC<Props> = ({
   );
 };
 
-export default OFTClaimButton;
+export default OFTHyperClaimButton;

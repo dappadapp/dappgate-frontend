@@ -1,20 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
-import MintButton from "@/components/MintButton";
 import ONFTAbi from "../../config/abi/ONFT.json";
-import ONFTHyperBridgeButton from "@/components/ONFTHyperBridgeButton";
-import ONFTGenericBridgeButton from "@/components/ONFTGenericBridgeButton";
+import ONFTGenericBridgeButton from "./ONFTGenericBridgeButton";
 import Image from "next/image";
 type Props = {
   onCloseModal: any;
   sourceChain: any;
   targetChain: any;
-  setInputTokenId: any;
-  setTokenIds: any;
-  refCode: any;
-  logIndex: any;
-  tokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
 };
@@ -35,27 +28,17 @@ function BridgeModal({
   onCloseModal,
   sourceChain,
   targetChain,
-  setInputTokenId,
-  setTokenIds,
-  refCode,
-  logIndex,
-  tokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
 }: Props) {
   const { address: walletAddress } = useAccount();
 
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [nftOwned, setNftOwned] = useState<any[]>([]);
   const [nftOwnedZk, setNftOwnedZk] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const {
-    data: nftBalance,
-    isError,
-    isLoading,
-  } = useContractRead({
+  const { data: nftBalance } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     chainId: sourceChain.chainId,
     abi: ONFTAbi,
@@ -71,61 +54,53 @@ function BridgeModal({
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
-  const getNftOwned = async () => {
-    setLoading(true);
-
-    if(sourceChain.chainId === 324){
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          "X-API-KEY":
-            "dappad_sk_5269e413-6c72-4574-b094-b4d91cf49814_i82azynmunuauzzb",
-        },
-      };
-      setLoading(true);
-      const nftsResponse: DataResponse = await axios.get(
-        `https://api.simplehash.com/api/v0/nfts/contracts?chains=zksync-era&wallet_addresses=${walletAddress}&contract_addresses=${sourceChain.nftContractAddress}`,
-        options
-      );
-
-      console.log("nftsResponse?.data.wallets?.[0].contracts?.[0].token_ids",nftsResponse);
-  
-      if (nftsResponse?.data?.wallets?.[0]?.contracts.length > 0) {
-        setNftOwnedZk(nftsResponse?.data.wallets?.[0].contracts?.[0].token_ids);
-        setLoading(false);
-      }
-    }
-    else{
-      const headers = {
-        Authorization: "Bearer cqt_rQDKB3dQYtbpHVh77JxQHjXt4Tcw",
-      };
-      const nfts = await axios.get(
-        `https://api.covalenthq.com/v1/${sourceChain.chainName}/address/${walletAddress}/balances_nft/?with-uncached=true`,
-        { headers }
-      );
-  
-     
-  
-      setNftOwned(
-        nfts.data.data.items?.filter(
-          (nft: any) =>
-            nft.contract_address.toLowerCase() ===
-            sourceChain.nftContractAddress.toLowerCase()
-        )[0]?.nft_data
-
- 
-      );
-      setLoading(false);
-    }
-   
-
-  
-
-  };
-
   useEffect(() => {
     setLoading(true);
+
+    const getNftOwned = async () => {
+      setLoading(true);
+
+      if (sourceChain.chainId === 324) {
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            "X-API-KEY":
+              "dappad_sk_5269e413-6c72-4574-b094-b4d91cf49814_i82azynmunuauzzb",
+          },
+        };
+        setLoading(true);
+        const nftsResponse: DataResponse = await axios.get(
+          `https://api.simplehash.com/api/v0/nfts/contracts?chains=zksync-era&wallet_addresses=${walletAddress}&contract_addresses=${sourceChain.nftContractAddress}`,
+          options
+        );
+
+        if (nftsResponse?.data?.wallets?.[0]?.contracts.length > 0) {
+          setNftOwnedZk(
+            nftsResponse?.data.wallets?.[0].contracts?.[0].token_ids
+          );
+          setLoading(false);
+        }
+      } else {
+        const headers = {
+          Authorization: "Bearer cqt_rQDKB3dQYtbpHVh77JxQHjXt4Tcw",
+        };
+        const nfts = await axios.get(
+          `https://api.covalenthq.com/v1/${sourceChain.chainName}/address/${walletAddress}/balances_nft/?with-uncached=true`,
+          { headers }
+        );
+
+        setNftOwned(
+          nfts.data.data.items?.filter(
+            (nft: any) =>
+              nft.contract_address.toLowerCase() ===
+              sourceChain.nftContractAddress.toLowerCase()
+          )[0]?.nft_data
+        );
+        setLoading(false);
+      }
+    };
+
     getNftOwned();
   }, []);
 
@@ -153,9 +128,6 @@ function BridgeModal({
                 sourceChain={sourceChain}
                 targetChain={targetChain}
                 tokenId={nft.token_id}
-                tokenIds={tokenIds}
-                setInputTokenId={setInputTokenId}
-                setTokenIds={setTokenIds}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
                 setNftOwned={setNftOwned}
@@ -164,42 +136,31 @@ function BridgeModal({
           </div>
         ))}
         {nftOwnedZk?.slice(startIndex, endIndex).map((nft: any) => (
-            <div key={nft} className="block mb-5 mt-5">
-              <Image
-                src="/example.png"
-                alt="NFT"
-                width={160}
-                height={160}
-                className="p-2 mb-2"
+          <div key={nft} className="block mb-5 mt-5">
+            <Image
+              src="/example.png"
+              alt="NFT"
+              width={160}
+              height={160}
+              className="p-2 mb-2"
+            />
+
+            <div className="items-center justify-center">
+              <p className={"text-lg font-medium p-2 mb-3"}>NFT #{nft}</p>
+              <ONFTGenericBridgeButton
+                sourceChain={sourceChain}
+                targetChain={targetChain}
+                tokenId={nft}
+                setLayerZeroTxHashes={setLayerZeroTxHashes}
+                setEstimatedGas={setEstimatedGas}
+                setNftOwned={setNftOwned}
               />
-  
-              <div className="items-center justify-center">
-                <p className={"text-lg font-medium p-2 mb-3"}>
-                  NFT #{nft}
-                </p>
-                <ONFTGenericBridgeButton
-                  sourceChain={sourceChain}
-                  targetChain={targetChain}
-                  tokenId={nft}
-                  tokenIds={tokenIds}
-                  setInputTokenId={setInputTokenId}
-                  setTokenIds={setTokenIds}
-                  setLayerZeroTxHashes={setLayerZeroTxHashes}
-                  setEstimatedGas={setEstimatedGas}
-                  setNftOwned={setNftOwned}
-                />
-              </div>
             </div>
-
-
+          </div>
         ))}
       </>
     );
   };
-
-  useEffect(() => {
-    getNftOwned();
-  }, []);
 
   return (
     <>
@@ -267,7 +228,11 @@ function BridgeModal({
           <div className="mt-8 text-sm md:text-base flex flex-col text-gray-400 max-w-[450px] md:max-w-[550px]">
             Disclaimer
             <span className="text-xs md:text-sm">
-              The loading time for Non-Fungible Tokens (NFTs) viewed through our platform is not within our control and we are not associated with these potential delays. Various factors, such as the server status, the chain you&apos;re using, and the number of NFTs you own, can affect the loading time.
+              The loading time for Non-Fungible Tokens (NFTs) viewed through our
+              platform is not within our control and we are not associated with
+              these potential delays. Various factors, such as the server
+              status, the chain you&apos;re using, and the number of NFTs you
+              own, can affect the loading time.
             </span>
           </div>
         </div>

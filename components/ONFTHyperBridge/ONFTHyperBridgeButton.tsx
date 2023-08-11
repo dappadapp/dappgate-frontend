@@ -1,17 +1,15 @@
-import { Network } from "@/app/page";
+import type { Network } from "@/utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
   useContractReads,
-  useContractWrite,
   useNetwork,
-  usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
 import { toast } from "react-toastify";
-import ONFTAbi from "../config/abi/ONFT.json";
+import ONFTAbi from "../../config/abi/ONFT.json";
 import { waitForTransaction, writeContract } from "@wagmi/core";
 
 type Props = {
@@ -19,7 +17,6 @@ type Props = {
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
   estimatedGas: any;
-  setBridgeCostData: any;
   selectedHyperBridges: Network[];
   userONFTBalanceOfData: bigint;
   refetchUserONFTBalance: any;
@@ -30,7 +27,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
   setLayerZeroTxHashes,
   setEstimatedGas,
   estimatedGas,
-  setBridgeCostData,
   selectedHyperBridges,
   userONFTBalanceOfData,
   refetchUserONFTBalance,
@@ -56,8 +52,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-  console.log("userONFTBalanceOfData", `${userONFTBalanceOfData}`);
-
   const { data: userTokenIdData } = useContractReads({
     contracts: Array.from(Array(Number(userONFTBalanceOfData || 0)).keys()).map(
       (i) => {
@@ -74,8 +68,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
 
   const tokenIds = userTokenIdData?.map((data) => `${data.result}`);
   const tokenIdsSliced = tokenIds?.slice(0, dstChainIds.length);
-
-  console.log("tokenIds", tokenIds);
 
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -102,14 +94,12 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-
-    setBridgeCostData(estimatedGas);
   }, [
     gasEstimateData,
+    bridgeFeeData,
     connectedChain?.nativeCurrency.symbol,
     estimatedGas,
-    selectedHyperBridges,
-    sourceChain,
+    setEstimatedGas,
   ]);
 
   const onBridge = async () => {
@@ -140,11 +130,10 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
           "0x00010000000000000000000000000000000000000000000000000000000000055730",
         ],
       });
-      const batchBridgeTxResult = await waitForTransaction({
+      await waitForTransaction({
         hash: batchBridgeTxHash,
       });
 
-      console.log("txResult", batchBridgeTxResult);
       setLayerZeroTxHashes((prev: any) => [...prev, batchBridgeTxHash]);
 
       tokenIds.forEach((tokenId, i) => {

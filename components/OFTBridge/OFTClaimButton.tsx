@@ -1,5 +1,4 @@
-import { Network } from "@/app/page";
-import { ethers } from "ethers";
+import type { Network } from "@/utils/networks";
 import React, { useEffect, useState } from "react";
 import {
   useAccount,
@@ -10,26 +9,24 @@ import {
   useSwitchNetwork,
   useWaitForTransaction,
 } from "wagmi";
-import ONFTAbi from "../config/abi/ONFT.json";
+import OFTBridge from "../../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
-  setInputTokenId: any;
-  setTokenIds: any;
   refCode?: string;
-  logIndex?: number;
+  inputOFTAmount: string;
+  refetchDlgateBalance: any;
+  setPendingTxs: any;
 };
 
-const MintButton: React.FC<Props> = ({
+const OFTClaimButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
-  setInputTokenId,
-  setTokenIds,
   refCode,
-  logIndex,
+  inputOFTAmount,
+  refetchDlgateBalance,
+  setPendingTxs,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,16 +36,19 @@ const MintButton: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const { data: costData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: ONFTAbi,
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
     functionName: "mintFee",
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: ONFTAbi,
+    address: sourceChain.tokenContractAddress as `0x${string}`,
+    abi: OFTBridge,
     functionName: "mint",
-    value: BigInt((costData as string) || "500000000000000"),
+    value:
+      BigInt((costData as string) || "500000000000000") *
+      BigInt(inputOFTAmount),
+    args: [account, inputOFTAmount],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
@@ -57,55 +57,29 @@ const MintButton: React.FC<Props> = ({
     confirmations: sourceChain.blockConfirmation,
   });
 
+  const addTx = async (txHash: string) => {
+    setPendingTxs((pendingTxs: any) => [...pendingTxs, txHash]);
+  };
+
   useEffect(() => {
     if (!mintTxResultData) return;
-    const tokenId = BigInt(
-      mintTxResultData.logs[logIndex || 0].topics[3] as string
-    ).toString();
 
     const postMint = async () => {
       await axios.post("/api/mint", {
-        tokenId,
+        tokenId: inputOFTAmount,
       });
     };
     postMint();
-    const postMintHistory = async () => {
-      await axios.post("/api/history", {
-        tx: mintTxHash,
-        srcChain: sourceChain.chainId,
-        dstChain: targetChain.chainId,
-        tokenId: tokenId,
-        walletAddress: account,
-        ref: "",
-        type: "mint",
-      });
-    };
-    postMintHistory();
-    setInputTokenId(tokenId);
-    setTokenIds((prev: any) => {
-      const newArray = prev?.[sourceChain.chainId]?.[account as string]
-        ? [...prev?.[sourceChain.chainId]?.[account as string], tokenId].filter(
-          (value, index, self) => self.indexOf(value) === index
-        )
-        : [tokenId];
-      const tokenIdData = {
-        ...prev,
-        [sourceChain.chainId]: {
-          ...prev?.[sourceChain.chainId],
-          [account as string]: newArray,
-        },
-      };
-      localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-      return tokenIdData;
-    });
-    if (refCode?.length === 12) {
+
+    if (String(refCode)?.length === 12) {
       const postReferenceMint = async () => {
-        await axios.post("/api/referenceMint", {
-          id: tokenId,
+        const result = await axios.post("/api/referenceMintOFT", {
+          id: inputOFTAmount,
           walletAddress: account,
           chainId: sourceChain.chainId,
           ref: refCode,
           tx_id: mintTxHash,
+          amount: inputOFTAmount,
         });
       };
       postReferenceMint();
@@ -123,17 +97,13 @@ const MintButton: React.FC<Props> = ({
       }
     }
 
+    refetchDlgateBalance();
+
     ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
     setMintTxHash("");
-    toast(`NFT minted with the id of ${tokenId}!`);
+    toast(`Tokens minted!`);
   }, [mintTxResultData]);
-
-  const getOwnRef = (paramsRefCode: string) => {
-    let splitString = paramsRefCode.split("");
-    let reverseArray = splitString.reverse();
-    return reverseArray.join("").substring(0, 12);
-  };
 
   const onMint = async () => {
     if (!account) {
@@ -146,6 +116,9 @@ const MintButton: React.FC<Props> = ({
     if (!isSuccess) {
       return toast("An unknown error occured. Please try again.");
     }
+    if (!inputOFTAmount) {
+      return toast("Please enter a valid amount.");
+    }
     try {
       setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
@@ -153,6 +126,7 @@ const MintButton: React.FC<Props> = ({
       }
       const result = await mint();
       setMintTxHash(result.hash);
+      addTx(result.hash);
       toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);
@@ -164,12 +138,12 @@ const MintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={loading}
+      disabled={!inputOFTAmount || loading}
       className={
-        "flex items-center gap-1 bg-white/10 border-white border-[1px] rounded-lg px-16 py-2"
+        "rounded-lg bg-blue-600 py-3 px-4 text-left text-sm text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
-      Mint
+      OFT Claim
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -190,4 +164,4 @@ const MintButton: React.FC<Props> = ({
   );
 };
 
-export default MintButton;
+export default OFTClaimButton;
