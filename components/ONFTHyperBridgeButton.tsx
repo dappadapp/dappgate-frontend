@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
+  useContractReads,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
@@ -11,56 +12,70 @@ import {
 } from "wagmi";
 import { toast } from "react-toastify";
 import ONFTAbi from "../config/abi/ONFT.json";
+import { waitForTransaction, writeContract } from "@wagmi/core";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
-  tokenIds: any;
-  inputTokenId: string;
-  setInputTokenId: any;
-  setTokenIds: any;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
-  tokenId: any;
   estimatedGas: any;
   setBridgeCostData: any;
-  selectedHyperBridges: any;
-  hyperBridgeNFTIds: any;
+  selectedHyperBridges: Network[];
+  userONFTBalanceOfData: bigint;
+  refetchUserONFTBalance: any;
 };
 
 const ONFTHyperBridgeButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
-  tokenIds,
-  inputTokenId,
-  setInputTokenId,
-  setTokenIds,
   setLayerZeroTxHashes,
   setEstimatedGas,
-  tokenId,
   estimatedGas,
   setBridgeCostData,
   selectedHyperBridges,
-  hyperBridgeNFTIds,
+  userONFTBalanceOfData,
+  refetchUserONFTBalance,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
+  const dstChainIds = selectedHyperBridges.map(
+    (bridge) => bridge.layerzeroChainId
+  );
+
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
-    functionName: "estimateSendFee",
+    functionName: "estimateBatchBridgeFee",
     args: [
-      `${targetChain.layerzeroChainId}`,
+      dstChainIds,
       "0x0000000000000000000000000000000000000000",
-      "1",
-      false,
-      "0x00010000000000000000000000000000000000000000000000000000000000055730", // version: 1, value: 400000
+      Array.from(Array(selectedHyperBridges.length).keys()),
     ],
     chainId: sourceChain.chainId,
   });
+
+  console.log("userONFTBalanceOfData", `${userONFTBalanceOfData}`);
+
+  const { data: userTokenIdData } = useContractReads({
+    contracts: Array.from(Array(Number(userONFTBalanceOfData || 0)).keys()).map(
+      (i) => {
+        return {
+          address: sourceChain.nftContractAddress as `0x${string}`,
+          abi: ONFTAbi as any,
+          functionName: "tokenOfOwnerByIndex",
+          args: [account!, i],
+          chainId: sourceChain.chainId,
+        };
+      }
+    ),
+  });
+
+  const tokenIds = userTokenIdData?.map((data) => `${data.result}`);
+  const tokenIdsSliced = tokenIds?.slice(0, dstChainIds.length);
+
+  console.log("tokenIds", tokenIds);
 
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -68,30 +83,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     functionName: "bridgeFee",
     chainId: sourceChain.chainId,
   });
-
-  const {
-    config: sendFromConfig,
-    isSuccess,
-    error,
-  } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: ONFTAbi,
-    functionName: "sendFrom",
-    value:
-      BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
-      BigInt((bridgeFeeData as string) || "0") +
-      BigInt("10000000000000"),
-    args: [
-      account,
-      targetChain.layerzeroChainId,
-      account,
-      inputTokenId || tokenIds?.[sourceChain.chainId]?.[account as string]?.[0],
-      account,
-      "0x0000000000000000000000000000000000000000",
-      "0x00010000000000000000000000000000000000000000000000000000000000055730",
-    ],
-  });
-  const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
     if ((gasEstimateData as any)?.[0]) {
@@ -118,17 +109,64 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     connectedChain?.nativeCurrency.symbol,
     estimatedGas,
     selectedHyperBridges,
-    hyperBridgeNFTIds,
-    sourceChain
+    sourceChain,
   ]);
 
   const onBridge = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
     }
+    if (!tokenIds || tokenIds.length === 0) {
+      return toast("You don't have any tokens in your wallet.");
+    }
 
-    if (!sendFrom) {
-      console.log("error", error?.message);
+    try {
+      setLoading(true);
+      if (connectedChain?.id !== sourceChain.chainId) {
+        await switchNetworkAsync?.(sourceChain.chainId);
+      }
+      const { hash: batchBridgeTxHash } = await writeContract({
+        address: sourceChain.nftContractAddress as `0x${string}`,
+        abi: ONFTAbi,
+        functionName: "batchBridge",
+        value: (gasEstimateData as bigint) + (bridgeFeeData as bigint),
+        args: [
+          account,
+          dstChainIds,
+          account,
+          tokenIdsSliced,
+          account,
+          "0x0000000000000000000000000000000000000000",
+          "0x00010000000000000000000000000000000000000000000000000000000000055730",
+        ],
+      });
+      const batchBridgeTxResult = await waitForTransaction({
+        hash: batchBridgeTxHash,
+      });
+
+      console.log("txResult", batchBridgeTxResult);
+      setLayerZeroTxHashes((prev: any) => [...prev, batchBridgeTxHash]);
+
+      tokenIds.forEach((tokenId, i) => {
+        // post bridge history
+        const postBridgeHistory = async () => {
+          await axios.post("/api/history", {
+            tx: batchBridgeTxHash,
+            srcChain: sourceChain.chainId,
+            dstChain: selectedHyperBridges[i].chainId,
+            tokenId: tokenId,
+            walletAddress: account,
+            ref: "",
+            type: "onft",
+          });
+        };
+        postBridgeHistory();
+      });
+
+      toast("Bridge transaction sent!");
+      refetchUserONFTBalance();
+    } catch (error: any) {
+      console.log(error);
       if (
         error?.message.includes(
           "LzApp: destination chain is not a trusted source"
@@ -149,53 +187,6 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
       return toast(
         "Make sure you have enough gas and you're on the correct network."
       );
-    }
-    if (!isSuccess) {
-      return toast("An unknown error occured.");
-    }
-    if (tokenIds.length === 0) return toast("No tokenIds");
-    try {
-      setLoading(true);
-      if (connectedChain?.id !== sourceChain.chainId) {
-        await switchNetworkAsync?.(sourceChain.chainId);
-      }
-      const { hash: txHash } = await sendFrom();
-      setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
-      setTokenIds((prev: any) => {
-        const newArray = prev?.[sourceChain.chainId]?.[account as string]
-          ? [...prev?.[sourceChain.chainId]?.[account as string]]
-              .slice(1)
-              .filter((value, index, self) => self.indexOf(value) === index)
-          : [];
-        const tokenIdData = {
-          ...prev,
-          [sourceChain.chainId]: {
-            ...prev?.[sourceChain.chainId],
-            [account as string]: newArray,
-          },
-        };
-        localStorage.setItem("tokenIds", JSON.stringify(tokenIdData));
-        return tokenIdData;
-      });
-      setInputTokenId(tokenIds[sourceChain.chainId][account][1] || "");
-
-      // post bridge history
-      const postBridgeHistory = async () => {
-        await axios.post("/api/history", {
-          tx: txHash,
-          srcChain: sourceChain.chainId,
-          dstChain: targetChain.chainId,
-          tokenId: tokenId,
-          walletAddress: account,
-          ref: "",
-          type: "onft",
-        });
-      };
-      postBridgeHistory();
-
-      toast("Bridge transaction sent!");
-    } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -204,12 +195,13 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
   return (
     <button
       onClick={onBridge}
-      disabled={!tokenId || loading}
+      disabled={loading}
       className={
-        "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed mt-1"
+        "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
     >
-      Bridge
+      Bridge {"(" + selectedHyperBridges.length + ")"}{" "}
+      {"[Your balance: " + Number(userONFTBalanceOfData) + "]"}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"

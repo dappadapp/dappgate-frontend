@@ -80,6 +80,7 @@ import StargateWidget from "./components/StargateWidget";
 import { useSession, signIn, signOut } from "next-auth/react";
 import TransactionPreview from "./components/TransactionPreview";
 import OFTBridge from "../config/abi/OFTBridge.json";
+import ONFTAbi from "../config/abi/ONFT.json";
 import RelayerAbi from "../config/abi/RelayerV2.json";
 export interface Network {
   name: string;
@@ -763,6 +764,16 @@ export default function Home({
     chainId: sourceChain.chainId,
   });
 
+  // user onft balance fetch
+  const { data: userONFTBalanceOfData, refetch: refetchUserONFTBalance } =
+    useContractRead({
+      address: sourceChain.nftContractAddress as `0x${string}`,
+      abi: ONFTAbi,
+      functionName: "balanceOf",
+      args: [account],
+      chainId: sourceChain.chainId,
+    });
+
   const gasRefuelMaxValue = gasRefuelMaxData
     ? Number(((gasRefuelMaxData as any)?.[0] * 1000n) / BigInt(1e18)) / 1000
     : 0;
@@ -1116,8 +1127,6 @@ export default function Home({
           >
             <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
               <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
-          
-        
                 <Tab as={Fragment}>
                   {({ selected }) => (
                     <button
@@ -1145,8 +1154,6 @@ export default function Home({
                     </button>
                   )}
                 </Tab>
-
-
 
                 <Tab as={Fragment}>
                   {({ selected }) => (
@@ -1247,7 +1254,8 @@ export default function Home({
                   />
 
                   <div className="flex flex-col items-center">
-                    {sourceChain?.chainName !== undefined || sourceChain.chainId ===324 ? (
+                    {sourceChain?.chainName !== undefined ||
+                    sourceChain.chainId === 324 ? (
                       <button
                         className={
                           "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
@@ -1320,11 +1328,19 @@ export default function Home({
                       <div key={hash} className="ml-4">
                         Transaction #{i + 1}:
                         <a
-                          href={`${sourceChain.isTestnet ? "https://testnet.layerzeroscan.com" : "https://layerzeroscan.com"}/tx/${hash}`}
+                          href={`${
+                            sourceChain.isTestnet
+                              ? "https://testnet.layerzeroscan.com"
+                              : "https://layerzeroscan.com"
+                          }/tx/${hash}`}
                           target="_blank"
                           className="text-orange-400"
                         >
-                          {`${sourceChain.isTestnet ? "testnet.layerzeroscan.com" : "layerzeroscan.com"}/tx/${formatAddress(hash)}`}
+                          {`${
+                            sourceChain.isTestnet
+                              ? "testnet.layerzeroscan.com"
+                              : "layerzeroscan.com"
+                          }/tx/${formatAddress(hash)}`}
                         </a>
                       </div>
                     );
@@ -1542,88 +1558,22 @@ export default function Home({
 
                 <ONFTHyperMintButton
                   sourceChain={sourceChain}
-                  targetChain={targetChain}
-                  setInputTokenId={setInputTokenId}
-                  tokenIds={tokenIds}
-                  setTokenIds={setTokenIds}
-                  refCode={refCode}
-                  logIndex={sourceChain.logIndex}
                   selectedHyperBridges={selectedHyperBridges}
-                  setHyperBridgeNFTIds={setHyperBridgeNFTIds}
-                  hyperBridgeNFTIds={hyperBridgeNFTIds}
                   setMintCostData={setMintCostData}
                   setLoader={setLoader}
+                  refetchUserONFTBalance={refetchUserONFTBalance}
                 />
 
-                <div>
-                  <div className="grid grid-cols-4 gap-4 mt-4">
-                    {hyperBridgeNFTIds.length > 0 &&
-                      hyperBridgeNFTIds?.map((nftId: any, index: number) => {
-                        <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-                          Step3: Now you can bridge your NFTs to destination
-                          chains selected in Step 1
-                        </div>;
-                        if (
-                          selectedHyperBridges[index].chainId ===
-                          sourceChain.chainId
-                        )
-                          return null;
-
-                        return (
-                          <div
-                            key={index}
-                            className="flex flex-col items-center"
-                          >
-                            <Image
-                              src={`/chains/${selectedHyperBridges[index].image}`}
-                              alt={selectedHyperBridges[index].name}
-                              width={40}
-                              height={40}
-                              className="rounded-full mr-2 mt-2 mb-2 p-1"
-                            />
-                            <p className="text-lg text-white-900">
-                              NFT ID: {nftId}
-                            </p>
-
-                            <ONFTHyperBridgeButton
-                              sourceChain={sourceChain}
-                              targetChain={selectedHyperBridges[index]}
-                              tokenId={nftId}
-                              tokenIds={tokenIds}
-                              inputTokenId={inputTokenId}
-                              setInputTokenId={setInputTokenId}
-                              setTokenIds={setTokenIds}
-                              setLayerZeroTxHashes={setLayerZeroTxHashes}
-                              setEstimatedGas={setEstimatedGas}
-                              estimatedGas={estimatedGas}
-                              setBridgeCostData={setBridgeCostData}
-                              selectedHyperBridges={selectedHyperBridges}
-                              hyperBridgeNFTIds={hyperBridgeNFTIds}
-                            />
-                          </div>
-                        );
-                      })}{" "}
-                  </div>
-
-                  {loader && (
-                    <div className="flex py-2 px-1 justify-center mt-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-14 h-14 animate-spin"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-                        />
-                      </svg>
-                    </div>
-                  )}
-                </div>
+                <ONFTHyperBridgeButton
+                  sourceChain={sourceChain}
+                  setLayerZeroTxHashes={setLayerZeroTxHashes}
+                  setEstimatedGas={setEstimatedGas}
+                  estimatedGas={estimatedGas}
+                  setBridgeCostData={setBridgeCostData}
+                  selectedHyperBridges={selectedHyperBridges}
+                  userONFTBalanceOfData={userONFTBalanceOfData as bigint}
+                  refetchUserONFTBalance={refetchUserONFTBalance}
+                />
               </div>
             ) : tabIndex == 2 ? (
               <div
@@ -1750,9 +1700,9 @@ export default function Home({
                     type="number"
                     className="w-full flex rounded-lg bg-white min-h-[60px] bg-opacity-5 py-1 px-4 text-left text-lg focus:outline-none mt-2 mb-2"
                     placeholder="e.g. 1000"
-                    value={(inputOFTAmount)}
+                    value={inputOFTAmount}
                     onChange={(e) => {
-                      setInputOFTAmount((e.target.value));
+                      setInputOFTAmount(e.target.value);
                     }}
                   />
 

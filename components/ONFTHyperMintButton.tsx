@@ -18,32 +18,20 @@ import axios from "axios";
 
 type Props = {
   sourceChain: Network;
-  targetChain: Network;
-  setInputTokenId: any;
-  tokenIds: any;
-  setTokenIds: any;
   refCode?: string;
-  logIndex?: number;
   selectedHyperBridges: Network[];
-  setHyperBridgeNFTIds: any;
-  hyperBridgeNFTIds: any;
   setMintCostData: any;
   setLoader: any;
+  refetchUserONFTBalance: any;
 };
 
 const ONFTHyperMintButton: React.FC<Props> = ({
   sourceChain,
-  targetChain,
-  setInputTokenId,
-  tokenIds,
-  setTokenIds,
   refCode,
-  logIndex,
   selectedHyperBridges,
-  setHyperBridgeNFTIds,
-  hyperBridgeNFTIds,
   setMintCostData,
   setLoader,
+  refetchUserONFTBalance,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -52,10 +40,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-  const dstChainIds = selectedHyperBridges.map(
-    (bridge) => bridge.layerzeroChainId
-  );
-
   const { data: costData, refetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
@@ -63,32 +47,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-  const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: ONFTAbi,
-    functionName: "estimateBatchBridgeFee",
-    args: [
-      dstChainIds,
-      "0x0000000000000000000000000000000000000000",
-      Array.from(Array(selectedHyperBridges.length).keys()),
-    ],
-    chainId: sourceChain.chainId,
-  });
-
-  console.log("gasEstimateData", gasEstimateData);
-
-  const { data: bridgeFeeData } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
-    abi: ONFTAbi,
-    functionName: "bridgeFee",
-    chainId: sourceChain.chainId,
-  });
-
-  const {
-    config: mintConfig,
-    isSuccess,
-    error,
-  } = usePrepareContractWrite({
+  const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "batchMint",
@@ -99,24 +58,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   });
 
   const { writeAsync: mint } = useContractWrite(mintConfig);
-  /*
-  const { data: mintTxResultData, refetch } = useWaitForTransaction({
-    hash: mintResult?.hash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
-  });*/
-
-  const addNftId = async (nftId: string) => {
-    setHyperBridgeNFTIds((hyperBridgeNFTIds: any) => [
-      ...hyperBridgeNFTIds,
-      nftId,
-    ]);
-  };
-
-  const getOwnRef = (paramsRefCode: string) => {
-    let splitString = paramsRefCode.split("");
-    let reverseArray = splitString.reverse();
-    return reverseArray.join("").substring(0, 12);
-  };
 
   const updateMintCostData = async () => {
     if (costData) {
@@ -151,7 +92,6 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       const { hash: batchMintTxHash } = await mint();
       const batchMintTxResult = await waitForTransaction({
         hash: batchMintTxHash,
-        confirmations: sourceChain.blockConfirmation || 1,
       });
 
       console.log("batchMintTxResult", batchMintTxResult);
@@ -166,29 +106,22 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         )
         .filter((value) => value !== "0");
 
-      const { hash: batchBridgeTxHash } = await writeContract({
-        address: sourceChain.nftContractAddress as `0x${string}`,
-        abi: ONFTAbi,
-        functionName: "batchBridge",
-        value: (gasEstimateData as bigint) + (bridgeFeeData as bigint),
-        args: [
-          account,
-          dstChainIds,
-          account,
-          tokenIds,
-          account,
-          "0x0000000000000000000000000000000000000000",
-          "0x00010000000000000000000000000000000000000000000000000000000000055730",
-        ],
-      });
-      const batchBridgeTxResult = await waitForTransaction({
-        hash: batchBridgeTxHash,
-        confirmations: sourceChain.blockConfirmation || 1,
+      tokenIds.forEach((tokenId, i) => {
+        const postMintHistory = async () => {
+          await axios.post("/api/history", {
+            tx: mintTxHash,
+            srcChain: sourceChain.chainId,
+            dstChain: selectedHyperBridges[i].chainId,
+            tokenId,
+            walletAddress: account,
+            ref: "",
+            type: "mint",
+          });
+        };
+        postMintHistory();
       });
 
-      console.log("txResult", batchBridgeTxResult);
-
-      /* if (refCode?.length === 12) {
+      if (refCode?.length === 12) {
         const postReferenceMint = async () => {
           await axios.post("/api/referenceMint", {
             id: 0,
@@ -200,18 +133,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         };
         postReferenceMint();
       }
-      const postMintHistory = async () => {
-        await axios.post("/api/history", {
-          tx: mintTxHash,
-          srcChain: sourceChain.chainId,
-          dstChain: targetChain.chainId,
-          tokenId: tokenIds[0],
-          walletAddress: account,
-          ref: "",
-          type: "mint",
-        });
-      };
-      postMintHistory();
+
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
           await axios.post("/api/hash", {
@@ -222,9 +144,10 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           });
         };
         postHashMint();
-      } */
+      }
 
       setLoader(false);
+      refetchUserONFTBalance();
     } catch (error) {
       console.log(error);
       setLoader(false);
@@ -237,16 +160,12 @@ const ONFTHyperMintButton: React.FC<Props> = ({
   return (
     <button
       onClick={onMint}
-      disabled={!selectedHyperBridges.filter((x: any) => x !== 0) || loading}
+      disabled={!selectedHyperBridges || loading}
       className={
         "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
     >
-      Mint{" "}
-      {"(" +
-        selectedHyperBridges.filter((x: any) => x !== 0).length +
-        ")" +
-        " and Bridge"}
+      Mint {"(" + selectedHyperBridges.length + ")"}
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
