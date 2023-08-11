@@ -188,7 +188,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
 
       console.log("txResult", batchBridgeTxResult);
 
-      /* if (refCode?.length === 12) {
+   if (refCode?.length === 12) {
         const postReferenceMint = async () => {
           await axios.post("/api/referenceMint", {
             id: 0,
@@ -222,7 +222,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           });
         };
         postHashMint();
-      } */
+      } 
 
       setLoader(false);
     } catch (error) {
