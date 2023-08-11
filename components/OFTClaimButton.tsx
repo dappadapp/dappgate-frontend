@@ -20,6 +20,7 @@ type Props = {
   refCode?: string;
   inputOFTAmount: string;
   refetchDlgateBalance: any;
+  setPendingTxs: any;
 };
 
 const OFTClaimButton: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const OFTClaimButton: React.FC<Props> = ({
   refCode,
   inputOFTAmount,
   refetchDlgateBalance,
+  setPendingTxs,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,7 +43,7 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "mintFee",
   });
 
-  console.log("costData", costData);
+  console.log("inputOFTAmount", inputOFTAmount);
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -49,15 +51,23 @@ const OFTClaimButton: React.FC<Props> = ({
     functionName: "mint",
     value:
       BigInt((costData as string) || "500000000000000") *
-      BigInt(+inputOFTAmount < 0 ? inputOFTAmount : "0"),
+      BigInt(inputOFTAmount),
     args: [account, inputOFTAmount],
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const { data: mintTxResultData } = useWaitForTransaction({
+  const { data: mintTxResultData, status: txStatus } = useWaitForTransaction({
     hash: mintTxHash as `0x${string}`,
     confirmations: sourceChain.blockConfirmation,
   });
+
+
+  const addTx = async (txHash: string) => {
+    setPendingTxs((pendingTxs: any) => [
+      ...pendingTxs,
+      txHash,
+    ]);
+  };
 
   useEffect(() => {
     if (!mintTxResultData) return;
@@ -104,12 +114,7 @@ const OFTClaimButton: React.FC<Props> = ({
     toast(`Tokens minted!`);
   }, [mintTxResultData]);
 
-  useEffect(() => {
-    if (!Number.isInteger(+inputOFTAmount) ||  +inputOFTAmount === 0) {
-      toast("Please input a valid amount.");
-      return;
-    }
-  }, [inputOFTAmount]);
+
 
   const getOwnRef = (paramsRefCode: string) => {
     let splitString = paramsRefCode.split("");
@@ -138,6 +143,7 @@ const OFTClaimButton: React.FC<Props> = ({
       }
       const result = await mint();
       setMintTxHash(result.hash);
+      addTx(result.hash);
       toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);

@@ -696,6 +696,7 @@ export default function Home({
   const [mintCostData, setMintCostData] = useState(0);
   const [bridgeCostData, setBridgeCostData] = useState(0);
   const [loader, setLoader] = useState(false);
+  const [pendingTxs, setPendingTxs] = useState<any[]>([]);
 
   const { data: session, status } = useSession();
 
@@ -795,6 +796,7 @@ export default function Home({
     color: "#EFEFEF !important",
   };
 
+  console.log("pending txs", pendingTxs);
   useEffect(() => {
     if (!session) return;
 
@@ -1108,7 +1110,7 @@ export default function Home({
                 Referral
                 <FontAwesomeIcon className="ml-2" icon={faUserPlus} />
               </button>
-              <ConnectButton />
+              <ConnectButton pendingTxs={pendingTxs} />
             </div>
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
@@ -1702,7 +1704,12 @@ export default function Home({
                     placeholder="e.g. 1000"
                     value={inputOFTAmount}
                     onChange={(e) => {
-                      setInputOFTAmount(e.target.value);
+                      if (
+                        Number.isInteger(Number(e.target.value)) ||
+                        e.target.value === ""
+                      ) {
+                        setInputOFTAmount(e.target.value);
+                      }
                     }}
                   />
 
@@ -1711,6 +1718,7 @@ export default function Home({
                     refCode={refCode}
                     inputOFTAmount={inputOFTAmount}
                     refetchDlgateBalance={refetchDlgateBalance}
+                    setPendingTxs={setPendingTxs}
                   />
                 </div>
 
