@@ -96,6 +96,7 @@ export interface Network {
   disabledNetworks: number[];
   symbol?: string;
   chainName?: string;
+  isTestnet?: boolean;
 }
 
 const networks: Network[] = [
@@ -578,6 +579,7 @@ const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: undefined,
+    isTestnet: true,
   },
   {
     name: polygonMumbai.name,
@@ -595,6 +597,7 @@ const networks: Network[] = [
     ],
     symbol: "MATIC",
     chainName: "polygon-mumbai",
+    isTestnet: true,
   },
   {
     name: scrollTestnet.name,
@@ -613,6 +616,7 @@ const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: undefined,
+    isTestnet: true,
   },
   {
     name: sepolia.name,
@@ -631,6 +635,7 @@ const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: "eth-sepolia",
+    isTestnet: true,
   },
   /*
   {
@@ -1315,11 +1320,11 @@ export default function Home({
                       <div key={hash} className="ml-4">
                         Transaction #{i + 1}:
                         <a
-                          href={`https://layerzeroscan.com/tx/${hash}`}
+                          href={`${sourceChain.isTestnet ? "https://testnet.layerzeroscan.com" : "https://layerzeroscan.com"}/tx/${hash}`}
                           target="_blank"
                           className="text-orange-400"
                         >
-                          {` layerzeroscan.com/tx/${formatAddress(hash)}`}
+                          {`${sourceChain.isTestnet ? "testnet.layerzeroscan.com" : "layerzeroscan.com"}/tx/${formatAddress(hash)}`}
                         </a>
                       </div>
                     );
