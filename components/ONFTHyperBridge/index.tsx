@@ -109,14 +109,13 @@ const ONFTHyperBridge: React.FC<Props> = ({
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
-                      !selectedHyperBridges.some(
-                        (selectedBridge) =>
-                          selectedBridge.chainId === network.chainId
-                      )
-                        ? "grayscale"
-                        : "grayscale-0"
-                    } p-2 `}
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                      (selectedBridge) =>
+                        selectedBridge.chainId === network.chainId
+                    )
+                      ? "grayscale"
+                      : "grayscale-0"
+                      } p-2 `}
                   >
                     <Image
                       src={`/chains/${network.image}`}

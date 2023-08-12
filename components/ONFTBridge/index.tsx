@@ -123,7 +123,7 @@ const ONFTBridge: React.FC<Props> = ({
 
         <div className="flex flex-col items-center">
           {sourceChain?.chainName !== undefined ||
-          sourceChain.chainId === 324 ? (
+            sourceChain.chainId === 324 ? (
             <button
               className={
                 "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
@@ -149,9 +149,8 @@ const ONFTBridge: React.FC<Props> = ({
           <FaAngleDown setShowInput={setShowInput} />
 
           <div
-            className={`w-[150px] mt-4 transition-all overflow-hidden ${
-              !showInput ? "max-h-[0px]" : "max-h-[200px]"
-            }`}
+            className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+              }`}
           >
             <input
               placeholder="Token ID"
@@ -167,9 +166,8 @@ const ONFTBridge: React.FC<Props> = ({
         </div>
       </div>
       <div
-        className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
-          layerZeroTxHashes.length !== 0 ? "max-h-[1000px]" : "max-h-0"
-        }`}
+        className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0 ? "max-h-[1000px]" : "max-h-0"
+          }`}
       >
         <h1 className={"text-3xl font-semibold"}>Layer Zero Transactions</h1>
         {layerZeroTxHashes.map((hash, i) => {
@@ -177,19 +175,17 @@ const ONFTBridge: React.FC<Props> = ({
             <div key={hash} className="ml-4">
               Transaction #{i + 1}:
               <a
-                href={`${
-                  sourceChain.isTestnet
-                    ? "https://testnet.layerzeroscan.com"
-                    : "https://layerzeroscan.com"
-                }/tx/${hash}`}
+                href={`${sourceChain.isTestnet
+                  ? "https://testnet.layerzeroscan.com"
+                  : "https://layerzeroscan.com"
+                  }/tx/${hash}`}
                 target="_blank"
                 className="text-orange-400"
               >
-                {`${
-                  sourceChain.isTestnet
-                    ? "testnet.layerzeroscan.com"
-                    : "layerzeroscan.com"
-                }/tx/${formatAddress(hash)}`}
+                {`${sourceChain.isTestnet
+                  ? "testnet.layerzeroscan.com"
+                  : "layerzeroscan.com"
+                  }/tx/${formatAddress(hash)}`}
               </a>
             </div>
           );

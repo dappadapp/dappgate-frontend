@@ -394,16 +394,14 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "bridge-animaton" : ""
-            }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
+              }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd
-                  ? "left-[30%]"
-                  : "left-0 duration-1000 transition-all translate-x-[-50%]"
-              } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
+                ? "left-[30%]"
+                : "left-0 duration-1000 transition-all translate-x-[-50%]"
+                } rounded-full`}
               style={{
                 background: sourceChain.colorClass
                   .replace("bg-[", "")
@@ -411,11 +409,10 @@ export default function Home({
               }}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd
-                  ? "right-[30%] opacity-50"
-                  : "right-0 duration-1000 transition-all translate-x-[50%]"
-              } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
+                ? "right-[30%] opacity-50"
+                : "right-0 duration-1000 transition-all translate-x-[50%]"
+                } rounded-full`}
               style={{
                 background: targetChain.colorClass
                   .replace("bg-[", "")

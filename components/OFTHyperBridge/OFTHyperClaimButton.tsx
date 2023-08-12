@@ -70,10 +70,10 @@ const OFTHyperClaimButton: React.FC<Props> = ({
 
     setMintCostData(
       BigInt((costData as string) || "500000000000000") *
-        BigInt(
-          (tokenAmountHyperBridge *
-            selectedHyperBridges?.length) as unknown as string
-        )
+      BigInt(
+        (tokenAmountHyperBridge *
+          selectedHyperBridges?.length) as unknown as string
+      )
     );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData, setMintCostData]);
 
@@ -163,7 +163,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
       onClick={onMint}
       disabled={!tokenAmountHyperBridge || loading}
       className={
-        "bg-blue-600 text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-1 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
+        "bg-blue-600 text-lg text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-4 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed ml-2"
       }
     >
       OFT Claim {tokenAmountHyperBridge}

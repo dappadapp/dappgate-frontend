@@ -29,7 +29,6 @@ const SendButton: React.FC<Props> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [txHash, setTxHash] = useState("");
 
   const { address: account } = useAccount();
   const { chain: connectedChain } = useNetwork();
@@ -39,27 +38,32 @@ const SendButton: React.FC<Props> = ({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "cost",
+    chainId: sourceChain.chainId
   });
 
-  const { data: feeData, refetch: refetchEstimateFee } = useContractRead({
+  const { data: feeData } = useContractRead({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "estimateFees",
-    enabled: false,
     args: [
       targetChain.layerzeroChainId,
-      account,
-      receiverAddress,
-      messageContent,
+      "0x0000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000",
+      "asdf",
     ],
+    chainId: sourceChain.chainId
   });
+
+  console.log(((costData as bigint) || BigInt(0)) +
+    ((feeData as bigint) || BigInt(0)) +
+    BigInt(1))
 
   const {
     config: mintConfig,
     isSuccess,
     refetch: refetchSendMessage,
   } = usePrepareContractWrite({
-    address: sourceChain.nftContractAddress as `0x${string}`,
+    address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "sendMessage",
     value:
@@ -68,14 +72,14 @@ const SendButton: React.FC<Props> = ({
       BigInt(1),
     enabled: false,
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId],
+    chainId: sourceChain.chainId
   });
   const { writeAsync: sendMessage } = useContractWrite(mintConfig);
 
   useEffect(() => {
     if (messageContent && ethers.isAddress(receiverAddress)) {
-      refetchEstimateFee();
-      refetchSendMessage();
       setDisabled(false);
+      refetchSendMessage();
     } else {
       setDisabled(true);
     }
@@ -103,7 +107,6 @@ const SendButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const result = await sendMessage();
-      setTxHash(result.hash);
       toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);

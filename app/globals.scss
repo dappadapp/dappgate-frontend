@@ -28,11 +28,7 @@ body {
   opacity: 0.2;
 }
 .bg-effect {
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.4),
-    rgba(0, 0, 0, 0.5)
-  );
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
 }
 .bg-blur:after {
   position: absolute;
