@@ -1,5 +1,5 @@
 import type { Network } from "@/utils/networks";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -7,17 +7,18 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useSwitchNetwork,
-  useWaitForTransaction,
 } from "wagmi";
 import ONFTAbi from "../../config/abi/ONFT.json";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { waitForTransaction } from "@wagmi/core";
 
 type Props = {
   sourceChain: Network;
   targetChain: Network;
   refCode?: string;
   logIndex?: number;
+  balanceOfRefetch: () => Promise<any>;
 };
 
 const MintButton: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const MintButton: React.FC<Props> = ({
   targetChain,
   refCode,
   logIndex,
+  balanceOfRefetch,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,72 +49,6 @@ const MintButton: React.FC<Props> = ({
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const { data: mintTxResultData } = useWaitForTransaction({
-    hash: mintTxHash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
-  });
-
-  useEffect(() => {
-    if (!mintTxResultData) return;
-    const tokenId = BigInt(
-      mintTxResultData.logs[logIndex || 0].topics[3] as string
-    ).toString();
-
-    const postMint = async () => {
-      await axios.post("/api/mint", {
-        tokenId,
-      });
-    };
-    postMint();
-    const postMintHistory = async () => {
-      await axios.post("/api/history", {
-        tx: mintTxHash,
-        srcChain: sourceChain.chainId,
-        dstChain: targetChain.chainId,
-        tokenId: tokenId,
-        walletAddress: account,
-        ref: "",
-        type: "mint",
-      });
-    };
-    postMintHistory();
-    if (refCode?.length === 12) {
-      const postReferenceMint = async () => {
-        await axios.post("/api/referenceMint", {
-          id: tokenId,
-          walletAddress: account,
-          chainId: sourceChain.chainId,
-          ref: refCode,
-          tx_id: mintTxHash,
-        });
-      };
-      postReferenceMint();
-
-      if (mintTxHash && sourceChain) {
-        const postHashMint = async () => {
-          await axios.post("/api/hash", {
-            type: "mint",
-            hash: mintTxHash,
-            ref: refCode,
-            chainId: sourceChain?.chainId,
-          });
-        };
-        postHashMint();
-      }
-    }
-
-    ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
-
-    setMintTxHash("");
-    toast(`NFT minted with the id of ${tokenId}!`);
-  }, [mintTxResultData]);
-
-  const getOwnRef = (paramsRefCode: string) => {
-    let splitString = paramsRefCode.split("");
-    let reverseArray = splitString.reverse();
-    return reverseArray.join("").substring(0, 12);
-  };
-
   const onMint = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
@@ -129,9 +65,65 @@ const MintButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const result = await mint();
-      setMintTxHash(result.hash);
+      const { hash: txHash } = await mint();
+      setMintTxHash(txHash);
       toast("Mint transaction sent, waiting confirmation...");
+
+      const mintTxResultData = await waitForTransaction({
+        hash: txHash,
+      });
+
+      const tokenId = BigInt(
+        mintTxResultData.logs[logIndex || 0].topics[3] as string
+      ).toString();
+
+      const postMint = async () => {
+        await axios.post("/api/mint", {
+          tokenId,
+        });
+      };
+      postMint();
+      const postMintHistory = async () => {
+        await axios.post("/api/history", {
+          tx: mintTxHash,
+          srcChain: sourceChain.chainId,
+          dstChain: targetChain.chainId,
+          tokenId: tokenId,
+          walletAddress: account,
+          ref: "",
+          type: "mint",
+        });
+      };
+      postMintHistory();
+      if (refCode?.length === 12) {
+        const postReferenceMint = async () => {
+          await axios.post("/api/referenceMint", {
+            id: tokenId,
+            walletAddress: account,
+            chainId: sourceChain.chainId,
+            ref: refCode,
+            tx_id: mintTxHash,
+          });
+        };
+        postReferenceMint();
+
+        if (mintTxHash && sourceChain) {
+          const postHashMint = async () => {
+            await axios.post("/api/hash", {
+              type: "mint",
+              hash: mintTxHash,
+              ref: refCode,
+              chainId: sourceChain?.chainId,
+            });
+          };
+          postHashMint();
+        }
+      }
+
+      ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
+
+      balanceOfRefetch();
+      toast(`NFT minted with the id of ${tokenId}!`);
     } catch (error) {
       console.log(error);
     } finally {

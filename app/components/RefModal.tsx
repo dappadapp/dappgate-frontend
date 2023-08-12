@@ -149,7 +149,7 @@ function RefModal({ onCloseModal, refCode }: Props) {
             </button>
             <button
               className={
-                "px-4 w-fit rounded-lg h-full items-center flex bg-white rounded-lg text-black "
+                "px-4 w-fit h-full items-center flex bg-white rounded-lg text-black "
               }
               onClick={handleQrcode}
             >

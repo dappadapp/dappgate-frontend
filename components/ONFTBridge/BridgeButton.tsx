@@ -9,6 +9,7 @@ import {
   usePrepareContractWrite,
   useSwitchNetwork,
 } from "wagmi";
+import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
 
@@ -18,6 +19,7 @@ type Props = {
   inputTokenId: string;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
+  balanceOfRefetch: () => Promise<any>;
 };
 
 const BridgeButton: React.FC<Props> = ({
@@ -26,6 +28,7 @@ const BridgeButton: React.FC<Props> = ({
   inputTokenId,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  balanceOfRefetch,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
@@ -160,6 +163,13 @@ const BridgeButton: React.FC<Props> = ({
       postBridgeHistory();
 
       toast("Bridge transaction sent!");
+
+      await waitForTransaction({
+        hash: txHash,
+      });
+
+      balanceOfRefetch();
+      toast("Bridge successful!");
     } catch (error) {
       console.log(error);
     } finally {

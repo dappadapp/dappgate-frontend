@@ -1,26 +1,26 @@
-import { Fragment } from 'react';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Listbox, Transition } from '@headlessui/react';
+import { Fragment } from "react";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Listbox, Transition } from "@headlessui/react";
 
 type Props = {
-  value: any,
-  onChange: (value: any) => void,
-  options: any[],
-  searchValue: string,
-  setSearchValue: (value: string) => void,
-  optionRenderer?: (option: any, selected: boolean) => JSX.Element,
+  value: any;
+  onChange: (value: any) => void;
+  options: any[];
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+  optionRenderer?: (option: any, selected: boolean) => JSX.Element;
 };
 
-const ListboxSourceMenu = (
-  { value,
-    onChange,
-    options,
-    searchValue,
-    setSearchValue,
-    optionRenderer = defaultOptionRenderer, }: Props
-) => {
+const ListboxSourceMenu = ({
+  value,
+  onChange,
+  options,
+  searchValue,
+  setSearchValue,
+  optionRenderer = defaultOptionRenderer,
+}: Props) => {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative w-full sm:w-[36%]">
@@ -33,7 +33,7 @@ const ListboxSourceMenu = (
               height={25}
               className="rounded-full"
             />
-            <span className="block truncate text-base text-xl font-medium">
+            <span className="block truncate text-xl font-medium">
               {value.name}
             </span>
           </div>
@@ -60,9 +60,7 @@ const ListboxSourceMenu = (
                 key={i}
                 className={({ active }) =>
                   `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active
-                      ? "bg-white text-black"
-                      : "text-white"
+                    active ? "bg-white text-black" : "text-white"
                   }`
                 }
                 value={option}
@@ -74,10 +72,10 @@ const ListboxSourceMenu = (
         </Transition>
       </div>
     </Listbox>
-  )
-}
+  );
+};
 
-const defaultOptionRenderer = (option:any, selected:any) => (
+const defaultOptionRenderer = (option: any, selected: any) => (
   <div className="flex items-center gap-2">
     {selected ? (
       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
@@ -91,9 +89,7 @@ const defaultOptionRenderer = (option:any, selected:any) => (
       height={25}
       className="rounded-full"
     />
-    <span className="block truncate text-lg">
-      {option.name}
-    </span>
+    <span className="block truncate text-lg">{option.name}</span>
   </div>
 );
 

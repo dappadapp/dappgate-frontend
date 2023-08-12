@@ -1,5 +1,5 @@
 import type { Network } from "@/utils/networks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MintButton from "./MintButton";
 import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
 import CircleSvg from "@/app/components/CircleSvg";
@@ -8,8 +8,9 @@ import BridgeButton from "./BridgeButton";
 import LayerZeroSvg from "@/app/components/LayerZeroSvg";
 import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead, useContractReads } from "wagmi";
 import FaAngleDown from "@/app/components/FaAngleDown";
+import ONFTAbi from "@/config/abi/ONFT.json";
 
 type Props = {
   sourceChain: Network;
@@ -47,6 +48,37 @@ const ONFTBridge: React.FC<Props> = ({
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const { data: balanceOfData, refetch: balanceOfRefetch } = useContractRead({
+    address: sourceChain.nftContractAddress as `0x${string}`,
+    chainId: sourceChain.chainId,
+    abi: ONFTAbi,
+    functionName: "balanceOf",
+    args: [account],
+  });
+
+  const { data: tokenIdsData } = useContractReads({
+    contracts: Array.from(Array(Number(balanceOfData || 0)).keys()).map((i) => {
+      return {
+        address: sourceChain.nftContractAddress as `0x${string}`,
+        abi: ONFTAbi as any,
+        functionName: "tokenOfOwnerByIndex",
+        args: [account || "0x0000000000000000000000000000000000000000", i],
+        chainId: sourceChain.chainId,
+      };
+    }),
+  });
+
+  const tokenIds = tokenIdsData?.map((data) => `${data.result}`);
+
+  useEffect(() => {
+    if (!tokenIds || tokenIds.length === 0) return;
+    setInputTokenId(tokenIds[0]);
+  }, [JSON.stringify(tokenIds)]);
+
+  console.log("tokenIds", tokenIds);
+  console.log("balanceOfData", balanceOfData);
+
   return (
     <div
       className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
@@ -86,6 +118,7 @@ const ONFTBridge: React.FC<Props> = ({
           targetChain={targetChain}
           refCode={refCode}
           logIndex={sourceChain.logIndex}
+          balanceOfRefetch={balanceOfRefetch}
         />
 
         <div className="flex flex-col items-center">
@@ -109,6 +142,7 @@ const ONFTBridge: React.FC<Props> = ({
               setLayerZeroTxHashes={setLayerZeroTxHashes}
               setEstimatedGas={setEstimatedGas}
               inputTokenId={inputTokenId}
+              balanceOfRefetch={balanceOfRefetch}
             />
           )}
 

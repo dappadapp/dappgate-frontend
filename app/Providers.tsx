@@ -39,6 +39,7 @@ import {
   base,
   sepolia,
   scrollTestnet,
+  mantle,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -389,6 +390,7 @@ const chains = [
   kava,
   base,
   linea,
+  mantle,
   scrollTestnet,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;

@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
-import { Tab } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -29,6 +28,8 @@ import GasRefuel from "@/components/GasRefuel";
 import OFTBridge from "@/components/OFTBridge";
 import OFTHyperBridge from "@/components/OFTHyperBridge";
 import StargateBridge from "@/components/StargateBridge";
+import Tabs from "./components/Tabs";
+import ONFTAbi from "@/config/abi/ONFT.json";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -60,7 +61,7 @@ export default function Home({
   const { data: disabledBridgesData } = useContractReads({
     contracts: networks.map((network) => ({
       address: sourceChain.nftContractAddress as `0x${string}`,
-      abi: OFTBridge as any,
+      abi: ONFTAbi as any,
       functionName: "estimateSendFee",
       args: [
         `${network.layerzeroChainId}`,
@@ -193,14 +194,13 @@ export default function Home({
   useEffect(() => {
     if (!bridgeTxResultData) return;
     toast("Bridge successful!");
-    refetchDlgateBalance();
     setIsAnimationStarted(true);
 
     setTimeout(() => {
       setIsAnimationStarted(false);
       setIsAnimationEnd(true);
     }, ANIMATION_TIME);
-  }, [bridgeTxResultData, refetchDlgateBalance]);
+  }, [bridgeTxResultData]);
 
   useEffect(() => {
     if (!isAnimationEnd) return;
@@ -307,90 +307,7 @@ export default function Home({
               "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
             }
           >
-            <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
-              <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
-                    >
-                      ONFT Bridge
-                    </button>
-                  )}
-                </Tab>
-
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white outline-none text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] "
-                          : "bg-transparent"
-                      }`}
-                    >
-                      ONFT HyperBridge
-                    </button>
-                  )}
-                </Tab>
-
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
-                    >
-                      Gas Refuel
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
-                    >
-                      OFT Bridge
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
-                    >
-                      OFT HyperBridge
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
-                    >
-                      Stargate Bridge
-                    </button>
-                  )}
-                </Tab>
-              </Tab.List>
-            </Tab.Group>
+            <Tabs tabIndex={tabIndex} setTabIndex={setTabIndex} />
 
             {tabIndex == 0 ? (
               <ONFTBridge
@@ -457,6 +374,8 @@ export default function Home({
           <Footer />
         </div>
       </div>
+
+      {/* ANIMATION */}
       <div className={"relative w-full h-full"}>
         <div className={"absolute z-[4] bg-effect w-full h-full"}></div>
         <div className={"absolute z-[3] w-full h-full bg-pattern"}></div>
@@ -472,21 +391,27 @@ export default function Home({
           >
             <div
               className={`absolute h-[80vh] aspect-square ${
-                sourceChain.colorClass
-              }  ${
                 isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
               } rounded-full`}
+              style={{
+                background: sourceChain.colorClass
+                  .replace("bg-[", "")
+                  .replace("]", ""),
+              }}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square  ${
-                targetChain.colorClass
-              } ${
+              className={`absolute h-[80vh] aspect-square ${
                 isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
               } rounded-full`}
+              style={{
+                background: targetChain.colorClass
+                  .replace("bg-[", "")
+                  .replace("]", ""),
+              }}
             ></div>
           </div>
         </div>

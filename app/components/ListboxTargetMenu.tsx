@@ -1,28 +1,28 @@
-import { Fragment } from 'react';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Listbox, Transition } from '@headlessui/react';
+import { Fragment } from "react";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Listbox, Transition } from "@headlessui/react";
 
 type Props = {
-  value: any,
-  sourceValue: any,
-  onChange: (value: any) => void,
-  options: any[],
-  searchValue: string,
-  setSearchValue: (value: string) => void,
-  optionRenderer?: (option: any, selected: boolean) => JSX.Element,
+  value: any;
+  sourceValue: any;
+  onChange: (value: any) => void;
+  options: any[];
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+  optionRenderer?: (option: any, selected: boolean) => JSX.Element;
 };
 
-const ListboxTargetMenu = (
-  { value,
-    sourceValue,
-    onChange,
-    options,
-    searchValue,
-    setSearchValue,
-    optionRenderer = defaultOptionRenderer, }: Props
-) => {
+const ListboxTargetMenu = ({
+  value,
+  sourceValue,
+  onChange,
+  options,
+  searchValue,
+  setSearchValue,
+  optionRenderer = defaultOptionRenderer,
+}: Props) => {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative w-full sm:w-[36%]">
@@ -31,17 +31,17 @@ const ListboxTargetMenu = (
             <div className="pointer-events-none flex items-center">
               <FontAwesomeIcon icon={faAngleDown} />
             </div>
-            <div className='flex gap-2'>
-            <span className="block truncate text-base text-xl font-medium">
-              {value.name}
-            </span>
-            <Image
-              src={`/chains/${value.image}`}
-              alt={value.name}
-              width={25}
-              height={25}
-              className="rounded-full"
-            />
+            <div className="flex gap-2">
+              <span className="block truncate text-xl font-medium">
+                {value.name}
+              </span>
+              <Image
+                src={`/chains/${value.image}`}
+                alt={value.name}
+                width={25}
+                height={25}
+                className="rounded-full"
+              />
             </div>
           </div>
         </Listbox.Button>
@@ -60,43 +60,47 @@ const ListboxTargetMenu = (
               placeholder="Search"
             />
             {options.map((option, i) => {
-              const isDisabled = sourceValue.disabledNetworks?.includes(option.chainId);
+              const isDisabled = sourceValue.disabledNetworks?.includes(
+                option.chainId
+              );
 
               // Add 'isDisabled' to the 'option' object.
               option.isDisabled = isDisabled;
-              
-              return(
-              <Listbox.Option
-                key={i}
-                className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active
-                    ? "bg-white text-black"
-                    : option.isDisabled
-                    ? "bg-gray-400 text-white line-through"
-                    : "text-white"
-                  }`
-                }
-                value={option}
-                disabled={isDisabled}
-              >
-                {(props) => optionRenderer(option, props.selected)}
-              </Listbox.Option>
-            )
-            
-                })}
+
+              return (
+                <Listbox.Option
+                  key={i}
+                  className={({ active }) =>
+                    `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                      active
+                        ? "bg-white text-black"
+                        : option.isDisabled
+                        ? "bg-gray-400 text-white line-through"
+                        : "text-white"
+                    }`
+                  }
+                  value={option}
+                  disabled={isDisabled}
+                >
+                  {(props) => optionRenderer(option, props.selected)}
+                </Listbox.Option>
+              );
+            })}
           </Listbox.Options>
         </Transition>
       </div>
     </Listbox>
-  )
-}
+  );
+};
 
-const defaultOptionRenderer = (option:any, selected:any) => (
+const defaultOptionRenderer = (option: any, selected: any) => (
   <div className="flex items-center gap-2 disabled:opacity-25">
     {selected ? (
       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
-        <FontAwesomeIcon icon={faCheck} className={option.isDisabled ? "filter grayscale" : ""}/>
+        <FontAwesomeIcon
+          icon={faCheck}
+          className={option.isDisabled ? "filter grayscale" : ""}
+        />
       </span>
     ) : null}
     <Image
@@ -106,9 +110,7 @@ const defaultOptionRenderer = (option:any, selected:any) => (
       height={25}
       className={`rounded-full ${option.isDisabled ? "filter grayscale" : ""}`}
     />
-    <span className="block truncate text-lg">
-      {option.name}
-    </span>
+    <span className="block truncate text-lg">{option.name}</span>
   </div>
 );
 
