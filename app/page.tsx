@@ -30,6 +30,7 @@ import OFTHyperBridge from "@/components/OFTHyperBridge";
 import StargateBridge from "@/components/StargateBridge";
 import Tabs from "./components/Tabs";
 import ONFTAbi from "@/config/abi/ONFT.json";
+import Message from "@/components/Message";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -368,6 +369,14 @@ export default function Home({
                 setEstimatedGas={setEstimatedGas}
               />
             ) : tabIndex == 5 ? (
+              <Message
+                sourceChain={sourceChain}
+                targetChain={targetChain}
+                onChangeSourceChain={onChangeSourceChain}
+                onChangeTargetChain={onChangeTargetChain}
+                onArrowClick={onArrowClick}
+              />
+            ) : tabIndex == 6 ? (
               <StargateBridge />
             ) : null}
           </div>

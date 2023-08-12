@@ -8,15 +8,12 @@ import {
   goerli,
   harmonyOne,
   klaytn,
-  mainnet,
   metis,
   moonbeam,
   moonriver,
   optimism,
-  optimismGoerli,
   polygon,
   polygonMumbai,
-  polygonZkEvm,
   scrollTestnet,
   zkSync,
   sepolia,
@@ -28,7 +25,7 @@ export interface Network {
   layerzeroChainId: number;
   nftContractAddress: string;
   tokenContractAddress: string;
-  gasRefuelContractAddress?: string;
+  messageContractAddress?: string;
   relayerAddress?: string;
   blockConfirmation: number;
   colorClass: string;
@@ -249,7 +246,6 @@ export const networks: Network[] = [
     layerzeroChainId: 150,
     nftContractAddress: "0x0386dA88F4A06E0E1B75BC0B6b3c07B5ac39A393",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     relayerAddress: "0x5b19bd330a84c049b62d5b0fc2ba120217a18c1c",
     blockConfirmation: 5,
     colorClass: "bg-[#f82e08]",
@@ -298,7 +294,6 @@ export const networks: Network[] = [
     layerzeroChainId: 159,
     nftContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
-    gasRefuelContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
     relayerAddress: "0x5b19bd330a84c049b62d5b0fc2ba120217a18c1c",
     blockConfirmation: 2,
     colorClass: "bg-[#34EEA4]",
@@ -509,6 +504,7 @@ export const networks: Network[] = [
     layerzeroChainId: 10121,
     nftContractAddress: "0x6007d8db8205dBBA20a887df8b992E5ECAeC993a",
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
+    messageContractAddress: "0x685ee8d4f4b96354c4378A9eE44F48525D8B7f9A",
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
     blockConfirmation: 3,
     colorClass: "bg-[#373737]",
@@ -528,6 +524,7 @@ export const networks: Network[] = [
     layerzeroChainId: 10109,
     nftContractAddress: "0xbB89Bb8aFB9EE4E9229A1AE7F11f196BA13514C9",
     tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    messageContractAddress: "0x765475a4069F3F679735d0752aB90a225b2083aa",
     blockConfirmation: 5,
     logIndex: 2,
     colorClass: "bg-[#7F43DF]",
