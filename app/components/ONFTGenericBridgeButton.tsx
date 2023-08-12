@@ -1,6 +1,6 @@
 import type { Network } from "@/utils/networks";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -35,7 +35,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-  const { data: gasEstimateData } = useContractRead({
+  const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "estimateSendFee",
@@ -55,6 +55,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     functionName: "bridgeFee",
     chainId: sourceChain.chainId,
   });
+
+
+  console.log("gasEstimateData", gasEstimateData);
 
   const {
     config: sendFromConfig,
@@ -78,7 +81,14 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       "0x00010000000000000000000000000000000000000000000000000000000000055730",
     ],
   });
+
+
+  useEffect(() => {
+    refetch();
+  }, [sourceChain.chainId, targetChain.chainId, tokenId]);
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
+
+
 
   useEffect(() => {
     if ((gasEstimateData as any)?.[0]) {
