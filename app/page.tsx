@@ -1229,7 +1229,7 @@ export default function Home({
                   />
 
                   <div className="flex flex-col items-center">
-                    {sourceChain?.chainName !== undefined ? (
+                  {sourceChain?.chainName !== undefined || sourceChain.chainId ===324 ? (
                       <button
                         className={
                           "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
