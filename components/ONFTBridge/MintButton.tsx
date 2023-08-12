@@ -17,7 +17,6 @@ type Props = {
   sourceChain: Network;
   targetChain: Network;
   refCode?: string;
-  logIndex?: number;
   balanceOfRefetch: () => Promise<any>;
 };
 
@@ -25,7 +24,6 @@ const MintButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   refCode,
-  logIndex,
   balanceOfRefetch,
 }) => {
   const [mintTxHash, setMintTxHash] = useState("");
@@ -74,7 +72,7 @@ const MintButton: React.FC<Props> = ({
       });
 
       const tokenId = BigInt(
-        mintTxResultData.logs[logIndex || 0].topics[3] as string
+        mintTxResultData.logs[sourceChain.logIndex || 0].topics[3] as string
       ).toString();
 
       const postMint = async () => {

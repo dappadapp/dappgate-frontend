@@ -85,11 +85,6 @@ const SendButton: React.FC<Props> = ({
     }
   }, [receiverAddress, messageContent]);
 
-  /*   const { data: mintTxResultData } = useWaitForTransaction({
-    hash: txHash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
-  }); */
-
   const onSendMessage = async () => {
     if (!account) {
       return alert("Please connect your wallet first.");

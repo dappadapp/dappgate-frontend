@@ -12,6 +12,7 @@ import {
 import OFTBridge from "../../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { waitForTransaction } from "@wagmi/core";
 
 type Props = {
   sourceChain: Network;
@@ -28,7 +29,6 @@ const OFTClaimButton: React.FC<Props> = ({
   refetchDlgateBalance,
   setPendingTxs,
 }) => {
-  const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { chain: connectedChain } = useNetwork();
@@ -52,58 +52,9 @@ const OFTClaimButton: React.FC<Props> = ({
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const { data: mintTxResultData } = useWaitForTransaction({
-    hash: mintTxHash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
-  });
-
   const addTx = async (txHash: string) => {
     setPendingTxs((pendingTxs: any) => [...pendingTxs, txHash]);
   };
-
-  useEffect(() => {
-    if (!mintTxResultData) return;
-
-    const postMint = async () => {
-      await axios.post("/api/mint", {
-        tokenId: inputOFTAmount,
-      });
-    };
-    postMint();
-
-    if (String(refCode)?.length === 12) {
-      const postReferenceMint = async () => {
-        const result = await axios.post("/api/referenceMintOFT", {
-          id: inputOFTAmount,
-          walletAddress: account,
-          chainId: sourceChain.chainId,
-          ref: refCode,
-          tx_id: mintTxHash,
-          amount: inputOFTAmount,
-        });
-      };
-      postReferenceMint();
-
-      if (mintTxHash && sourceChain) {
-        const postHashMint = async () => {
-          await axios.post("/api/hash", {
-            type: "mint",
-            hash: mintTxHash,
-            ref: refCode,
-            chainId: sourceChain?.chainId,
-          });
-        };
-        postHashMint();
-      }
-    }
-
-    refetchDlgateBalance();
-
-    ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
-
-    setMintTxHash("");
-    toast(`Tokens minted!`);
-  }, [mintTxResultData]);
 
   const onMint = async () => {
     if (!account) {
@@ -124,10 +75,48 @@ const OFTClaimButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const result = await mint();
-      setMintTxHash(result.hash);
-      addTx(result.hash);
+      const { hash: txHash } = await mint();
+      addTx(txHash);
       toast("Mint transaction sent, waiting confirmation...");
+
+      await waitForTransaction({
+        hash: txHash as `0x${string}`,
+      });
+
+      const postMint = async () => {
+        await axios.post("/api/mint", {
+          tokenId: inputOFTAmount,
+        });
+      };
+      postMint();
+
+      if (String(refCode)?.length === 12) {
+        const postReferenceMint = async () => {
+          await axios.post("/api/referenceMintOFT", {
+            id: inputOFTAmount,
+            walletAddress: account,
+            chainId: sourceChain.chainId,
+            ref: refCode,
+            tx_id: txHash,
+            amount: inputOFTAmount,
+          });
+        };
+        postReferenceMint();
+
+        if (txHash && sourceChain) {
+          const postHashMint = async () => {
+            await axios.post("/api/hash", {
+              type: "mint",
+              hash: txHash,
+              ref: refCode,
+              chainId: sourceChain.chainId,
+            });
+          };
+          postHashMint();
+        }
+      }
+      refetchDlgateBalance();
+      toast(`Tokens minted!`);
     } catch (error) {
       console.log(error);
     } finally {
