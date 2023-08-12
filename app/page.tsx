@@ -1139,19 +1139,6 @@ export default function Home({
                           : "bg-transparent"
                       }`}
                     >
-                      Gas Refuel
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto ${
-                        selected
-                          ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
-                          : "bg-transparent"
-                      }`}
-                    >
                       OFT Bridge
                     </button>
                   )}
@@ -1609,92 +1596,6 @@ export default function Home({
               </div>
             ) : tabIndex == 2 ? (
               <div
-                className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px]  border-white border-[2px] border-opacity-10 p-10 rounded-2xl flex flex-col`}
-              >
-                <div className="flex flex-row justify-between items-center">
-                  <h1 className={"text-3xl font-semibold"}>Gas Refuel</h1>
-                </div>
-                <div
-                  className={
-                    "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8 mb-5"
-                  }
-                >
-                  <ListboxSourceMenu
-                    value={sourceChain}
-                    onChange={onChangeSourceChain}
-                    options={filteredNetworks}
-                    searchValue={searchTerm}
-                    setSearchValue={setSearchTerm}
-                  />
-                  <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
-                  <ListboxTargetMenu
-                    value={targetChain}
-                    sourceValue={sourceChain}
-                    onChange={onChangeTargetChain}
-                    options={gasRefuelNetworks}
-                    searchValue={searchTerm}
-                    setSearchValue={setSearchTerm}
-                  />
-                </div>
-                <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
-                  <div className="text-white-700 break-words max-w-[60%] text-base">
-                    ${sourceChain.name}{" "}
-                    {Number(balanceOfUser?.formatted || 0).toFixed(4) || 0}{" "}
-                    {sourceChain.symbol}
-                  </div>
-                  <div className="text-white-700 break-words max-w-[60%] text-base"></div>
-                  <div className="text-white-700 text-base">
-                    Max: {" " + gasRefuelMaxValue + " "} {targetChain.symbol}
-                  </div>
-                </div>
-                {/** Create Logo and Token name label button and at the same row create a input box with max option  */}
-                <div className="relative flex flex-row justify-between  w-full sm:w-full">
-                  {/** In input box create a max option for balance max */}
-
-                  <input
-                    type="number"
-                    className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
-                    placeholder={`Input Amount of ${targetChain.symbol} to receive on ${targetChain.name}`}
-                    value={gasRefuelAmount}
-                    onChange={(e) => {
-                      if (e.target.value.length === 0) {
-                        setGasRefuelAmount("0");
-                        return;
-                      }
-                      setGasRefuelAmount(e.target.value);
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="absolute top-1/2 right-2 mt-1 transform -translate-y-1/2 px-3 py-2 bg-red-500/40 text-white rounded-md"
-                    onClick={handleMax}
-                  >
-                    Max
-                  </button>
-                </div>
-
-                <OFTRefuelButton
-                  sourceChain={sourceChain}
-                  targetChain={targetChain}
-                  gasRefuelAmount={gasRefuelAmount}
-                  setLayerZeroTxHashes={setLayerZeroTxHashes}
-                  setEstimatedGas={setEstimatedGas}
-                  balanceOfData={gasRefuelMaxValue}
-                />
-                <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
-                  Disclaimer
-                  <span className="text-xs md:text-sm">
-                    The token bridge is a service that allows users to transfer
-                    tokens between different blockchains. However, it is not a
-                    financial product and does not offer any guarantees about
-                    the price or liquidity of tokens. The service provider is
-                    not liable for any loss or damage arising from the use of
-                    the token bridge.
-                  </span>
-                </div>
-              </div>
-            ) : tabIndex == 3 ? (
-              <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 text-xs md:text-sm backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
                 <div className="flex flex-row justify-between items-center">
@@ -1799,7 +1700,7 @@ export default function Home({
                   dlgateBridgeAmount={dlgateBridgeAmount}
                 />
               </div>
-            ) : tabIndex == 4 ? (
+            ) : tabIndex == 3 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
@@ -1972,7 +1873,7 @@ export default function Home({
                   setBridgeCostData={setBridgeCostData}
                 />
               </div>
-            ) : tabIndex == 5 ? (
+            ) : tabIndex == 4 ? (
               <div
                 className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
               >
