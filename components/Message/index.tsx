@@ -4,8 +4,49 @@ import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
 import { Network, networks } from "@/utils/networks";
 import React, { useState } from "react";
 import DappLetterAbi from "@/config/abi/Message.json";
+import { getPublicClient } from "@wagmi/core";
 import SendButton from "./SendButton";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractReads,
+  usePublicClient,
+  useBlockNumber,
+} from "wagmi";
+import { parseAbiItem } from "viem";
+
+const chains = [
+  {
+    id: 8453,
+    fromBlock: 2387911n,
+    toBlock: 2386084n,
+    address: "0x9954f0B7a7589f6D10a1C40C8bE5c2A81950FB46",
+  },
+  {
+    id: 42161,
+    fromBlock: 119439619n,
+    toBlock: 119476797n,
+    address: "0x7554C507Ac1F7B0E09a631Bc929fFd3F7a492b01",
+  },
+  {
+    id: 56,
+    fromBlock: 30698085n,
+    toBlock: 30699999n,
+    address: "0x34b9d8B0B52F827c0f6657183ef88E6e0EefF54c",
+  },
+  {
+    id: 10,
+    fromBlock: 107986561n,
+    toBlock: 107990190n,
+    address: "0xd37f0A54956401e082Ec3307f2829f404E3C1AB4",
+  },
+  {
+    id: 59144,
+    fromBlock: 157770n,
+    toBlock: 158251n,
+    address: "0x93E5f549327baB41a1e33daEBF27dF27502CC818",
+  },
+];
 
 type Props = {
   sourceChain: Network;
@@ -31,6 +72,7 @@ const Message: React.FC<Props> = ({
   );
 
   const { address: account } = useAccount();
+  const { data: blockNumber } = useBlockNumber();
 
   // fetching received messages
   const { data: receivedMessageCount } = useContractRead({
@@ -55,8 +97,33 @@ const Message: React.FC<Props> = ({
 
   console.log("receivedMessagesData", receivedMessagesData);
 
-  const handleRandomClick = () => {
+  const handleRandomClick = async () => {
+    if (!blockNumber) return;
     console.log("dnsaj");
+    const randomNumber1 = Math.floor(Math.random() * chains.length);
+    const randomChain = chains[randomNumber1];
+    const publicClient = getPublicClient({
+      chainId: randomChain.id,
+    });
+    const logs = await publicClient.getLogs({
+      address: randomChain.address as `0x${string}`,
+      event: parseAbiItem(
+        "event Transfer(address indexed, address indexed, uint256)"
+      ),
+      fromBlock: randomChain.fromBlock,
+      toBlock: randomChain.toBlock,
+    });
+    console.log("randomChain", randomChain);
+    console.log("logs", logs);
+    let randomAddress = "0x0000000000000000000000000000000000000000";
+    while (randomAddress === "0x0000000000000000000000000000000000000000") {
+      const randomNumber = Math.floor(Math.random() * logs.length);
+      const address_ = logs[randomNumber].args[1]!;
+      if (address_ !== "0x0000000000000000000000000000000000000000")
+        randomAddress = address_;
+    }
+    setReceiver(randomAddress);
+    console.log("logs", randomAddress);
   };
 
   return (
