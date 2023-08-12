@@ -12,7 +12,7 @@ const tabsConfig = [
   "Gas Refuel",
   "OFT Bridge",
   "OFT HyperBridge",
-  "Message",
+ // "Message",
   "Stargate Bridge",
 ];
 

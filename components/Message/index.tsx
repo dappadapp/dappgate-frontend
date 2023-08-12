@@ -123,10 +123,10 @@ const Message: React.FC<Props> = ({
     setReceiver(randomAddress);
   };
 
-  const receivedMessages = receivedMessagesData?.map((message: any) => {
+  const receivedMessages = receivedMessagesData?.map((message: any, i) => {
     console.log('message', message)
     return (
-      <div className="flex flex-col gap-2 bg-white/10 border-white border-[1px] rounded-lg px-8 py-2">
+      <div className="flex flex-col gap-2 bg-white/10 border-white border-[1px] rounded-lg px-8 py-2" key={i}>
         <div>Sender: {message.result[1]} </div>
         <div>Message: {message.result[0]} </div>
       </div>

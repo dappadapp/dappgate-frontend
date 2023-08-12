@@ -57,8 +57,6 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   });
 
 
-  console.log("gasEstimateData", gasEstimateData);
-
   const {
     config: sendFromConfig,
     isSuccess,
