@@ -74,8 +74,9 @@ function BridgeModal({
           setLoading(false);
         }
       }
-      setLoading(false);
+    
     }
+    setLoading(false);
   };
 
 
@@ -163,7 +164,7 @@ function BridgeModal({
               </svg>
             </div>
           )}
-          {nftOwned === undefined ? (
+          {tokenIdsArray?.length === 0 ? (
             <div className="flex justify-center items-center">
               <h2 className="mt-5">
                 You dont own any NFTs on <strong>{sourceChain.name}</strong>{" "}
