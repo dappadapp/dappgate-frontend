@@ -38,6 +38,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "mintFee",
+    chainId: sourceChain.chainId,
   });
 
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
