@@ -18,8 +18,8 @@ type Props = {
   targetChain: Network;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
-  setNftOwned: any;
   tokenId: any;
+  refetchUserNftBalance: any;
 };
 
 const ONFTGenericBridgeButton: React.FC<Props> = ({
@@ -27,15 +27,15 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   targetChain,
   setLayerZeroTxHashes,
   setEstimatedGas,
-  setNftOwned,
   tokenId,
+  refetchUserNftBalance,
 }) => {
   const [loading, setLoading] = useState(false);
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-  const { data: gasEstimateData, refetch } = useContractRead({
+  const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "estimateSendFee",
@@ -55,7 +55,6 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     functionName: "bridgeFee",
     chainId: sourceChain.chainId,
   });
-
 
   const {
     config: sendFromConfig,
@@ -80,13 +79,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     ],
   });
 
-
-  useEffect(() => {
-    refetch();
-  }, [sourceChain.chainId, targetChain.chainId, tokenId]);
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
-
-
 
   useEffect(() => {
     if ((gasEstimateData as any)?.[0]) {
@@ -169,11 +162,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       };
       postBridgeHistory();
 
-      setNftOwned((prev: any) =>
-        prev.filter((nft: any) => nft.token_id !== tokenId)
-      );
-
       toast("Bridge transaction sent!");
+      refetchUserNftBalance();
     } catch (error) {
       console.log(error);
     } finally {
