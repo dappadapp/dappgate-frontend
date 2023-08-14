@@ -7,7 +7,6 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useSwitchNetwork,
-  useWaitForTransaction,
 } from "wagmi";
 import OFTBridge from "../../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
@@ -80,7 +79,7 @@ const OFTClaimButton: React.FC<Props> = ({
       toast("Mint transaction sent, waiting confirmation...");
 
       await waitForTransaction({
-        hash: txHash as `0x${string}`,
+        hash: txHash,
       });
 
       const postMint = async () => {

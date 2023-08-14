@@ -7,11 +7,11 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useSwitchNetwork,
-  useWaitForTransaction,
 } from "wagmi";
 import OFTBridge from "../../config/abi/OFTBridge.json";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { waitForTransaction } from "@wagmi/core";
 
 type Props = {
   sourceChain: Network;
@@ -28,7 +28,6 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   selectedHyperBridges,
   setMintCostData,
 }) => {
-  const [mintTxHash, setMintTxHash] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { chain: connectedChain } = useNetwork();
@@ -61,69 +60,17 @@ const OFTHyperClaimButton: React.FC<Props> = ({
   });
   const { writeAsync: mint } = useContractWrite(mintConfig);
 
-  const { data: mintTxResultData } = useWaitForTransaction({
-    hash: mintTxHash as `0x${string}`,
-    confirmations: sourceChain.blockConfirmation,
-  });
   useEffect(() => {
     if (!costData) return;
 
     setMintCostData(
       BigInt((costData as string) || "500000000000000") *
-      BigInt(
-        (tokenAmountHyperBridge *
-          selectedHyperBridges?.length) as unknown as string
-      )
+        BigInt(
+          (tokenAmountHyperBridge *
+            selectedHyperBridges?.length) as unknown as string
+        )
     );
   }, [tokenAmountHyperBridge, selectedHyperBridges, costData, setMintCostData]);
-
-  useEffect(() => {
-    if (!mintTxResultData) return;
-
-    const postMint = async () => {
-      await axios.post("/api/mint", {
-        tokenId: tokenAmountHyperBridge,
-      });
-    };
-    postMint();
-
-    if (refCode?.length === 12) {
-      const postReferenceMint = async () => {
-        const result = await axios.post("/api/referenceMintOFT", {
-          id: tokenAmountHyperBridge,
-          walletAddress: account,
-          chainId: sourceChain.chainId,
-          ref: refCode,
-          tx_id: mintTxHash,
-          amount: tokenAmountHyperBridge,
-        });
-      };
-      postReferenceMint();
-    }
-
-    if (mintTxHash && sourceChain) {
-      const postHashMint = async () => {
-        await axios.post("/api/hash", {
-          type: "mint",
-          hash: mintTxHash,
-          ref: refCode,
-          chainId: sourceChain?.chainId,
-        });
-      };
-      postHashMint();
-    }
-
-    ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
-
-    setMintTxHash("");
-    toast(`Tokens minted!`);
-  }, [mintTxResultData]);
-
-  const getOwnRef = (paramsRefCode: string) => {
-    let splitString = paramsRefCode.split("");
-    let reverseArray = splitString.reverse();
-    return reverseArray.join("").substring(0, 12);
-  };
 
   const onMint = async () => {
     if (!account) {
@@ -148,9 +95,46 @@ const OFTHyperClaimButton: React.FC<Props> = ({
       if (connectedChain?.id !== sourceChain.chainId) {
         await switchNetworkAsync?.(sourceChain.chainId);
       }
-      const result = await mint();
-      setMintTxHash(result.hash);
+      const { hash: txHash } = await mint();
+
       toast("Mint transaction sent, waiting confirmation...");
+
+      await waitForTransaction({
+        hash: txHash,
+      });
+
+      const postMint = async () => {
+        await axios.post("/api/mint", {
+          tokenId: tokenAmountHyperBridge,
+        });
+      };
+      postMint();
+
+      if (refCode?.length === 12) {
+        const postReferenceMint = async () => {
+          const result = await axios.post("/api/referenceMintOFT", {
+            id: tokenAmountHyperBridge,
+            walletAddress: account,
+            chainId: sourceChain.chainId,
+            ref: refCode,
+            tx_id: txHash,
+            amount: tokenAmountHyperBridge,
+          });
+        };
+        postReferenceMint();
+      }
+
+      if (txHash && sourceChain) {
+        const postHashMint = async () => {
+          await axios.post("/api/hash", {
+            type: "mint",
+            hash: txHash,
+            ref: refCode,
+            chainId: sourceChain?.chainId,
+          });
+        };
+        postHashMint();
+      }
     } catch (error) {
       console.log(error);
     } finally {
