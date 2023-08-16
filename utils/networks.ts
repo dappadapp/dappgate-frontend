@@ -17,6 +17,7 @@ import {
   scrollTestnet,
   zkSync,
   sepolia,
+  polygonZkEvm,
 } from "wagmi/chains";
 
 export interface Network {
@@ -121,11 +122,11 @@ export const networks: Network[] = [
     chainName: "avalanche-mainnet",
   },
 
-  /* {
+  {
     name: polygonZkEvm.name,
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
-    nftContractAddress: "0x93E5f549327baB41a1e33daEBF27dF27502CC818", // TODO: UPDATE WHEN NEW CONTRACTS COME
+    nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755", // TODO: UPDATE WHEN NEW CONTRACTS COME
     tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
     blockConfirmation: 1,
@@ -137,7 +138,7 @@ export const networks: Network[] = [
     ],
     symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
-  }, */
+  }, 
 
   {
     name: "Mantle",
