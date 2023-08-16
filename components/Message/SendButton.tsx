@@ -38,7 +38,7 @@ const SendButton: React.FC<Props> = ({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "cost",
-    chainId: sourceChain.chainId
+    chainId: sourceChain.chainId,
   });
 
   const { data: feeData } = useContractRead({
@@ -51,12 +51,8 @@ const SendButton: React.FC<Props> = ({
       "0x0000000000000000000000000000000000000000",
       "asdf",
     ],
-    chainId: sourceChain.chainId
+    chainId: sourceChain.chainId,
   });
-
-  console.log(((costData as bigint) || BigInt(0)) +
-    ((feeData as bigint) || BigInt(0)) +
-    BigInt(1))
 
   const {
     config: mintConfig,
@@ -72,7 +68,7 @@ const SendButton: React.FC<Props> = ({
       BigInt(1),
     enabled: false,
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId],
-    chainId: sourceChain.chainId
+    chainId: sourceChain.chainId,
   });
   const { writeAsync: sendMessage } = useContractWrite(mintConfig);
 
@@ -83,7 +79,7 @@ const SendButton: React.FC<Props> = ({
     } else {
       setDisabled(true);
     }
-  }, [receiverAddress, messageContent]);
+  }, [receiverAddress, messageContent, refetchSendMessage]);
 
   const onSendMessage = async () => {
     if (!account) {

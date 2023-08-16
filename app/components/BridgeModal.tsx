@@ -3,27 +3,16 @@ import React, { useEffect, useState } from "react";
 import ONFTAbi from "../../config/abi/ONFT.json";
 import ONFTGenericBridgeButton from "./ONFTGenericBridgeButton";
 import Image from "next/image";
-import { useAccount, useContractRead } from "wagmi";
-import { writeContract, readContract } from "@wagmi/core";
+import { useAccount, useContractRead, useContractReads } from "wagmi";
+import { Network } from "@/utils/networks";
+
 type Props = {
   onCloseModal: any;
-  sourceChain: any;
-  targetChain: any;
+  sourceChain: Network;
+  targetChain: Network;
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
 };
-
-interface DataResponse {
-  data: {
-    wallets: {
-      wallet_address: string;
-      contracts: {
-        contract_address: string;
-        token_ids: number[];
-      }[];
-    }[];
-  };
-}
 
 function BridgeModal({
   onCloseModal,
@@ -34,19 +23,10 @@ function BridgeModal({
 }: Props) {
   const { address: walletAddress } = useAccount();
 
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [nftOwned, setNftOwned] = useState<any[]>([]);
-  const [nftOwnedZk, setNftOwnedZk] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  // create token id array for nfts
-  const [tokenIdsArray, setTokenIdsArray] = useState<any[]>([]);
 
-  const {
-    data: nftBalance,
-    isError,
-    isLoading,
-  } = useContractRead({
+  const { data: nftBalance, refetch: refetchUserNftBalance } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     chainId: sourceChain.chainId,
     abi: ONFTAbi,
@@ -54,38 +34,23 @@ function BridgeModal({
     args: [walletAddress],
   });
 
+  const { data: tokenIdsArray, isLoading } = useContractReads({
+    contracts: Array.from(Array(Number(nftBalance) || 0).keys()).map((i) => ({
+      address: sourceChain.nftContractAddress as `0x${string}`,
+      chainId: sourceChain.chainId,
+      abi: ONFTAbi as any,
+      functionName: "tokenOfOwnerByIndex",
+      args: [walletAddress, i] as any,
+    })),
+    select: (data) => data.map((d) => `${d.result}`),
+  });
 
-
-
-  const getNftIds = async () => {
-    setLoading(true);
-    if (nftBalance) {
-      for (let i = 0; i < Number(nftBalance); i++) {
-        const id = await readContract({
-          address: sourceChain.nftContractAddress as `0x${string}`,
-          chainId: sourceChain.chainId,
-          abi: ONFTAbi,
-          functionName: "tokenOfOwnerByIndex",
-          args: [walletAddress, i],
-        })
-        // check if id is already in array
-        if (!tokenIdsArray.includes(Number(id))) {
-          setTokenIdsArray((prevArray) => [...prevArray, Number(id)]);
-          setLoading(false);
-        }
-      }
-    
-    }
-    setLoading(false);
-  };
-
-
+  console.log("tokenIdsArray", tokenIdsArray);
 
   useEffect(() => {
-    getNftIds();
-  }, [nftBalance]);
-
-
+    if (isLoading) setLoading(true);
+    else setLoading(false);
+  }, [isLoading]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -94,8 +59,6 @@ function BridgeModal({
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
-
-
 
   const availableNfts = (page: number, nftsPerPage: number) => {
     const startIndex = (page - 1) * nftsPerPage;
@@ -114,16 +77,14 @@ function BridgeModal({
             />
 
             <div className="items-center justify-center">
-              <p className={"text-lg font-medium p-2 mb-3"}>
-                NFT #{token_id}
-              </p>
+              <p className={"text-lg font-medium p-2 mb-3"}>NFT #{token_id}</p>
               <ONFTGenericBridgeButton
                 sourceChain={sourceChain}
                 targetChain={targetChain}
                 tokenId={token_id}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
-                setNftOwned={setNftOwned}
+                refetchUserNftBalance={refetchUserNftBalance}
               />
             </div>
           </div>
@@ -198,7 +159,11 @@ function BridgeModal({
           <div className="mt-8 text-sm md:text-base flex flex-col text-gray-400 max-w-[450px] md:max-w-[550px]">
             Disclaimer
             <span className="text-xs md:text-sm">
-              The loading time for Non-Fungible Tokens (NFTs) viewed through our platform is not within our control and we are not associated with these potential delays. Various factors, such as the server status, the chain you&apos;re using, and the number of NFTs you own, can affect the loading time.
+              The loading time for Non-Fungible Tokens (NFTs) viewed through our
+              platform is not within our control and we are not associated with
+              these potential delays. Various factors, such as the server
+              status, the chain you&apos;re using, and the number of NFTs you
+              own, can affect the loading time.
             </span>
           </div>
         </div>
@@ -208,5 +173,3 @@ function BridgeModal({
 }
 
 export default BridgeModal;
-
-

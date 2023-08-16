@@ -1,5 +1,5 @@
 import type { Network } from "@/utils/networks";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MintButton from "./MintButton";
 import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
 import CircleSvg from "@/app/components/CircleSvg";
@@ -57,7 +57,7 @@ const ONFTBridge: React.FC<Props> = ({
     args: [account],
   });
 
-  const { data: tokenIdsData } = useContractReads({
+  const { data: tokenIds } = useContractReads({
     contracts: Array.from(Array(Number(balanceOfData || 0)).keys()).map((i) => {
       return {
         address: sourceChain.nftContractAddress as `0x${string}`,
@@ -67,14 +67,13 @@ const ONFTBridge: React.FC<Props> = ({
         chainId: sourceChain.chainId,
       };
     }),
+    select: (data) => data.map((d) => `${d.result}`),
   });
-
-  const tokenIds = tokenIdsData?.map((data) => `${data.result}`);
 
   useEffect(() => {
     if (!tokenIds || tokenIds.length === 0) return;
     setInputTokenId(tokenIds[0]);
-  }, [JSON.stringify(tokenIds)]);
+  }, [tokenIds]);
 
   console.log("tokenIds", tokenIds);
   console.log("balanceOfData", balanceOfData);
