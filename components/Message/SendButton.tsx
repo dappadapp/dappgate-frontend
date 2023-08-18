@@ -58,7 +58,6 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     abi: DappLetterAbi,
     functionName: "sendMessage",
     value: ((costData as bigint) || BigInt(0)) + ((feeData as bigint) || BigInt(0)) + BigInt(1),
-    enabled: false,
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId, false],
     chainId: sourceChain.chainId,
   });
