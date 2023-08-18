@@ -5,14 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
-import {
-  useAccount,
-  useBalance,
-  useContractReads,
-  useNetwork,
-  useSwitchNetwork,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useBalance, useContractReads, useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Network, networks } from "@/utils/networks";
@@ -28,12 +21,9 @@ import GasRefuel from "@/components/GasRefuel";
 import OFTBridge from "@/components/OFTBridge";
 import OFTHyperBridge from "@/components/OFTHyperBridge";
 import StargateBridge from "@/components/StargateBridge";
-import Tabs from "./components/Tabs";
+import Tabs, { tabsConfig } from "./components/Tabs";
 import ONFTAbi from "@/config/abi/ONFT.json";
 import Message from "@/components/Message";
-
-
-
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -42,11 +32,7 @@ const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
 const ANIMATION_TIME = 4000;
 const ANIMATION_END_TIME = 1000;
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default function Home({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [refCode, setRefCode] = useState<string>("");
@@ -67,18 +53,10 @@ export default function Home({
       address: sourceChain.nftContractAddress as `0x${string}`,
       abi: ONFTAbi as any,
       functionName: "estimateSendFee",
-      args: [
-        `${network.layerzeroChainId}`,
-        "0x0000000000000000000000000000000000000000",
-        "1",
-        false,
-        "0x",
-      ],
+      args: [`${network.layerzeroChainId}`, "0x0000000000000000000000000000000000000000", "1", false, "0x"],
       chainId: sourceChain.chainId,
     })),
   });
-
-
 
   useEffect(() => {
     if (!disabledBridgesData) return;
@@ -95,13 +73,9 @@ export default function Home({
   // fill with individual network data
 
   const initialSelectedHyperBridges = networks.filter(
-    (network) =>
-      !sourceChain.disabledNetworks.includes(network.chainId) &&
-      sourceChain.chainId !== network.chainId
+    (network) => !sourceChain.disabledNetworks.includes(network.chainId) && sourceChain.chainId !== network.chainId
   );
-  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
-    initialSelectedHyperBridges
-  );
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(initialSelectedHyperBridges);
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -131,9 +105,7 @@ export default function Home({
   };
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
-    const chain = networks.find(
-      (network) => network.name === selectedNetwork.name
-    );
+    const chain = networks.find((network) => network.name === selectedNetwork.name);
     if (chain) {
       try {
         if (chain.chainId !== connectedChain?.id) {
@@ -146,9 +118,7 @@ export default function Home({
         toast("Chain changed!");
       } catch (error: any) {
         if (error.code === 4001) {
-          toast(
-            "You need to confirm the Metamask request in order to switch network."
-          );
+          toast("You need to confirm the Metamask request in order to switch network.");
           return;
         }
         console.log(error.code);
@@ -159,18 +129,14 @@ export default function Home({
 
     const newSelectedHyperBridges = networks.filter(
       (network) =>
-        !selectedNetwork.disabledNetworks.includes(network.chainId) &&
-        network.chainId !== selectedNetwork.chainId
+        !selectedNetwork.disabledNetworks.includes(network.chainId) && network.chainId !== selectedNetwork.chainId
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
   };
 
-
   const onChangeTargetChain = async (selectedNetwork: Network) => {
-    const chain = networks.find(
-      (network) => network.name === selectedNetwork.name
-    );
+    const chain = networks.find((network) => network.name === selectedNetwork.name);
     if (chain) {
       try {
         if (chain.name === sourceChain.name) {
@@ -218,9 +184,7 @@ export default function Home({
 
   useEffect(() => {
     const selectedHyperBridges_ = networks.filter(
-      (network) =>
-        !sourceChain.disabledNetworks.includes(network.chainId) &&
-        sourceChain.chainId !== network.chainId
+      (network) => !sourceChain.disabledNetworks.includes(network.chainId) && sourceChain.chainId !== network.chainId
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
@@ -232,14 +196,20 @@ export default function Home({
   }, [account]);
 
   useEffect(() => {
-    if (!searchParams?.ref) return;
-    setRefCode(searchParams?.ref as string);
+    console.log("searchParams", searchParams);
+    if (searchParams?.ref) {
+      setRefCode(searchParams?.ref as string);
+    }
+    if (searchParams?.tab) {
+      const tabsFormatted = tabsConfig.map((t) => t.replace(" ", "").toLowerCase());
+      const foundTabIndex = tabsFormatted.findIndex((t) => t === searchParams?.tab);
+      console.log("foundTabIndex", foundTabIndex);
+      setTabIndex(foundTabIndex === -1 ? 0 : foundTabIndex);
+    }
   }, [searchParams?.ref]);
 
   return (
-    <div
-      className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}
-    >
+    <div className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}>
       {isRefModalOpen ? (
         <RefModal
           onCloseModal={() => {
@@ -274,21 +244,12 @@ export default function Home({
           targetChain={targetChain}
           setLayerZeroTxHashes={setLayerZeroTxHashes}
           setEstimatedGas={setEstimatedGas}
-
         />
       ) : null}
 
-      <div
-        className={
-          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
-        }
-      >
+      <div className={"absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"}>
         <div className={"container mx-auto gap-2 h-full flex flex-col"}>
-          <div
-            className={
-              "w-full flex flex-row items-center justify-between mt-10 gap-2"
-            }
-          >
+          <div className={"w-full flex flex-row items-center justify-between mt-10 gap-2"}>
             <DappGateLogo />
             <div className="flex flex-col-reverse md:flex-row gap-3">
               <button
@@ -305,16 +266,10 @@ export default function Home({
             <div className={"flex gap-4"}>
               <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
-              <button onClick={() => setIsHistoryModalOpen(true)}>
-                History
-              </button>
+              <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
             </div>
           </div>
-          <div
-            className={
-              "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
-            }
-          >
+          <div className={"w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"}>
             <Tabs tabIndex={tabIndex} setTabIndex={setTabIndex} />
 
             {tabIndex == 0 ? (
@@ -375,7 +330,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            )  : tabIndex == 5 ? (
+            ) : tabIndex == 5 ? (
               <Message
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -386,8 +341,6 @@ export default function Home({
             ) : tabIndex == 6 ? (
               <StargateBridge />
             ) : null}
-
-            
           </div>
           <Footer />
         </div>
@@ -397,35 +350,26 @@ export default function Home({
       <div className={"relative w-full h-full"}>
         <div className={"absolute z-[4] bg-effect w-full h-full"}></div>
         <div className={"absolute z-[3] w-full h-full bg-pattern"}></div>
-        <div
-          className={
-            "relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"
-          }
-        >
+        <div className={"relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"}>
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "bridge-animaton" : ""
+            }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
-                ? "left-[30%]"
-                : "left-0 duration-1000 transition-all translate-x-[-50%]"
-                } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${
+                isAnimationEnd ? "left-[30%]" : "left-0 duration-1000 transition-all translate-x-[-50%]"
+              } rounded-full`}
               style={{
-                background: sourceChain.colorClass
-                  .replace("bg-[", "")
-                  .replace("]", ""),
+                background: sourceChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
-                ? "right-[30%] opacity-50"
-                : "right-0 duration-1000 transition-all translate-x-[50%]"
-                } rounded-full`}
+              className={`absolute h-[80vh] aspect-square ${
+                isAnimationEnd ? "right-[30%] opacity-50" : "right-0 duration-1000 transition-all translate-x-[50%]"
+              } rounded-full`}
               style={{
-                background: targetChain.colorClass
-                  .replace("bg-[", "")
-                  .replace("]", ""),
+                background: targetChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
           </div>
