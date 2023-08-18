@@ -29,7 +29,7 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
 
-  const { data: costData } = useContractRead({
+  const { data: costData, refetch: refetchCostData } = useContractRead({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "cost",
@@ -68,11 +68,12 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     if (messageContent && ethers.isAddress(receiverAddress)) {
       setDisabled(false);
       refetchFeeData();
+      refetchCostData();
       refetchSendMessage();
     } else {
       setDisabled(true);
     }
-  }, [receiverAddress, messageContent, refetchSendMessage]);
+  }, [receiverAddress, messageContent, refetchSendMessage, account, sourceChain, targetChain,]);
 
   const onSendMessage = async () => {
     if (!account) {
