@@ -70,7 +70,8 @@ const Message: React.FC<Props> = ({
   const [isReceivedMessageOpen, setIsReceivedMessageOpen] = useState(false)
 
   const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    network.chainId !== 324 && network.chainId !== 1101
   );
 
   const { address: account } = useAccount();
