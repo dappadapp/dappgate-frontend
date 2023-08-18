@@ -71,7 +71,7 @@ const Message: React.FC<Props> = ({
 
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    network.chainId !== 324 && network.chainId !== 1101
+    network.chainId !== 324
   );
 
   const { address: account } = useAccount();
