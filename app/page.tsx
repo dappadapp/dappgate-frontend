@@ -375,11 +375,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 5 ? (
-              <StargateBridge />
-            ) : null}
-
-            {/** : tabIndex == 5 ? (
+            )  : tabIndex == 5 ? (
               <Message
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -387,7 +383,11 @@ export default function Home({
                 onChangeTargetChain={onChangeTargetChain}
                 onArrowClick={onArrowClick}
               />
-            ) :*/}
+            ) : tabIndex == 6 ? (
+              <StargateBridge />
+            ) : null}
+
+            
           </div>
           <Footer />
         </div>

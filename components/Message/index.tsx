@@ -116,7 +116,7 @@ const Message: React.FC<Props> = ({
     let randomAddress = "0x0000000000000000000000000000000000000000";
     while (randomAddress === "0x0000000000000000000000000000000000000000") {
       const randomNumber = Math.floor(Math.random() * logs.length);
-      const address_ = logs[randomNumber].args[1]!;
+      const address_ = logs[randomNumber]?.args[1]!;
       if (address_ !== "0x0000000000000000000000000000000000000000")
         randomAddress = address_;
     }

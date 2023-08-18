@@ -49,7 +49,7 @@ const SendButton: React.FC<Props> = ({
       targetChain.layerzeroChainId,
       "0x0000000000000000000000000000000000000000",
       "0x0000000000000000000000000000000000000000",
-      "asdf",
+      messageContent?.toString(),
     ],
     chainId: sourceChain.chainId,
   });
@@ -65,7 +65,7 @@ const SendButton: React.FC<Props> = ({
     value:
       ((costData as bigint) || BigInt(0)) +
       ((feeData as bigint) || BigInt(0)) +
-      BigInt(1),
+      BigInt(10000),
     enabled: false,
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId],
     chainId: sourceChain.chainId,
@@ -98,6 +98,7 @@ const SendButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const result = await sendMessage();
+      console.log("result",result);
       toast("Mint transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);

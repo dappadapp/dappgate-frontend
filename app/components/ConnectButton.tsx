@@ -15,38 +15,6 @@ const ConnectButton: React.FC<Props> = ({ pendingTxs }) => {
   const { address } = useAccount();
   const [pendingFilter, setPendingFilter] = React.useState<any[]>([]);
 
-  const checkTxs = async () => {
-    //const res = await waitForTransaction({hash:"0xce5a35acdd1ae2bcbcf6ac244dc1026f844eb2cd4f991ab25b63594f0641a666"});
-    //console.log("res", res);
-    /*
-    pendingTxs.forEach(async(tx: string) => {
-  
-      const result = await waitForTransaction({hash:tx as `0x${string}`, confirmations: 5});
-      console.log("result", result);
-      if(result.status !== "success") {
-        setPendingFilter((pendingFilter: any) => [...pendingFilter, tx]);
-      }
-    };*/
-
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "x-api-key": "gate_f6fc8a3115494dd7a7",
-      },
-    };
-
-    await axios.get(
-      `https://galxe.dappgate.app/mints/0x809c15739f1852b6339EBd7150d782eCa916087a`,
-      options
-    );
-  };
-
-  checkTxs();
-
-  useEffect(() => {
-    checkTxs();
-  }, [pendingTxs, address, pendingFilter]);
 
   return (
     <button
