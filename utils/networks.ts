@@ -39,6 +39,24 @@ export interface Network {
 }
 
 export const networks: Network[] = [
+
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
+    tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
+    blockConfirmation: 5,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000, 80001,
+    ],
+    symbol: "ETH",
+    chainName: undefined, // TODO: CHANGE TO linea-mainnet
+  },
   {
     name: "Base",
     chainId: 8453,
@@ -75,23 +93,7 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
-  {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
-    tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
-    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
-    blockConfirmation: 5,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
-    ],
-    symbol: "ETH",
-    chainName: undefined, // TODO: CHANGE TO linea-mainnet
-  },
+
 
   {
     name: bsc.name,
