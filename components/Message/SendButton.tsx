@@ -36,7 +36,7 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     chainId: sourceChain.chainId,
   });
 
-  const { data: feeData } = useContractRead({
+  const { data: feeData, refetch: refetchFeeData } = useContractRead({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "estimateFees",
@@ -60,12 +60,14 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     value: ((costData as bigint) || BigInt(0)) + ((feeData as bigint) || BigInt(0)) + BigInt(1),
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId, false],
     chainId: sourceChain.chainId,
+    enabled: false,
   });
   const { writeAsync: sendMessage } = useContractWrite(mintConfig);
 
   useEffect(() => {
     if (messageContent && ethers.isAddress(receiverAddress)) {
       setDisabled(false);
+      refetchFeeData();
       refetchSendMessage();
     } else {
       setDisabled(true);
