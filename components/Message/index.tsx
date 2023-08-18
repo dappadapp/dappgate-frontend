@@ -2,7 +2,7 @@ import CircleSvg from "@/app/components/CircleSvg";
 import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
 import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
 import { Network, networks } from "@/utils/networks";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import DappLetterAbi from "@/config/abi/Message.json";
 import { getPublicClient } from "@wagmi/core";
 import SendButton from "./SendButton";
@@ -14,6 +14,7 @@ import {
 } from "wagmi";
 import { parseAbiItem } from "viem";
 import CommentsSvg from "@/app/components/CommentsSvg";
+import { useEffect } from "react";
 
 const chains = [
   {
@@ -84,7 +85,7 @@ const Message: React.FC<Props> = ({
     chainId: sourceChain.chainId
   });
 
-  const { data: receivedMessagesData } = useContractReads({
+  const { data: receivedMessagesData , refetch: getMessages} = useContractReads({
     contracts: Array.from(
       Array(Number(receivedMessageCount) || 0).keys()
     ).map((i) => ({
@@ -97,6 +98,10 @@ const Message: React.FC<Props> = ({
   });
 
   console.log("receivedMessagesData", receivedMessagesData);
+
+  useEffect(() => {
+    getMessages();
+  }, [account, sourceChain.chainId, blockNumber])
 
   const handleRandomClick = async () => {
     if (!blockNumber) return;

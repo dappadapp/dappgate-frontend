@@ -65,7 +65,7 @@ const SendButton: React.FC<Props> = ({
     value:
       ((costData as bigint) || BigInt(0)) +
       ((feeData as bigint) || BigInt(0)) +
-      BigInt(10000),
+      BigInt(1),
     enabled: false,
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId],
     chainId: sourceChain.chainId,
@@ -99,7 +99,7 @@ const SendButton: React.FC<Props> = ({
       }
       const result = await sendMessage();
       console.log("result",result);
-      toast("Mint transaction sent, waiting confirmation...");
+      toast("Message transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);
     } finally {
