@@ -31,13 +31,16 @@ const GasRefuel: React.FC<Props> = ({
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
 
   const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+     network.relayerAddress !== "" &&
+      network.layerzeroChainId !== 165
   );
 
   const gasRefuelNetworks = networks.filter(
     (network) =>
       network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      network.relayerAddress !== ""
+      network.relayerAddress !== "" &&
+      network.layerzeroChainId !== 165
   );
 
   const { address: account } = useAccount();
