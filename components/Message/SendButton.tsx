@@ -60,7 +60,7 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     value: ((costData as bigint) || BigInt(0)) + ((feeData as bigint) || BigInt(0)) + BigInt(1),
     args: [receiverAddress, messageContent, targetChain.layerzeroChainId, false],
     chainId: sourceChain.chainId,
-    enabled: false,
+
   });
   const { writeAsync: sendMessage } = useContractWrite(mintConfig);
 
@@ -73,7 +73,7 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     } else {
       setDisabled(true);
     }
-  }, [receiverAddress, messageContent, refetchSendMessage, account, sourceChain, targetChain,]);
+  }, [receiverAddress, messageContent, refetchSendMessage, account, sourceChain, targetChain, connectedChain]);
 
   const onSendMessage = async () => {
     if (!account) {
