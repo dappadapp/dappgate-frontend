@@ -188,7 +188,54 @@
   },
   {
     "inputs": [],
+    "name": "batchCostMultiplier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "cost",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16[]",
+        "name": "_dstChainIds",
+        "type": "uint16[]"
+      },
+      {
+        "internalType": "address",
+        "name": "_sender",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_receivers",
+        "type": "address[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "_contents",
+        "type": "string[]"
+      }
+    ],
+    "name": "estimateBatchBridgeFee",
     "outputs": [
       {
         "internalType": "uint256",
@@ -529,6 +576,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "moderatorAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint16",
@@ -637,6 +697,47 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "secondaryCost",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_receivers",
+        "type": "address[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "_contents",
+        "type": "string[]"
+      },
+      {
+        "internalType": "uint16[]",
+        "name": "_dstChainIds",
+        "type": "uint16[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "useSecondaryCost",
+        "type": "bool"
+      }
+    ],
+    "name": "sendBatchMessage",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -652,11 +753,29 @@
         "internalType": "uint16",
         "name": "destChainId",
         "type": "uint16"
+      },
+      {
+        "internalType": "bool",
+        "name": "useSecondaryCost",
+        "type": "bool"
       }
     ],
     "name": "sendMessage",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newMultiplier",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBatchCostMultiplier",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -726,6 +845,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_moderator",
+        "type": "address"
+      }
+    ],
+    "name": "setModerator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint16",
         "name": "_dstChainId",
         "type": "uint16"
@@ -763,6 +895,19 @@
       }
     ],
     "name": "setReceiveVersion",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newCost",
+        "type": "uint256"
+      }
+    ],
+    "name": "setSecondaryCost",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

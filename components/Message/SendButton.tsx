@@ -21,12 +21,7 @@ type Props = {
   messageContent: string;
 };
 
-const SendButton: React.FC<Props> = ({
-  sourceChain,
-  targetChain,
-  receiverAddress,
-  messageContent,
-}) => {
+const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress, messageContent }) => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -62,12 +57,9 @@ const SendButton: React.FC<Props> = ({
     address: sourceChain.messageContractAddress as `0x${string}`,
     abi: DappLetterAbi,
     functionName: "sendMessage",
-    value:
-      ((costData as bigint) || BigInt(0)) +
-      ((feeData as bigint) || BigInt(0)) +
-      BigInt(1),
+    value: ((costData as bigint) || BigInt(0)) + ((feeData as bigint) || BigInt(0)) + BigInt(1),
     enabled: false,
-    args: [receiverAddress, messageContent, targetChain.layerzeroChainId],
+    args: [receiverAddress, messageContent, targetChain.layerzeroChainId, false],
     chainId: sourceChain.chainId,
   });
   const { writeAsync: sendMessage } = useContractWrite(mintConfig);
@@ -85,10 +77,7 @@ const SendButton: React.FC<Props> = ({
     if (!account) {
       return alert("Please connect your wallet first.");
     }
-    if (!sendMessage)
-      return alert(
-        "Make sure you have enough ETH and you're on the correct network."
-      );
+    if (!sendMessage) return alert("Make sure you have enough ETH and you're on the correct network.");
     if (!isSuccess) {
       return alert("An unknown error occured. Please try again.");
     }
@@ -98,7 +87,7 @@ const SendButton: React.FC<Props> = ({
         await switchNetworkAsync?.(sourceChain.chainId);
       }
       const result = await sendMessage();
-      console.log("result",result);
+      console.log("result", result);
       toast("Message transaction sent, waiting confirmation...");
     } catch (error) {
       console.log(error);
@@ -111,9 +100,7 @@ const SendButton: React.FC<Props> = ({
     <button
       onClick={onSendMessage}
       disabled={disabled}
-      className={
-        "flex items-center gap-1 bg-white/10 border-white border-[1px] rounded-lg px-16 py-2 self-center mt-5"
-      }
+      className={"flex items-center gap-1 bg-white/10 border-white border-[1px] rounded-lg px-16 py-2 self-center mt-5"}
     >
       Send!
       {loading && (
