@@ -39,29 +39,35 @@ const OFTRefuelButton: React.FC<Props> = ({
   const [adapterParam, setAdapterParams] = useState("");
 
   const { data: gasEstimateData } = useContractRead({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
+    address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
-    functionName: "estimateGasBridgeFee",
-    args: [`${targetChain.layerzeroChainId}`, false, adapterParam],
+    functionName: "estimateSendFee",
+    args: [`${targetChain.layerzeroChainId}`, "", adapterParam],
   });
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
+  console.log("gasEstimateDataArray",  BigInt(
+    gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+  )+  BigInt("1000000000000000"));
 
   const {
     config: sendFromConfig,
     isSuccess,
     error,
   } = usePrepareContractWrite({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
+    address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
     functionName: "bridgeGas",
     value: BigInt(
       gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-    ),
+    )+  BigInt("1000000000000000"),
     args: [
       targetChain.layerzeroChainId,
-      "0x0000000000000000000000000000000000000000",
+      "3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C",
       adapterParam,
+      0,
+      0,
     ],
   });
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
@@ -70,7 +76,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     if (gasEstimateDataArray) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+        [2, 200000, 555555555555, account]
       );
       setAdapterParams(adapterParams);
 
