@@ -13,6 +13,7 @@ import {
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
 import OFTBridge from "../../config/abi/OFTBridge.json";
+import GasRefuel from "../../config/abi/GasRefuelOnly.json";
 
 type Props = {
   sourceChain: Network;
@@ -39,7 +40,7 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
+    abi: GasRefuel,
     functionName: "estimateGasBridgeFee",
     args: [`${targetChain.layerzeroChainId}`, false, adapterParam],
   });
@@ -52,7 +53,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     error,
   } = usePrepareContractWrite({
     address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
+    abi: GasRefuel,
     functionName: "bridgeGas",
     value: BigInt(
       gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"

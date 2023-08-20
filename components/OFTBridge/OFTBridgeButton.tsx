@@ -1,6 +1,6 @@
 import type { Network } from "@/utils/networks";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   useAccount,
   useContractRead,
@@ -30,6 +30,7 @@ const OFTBridgeButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
+  const [adapterParam, setAdapterParams] = useState("");
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -40,10 +41,12 @@ const OFTBridgeButton: React.FC<Props> = ({
       "0x0000000000000000000000000000000000000000",
       "1000000000000000000",
       false,
-      "0x",
+      adapterParam,
     ],
     chainId: sourceChain.chainId,
   });
+  const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
 
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -52,6 +55,26 @@ const OFTBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
+  useEffect(() => {
+    if (gasEstimateDataArray) {
+      const adapterParams = ethers.solidityPacked(
+        ["uint16", "uint", "uint", "address"],
+        [2, 200000, 55555555555, account]
+      );
+      setAdapterParams(adapterParams);
+    }
+  }, [
+    gasEstimateDataArray,
+    account,
+    dlgateBridgeAmount,
+    connectedChain?.nativeCurrency.symbol,
+
+  ]);
+
+  console.log("gasEstimateData", gasEstimateData);
+
+  console.log("bridgeFeeData", bridgeFeeData);
+  
   const {
     config: sendFromConfig,
     isSuccess,
@@ -71,7 +94,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
       account,
       "0x0000000000000000000000000000000000000000",
-      "0x",
+      adapterParam,
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);

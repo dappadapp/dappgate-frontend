@@ -296,7 +296,7 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
                 setEstimatedGas={setEstimatedGas}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
               />
-            ) : /*tabIndex == 2 ? (
+            ) : tabIndex == 2 ? (
               <GasRefuel
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -306,7 +306,7 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) :*/ tabIndex == 2 ? (
+            ) : tabIndex == 3 ? (
               <OFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -320,7 +320,7 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setPendingTxs={setPendingTxs}
               />
-            ) : tabIndex == 3 ? (
+            ) : tabIndex == 4 ? (
               <OFTHyperBridge
                 sourceChain={sourceChain}
                 selectedHyperBridges={selectedHyperBridges}
@@ -330,7 +330,7 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 4 ? (
+            ) : tabIndex == 5 ? (
               <Message
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -338,7 +338,7 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
                 onChangeTargetChain={onChangeTargetChain}
                 onArrowClick={onArrowClick}
               />
-            ) : tabIndex == 5 ? (
+            ) : tabIndex == 6 ? (
               <StargateBridge />
             ) : null}
           </div>
