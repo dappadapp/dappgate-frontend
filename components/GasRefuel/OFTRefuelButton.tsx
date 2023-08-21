@@ -40,9 +40,7 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
 
-  const { data, isError, isLoading } = useFeeData({
-    chainId: sourceChain.chainId,
-  })
+
 
 
   const { data: gasEstimateData, refetch } = useContractRead({
@@ -51,6 +49,8 @@ const OFTRefuelButton: React.FC<Props> = ({
     functionName: "estimateSendFee",
     args: [`${targetChain.layerzeroChainId}`, "", adapterParam],
   });
+
+  console.log("gasEstimateData", gasEstimateData);
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
   const {
