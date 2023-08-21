@@ -105,3 +105,34 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+}
+
+/* Animation for flashing dot */
+@keyframes flash {
+  0%, 50% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Apply animation to dot on hover */
+.dot {
+  animation: flash 1s infinite;
+}

@@ -46,9 +46,6 @@ const OFTRefuelButton: React.FC<Props> = ({
   });
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
-
-  console.log("gasEstimateDataArray", BigInt(Number(gasRefuelAmount) * 10 ** 18));
-
   const {
     config: sendFromConfig,
     isSuccess,
