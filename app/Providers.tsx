@@ -353,7 +353,7 @@ const linea = {
 
 
 const loot = {
-  id: 59144,
+  id: 5151706,
   name: "Loot Chain",
   network: "loot",
   nativeCurrency: {

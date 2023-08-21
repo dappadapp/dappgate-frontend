@@ -766,6 +766,26 @@ export const networks: Network[] = [
   },
 
   {
+    name: "Loot Chain",
+    chainId: 5151706,
+    layerzeroChainId: 197,
+    nftContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    tokenContractAddress: "",
+    relayerAddress: "",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "",
+    blockConfirmation: 2,
+    colorClass: "bg-[#000000]",
+    image: "loot.svg",
+    disabledNetworks: [
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
+      7700, 8217, 42170, 1666600000, 80001,
+    ],
+    symbol: "AGLD",
+    chainName: undefined,
+  },
+
+  {
     name: goerli.name,
     chainId: goerli.id,
     layerzeroChainId: 10121,

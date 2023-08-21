@@ -58,6 +58,8 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
     })),
   });
 
+  console.log("disabledBridgesData", disabledBridgesData);
+
   useEffect(() => {
     if (!disabledBridgesData) return;
     const disabledNetworks = disabledBridgesData.map((data, i) => {
