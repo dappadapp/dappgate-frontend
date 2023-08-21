@@ -47,9 +47,7 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
-  console.log("gasEstimateDataArray",  BigInt(
-    gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-  )+  BigInt("1000000000000000"));
+  console.log("gasEstimateDataArray", BigInt(Number(gasRefuelAmount) * 10 ** 18));
 
   const {
     config: sendFromConfig,
@@ -64,7 +62,10 @@ const OFTRefuelButton: React.FC<Props> = ({
     )+  BigInt("1000000000000000"),
     args: [
       targetChain.layerzeroChainId,
-      "3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C",
+      account?.replace(
+        "0x",
+        ""
+      ),
       adapterParam,
       0,
       0,
@@ -76,7 +77,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     if (gasEstimateDataArray) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, 555555555555, account]
+        [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
 
