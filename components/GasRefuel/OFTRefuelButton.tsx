@@ -38,7 +38,7 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
 
-  const { data: gasEstimateData } = useContractRead({
+  const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
     functionName: "estimateSendFee",
@@ -71,6 +71,12 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
+    if (gasRefuelAmount) {
+      refetch();
+    }
+  }, [gasRefuelAmount]);
+
+  useEffect(() => {
     if (gasEstimateDataArray) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
@@ -89,6 +95,8 @@ const OFTRefuelButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
+
+    
   }, [
     gasEstimateDataArray,
     account,

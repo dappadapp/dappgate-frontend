@@ -116,16 +116,18 @@ const GasRefuel: React.FC<Props> = ({
         {/** In input box create a max option for balance max */}
 
         <input
-          type="number"
+          type="text"
           className="w-full flex rounded-lg bg-white bg-opacity-5 py-3 px-4 text-left text-lg focus:outline-none mt-2"
           placeholder={`Input Amount of ${targetChain.symbol} to receive on ${targetChain.name}`}
           value={gasRefuelAmount}
           onChange={(e) => {
-            if (e.target.value.length === 0) {
-              setGasRefuelAmount("0");
-              return;
+            if (!isNaN(parseFloat(e.target.value))) {
+              setGasRefuelAmount(e.target.value);
             }
-            setGasRefuelAmount(e.target.value);
+            else {
+              setGasRefuelAmount("");
+            }
+          
           }}
         />
         <button

@@ -17,7 +17,7 @@ export const tabsConfig = [
 ];
 
 const Tabs: React.FC<Props> = ({ tabIndex, setTabIndex }) => {
-  const tabs = tabsConfig.map((title) => (
+  const tabs = tabsConfig.map((title,index) => (
     <Tab as={Fragment} key={title} >
       {({ selected }) => (
         
@@ -27,9 +27,25 @@ const Tabs: React.FC<Props> = ({ tabIndex, setTabIndex }) => {
           }`}
         >
         
-          {title} 
+        {title === "Gas Refuel" && (
+            <span className="relative inline-block dot">
+               <span
+                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
+              />
+            
+            </span>
+          )}
+
+          {title === "ONFT HyperBridge" && (
+            <span className="relative inline-block dot">
+               <span
+                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
+              />
+            
+            </span>
+          )}
       
-          
+      {title}
         </button>
       )}
     </Tab>

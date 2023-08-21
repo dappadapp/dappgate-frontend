@@ -113,9 +113,12 @@ input[type="number"] {
   height: 8px;
   background-color: green;
   border-radius: 50%;
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: relative !important;
+  top: 0  !important;
+  right: 0  !important;
+  float: right;
+    margin-left: 4px;
+    margin-bottom: 3px;
 
 }
 
@@ -134,5 +137,5 @@ input[type="number"] {
 
 /* Apply animation to dot on hover */
 .dot {
-  animation: flash 1s infinite;
+  animation: flash 3s infinite;
 }
