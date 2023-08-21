@@ -9,11 +9,13 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useSwitchNetwork,
+  useFeeData,
 } from "wagmi";
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
 import OFTBridge from "../../config/abi/OFTBridge.json";
 import GasRefuel from "../../config/abi/GasRefuelOnly.json";
+import { parseGwei } from "viem";
 
 type Props = {
   sourceChain: Network;
@@ -38,6 +40,11 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
 
+  const { data, isError, isLoading } = useFeeData({
+    chainId: sourceChain.chainId,
+  })
+
+
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
@@ -54,9 +61,10 @@ const OFTRefuelButton: React.FC<Props> = ({
     address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
     functionName: "bridgeGas",
+    gas: 1_000_000n,
     value: BigInt(
       gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-    )+ (sourceChain.symbol === "ETH" ?  BigInt("10000000000") :  BigInt("1000000000000000")),
+    )+ (sourceChain.symbol === "ETH" ?  BigInt("5004640000000") :  BigInt("5004640000000")),
     args: [
       targetChain.layerzeroChainId,
       account?.replace(
