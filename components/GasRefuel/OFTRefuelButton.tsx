@@ -88,7 +88,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     if (gasEstimateDataArray) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 250000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+        [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
 
