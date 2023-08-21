@@ -351,7 +351,7 @@ export const networks: Network[] = [
     chainId: polygonZkEvm.id,
     layerzeroChainId: 158,
     nftContractAddress: "0xF077EA48783ffcc67C88206e05E21733Cf101755", // TODO: UPDATE WHEN NEW CONTRACTS COME
-    tokenContractAddress: "0xDDF5882761b35B6B29CBe177E7Ff874AE367465e",
+    tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
     relayerAddress: "0xa658742d33ebd2ce2f0bdff73515aa797fd161d9",
     messageContractAddress: "0xf9cc44c9d4af941e270d943db011a1217303f8fc",
     gasRefuelContractAddress: "0x5D7b86102BCE75C02ed0bbcc80211056f79D7507",
