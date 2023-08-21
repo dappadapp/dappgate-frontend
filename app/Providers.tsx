@@ -351,6 +351,36 @@ const linea = {
   },
 } as const satisfies Chain;
 
+
+const loot = {
+  id: 59144,
+  name: "Loot Chain",
+  network: "loot",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Loot",
+    symbol: "AGLD",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.lootchain.com/http"],
+    },
+    public: {
+      http: ["https://rpc.lootchain.com/http"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Loot Explorer",
+      url: "https://explorer.lootchain.com/",
+    },
+    default: {
+      name: "Loot Explorer",
+      url: "https://explorer.lootchain.com/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -392,6 +422,7 @@ const chains = [
   linea,
   mantle,
   scrollTestnet,
+  loot,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

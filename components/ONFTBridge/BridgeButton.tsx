@@ -82,7 +82,7 @@ const BridgeButton: React.FC<Props> = ({
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if ((gasEstimateData as any)?.[0]) {
+    if ((gasEstimateData as any)?.[0] && bridgeFeeData) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
