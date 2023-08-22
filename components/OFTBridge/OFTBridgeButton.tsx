@@ -56,10 +56,10 @@ const OFTBridgeButton: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    if (gasEstimateDataArray) {
+    if (gasEstimateDataArray && account) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, 55555555555, account]
+        [2, 200000, BigInt(Number(dlgateBridgeAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
     }
@@ -71,9 +71,7 @@ const OFTBridgeButton: React.FC<Props> = ({
 
   ]);
 
-  console.log("gasEstimateData", gasEstimateData);
 
-  console.log("bridgeFeeData", bridgeFeeData);
   
   const {
     config: sendFromConfig,

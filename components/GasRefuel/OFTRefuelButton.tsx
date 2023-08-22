@@ -40,9 +40,6 @@ const OFTRefuelButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
 
-
-
-
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
@@ -50,9 +47,13 @@ const OFTRefuelButton: React.FC<Props> = ({
     args: [`${targetChain.layerzeroChainId}`, "", adapterParam],
   });
 
-  console.log("gasEstimateData", gasEstimateData);
-
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
+  console.log("gasEstimateData ++", BigInt(
+    gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+  )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")));
+
   const {
     config: sendFromConfig,
     isSuccess,
@@ -64,7 +65,7 @@ const OFTRefuelButton: React.FC<Props> = ({
     gas: 1_000_000n,
     value: BigInt(
       gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-    )+ (sourceChain.symbol === "ETH" ?  BigInt("5004640000000") :  BigInt("5004640000000")),
+    )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")),
     args: [
       targetChain.layerzeroChainId,
       account?.replace(
@@ -85,7 +86,7 @@ const OFTRefuelButton: React.FC<Props> = ({
   }, [gasRefuelAmount]);
 
   useEffect(() => {
-    if (gasEstimateDataArray) {
+    if (gasEstimateDataArray && account) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
         [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
