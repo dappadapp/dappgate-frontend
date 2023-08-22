@@ -1,11 +1,16 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
-import { useAccount, useBalance, useContractReads, useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useContractReads,
+  useNetwork,
+  useSwitchNetwork,
+  useWaitForTransaction,
+} from "wagmi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Network, networks } from "@/utils/networks";
@@ -24,6 +29,7 @@ import StargateBridge from "@/components/StargateBridge";
 import Tabs, { tabsConfig } from "./components/Tabs";
 import ONFTAbi from "@/config/abi/ONFT.json";
 import Message from "@/components/Message";
+import Navbar from "./components/Navbar";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -32,7 +38,11 @@ const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
 const ANIMATION_TIME = 4000;
 const ANIMATION_END_TIME = 1000;
 
-export default function Home({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [refCode, setRefCode] = useState<string>("");
@@ -53,16 +63,20 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
       address: sourceChain.nftContractAddress as `0x${string}`,
       abi: ONFTAbi as any,
       functionName: "estimateSendFee",
-      args: [`${network.layerzeroChainId}`, "0x0000000000000000000000000000000000000000", "1", false, "0x"],
+      args: [
+        `${network.layerzeroChainId}`,
+        "0x0000000000000000000000000000000000000000",
+        "1",
+        false,
+        "0x",
+      ],
       chainId: sourceChain.chainId,
     })),
   });
 
-
-
   useEffect(() => {
     if (!disabledBridgesData) return;
-    const disabledNetworks = disabledBridgesData.map((data, i) => {
+    const disabledNetworks = disabledBridgesData.map((data: any, i: number) => {
       if (data.status === "failure") return networks[i].chainId;
       else return 0;
     });
@@ -75,9 +89,13 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
   // fill with individual network data
 
   const initialSelectedHyperBridges = networks.filter(
-    (network) => !sourceChain.disabledNetworks.includes(network.chainId) && sourceChain.chainId !== network.chainId
+    (network) =>
+      !sourceChain.disabledNetworks.includes(network.chainId) &&
+      sourceChain.chainId !== network.chainId
   );
-  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(initialSelectedHyperBridges);
+  const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
+    initialSelectedHyperBridges
+  );
 
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
@@ -131,7 +149,8 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
 
     const newSelectedHyperBridges = networks.filter(
       (network) =>
-        !selectedNetwork.disabledNetworks.includes(network.chainId) && network.chainId !== selectedNetwork.chainId
+        !selectedNetwork.disabledNetworks.includes(network.chainId) &&
+        network.chainId !== selectedNetwork.chainId
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
@@ -186,7 +205,9 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
 
   useEffect(() => {
     const selectedHyperBridges_ = networks.filter(
-      (network) => !sourceChain.disabledNetworks.includes(network.chainId) && sourceChain.chainId !== network.chainId
+      (network) =>
+        !sourceChain.disabledNetworks.includes(network.chainId) &&
+        sourceChain.chainId !== network.chainId
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
@@ -212,15 +233,6 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
 
   return (
     <div className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}>
-      {isRefModalOpen ? (
-        <RefModal
-          onCloseModal={() => {
-            setIsRefModalOpen(false);
-          }}
-          refCode={refCode}
-        />
-      ) : null}
-
       {isFAQModalOpen ? (
         <FAQModal
           onCloseModal={() => {
@@ -249,21 +261,14 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
         />
       ) : null}
 
-      <div className={"absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"}>
+      <div
+        className={
+          "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
+        }
+      >
         <div className={"container mx-auto gap-2 h-full flex flex-col"}>
-          <div className={"w-full flex flex-row items-center justify-between mt-10 gap-2"}>
-            <DappGateLogo />
-            <div className="flex flex-col-reverse md:flex-row gap-3">
-              <button
-                className="backdrop-blur-sm font-semibold border px-3 py-1 sm:px-5 sm:py-2 lg:px-10 lg:py-3.5 rounded-md hover:bg-white/90 hover:text-black transition-all duration-300"
-                onClick={() => setIsRefModalOpen(true)}
-              >
-                Referral
-                <FontAwesomeIcon className="ml-2" icon={faUserPlus} />
-              </button>
-              <ConnectButton pendingTxs={pendingTxs} />
-            </div>
-          </div>
+          <Navbar pendingTxs={pendingTxs} refCode={refCode} />
+
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
               <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
@@ -271,7 +276,11 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
               <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
             </div>
           </div>
-          <div className={"w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"}>
+          <div
+            className={
+              "w-full min-h-fit flex flex-col gap-4 items-center justify-center mt-4"
+            }
+          >
             <Tabs tabIndex={tabIndex} setTabIndex={setTabIndex} />
 
             {tabIndex == 0 ? (
@@ -352,7 +361,11 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
       <div className={"relative w-full h-full"}>
         <div className={"absolute z-[4] bg-effect w-full h-full"}></div>
         <div className={"absolute z-[3] w-full h-full bg-pattern"}></div>
-        <div className={"relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"}>
+        <div
+          className={
+            "relative bg-blur w-full h-full overflow-hidden flex items-center justify-center"
+          }
+        >
           <div
             className={`absolute w-[100vw] aspect-square flex items-center content-center ${
               isAnimationStarted ? "bridge-animaton" : ""
@@ -360,7 +373,9 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
           >
             <div
               className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd ? "left-[30%]" : "left-0 duration-1000 transition-all translate-x-[-50%]"
+                isAnimationEnd
+                  ? "left-[30%]"
+                  : "left-0 duration-1000 transition-all translate-x-[-50%]"
               } rounded-full`}
               style={{
                 background: sourceChain.colorClass.replace("bg-[", "").replace("]", ""),
@@ -368,7 +383,9 @@ export default function Home({ searchParams }: { searchParams?: { [key: string]:
             ></div>
             <div
               className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd ? "right-[30%] opacity-50" : "right-0 duration-1000 transition-all translate-x-[50%]"
+                isAnimationEnd
+                  ? "right-[30%] opacity-50"
+                  : "right-0 duration-1000 transition-all translate-x-[50%]"
               } rounded-full`}
               style={{
                 background: targetChain.colorClass.replace("bg-[", "").replace("]", ""),
