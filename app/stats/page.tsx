@@ -15,6 +15,7 @@ export default function Stats({
   const { address: account } = useAccount();
   const [refCode, setRefCode] = useState<string>("");
   const [pendingTxs, setPendingTxs] = useState<string[]>([]);
+  const [statsData, setStatsData] = useState<any>({});
 
   const createWalletData = async (account: string) => {
     const { data } = await axios.post("/api/create", {
@@ -38,6 +39,25 @@ export default function Stats({
     setRefCode(searchParams?.ref as string);
   }, [searchParams?.ref]);
 
+  useEffect(() => {
+    fetchStatus();
+  }, []);
+
+  const fetchStatus = async () => {
+    const { data } = await axios.get("https://galxe.dappgate.io/mints/status/0", {
+      headers: { "x-api-key": "gate_f6fc8a3115494dd7a7" },
+    });
+    setStatsData(data);
+  };
+
+  const shortenTransactionHash = (transactionHash: string): string => {
+    const shortenedHash = `${transactionHash.substring(
+      0,
+      5
+    )}...${transactionHash.substring(transactionHash.length - 5)}`;
+    return shortenedHash;
+  };
+
   return (
     <div className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}>
       <div
@@ -53,18 +73,22 @@ export default function Stats({
               "md:px-64 w-full max-w-full h-full min-h-fit flex flex-col md:h-full gap-4 items-center mx-auto justify-center"
             }
           >
-            <div className="flex flex-col md:flex-row gap-4 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
               <div className="p-8 text-center border-white/10 border-[1px] rounded-lg bg-white bg-opacity-[4%] flex flex-col w-full items-center justify-center">
-                <span className="text-3xl">1234</span>
-                <span className="text-base">Data Description</span>
+                <span className="text-3xl">{statsData.nft}</span>
+                <span className="text-base">Total NFTs</span>
               </div>
               <div className="p-8 text-center border-white/10 border-[1px] rounded-lg bg-white bg-opacity-[4%] flex flex-col w-full items-center justify-center">
-                <span className="text-3xl">1234</span>
-                <span className="text-base">Data Description</span>
+                <span className="text-3xl">{statsData.bridge}</span>
+                <span className="text-base">Total Bridges</span>
               </div>
               <div className="p-8 text-center border-white/10 border-[1px] rounded-lg bg-white bg-opacity-[4%] flex flex-col w-full items-center justify-center">
-                <span className="text-3xl">1234</span>
-                <span className="text-base">Data Description</span>
+                <span className="text-3xl">{statsData.oft}</span>
+                <span className="text-base">Total OFTs</span>
+              </div>
+              <div className="p-8 text-center border-white/10 border-[1px] rounded-lg bg-white bg-opacity-[4%] flex flex-col w-full items-center justify-center">
+                <span className="text-3xl">{statsData.hash}</span>
+                <span className="text-base">Total Hash</span>
               </div>
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -80,94 +104,52 @@ export default function Stats({
                     <td className="hidden md:table-cell md:w-[20.6%]">Source</td>
                     <td className=" text-end pr-2">Date</td>
                   </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>{" "}
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>{" "}
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                    <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                      xxxxxxxxxxxxxx
-                    </td>
-                    <td className="w-[30%] md:w-[18%]">BSC Mainnet</td>
-                    <td className="hidden md:table-cell md:w-[18%]">Polygon</td>
-                    <td className="hidden md:table-cell md:w-[18%]">528222</td>
-                    <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                      {new Date().toLocaleString()}
-                    </td>
-                  </tr>
+                  {statsData.txs?.length ? (
+                    statsData.txs?.map((tx: any, i: number) => (
+                      <tr
+                        key={"tx-" + i}
+                        className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg"
+                      >
+                        <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
+                          {tx.type === "mint" ? (
+                            <span className="text-orange-400 underline">
+                              {shortenTransactionHash(tx.hash)}
+                            </span>
+                          ) : (
+                            <a
+                              href={`https://layerzeroscan.com/tx/${tx.hash}`}
+                              target="_blank"
+                              className="text-orange-400 underline"
+                            >
+                              {shortenTransactionHash(tx.hash)}
+                            </a>
+                          )}
+                        </td>
+                        <td className="w-[30%] md:w-[18%]">tx.chainID</td>
+                        <td className="hidden md:table-cell md:w-[18%]">
+                          {/* //TODO Add destination chain */}
+                          {tx.type === "mint" ? "Minted" : "Bridged"}
+                        </td>
+                        <td className="hidden md:table-cell md:w-[18%]">528222</td>
+                        <td className=" text-end pr-2 w-[30%] rounded-r-lg">
+                          {new Date(tx.timestamp * 1000).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
+                      <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
+                        xxxxxxxxxxxxxx
+                      </td>
+                      <td className="w-[30%] md:w-[18%]">Empty</td>
+                      <td className="hidden md:table-cell md:w-[18%]">Empty</td>
+                      <td className="hidden md:table-cell md:w-[18%]">Empty</td>
+                      <td className=" text-end pr-2 w-[30%] rounded-r-lg">
+                        {" "}
+                        {new Date().toLocaleString()}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
