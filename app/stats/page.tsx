@@ -103,54 +103,41 @@ export default function Stats({
                     <td className="hidden md:table-cell md:w-[20.6%]">Ref Code</td>
                     <td className=" text-end pr-2">Date</td>
                   </tr>
-                  {statsData.txs?.length ? (
-                    statsData.txs?.map((tx: any, i: number) => (
-                      <tr
-                        key={"tx-" + i}
-                        className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg"
-                      >
-                        <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                          {tx.type === "mint" ? (
-                            <span className="text-orange-400 underline">
-                              {shortenTransactionHash(tx.hash)}
-                            </span>
-                          ) : (
-                            <a
-                              href={`https://layerzeroscan.com/tx/${tx.hash}`}
-                              target="_blank"
-                              className="text-orange-400 underline"
-                            >
-                              {shortenTransactionHash(tx.hash)}
-                            </a>
-                          )}
-                        </td>
-                        <td className="w-[30%] md:w-[18%]">{tx.chainID}</td>
-                        <td className="hidden md:table-cell md:w-[18%]">
-                          {/* //TODO Add destination chain */}
-                          {tx.type === "mint" ? "Minted" : "Bridged"}
-                        </td>
-                        <td className="hidden md:table-cell md:w-[18%]">
-                          {tx.ref || "No Ref"}
-                        </td>
-                        <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                          {new Date(tx.timestamp * 1000).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg">
-                      <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
-                        xxxxxxxxxxxxxx
-                      </td>
-                      <td className="w-[30%] md:w-[18%]">Empty</td>
-                      <td className="hidden md:table-cell md:w-[18%]">Empty</td>
-                      <td className="hidden md:table-cell md:w-[18%]">Empty</td>
-                      <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                        {" "}
-                        {new Date().toLocaleString()}
-                      </td>
-                    </tr>
-                  )}
+                  {statsData.txs?.length
+                    ? statsData.txs?.map((tx: any, i: number) => (
+                        <tr
+                          key={"tx-" + i}
+                          className="bg-white/10 pt-4 text-[#AAA] shadow-inner rounded-lg"
+                        >
+                          <td className="overflow-hidden whitespace-nowrap w-[30%] md:w-[21%] py-4 rounded-l-lg  pl-2">
+                            {tx.type === "mint" ? (
+                              <span className="text-orange-400 underline">
+                                {shortenTransactionHash(tx.hash)}
+                              </span>
+                            ) : (
+                              <a
+                                href={`https://layerzeroscan.com/tx/${tx.hash}`}
+                                target="_blank"
+                                className="text-orange-400 underline"
+                              >
+                                {shortenTransactionHash(tx.hash)}
+                              </a>
+                            )}
+                          </td>
+                          <td className="w-[30%] md:w-[18%]">{tx.chainId}</td>
+                          <td className="hidden md:table-cell md:w-[18%]">
+                            {/* //TODO Add destination chain */}
+                            {tx.type === "mint" ? "Minted" : "Bridged"}
+                          </td>
+                          <td className="hidden md:table-cell md:w-[18%]">
+                            {tx.ref || "No Ref"}
+                          </td>
+                          <td className=" text-end pr-2 w-[30%] rounded-r-lg">
+                            {new Date(tx.timestamp * 1000).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))
+                    : null}
                 </tbody>
               </table>
             </div>
