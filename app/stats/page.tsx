@@ -44,10 +44,9 @@ export default function Stats({
   }, []);
 
   const fetchStatus = async () => {
-    const { data } = await axios.get("https://galxe.dappgate.io/mints/status/0", {
-      headers: { "x-api-key": "gate_f6fc8a3115494dd7a7" },
-    });
-    setStatsData(data);
+    const { data } = await axios.post("/api/status");
+    console.log("data", data);
+    setStatsData(data.data);
   };
 
   const shortenTransactionHash = (transactionHash: string): string => {
@@ -130,7 +129,9 @@ export default function Stats({
                           {/* //TODO Add destination chain */}
                           {tx.type === "mint" ? "Minted" : "Bridged"}
                         </td>
-                        <td className="hidden md:table-cell md:w-[18%]">{tx.ref}</td>
+                        <td className="hidden md:table-cell md:w-[18%]">
+                          {tx.ref || "No Ref"}
+                        </td>
                         <td className=" text-end pr-2 w-[30%] rounded-r-lg">
                           {new Date(tx.timestamp * 1000).toLocaleString()}
                         </td>
