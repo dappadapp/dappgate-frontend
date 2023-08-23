@@ -99,9 +99,9 @@ export default function Stats({
                     <td className="overflow-hidden w-[40%] md:w-[20.6%] whitespace-nowrap pl-2">
                       Hash
                     </td>
-                    <td className="w-[40%] md:w-[20.6%]">Token ID</td>
-                    <td className="hidden md:table-cell md:w-[20.6%]">Destination</td>
-                    <td className="hidden md:table-cell md:w-[20.6%]">Source</td>
+                    <td className="w-[40%] md:w-[20.6%]">Source</td>
+                    <td className="hidden md:table-cell md:w-[20.6%]">Operation</td>
+                    <td className="hidden md:table-cell md:w-[20.6%]">Ref Code</td>
                     <td className=" text-end pr-2">Date</td>
                   </tr>
                   {statsData.txs?.length ? (
@@ -125,12 +125,12 @@ export default function Stats({
                             </a>
                           )}
                         </td>
-                        <td className="w-[30%] md:w-[18%]">tx.chainID</td>
+                        <td className="w-[30%] md:w-[18%]">{tx.chainID}</td>
                         <td className="hidden md:table-cell md:w-[18%]">
                           {/* //TODO Add destination chain */}
                           {tx.type === "mint" ? "Minted" : "Bridged"}
                         </td>
-                        <td className="hidden md:table-cell md:w-[18%]">528222</td>
+                        <td className="hidden md:table-cell md:w-[18%]">{tx.ref}</td>
                         <td className=" text-end pr-2 w-[30%] rounded-r-lg">
                           {new Date(tx.timestamp * 1000).toLocaleString()}
                         </td>
