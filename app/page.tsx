@@ -274,6 +274,9 @@ export default function Home({
               <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
+              <a href={"https://tracker.dappgate.io/"} target="_blank">Tracker     <span
+                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
+              /></a>
             </div>
           </div>
           <div
