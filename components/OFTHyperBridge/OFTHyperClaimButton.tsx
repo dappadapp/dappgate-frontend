@@ -111,19 +111,19 @@ const OFTHyperClaimButton: React.FC<Props> = ({
       };
       postMint();
 
-      if (refCode?.length === 12) {
+ 
         const postReferenceMint = async () => {
           const result = await axios.post("/api/referenceMintOFT", {
             id: tokenAmountHyperBridge,
-            walletAddress: account,
-            chainId: sourceChain.chainId,
+            address: account,
+            chain: sourceChain.chainId,
             ref: refCode,
-            tx_id: txHash,
-            amount: tokenAmountHyperBridge,
+            tx: txHash,
+           
           });
         };
         postReferenceMint();
-      }
+
 
       if (txHash && sourceChain) {
         const postHashMint = async () => {

@@ -113,7 +113,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         postMintHistory();
       });
 
-      if (refCode?.length === 12) {
+     
         const postReferenceMint = async () => {
           await axios.post("/api/referenceMint", {
             id: 0,
@@ -124,7 +124,7 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           });
         };
         postReferenceMint();
-      }
+   
 
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {

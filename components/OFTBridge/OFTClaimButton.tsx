@@ -90,18 +90,21 @@ const OFTClaimButton: React.FC<Props> = ({
       };
       postMint();
 
-      if (String(refCode)?.length === 12) {
+
+
         const postReferenceMint = async () => {
-          await axios.post("/api/referenceMintOFT", {
-            id: inputOFTAmount,
-            walletAddress: account,
-            chainId: sourceChain.chainId,
+          const result = await axios.post("/api/referenceMintOFT", {
+           
+            address: account,
+            chain: sourceChain.chainId,
             ref: refCode,
-            tx_id: txHash,
+            tx: txHash,
             amount: inputOFTAmount,
+           
           });
         };
         postReferenceMint();
+    
 
         if (txHash && sourceChain) {
           const postHashMint = async () => {
@@ -114,7 +117,7 @@ const OFTClaimButton: React.FC<Props> = ({
           };
           postHashMint();
         }
-      }
+      
       refetchDlgateBalance();
       toast(`Tokens minted!`);
     } catch (error) {

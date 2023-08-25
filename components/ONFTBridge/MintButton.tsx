@@ -94,7 +94,7 @@ const MintButton: React.FC<Props> = ({
         });
       };
       postMintHistory();
-      if (refCode?.length === 12) {
+
         const postReferenceMint = async () => {
           await axios.post("/api/referenceMint", {
             id: tokenId,
@@ -117,7 +117,7 @@ const MintButton: React.FC<Props> = ({
           };
           postHashMint();
         }
-      }
+
 
       ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 
