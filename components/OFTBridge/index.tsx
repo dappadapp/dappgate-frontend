@@ -51,6 +51,11 @@ const OFTBridge: React.FC<Props> = ({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const filteredNetworksTarget = networks.filter((network) =>
+  network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  network.layerzeroChainId !== 165
+);
+
   const handleMax = () => {
     if (balanceOfDlgate) {
       setDlgateBridgeAmount(balanceOfDlgate?.formatted);
@@ -81,7 +86,7 @@ const OFTBridge: React.FC<Props> = ({
           value={targetChain}
           sourceValue={sourceChain}
           onChange={onChangeTargetChain}
-          options={filteredNetworks}
+          options={filteredNetworksTarget}
           searchValue={searchTerm}
           setSearchValue={setSearchTerm}
         />

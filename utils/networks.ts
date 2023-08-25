@@ -37,6 +37,7 @@ export interface Network {
   symbol?: string;
   chainName?: string;
   isTestnet?: boolean;
+  isAvailable?: boolean;
 }
 
 const gasrefuelcontracts = [
