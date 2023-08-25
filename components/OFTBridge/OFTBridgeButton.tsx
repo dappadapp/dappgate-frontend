@@ -92,7 +92,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
       account,
       "0x0000000000000000000000000000000000000000",
-      adapterParam,
+      "",
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
