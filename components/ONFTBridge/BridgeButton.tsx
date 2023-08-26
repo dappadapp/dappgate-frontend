@@ -162,6 +162,23 @@ const BridgeButton: React.FC<Props> = ({
       };
       postBridgeHistory();
 
+
+      const mintPost = async () => {
+        await axios.post("/api/newCreate", {
+          hash: mintTxHash,
+          from: account,
+          to: sourceChain.nftContractAddress,
+          function: "sendFrom",
+          chainId: sourceChain.chainId,
+          status: 0,
+          metadata: {
+            "type": "onft",
+          }
+          
+        });
+      };
+      mintPost();
+
       toast("Bridge transaction sent!");
 
       await waitForTransaction({

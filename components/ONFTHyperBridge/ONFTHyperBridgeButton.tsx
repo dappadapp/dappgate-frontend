@@ -152,6 +152,22 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         postBridgeHistory();
       });
 
+      const mintPost = async () => {
+        await axios.post("/api/newCreate", {
+          hash: batchBridgeTxHash,
+          from: account,
+          to: sourceChain.nftContractAddress,
+          function: "batchBridge",
+          chainId: sourceChain.chainId,
+          status: 0,
+          metadata: {
+            "type": "onft",
+          }
+          
+        });
+      };
+      mintPost();
+
       toast("Bridge transaction sent!");
       refetchUserONFTBalance();
     } catch (error: any) {

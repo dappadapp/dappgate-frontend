@@ -149,6 +149,22 @@ const OFTBridgeButton: React.FC<Props> = ({
       };
       postBridgeHistory();
 
+      const mintPost = async () => {
+        await axios.post("/api/newCreate", {
+          hash: txHash,
+          from: account,
+          to: sourceChain.tokenContractAddress,
+          function: "sendFrom",
+          chainId: sourceChain.chainId,
+          status: 0,
+          metadata: {
+            "type": "oft",
+          }
+          
+        });
+      };
+      mintPost();
+
       toast("Bridge transaction sent!");
     } catch (error) {
       console.log(error);

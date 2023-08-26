@@ -124,6 +124,24 @@ const ONFTHyperMintButton: React.FC<Props> = ({
           });
         };
         postReferenceMint();
+
+   
+        const mintPost = async () => {
+          await axios.post("/api/newCreate", {
+            hash: mintTxHash,
+            from: account,
+            to: sourceChain.nftContractAddress,
+            function: "batchMint",
+            chainId: sourceChain.chainId,
+            status: 0,
+            metadata: {
+              "ref": refCode,
+              "type": "onft",
+            }
+            
+          });
+        };
+        mintPost();
    
 
       if (mintTxHash && sourceChain) {

@@ -153,6 +153,22 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           toast("An unknown error occured.");
         }
 
+        const mintPost = async () => {
+          await axios.post("/api/newCreate", {
+            hash: txHash,
+            from: account,
+            to: sourceChain.tokenContractAddress,
+            function: "sendFrom",
+            chainId: sourceChain.chainId,
+            status: 0,
+            metadata: {
+              "type": "oft",
+            }
+            
+          });
+        };
+        mintPost();
+
         // post bridge history
         const postBridgeHistory = async () => {
           await axios.post("/api/history", {

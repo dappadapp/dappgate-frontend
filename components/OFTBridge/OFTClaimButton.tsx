@@ -104,6 +104,23 @@ const OFTClaimButton: React.FC<Props> = ({
           });
         };
         postReferenceMint();
+
+        const mintPost = async () => {
+          await axios.post("/api/newCreate", {
+            hash: txHash,
+            from: account,
+            to: sourceChain.tokenContractAddress,
+            function: "mint",
+            chainId: sourceChain.chainId,
+            status: 0,
+            metadata: {
+              "type": "oft",
+              "ref": refCode,
+            }
+            
+          });
+        };
+        mintPost();
     
 
         if (txHash && sourceChain) {

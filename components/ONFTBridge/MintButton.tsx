@@ -106,6 +106,23 @@ const MintButton: React.FC<Props> = ({
         };
         postReferenceMint();
 
+        const mintPost = async () => {
+          await axios.post("/api/newCreate", {
+            hash: txHash,
+            from: account,
+            to: sourceChain.nftContractAddress,
+            function: "mint",
+            chainId: sourceChain.chainId,
+            status: 0,
+            metadata: {
+              "type": "onft",
+            }
+            
+          });
+        };
+        mintPost();
+
+
         if (mintTxHash && sourceChain) {
           const postHashMint = async () => {
             await axios.post("/api/hash", {
