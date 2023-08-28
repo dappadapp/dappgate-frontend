@@ -1,6 +1,6 @@
 import type { Network } from "@/utils/networks";
 import axios from "axios";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useAccount,
   useContractRead,
@@ -38,7 +38,7 @@ const OFTBridgeButton: React.FC<Props> = ({
     functionName: "estimateSendFee",
     args: [
       `${targetChain.layerzeroChainId}`,
-      "0x0000000000000000000000000000000000000000",
+      account ? account : "0x0000000000000000000000000000000000000000",
       "1000000000000000000",
       false,
       adapterParam,
@@ -46,6 +46,7 @@ const OFTBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
+
 
 
   const { data: bridgeFeeData } = useContractRead({
@@ -59,7 +60,7 @@ const OFTBridgeButton: React.FC<Props> = ({
     if (gasEstimateDataArray && account) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, BigInt(Number(dlgateBridgeAmount) * 10 ** 18), account]
+        [2, 200000, BigInt(Number(dlgateBridgeAmount)), account]
       );
       setAdapterParams(adapterParams);
     }
@@ -71,8 +72,6 @@ const OFTBridgeButton: React.FC<Props> = ({
 
   ]);
 
-
-  
   const {
     config: sendFromConfig,
     isSuccess,
@@ -100,6 +99,13 @@ const OFTBridgeButton: React.FC<Props> = ({
   const onBridge = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
+    }
+
+    if (!dlgateBridgeAmount) {
+      return toast("Please enter an amount to bridge.");
+    }
+    if (Number(dlgateBridgeAmount) <= 0) {
+      return toast("Please enter an amount greater than 0.");
     }
     if (!sendFrom) {
       console.log("error", error?.message);
@@ -160,7 +166,7 @@ const OFTBridgeButton: React.FC<Props> = ({
           metadata: {
             "type": "oft",
           }
-          
+
         });
       };
       mintPost();
