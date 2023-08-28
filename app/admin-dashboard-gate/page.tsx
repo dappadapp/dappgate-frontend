@@ -28,7 +28,7 @@ const Dashboard: React.FC = ({
 
     if (account !== "0x3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C") {
         // redirect homepage
-        window.location.href = "/";
+       return;
 
     }
 
