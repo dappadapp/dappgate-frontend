@@ -28,6 +28,7 @@ export interface Network {
   tokenContractAddress: string;
   messageContractAddress?: string;
   gasRefuelContractAddress?: string;
+  setOFTContractAddress?: string;
   relayerAddress?: string;
   blockConfirmation: number;
   colorClass: string;
@@ -38,6 +39,7 @@ export interface Network {
   chainName?: string;
   isTestnet?: boolean;
   isAvailable?: boolean;
+
 }
 
 const gasrefuelcontracts = [
@@ -262,6 +264,7 @@ export const networks: Network[] = [
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
     messageContractAddress:"0x2a0984Ac92Fb1872EF5739E163fBdaDcb0968381",
     gasRefuelContractAddress: "0xC2Ed142A428Ae7D551fcD260318Db85e9f4FFBA5",
+    setOFTContractAddress: "0x72A769b01D3f950f226978A5A85b2204C762bf57",
     blockConfirmation: 5,
     colorClass: "bg-[#1B1B1D]",
     image: "linea.svg",
@@ -323,6 +326,7 @@ export const networks: Network[] = [
     relayerAddress: "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
     messageContractAddress: "0x2860c3294b8509a897c6a18D0C02f59Cf2e7D0a7",
     gasRefuelContractAddress: "0xE429E2b18EABDB0B3Faa847fbB46Ff5DE8b59B45",
+    setOFTContractAddress: "0x4C5205Bef41AED14CcB96dcb2E49EFdfe0b4ed7A",
     blockConfirmation: 5,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
@@ -339,6 +343,7 @@ export const networks: Network[] = [
     relayerAddress: "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
     messageContractAddress: "0x87D12bd544f0bC6BF9837Fbb7BA793fc8889B262",
     gasRefuelContractAddress: "0xB768D455E9aCe7b9C40AE366C7964a738E95F9E2",
+    setOFTContractAddress: "0x32fF95c4E776D783d34e338a59C1E345Ae73B08c",
     blockConfirmation: 5,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
@@ -414,6 +419,7 @@ export const networks: Network[] = [
     relayerAddress: "0x15e51701f245f6d5bd0fee87bcaf55b0841451b3",
     messageContractAddress: "0x46D8980ff891b96a095d2F4cC2878F5d2d1a07Fd",
     gasRefuelContractAddress: "0x6eC3f5dE9ccEd1352aF013A4f076e1da9856d834",
+    setOFTContractAddress: "0x3e217138284A414Bec9f93bdE915Ff7C6aEA0677",
     blockConfirmation: 5,
     colorClass: "bg-[#FBCC5C]",
     image: "celo.svg",
@@ -450,6 +456,7 @@ export const networks: Network[] = [
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     messageContractAddress: "0x2860c3294b8509a897c6a18D0C02f59Cf2e7D0a7",
     gasRefuelContractAddress: "0x69dAEc0B57D825e2167ff2f06DEf4e0d9084F4d1",
+    setOFTContractAddress: "0x32fF95c4E776D783d34e338a59C1E345Ae73B08c",
     blockConfirmation: 5,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
@@ -468,6 +475,7 @@ export const networks: Network[] = [
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     messageContractAddress: "0x29CF813EdA1a6844FfBFB832884a5cbE872dcC53",
     gasRefuelContractAddress: "0xC3A2180C9d9a353BcD7479b350982217e772D74C",
+    setOFTContractAddress: "0x8b6cc14dd1cb69A33284330CD6aa3FF3EA6c1Cc3",
     blockConfirmation: 5,
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
@@ -487,6 +495,7 @@ export const networks: Network[] = [
     relayerAddress: "0x5b19bd330a84c049b62d5b0fc2ba120217a18c1c",
     messageContractAddress: "0xFA5c14fEc197aebA5f0B4B7F9bC2A35D3d47765e",
     gasRefuelContractAddress: "0x43F077B4072D63C3E9b2464148451e9147d5121f",
+    setOFTContractAddress: "0x991ECC3dE1EA642501630B287c35c76496A1D066",
     blockConfirmation: 5,
     colorClass: "bg-[#f82e08]",
     image: "klaytn.svg",
@@ -506,6 +515,7 @@ export const networks: Network[] = [
     relayerAddress: "0x5B19bd330A84c049b62D5B0FC2bA120217a18C1C",
     messageContractAddress: "0x3D0D93B4241F94Da7485a7a6D0EB53C9253f8466",
     gasRefuelContractAddress: "0x54B3E1d3256081046dafe11122A3826B76f2a525",
+    setOFTContractAddress: "0x8b6cc14dd1cb69A33284330CD6aa3FF3EA6c1Cc3",
     blockConfirmation: 5,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
@@ -522,6 +532,7 @@ export const networks: Network[] = [
     relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
     messageContractAddress: "0x853e11eCa2f114B7C9753C69A40352cFD48F99eF",
     gasRefuelContractAddress: "0xf773851dcDd2197305621fA6EFe0d4A9E14D4F2c",
+    setOFTContractAddress: "0x0778233bA417948A1e60D0A1BF9D27bE20Eb09b1",
     blockConfirmation: 5,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
@@ -559,6 +570,7 @@ export const networks: Network[] = [
     relayerAddress: "0xccCDD23E11F3f47C37fC0a7C3BE505901912C6Cc",
     messageContractAddress: "0x5386D4Ff943acfDa3804d86e5d5406E76027254b",
     gasRefuelContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
+    setOFTContractAddress: "0x69dAEc0B57D825e2167ff2f06DEf4e0d9084F4d1",
     blockConfirmation: 5,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
@@ -661,6 +673,7 @@ export const networks: Network[] = [
     relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
     messageContractAddress: "0xCC61DA5F878Ae1dbA0f24e53325eDFF76498f7A1",
     gasRefuelContractAddress: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
+    setOFTContractAddress: "0x2D6772226f9b2A9DB3A1bFe630D10Cb7BfD854b7",
     blockConfirmation: 5,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
@@ -678,6 +691,7 @@ export const networks: Network[] = [
     relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
     messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
     gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
+    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
@@ -694,6 +708,7 @@ export const networks: Network[] = [
     relayerAddress: "0x81E792e5a9003CC1C8BF5569A00f34b65d75b017",
     messageContractAddress: "0xEFbD03A342B7D03A4a421c28eEb0D1dfC879224E",
     gasRefuelContractAddress: "0x577046a82E6B85Ce1E37586BC918DeC09555A497",
+    setOFTContractAddress: "0x3279eF3BEb2D472e869B3Cd78Ab317d5DD8b4294",
     blockConfirmation: 5,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
@@ -710,6 +725,7 @@ export const networks: Network[] = [
     relayerAddress: "0x52EEA5c490fB89c7A0084B32FEAB854eefF07c82",
     messageContractAddress: "0x5A99774307336E3e0041145E078b73b0B2265d3D",
     gasRefuelContractAddress: "0x311025abC487E6144655b16B0E67cDaa396Ee8a1",
+    setOFTContractAddress: "0x5A832769cb525d8E2E60a93106DEFe57cbA3407a",
     blockConfirmation: 5,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
@@ -735,6 +751,7 @@ export const networks: Network[] = [
     relayerAddress: "0x7cbd185f21bef4d87310d0171ad5f740bc240e26",
     messageContractAddress: "0x4767Ef5Dd777Ced33996add466D26BE611b535eF",
     gasRefuelContractAddress: "0xE649A6E11FB10dD9E5308DAf68C44D2800a47b02",
+    setOFTContractAddress: "0x140FA79a8AC2D579f7573d3795826Cbb3BDA0894",
     blockConfirmation: 5,
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
@@ -755,6 +772,7 @@ export const networks: Network[] = [
     relayerAddress: "0xfe7c30860d01e28371d40434806f4a8fcdd3a098",
     messageContractAddress: "0xa23A961F30e968b8C1CaDf235D649df20c21c139",
     gasRefuelContractAddress: "0x55E4DE637dAB6a5A98bC643ED3918B35AA20407E",
+    setOFTContractAddress: "0x8E31C5476a66bb1C0a417c14D87A723f86133E10",
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "okex.svg",

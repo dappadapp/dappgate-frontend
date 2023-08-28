@@ -34,12 +34,14 @@ function RefModal({ onCloseModal, refCode }: Props) {
         walletAddress: account,
       });
 
-      setTotalRef(+(data.mints as number).toFixed(2));
+      console.log("data",data);
+
+      setTotalRef(+(data?.mints as number).toFixed(2));
       setRate(data.rate);
-      setRefLink(`https://dappgate.app/?ref=${data.ref}`);
+      setRefLink(`https://dappgate.io/?ref=${data.ref}`);
     };
     fetchTotalNORefs();
-  }, [account]);
+  }, [account, refCode]);
 
   useEffect(() => {
     if (!isCopied) return;
