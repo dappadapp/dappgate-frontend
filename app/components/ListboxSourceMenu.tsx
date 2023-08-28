@@ -11,7 +11,6 @@ type Props = {
   searchValue: string;
   setSearchValue: (value: string) => void;
   optionRenderer?: (option: any, selected: boolean) => JSX.Element;
-  className?: string;
 };
 
 const ListboxSourceMenu = ({
@@ -21,11 +20,10 @@ const ListboxSourceMenu = ({
   searchValue,
   setSearchValue,
   optionRenderer = defaultOptionRenderer,
-  className,
 }: Props) => {
   return (
-    <Listbox value={value} onChange={onChange} >
-      <div className={`relative w-full sm:w-[36%] ${className}`}>
+    <Listbox value={value} onChange={onChange}>
+      <div className="relative w-full sm:w-[36%]">
         <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
           <div className="flex items-center gap-2">
             <Image
