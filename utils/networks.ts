@@ -813,7 +813,7 @@ export const networks: Network[] = [
     chainName: undefined,
   },
 
-  /*
+  
   {
     name: "Zora Network",
     chainId: 7777777,
@@ -833,7 +833,7 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
-  */
+  
 
   {
     name: goerli.name,
