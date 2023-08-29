@@ -23,6 +23,8 @@ const TransactionPreview = ({
   bridgeCostData,
   symbol,
 }: Props) => {
+
+  console.log("selectedHyperBridges",selectedHyperBridges);
   return (
     <>
       <div className="flex justify-center mt-5  mb-4">

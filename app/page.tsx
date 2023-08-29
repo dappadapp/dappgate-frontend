@@ -150,7 +150,8 @@ export default function Home({
     const newSelectedHyperBridges = networks.filter(
       (network) =>
         !selectedNetwork.disabledNetworks.includes(network.chainId) &&
-        network.chainId !== selectedNetwork.chainId
+        network.chainId !== selectedNetwork.chainId &&
+        sourceChain.layerzeroChainId !==  165
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
@@ -207,7 +208,8 @@ export default function Home({
     const selectedHyperBridges_ = networks.filter(
       (network) =>
         !sourceChain.disabledNetworks.includes(network.chainId) &&
-        sourceChain.chainId !== network.chainId
+        sourceChain.chainId !== network.chainId &&
+        sourceChain.layerzeroChainId !==  165
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);

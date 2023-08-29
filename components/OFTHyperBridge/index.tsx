@@ -49,7 +49,8 @@ const OFTHyperBridge: React.FC<Props> = ({
     );
     if (isExist) {
       selectedNetworks = selectedNetworks.filter(
-        (selectedNetwork) => selectedNetwork.chainId !== network.chainId
+        (selectedNetwork) => selectedNetwork.chainId !== network.chainId && 
+        selectedNetwork.layerzeroChainId !== 165
       );
       setSelectedHyperBridges(selectedNetworks);
     } else {
