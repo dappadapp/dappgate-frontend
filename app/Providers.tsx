@@ -381,6 +381,35 @@ const loot = {
   },
 } as const satisfies Chain;
 
+const zora = {
+  id: 7777777,
+  name: "Zora Network",
+  network: "zora",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Zora",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.zora.energy"],
+    },
+    public: {
+      http: ["https://rpc.zora.energy"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Zora Explorer",
+      url: "https://explorer.zora.energy/",
+    },
+    default: {
+      name: "Zora Explorer",
+      url: "https://explorer.zora.energy/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -423,6 +452,7 @@ const chains = [
   mantle,
   scrollTestnet,
   loot,
+  zora,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

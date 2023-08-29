@@ -26,10 +26,13 @@ const Dashboard: React.FC = ({
     const { address: account } = useAccount();
 
 
-    if (account !== "0x3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C") {
+    if (account === "0x3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C" || account === "0x3772f434d796A1B974E9B2cD37055a075F3450be") {
         // redirect homepage
-       return;
+      
 
+    }
+    else{
+        return;
     }
 
     const { switchNetworkAsync } = useSwitchNetwork();

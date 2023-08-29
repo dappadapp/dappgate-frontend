@@ -40,6 +40,8 @@ const MintButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
+  console.log(costData);
+
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
