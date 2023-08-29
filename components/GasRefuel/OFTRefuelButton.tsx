@@ -146,15 +146,19 @@ const OFTRefuelButton: React.FC<Props> = ({
           "It looks like the bridge between these chains are not supported by LayerZero."
         );
       }
-      if(error?.message.includes("transaction exceeds the balance of the account")){
+      if(error?.message.includes("insufficient funds for gas * price + value")){
       return toast(
-        "Make sure you have enough gas and you're on the correct network."
+        "You don't have enough balance for this transaction."
       );
       }
 
+      if(error?.message.includes("RPC Request failed")){
+
       return toast(
-        `Please connect your wallet ${sourceChain.name} Network first. `
+        `Please connect your wallet to correct network and try again.`
       );
+      }
+      return toast("An unknown error occured.");
     }
     if (!isSuccess) {
       return toast("An unknown error occured.");
