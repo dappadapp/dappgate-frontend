@@ -147,11 +147,19 @@ export default function Home({
       }
     }
 
+    const disabledNetworks = disabledBridgesData?.map((data: any, i: number) => {
+      if (data.status === "failure") return networks[i].chainId;
+      else return 0;
+    });
+    setSourceChain((prev) => ({
+      ...prev,
+      disabledNetworks: disabledNetworks as number[],
+    }));
+
     const newSelectedHyperBridges = networks.filter(
       (network) =>
         !selectedNetwork.disabledNetworks.includes(network.chainId) &&
-        network.chainId !== selectedNetwork.chainId &&
-        sourceChain.layerzeroChainId !==  165
+        network.chainId !== selectedNetwork.chainId 
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);

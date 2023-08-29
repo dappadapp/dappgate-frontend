@@ -270,7 +270,7 @@ export const networks: Network[] = [
     image: "linea.svg",
     disabledNetworks: [
       66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
+      1666600000,  5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: undefined, // TODO: CHANGE TO linea-mainnet
@@ -290,7 +290,7 @@ export const networks: Network[] = [
     image: "base.svg",
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 80001,
+      82, 80001, 5,534353, 11155111
     ],
     symbol: "ETH",
     chainName: "base-mainnet",
@@ -311,7 +311,7 @@ export const networks: Network[] = [
     logIndex: 3,
     disabledNetworks: [
       5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
-      1101,
+      1101, 80001,534353, 11155111, 7777777, 5151706
     ],
     symbol: "ETH",
     chainName: undefined,
@@ -331,7 +331,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
-    disabledNetworks: [5, 420, 122, 8217, 80001],
+    disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
     symbol: "BNB",
     chainName: "bsc-mainnet",
   },
@@ -348,7 +348,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
-    disabledNetworks: [5, 420, 1116, 80001],
+    disabledNetworks: [5, 420, 1116, 80001,  5,80001,534353, 11155111],
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
   },
@@ -368,7 +368,7 @@ export const networks: Network[] = [
     image: "polygon-zkevm.svg",
     disabledNetworks: [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
-      80001, 324,
+      80001, 324, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: "polygon-zkevm-mainnet",
@@ -389,7 +389,7 @@ export const networks: Network[] = [
     image: "mantle.svg",
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 80001,
+      82, 80001, 5,80001,534353, 11155111
     ],
     symbol: "MNT",
     chainName: "mantle-mainnet",
@@ -409,7 +409,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: "arbitrum-nova-mainnet",
@@ -428,7 +428,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#FBCC5C]",
     image: "celo.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ], // TODO: UPDATE
     symbol: "CELO",
     chainName: "celo-mainnet",
@@ -465,7 +465,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
     disabledNetworks: [
-      5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000, 80001,
+      5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "xDAI",
     chainName: undefined,
@@ -484,7 +484,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
     disabledNetworks: [
-      5, 420, 10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161,
+      5, 420, 10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 5,80001,534353, 11155111,
       42170, 1666600000, 80001,
     ],
     symbol: "FUSE",
@@ -505,7 +505,7 @@ export const networks: Network[] = [
     image: "klaytn.svg",
     disabledNetworks: [
       5, 420, 10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700,
-      42161, 42170, 1666600000, 80001,
+      42161, 42170, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "KLAY",
     chainName: "klaytn-mainnet",
@@ -523,7 +523,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#00CDB7]",
     image: "metis.svg",
-    disabledNetworks: [5, 420, 66, 324, 1101, 1116, 1666600000, 80001],
+    disabledNetworks: [5, 420, 66, 324, 1101, 1116, 1666600000, 80001, 5,80001,534353, 11155111],
     symbol: "METIS",
     chainName: "metis-mainnet",
   },
@@ -542,7 +542,7 @@ export const networks: Network[] = [
     image: "coredao.svg",
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700,
-      8217, 42161, 42170, 43114, 1666600000, 80001,
+      8217, 42161, 42170, 43114, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "CORE",
     chainName: undefined,
@@ -561,7 +561,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "CANTO",
     chainName: "canto-mainnet",
@@ -581,7 +581,7 @@ export const networks: Network[] = [
     image: "moonbeam.svg",
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
-      8217, 42170, 80001,
+      8217, 42170, 80001, 5,80001,534353, 11155111
     ],
     symbol: "GLMR",
     chainName: "moonbeam-mainnet",
@@ -601,7 +601,7 @@ export const networks: Network[] = [
     image: "moonriver.svg",
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170,
-      1666600000, 80001,
+      1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "MOVR",
     chainName: "moonriver-mainnet",
@@ -620,7 +620,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "TENET",
     chainName: "tenet-mainnet",
@@ -639,7 +639,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
     disabledNetworks: [
-      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "MTRG",
     chainName: "meter-mainnet",
@@ -658,7 +658,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
     disabledNetworks: [
-      5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000,
+      5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000, 5,80001,534353, 11155111,
       80001,
     ],
     symbol: "KAVA",
@@ -687,7 +687,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
-    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453],
+    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
     symbol: "MATIC",
     chainName: "matic-mainnet",
   },
@@ -704,7 +704,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
-    disabledNetworks: [5, 420, 122, 1116, 8217, 80001],
+    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "ETH",
     chainName: "arbitrum-mainnet",
   },
@@ -721,7 +721,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
-    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "ETH",
     chainName: "optimism-mainnet",
   },
@@ -738,7 +738,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
-    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001],
+    disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "FTM",
     chainName: "fantom-mainnet",
   },
@@ -766,7 +766,7 @@ export const networks: Network[] = [
     image: "harmony.svg",
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
-      8217, 42170, 80001,
+      8217, 42170, 80001, 5,80001,534353, 11155111
     ],
     symbol: "ONE",
     chainName: "harmony-mainnet",
@@ -787,7 +787,7 @@ export const networks: Network[] = [
     image: "okex.svg",
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
-      7700, 8217, 42170, 1666600000, 80001,
+      7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "OKT",
     chainName: undefined,
@@ -807,7 +807,7 @@ export const networks: Network[] = [
     image: "loot.svg",
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
-      7700, 8217, 42170, 1666600000, 80001,
+      7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "AGLD",
     chainName: undefined,
@@ -828,7 +828,7 @@ export const networks: Network[] = [
     image: "zora.svg",
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
-      7700, 8217, 42170, 1666600000, 80001,
+      7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: undefined,
@@ -849,7 +849,7 @@ export const networks: Network[] = [
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
-      42220,
+      42220, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: undefined,
@@ -868,12 +868,14 @@ export const networks: Network[] = [
     image: "polygon.svg",
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
-      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000, 5,80001,534353, 11155111
     ],
     symbol: "MATIC",
     chainName: "polygon-mumbai",
     isTestnet: true,
   },
+
+
   {
     name: scrollTestnet.name,
     chainId: scrollTestnet.id,
@@ -887,12 +889,13 @@ export const networks: Network[] = [
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
-      42220,
+      42220, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: undefined,
     isTestnet: true,
   },
+
   {
     name: sepolia.name,
     chainId: sepolia.id,
@@ -906,7 +909,7 @@ export const networks: Network[] = [
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
-      42220,
+      42220, 5,80001,534353, 11155111
     ],
     symbol: "ETH",
     chainName: "eth-sepolia",
