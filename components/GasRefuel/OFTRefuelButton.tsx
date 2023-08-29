@@ -49,10 +49,6 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
-  console.log("gasEstimateDataArray", gasEstimateDataArray);
-  console.log("gasEstimateData ++", BigInt(
-    gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
-  )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")));
 
   const {
     config: sendFromConfig,
@@ -77,6 +73,7 @@ const OFTRefuelButton: React.FC<Props> = ({
       0,
     ],
   });
+
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
@@ -87,6 +84,8 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (gasEstimateDataArray && account) {
+
+ 
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
         [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
@@ -112,6 +111,8 @@ const OFTRefuelButton: React.FC<Props> = ({
     setEstimatedGas,
     connectedChain?.nativeCurrency.symbol,
     gasRefuelAmount,
+    sourceChain.symbol,
+
   ]);
 
   const onBridge = async () => {
@@ -145,8 +146,14 @@ const OFTRefuelButton: React.FC<Props> = ({
           "It looks like the bridge between these chains are not supported by LayerZero."
         );
       }
+      if(error?.message.includes("transaction exceeds the balance of the account")){
       return toast(
         "Make sure you have enough gas and you're on the correct network."
+      );
+      }
+
+      return toast(
+        `Please connect your wallet ${sourceChain.name} Network first. `
       );
     }
     if (!isSuccess) {
@@ -190,7 +197,7 @@ const OFTRefuelButton: React.FC<Props> = ({
         "self-center bg-blue-600 flex justify-center items-center px-4 w-1/3 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
     >
-      Bridge
+      Bridge 
       {loading && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
