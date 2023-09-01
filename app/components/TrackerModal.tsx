@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import trackerImg from "@/assets/images/trackedImg.png";
+import trackerImg from "@/assets/images/tr.png";
 type Props = {
   onCloseModal: any;
 };
@@ -27,7 +27,7 @@ function TrackerModal({ onCloseModal }: Props) {
           <Image
             src={trackerImg}
             alt="tracker-img"
-            className="h-full object-fill w-full md:w-[40%]"
+            className="h-full object-fill w-full md:w-[50%]"
             width={200}
             height={200}
           />
