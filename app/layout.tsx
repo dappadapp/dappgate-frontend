@@ -32,6 +32,9 @@ export default function RootLayout({
                     });
         `}
         </Script>
+
+        <script type="text/javascript" src="https://www.bugherd.com/sidebarv2.js?apikey=rtp3yqfdikrd7pfzs4czgg" async={true}></script>
+
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
