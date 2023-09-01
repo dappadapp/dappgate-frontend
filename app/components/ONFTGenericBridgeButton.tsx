@@ -49,6 +49,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
+
+
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
@@ -78,6 +80,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       "0x00010000000000000000000000000000000000000000000000000000000000055730",
     ],
   });
+
+  console.log("sendFromConfig", sendFromConfig);
 
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 

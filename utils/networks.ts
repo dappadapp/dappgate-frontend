@@ -305,6 +305,7 @@ export const networks: Network[] = [
     relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
     messageContractAddress:"0x856DA67bfCD0669624bFAAFc3b728FC870c70305",
     gasRefuelContractAddress: "0xf3943238980E14f38AAE909e8910AC71819390dc",
+    setOFTContractAddress: "0xe06cef4c0eedc65D4ffE1587E8c08b27d9eC8602",
     blockConfirmation: 5,
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
@@ -802,6 +803,7 @@ export const networks: Network[] = [
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
     messageContractAddress: "",
     gasRefuelContractAddress: "0xB66CAeA47F6837b5A6c8903d9c4adD6ee364Ce88",
+    setOFTContractAddress: "0x28EeB8751855AfcE0a5FE51ff376D24Cc40d1013",
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "loot.svg",
@@ -823,6 +825,7 @@ export const networks: Network[] = [
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
     messageContractAddress: "",
     gasRefuelContractAddress: "0x9FE6803cD5821F08e068592DB51475622Ca64FBF",
+    setOFTContractAddress: "0x43F077B4072D63C3E9b2464148451e9147d5121f",
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "zora.svg",
@@ -833,6 +836,30 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: undefined,
   },
+
+    
+  {
+    name: "TomoChain",
+    chainId: 88,
+    layerzeroChainId: 196,
+    nftContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    tokenContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    setOFTContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
+    blockConfirmation: 2,
+    colorClass: "bg-[#000000]",
+    image: "tomo.svg",
+    disabledNetworks: [
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
+      7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
+    ],
+    symbol: "TOMO",
+    chainName: undefined,
+  },
+  
+
   
 
   {

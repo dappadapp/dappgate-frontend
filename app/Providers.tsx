@@ -410,6 +410,35 @@ const zora = {
   },
 } as const satisfies Chain;
 
+const tomo = {
+  id: 88,
+  name: "TomoChain",
+  network: "tomo",
+  nativeCurrency: {
+    decimals: 18,
+    name: "TomoChain",
+    symbol: "TOMO",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.tomochain.com"],
+    },
+    public: {
+      http: ["https://tomo.blockpi.network/v1/rpc/public"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "TomoChain Explorer",
+      url: "https://tomoscan.io/",
+    },
+    default: {
+      name: "TomoChain Explorer",
+      url: "https://tomoscan.io/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -453,6 +482,7 @@ const chains = [
   scrollTestnet,
   loot,
   zora,
+  tomo,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 
