@@ -14,7 +14,7 @@ function TrackerModal({ onCloseModal }: Props) {
     >
       <div
         className={
-          "relative md:p-0 p-3 max-w-[90vw] w-[300px] min-h-[500px] md:min-h-[600px] md:min-w-[800px] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
+          "relative md:p-0 p-3 max-w-[90vw] w-[300px] h-[500px] md:min-h-[600px] md:min-w-[800px] bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10"
         }
       >
         <div
@@ -27,12 +27,12 @@ function TrackerModal({ onCloseModal }: Props) {
           <Image
             src={trackerImg}
             alt="tracker-img"
-            className="h-full object-fill w-full md:w-[50%]"
+            className="h-full hidden md:block object-fill w-full md:w-[50%]"
             width={200}
             height={200}
           />
           <div className="flex flex-col h-full justify-center gap-10 px-4 items-center text-center">
-            <span className="text-base md:text-2xl md:mb-6">TRACKER</span>
+            <span className="text-xl md:text-2xl md:mb-6">TRACKER</span>
             <span>
               Uncover Estimated Airdrop Amounts based on the Arbitrum and Optimism! 🌟
             </span>
