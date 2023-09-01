@@ -30,6 +30,7 @@ import Tabs, { tabsConfig } from "./components/Tabs";
 import ONFTAbi from "@/config/abi/ONFT.json";
 import Message from "@/components/Message";
 import Navbar from "./components/Navbar";
+import TracketModal from "./components/TrackerModal";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -51,6 +52,7 @@ export default function Home({
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
   const [layerZeroTxHashes, setLayerZeroTxHashes] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
+  const [isTrackerModalOpen, setIsTrackerModalOpen] = useState(true);
   const [isRefModalOpen, setIsRefModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
@@ -159,7 +161,7 @@ export default function Home({
     const newSelectedHyperBridges = networks.filter(
       (network) =>
         !selectedNetwork.disabledNetworks.includes(network.chainId) &&
-        network.chainId !== selectedNetwork.chainId 
+        network.chainId !== selectedNetwork.chainId
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
@@ -217,7 +219,7 @@ export default function Home({
       (network) =>
         !sourceChain.disabledNetworks.includes(network.chainId) &&
         sourceChain.chainId !== network.chainId &&
-        sourceChain.layerzeroChainId !==  165
+        sourceChain.layerzeroChainId !== 165
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
@@ -250,7 +252,13 @@ export default function Home({
           }}
         />
       ) : null}
-
+      {isTrackerModalOpen ? (
+        <TracketModal
+          onCloseModal={() => {
+            setIsTrackerModalOpen(false);
+          }}
+        />
+      ) : null}
       {isHistoryModalOpen ? (
         <HistoryModal
           onCloseModal={() => {
@@ -284,9 +292,10 @@ export default function Home({
               <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
               <a href={"/"}>Docs</a>
               <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
-              <a href={"https://tracker.dappgate.io/"} target="_blank">Tracker     <span
-                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
-              /></a>
+              <a href={"https://tracker.dappgate.io/"} target="_blank">
+                Tracker{" "}
+                <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
+              </a>
             </div>
           </div>
           <div
