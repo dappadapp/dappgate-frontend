@@ -794,11 +794,25 @@ export const networks: Network[] = [
     chainName: undefined,
   },
 
+  /**
+   * 
+   * Network name
+Telos EVM Mainnet
+Network URL
+https://mainnet.telos.net/evm
+Chain ID
+40
+Currency symbol
+TLOS
+Block explorer URL
+https://teloscan.io
+   */
+
   {
     name: "Loot Chain",
     chainId: 5151706,
     layerzeroChainId: 197,
-    nftContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    nftContractAddress: "0xeF430919857FaDb0ea086e0951fEf1c8a433D33a",
     tokenContractAddress: "0xA245D6427742c9e342817329f8Ac620dAdB0ed45",
     relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
     messageContractAddress: "",
