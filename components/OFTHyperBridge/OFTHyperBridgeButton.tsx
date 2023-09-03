@@ -36,6 +36,10 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const [lzTargetChainId, setLzTargetChainId] = useState(
     selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
   );
+  const [adapterParam, setAdapterParams] = useState("");
+
+
+
 
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -50,6 +54,22 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     ],
     chainId: sourceChain.chainId,
   });
+
+  useEffect(() => {
+    if (account) {
+      const adapterParams = ethers.solidityPacked(
+        ["uint16", "uint", "uint", "address"],
+        [2, 200000, BigInt(Number(selectedHyperBridges?.length)), account]
+      );
+      setAdapterParams(adapterParams);
+    }
+  }, [
+ 
+    account,
+    selectedHyperBridges,
+    connectedChain?.nativeCurrency.symbol,
+
+  ]);
 
   useEffect(() => {
     refetch();
@@ -115,12 +135,14 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           functionName: "estimateSendFee",
           args: [
             network.layerzeroChainId,
-            account,
-            selectedHyperBridges.length * 10e18,
+            account ? account : "0x0000000000000000000000000000000000000000",
+            ethers.parseEther(tokenAmountHyperBridge.toString()),
             false,
-            "0x",
+            adapterParam,
           ],
         });
+
+  
 
         const bridgeFeeData_ = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -141,11 +163,13 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             network?.layerzeroChainId,
             account,
             ethers.parseEther(tokenAmountHyperBridge.toString()),
-            "0x0000000000000000000000000000000000000000",
+             account,
             "0x0000000000000000000000000000000000000000",
             "",
           ],
         });
+
+      
 
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 

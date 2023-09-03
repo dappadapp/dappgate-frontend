@@ -183,7 +183,7 @@ const OFTHyperBridge: React.FC<Props> = ({
         sourceChain={sourceChain}
         setLayerZeroTxHashes={setLayerZeroTxHashes}
         setEstimatedGas={setEstimatedGas}
-        tokenAmountHyperBridge={selectedHyperBridges.length}
+        tokenAmountHyperBridge={tokenAmountHyperBridge}
         selectedHyperBridges={selectedHyperBridges}
         setBridgeCostData={setBridgeCostData}
       />
