@@ -62,8 +62,7 @@ const TransactionPreview = ({
                     {tokenAmountHyperBridge === 0
                       ? 0
                       : ((
-                          Number(bridgeCostData || 0) *
-                          Number(selectedHyperBridges?.length)
+                          Number(bridgeCostData || 0) 
                         )?.toFixed(5) as unknown as string)}{" "}
                     {sourceChain?.symbol} + Gas
                   </td>

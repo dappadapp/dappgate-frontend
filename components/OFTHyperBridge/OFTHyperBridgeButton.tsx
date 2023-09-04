@@ -89,25 +89,55 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
               BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
-      );
+      ); 
 
-      setBridgeCostData(
-        ethers.formatEther(
-          (
-            BigInt(
-              gasEstimateData
-                ? (gasEstimateData as bigint[])?.[0]
-                : "13717131402195452"
-            ) + BigInt("10000000000000")
-          ).toString()
-        )
-      );
     }
+
+    var totalCost: bigint = 0n;
+    selectedHyperBridges?.map(async (network: Network) => {
+
+
+      const gasEstimateArray: any = await readContract({
+        address: sourceChain.tokenContractAddress as `0x${string}`,
+        abi: OFTBridge,
+        functionName: "estimateSendFee",
+        args: [
+          network.layerzeroChainId,
+          account ? account : "0x0000000000000000000000000000000000000000",
+          ethers.parseEther(tokenAmountHyperBridge.toString()),
+          false,
+          adapterParam,
+        ],
+      });
+
+
+
+      const bridgeFeeData_ = await readContract({
+        address: sourceChain.tokenContractAddress as `0x${string}`,
+        abi: OFTBridge,
+        functionName: "bridgeFee",
+      });
+
+      console.log("bridgeFeeData_",bridgeFeeData_);
+  
+      if(bridgeFeeData_){
+        totalCost = totalCost + ( BigInt(((gasEstimateArray as any)[0] as string) || "0") +
+        BigInt((bridgeFeeData_ as string) || "0") +
+        BigInt("10000000000000"));
+
+        
+      }
+
+      setBridgeCostData(ethers.formatEther(totalCost.toString()));
+
+
+    });
+
   }, [
     gasEstimateData,
     connectedChain?.nativeCurrency.symbol,
-    setBridgeCostData,
-    setEstimatedGas,
+    account,
+    selectedHyperBridges,
   ]);
 
   const onBridge = async () => {
