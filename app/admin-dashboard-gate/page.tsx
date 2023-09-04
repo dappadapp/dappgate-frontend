@@ -23,18 +23,6 @@ const Dashboard: React.FC = ({
 
 }) => {
 
-    const { address: account } = useAccount();
-
-
-    if (account === "0x3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C" || account === "0x3772f434d796A1B974E9B2cD37055a075F3450be") {
-        // redirect homepage
-      
-
-    }
-    else{
-        return;
-    }
-
     const { switchNetworkAsync } = useSwitchNetwork();
     const { chain: connectedChain } = useNetwork();
     const [mintFee, setMintFee] = useState("");
@@ -49,6 +37,21 @@ const Dashboard: React.FC = ({
     const [sourceChain, setSourceChain] = useState(networks[0]);
     const [targetChain, setTargetChain] = useState(networks[1]);
 
+    const { address: account } = useAccount();
+
+    useEffect(() => {
+
+    if (account === "0x3D6a34D8ECe4640adFf2f38a5bD801E51B07e49C" || account === "0x3772f434d796A1B974E9B2cD37055a075F3450be") {
+        // redirect homepage
+      
+
+    }
+    else{
+        return;
+    }
+
+    }, [account])
+  
 
     const { data: currentOFTMint, refetch: refechOFTMint } = useContractRead({
         address: sourceChain?.setOFTContractAddress as `0x${string}`,
