@@ -133,7 +133,7 @@ export default function Stats({
                             {tx.ref || "No Ref"}
                           </td>
                           <td className=" text-end pr-2 w-[30%] rounded-r-lg">
-                            {new Date(tx.timestamp * 1000).toLocaleString()}
+                            {new Date(tx.timestamp).toLocaleString()}
                           </td>
                         </tr>
                       ))
