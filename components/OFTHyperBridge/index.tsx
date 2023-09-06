@@ -3,10 +3,7 @@ import OFTHyperBridgeButton from "./OFTHyperBridgeButton";
 import TransactionPreview from "@/app/components/TransactionPreview";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckCircle,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { networks } from "@/utils/networks";
 import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
@@ -37,20 +34,14 @@ const OFTHyperBridge: React.FC<Props> = ({
   const [bridgeCostData, setBridgeCostData] = useState(0);
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
 
-  const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredNetworks = networks.filter((network) => network.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleButtonClick = async (index: number, network?: any) => {
     if (!network) return;
     let selectedNetworks = selectedHyperBridges;
-    let isExist = selectedNetworks.some(
-      (selectedNetwork) => selectedNetwork.chainId === network.chainId
-    );
+    let isExist = selectedNetworks.some((selectedNetwork) => selectedNetwork.chainId === network.chainId);
     if (isExist) {
-      selectedNetworks = selectedNetworks.filter(
-        (selectedNetwork) => selectedNetwork.chainId !== network.chainId
-      );
+      selectedNetworks = selectedNetworks.filter((selectedNetwork) => selectedNetwork.chainId !== network.chainId);
       setSelectedHyperBridges(selectedNetworks);
     } else {
       setSelectedHyperBridges([...selectedHyperBridges, network]);
@@ -63,11 +54,7 @@ const OFTHyperBridge: React.FC<Props> = ({
       <div className="flex flex-row justify-between items-center">
         <h1 className={"text-3xl font-semibold"}>OFT HyperBridge</h1>
       </div>
-      <div
-        className={
-          "flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"
-        }
-      >
+      <div className={"flex flex-col gap-2 sm:flex-col justify-between items-center mt-8 mb-8"}>
         <ListboxSourceMenu
           value={sourceChain}
           onChange={onChangeSourceChain}
@@ -88,8 +75,7 @@ const OFTHyperBridge: React.FC<Props> = ({
             {networks
               .filter((network) => {
                 return (
-                  !sourceChain.disabledNetworks.includes(network.chainId) &&
-                  network.chainId !== sourceChain.chainId
+                  !sourceChain.disabledNetworks.includes(network.chainId) && network.chainId !== sourceChain.chainId
                 );
               })
               .map((network, i) => {
@@ -97,13 +83,11 @@ const OFTHyperBridge: React.FC<Props> = ({
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
-                    )
-                      ? "grayscale"
-                      : "grayscale-0"
-                      } p-2 `}
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                      !selectedHyperBridges.some((selectedBridge) => selectedBridge.chainId === network.chainId)
+                        ? "grayscale"
+                        : "grayscale-0"
+                    } p-2 `}
                   >
                     <Image
                       src={`/chains/${network.image}`}
@@ -114,19 +98,10 @@ const OFTHyperBridge: React.FC<Props> = ({
                     />
                     <h2 className="p-2 flex-1">{network.name}</h2>
 
-                    {!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
-                    ) ? (
-                      <FontAwesomeIcon
-                        className="absolute top-0 right-0 p-1"
-                        icon={faCircleXmark}
-                      />
+                    {!selectedHyperBridges.some((selectedBridge) => selectedBridge.chainId === network.chainId) ? (
+                      <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCircleXmark} />
                     ) : (
-                      <FontAwesomeIcon
-                        className="absolute top-0 right-0 p-1"
-                        icon={faCheckCircle}
-                      />
+                      <FontAwesomeIcon className="absolute top-0 right-0 p-1" icon={faCheckCircle} />
                     )}
                   </button>
                 );
@@ -161,19 +136,18 @@ const OFTHyperBridge: React.FC<Props> = ({
 
       <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
         <div className="text-white-700">
-          Step 3: Bridge {" " + selectedHyperBridges.length + " "} $DLGATE
-          tokens per network to selected networks in Step 1
+          Step 3: Bridge {" " + selectedHyperBridges.length + " "} $DLGATE tokens per network to selected networks in
+          Step 1
         </div>
       </div>
 
       <TransactionPreview
         selectedHyperBridges={selectedHyperBridges}
-        tokenAmountHyperBridge={
-          tokenAmountHyperBridge * selectedHyperBridges.length
-        }
+        tokenAmountHyperBridge={tokenAmountHyperBridge * selectedHyperBridges.length}
         mintCostData={mintCostData}
         bridgeCostData={bridgeCostData}
         sourceChain={sourceChain}
+        isTotal
         symbol={"$DLGATE"}
       />
 
