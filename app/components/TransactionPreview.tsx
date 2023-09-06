@@ -12,6 +12,7 @@ type Props = {
   mintCostData: any;
   sourceChain: Network;
   bridgeCostData?: any;
+  isTotal?: boolean;
   symbol: string;
 };
 
@@ -21,6 +22,7 @@ const TransactionPreview = ({
   mintCostData,
   sourceChain,
   bridgeCostData,
+  isTotal,
   symbol,
 }: Props) => {
   return (
@@ -32,11 +34,7 @@ const TransactionPreview = ({
             <tbody>
               <tr>
                 <td className="font-bold pr-4">Destination Chains</td>
-                <td>
-                  You have selected{" "}
-                  {selectedHyperBridges.filter((x: any) => x !== 0).length}{" "}
-                  destination chains{" "}
-                </td>
+                <td>You have selected {selectedHyperBridges.filter((x: any) => x !== 0).length} destination chains </td>
               </tr>
               <tr>
                 <td className="font-bold pr-4"> Total Token Amount:</td>
@@ -47,10 +45,7 @@ const TransactionPreview = ({
               <tr>
                 <td className="font-bold pr-4">Mint Estimated Cost:</td>
                 <td>
-                  {ethers.formatEther(
-                    BigInt(mintCostData) as unknown as string
-                  )}{" "}
-                  {sourceChain?.symbol} + Gas
+                  {ethers.formatEther(BigInt(mintCostData) as unknown as string)} {sourceChain?.symbol} + Gas
                 </td>
               </tr>
               {symbol !== "NFT" && (
@@ -59,10 +54,11 @@ const TransactionPreview = ({
                   <td>
                     {tokenAmountHyperBridge === 0
                       ? 0
-                      : ((
-                          Number(bridgeCostData || 0) *
-                          Number(selectedHyperBridges?.length)
-                        )?.toFixed(5) as unknown as string)}{" "}
+                      : isTotal
+                      ? (Number(bridgeCostData || 0)?.toFixed(5) as unknown as string)
+                      : ((Number(bridgeCostData || 0) * Number(selectedHyperBridges?.length))?.toFixed(
+                          5
+                        ) as unknown as string)}{" "}
                     {sourceChain?.symbol} + Gas
                   </td>
                 </tr>

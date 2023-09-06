@@ -1,12 +1,7 @@
 import type { Network } from "@/utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  useAccount,
-  useContractRead,
-  useNetwork,
-  useSwitchNetwork,
-} from "wagmi";
+import { useAccount, useContractRead, useContractReads, useNetwork, useSwitchNetwork } from "wagmi";
 import { writeContract, readContract } from "@wagmi/core";
 import { toast } from "react-toastify";
 import OFTBridge from "../../config/abi/OFTBridge.json";
@@ -17,7 +12,7 @@ type Props = {
   setLayerZeroTxHashes: any;
   setEstimatedGas: any;
   tokenAmountHyperBridge: number;
-  selectedHyperBridges: any;
+  selectedHyperBridges: Network[];
   setBridgeCostData: any;
 };
 
@@ -33,62 +28,44 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-  const [lzTargetChainId, setLzTargetChainId] = useState(
-    selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
-  );
 
-  const { data: gasEstimateData, refetch } = useContractRead({
-    address: sourceChain.tokenContractAddress as `0x${string}`,
-    abi: OFTBridge,
-    functionName: "estimateSendFee",
-    args: [
-      lzTargetChainId,
-      account,
-      selectedHyperBridges.length,
-      false,
-      "0x", // version: 1, value: 400000
-    ],
-    chainId: sourceChain.chainId,
+  const { data: gasEstimateData } = useContractReads({
+    contracts: selectedHyperBridges.map((b) => ({
+      address: sourceChain.tokenContractAddress as `0x${string}`,
+      abi: OFTBridge as any,
+      functionName: "estimateSendFee",
+      args: [
+        b.layerzeroChainId,
+        account,
+        1,
+        false,
+        "0x", // version: 1, value: 400000
+      ] as any,
+      chainId: sourceChain.chainId,
+    })),
+    select: (d) => d.map((d) => d.result?.[0]).reduce((a: any, b: any) => BigInt(a) + BigInt(b), 0),
   });
 
-  useEffect(() => {
-    refetch();
-    setLzTargetChainId(
-      selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
-    );
-  }, [selectedHyperBridges, refetch]);
+  console.log("gasEstimateData", gasEstimateData);
 
   useEffect(() => {
     if (gasEstimateData) {
-      const coefficient =
-        connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
+      const coefficient = connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
-          Number(
-            (BigInt((gasEstimateData as bigint[])?.[0]) * BigInt(coefficient)) /
-              BigInt(1e18)
-          ) / coefficient
-        } ${connectedChain?.nativeCurrency.symbol}`
+        `${Number((BigInt(gasEstimateData as any) * BigInt(coefficient)) / BigInt(1e18)) / coefficient} ${
+          connectedChain?.nativeCurrency.symbol
+        }`
       );
 
       setBridgeCostData(
         ethers.formatEther(
           (
-            BigInt(
-              gasEstimateData
-                ? (gasEstimateData as bigint[])?.[0]
-                : "13717131402195452"
-            ) + BigInt("10000000000000")
+            BigInt(gasEstimateData ? (gasEstimateData as any) : "13717131402195452") + BigInt("10000000000000")
           ).toString()
         )
       );
     }
-  }, [
-    gasEstimateData,
-    connectedChain?.nativeCurrency.symbol,
-    setBridgeCostData,
-    setEstimatedGas,
-  ]);
+  }, [gasEstimateData, connectedChain?.nativeCurrency.symbol, setBridgeCostData, setEstimatedGas]);
 
   const onBridge = async () => {
     if (connectedChain?.id !== sourceChain.chainId) {
@@ -103,23 +80,17 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       return toast("You didn't choose any destination chains.");
     }
 
+    console.log("selectedHyperBridges", selectedHyperBridges);
+
     try {
       setLoading(true);
 
-      selectedHyperBridges?.map(async (network: Network) => {
-        setLzTargetChainId(network?.layerzeroChainId);
-
+      selectedHyperBridges?.map(async (network) => {
         const gasEstimateArray: any = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
           functionName: "estimateSendFee",
-          args: [
-            network.layerzeroChainId,
-            account,
-            selectedHyperBridges.length * 10e18,
-            false,
-            "0x",
-          ],
+          args: [network.layerzeroChainId, account, selectedHyperBridges.length * 10e18, false, "0x"],
         });
 
         const bridgeFeeData_ = await readContract({
