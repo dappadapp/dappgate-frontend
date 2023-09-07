@@ -39,7 +39,7 @@ const OFTBridgeButton: React.FC<Props> = ({
     args: [
       `${targetChain.layerzeroChainId}`,
       account ? account : "0x0000000000000000000000000000000000000000",
-      "1000000000000000000",
+      BigInt(Number(dlgateBridgeAmount)),
       false,
       adapterParam,
     ],
@@ -48,7 +48,7 @@ const OFTBridgeButton: React.FC<Props> = ({
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
 
-
+console.log("gasEstimateDataArray", gasEstimateDataArray);
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
@@ -91,7 +91,7 @@ const OFTBridgeButton: React.FC<Props> = ({
       ethers.parseEther(dlgateBridgeAmount?.toString() || "0"),
       account,
       "0x0000000000000000000000000000000000000000",
-      "",
+      adapterParam,
     ],
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
