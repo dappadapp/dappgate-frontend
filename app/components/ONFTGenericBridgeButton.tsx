@@ -12,6 +12,7 @@ import {
 import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
+import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
@@ -34,7 +35,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   const { chain: connectedChain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
-
+  const [gas, setGas] = useState("");
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
@@ -86,11 +87,11 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if ((gasEstimateData as any)?.[0]) {
+    if ((gasEstimateData as any)?.[0] && bridgeFeeData) {
       const coefficient =
         connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
-        `${
+        `${(
           Number(
             ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
               BigInt(1e18)
@@ -100,7 +101,23 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
             ((bridgeFeeData as bigint) * BigInt(coefficient)) / BigInt(1e18)
           ) /
             coefficient
-        } ${connectedChain?.nativeCurrency.symbol}`
+        ).toFixed(Math.log10(coefficient))} ${
+          connectedChain?.nativeCurrency.symbol
+        }`
+      );
+
+      setGas(
+        `${(
+          Number(
+            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
+              BigInt(1e18)
+          ) /
+            coefficient +
+          Number(
+            ((bridgeFeeData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+          ) /
+            coefficient
+        ).toFixed(Math.log10(coefficient))}`
       );
     }
   }, [
@@ -135,7 +152,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
         );
       }
       return toast(
-        "Make sure you have enough gas and you're on the correct network."
+        `Make sure you have more than ${Number(ethers.formatEther( (BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+        BigInt((bridgeFeeData as string) || "0") +
+        BigInt("10000000000000"))?.toString()))?.toFixed(2)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     }
     if (!isSuccess) {

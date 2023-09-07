@@ -127,7 +127,9 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
         );
       }
       return toast(
-        "Make sure you have enough gas and you're on the correct network."
+        `Make sure you have more than ${Number(ethers.formatEther(BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+        BigInt((bridgeFeeData as string) || "0") +
+        BigInt("10000000000000")?.toString()))?.toFixed(2)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     }
     if (!isSuccess) {

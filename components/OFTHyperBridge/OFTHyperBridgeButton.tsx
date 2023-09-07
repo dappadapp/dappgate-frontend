@@ -50,7 +50,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       account,
       selectedHyperBridges.length,
       false,
-      "0x", // version: 1, value: 400000
+      adapterParam, // version: 1, value: 400000
     ],
     chainId: sourceChain.chainId,
   });
@@ -195,7 +195,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             ethers.parseEther(tokenAmountHyperBridge.toString()),
              account,
             "0x0000000000000000000000000000000000000000",
-            "",
+            adapterParam,
           ],
         });
 

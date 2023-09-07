@@ -11,6 +11,7 @@ import {
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
 import { waitForTransaction, writeContract } from "@wagmi/core";
+import { ethers } from "ethers";
 
 type Props = {
   sourceChain: Network;
@@ -186,11 +187,11 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         error?.message.includes("Execution reverted for an unknown reason.")
       ) {
         return toast(
-          "It looks like the bridge between these chains are not supported by LayerZero."
+          `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(2))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
         );
       }
       return toast(
-        "Make sure you have enough gas and you're on the correct network."
+        `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(2))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     } finally {
       setLoading(false);

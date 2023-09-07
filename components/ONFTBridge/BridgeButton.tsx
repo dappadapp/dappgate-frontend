@@ -12,6 +12,8 @@ import {
 import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
 import ONFTAbi from "../../config/abi/ONFT.json";
+import { ethers } from "ethers";
+
 
 type Props = {
   sourceChain: Network;
@@ -35,6 +37,7 @@ const BridgeButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
   const [mintTxHash, setMintTxHash] = useState("");
+  const [gas, setGas] = useState("");
 
   const { data: gasEstimateData } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -101,6 +104,20 @@ const BridgeButton: React.FC<Props> = ({
           connectedChain?.nativeCurrency.symbol
         }`
       );
+
+      setGas(
+        `${(
+          Number(
+            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
+              BigInt(1e18)
+          ) /
+            coefficient +
+          Number(
+            ((bridgeFeeData as bigint) * BigInt(coefficient)) / BigInt(1e18)
+          ) /
+            coefficient
+        ).toFixed(Math.log10(coefficient))}`
+      );
     }
   }, [
     gasEstimateData,
@@ -134,7 +151,9 @@ const BridgeButton: React.FC<Props> = ({
         );
       }
       return toast(
-        "Make sure you have enough gas and you're on the correct network."
+        `Make sure you have more than ${Number(ethers.formatEther(BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+        BigInt((bridgeFeeData as string) || "0") +
+        BigInt("10000000000000")?.toString()))?.toFixed(2)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     }
     if (!isSuccess) {

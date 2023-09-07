@@ -81,7 +81,7 @@ const ONFTBridge: React.FC<Props> = ({
   }, [tokenIds]);
 
   console.log("tokenIds", tokenIds);
-  console.log("balanceOfData", balanceOfData);
+  console.log("estimatedGas", estimatedGas);
 
   return (
     <div
