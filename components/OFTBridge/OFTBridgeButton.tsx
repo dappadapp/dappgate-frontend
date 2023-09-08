@@ -96,6 +96,8 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
+
+
   const onBridge = async () => {
     if (!account) {
       return toast("Please connect your wallet first.");
@@ -127,9 +129,9 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
         );
       }
       return toast(
-        `Make sure you have more than ${Number(ethers.formatEther(BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
+        `Make sure you have more than ${Number( ethers.formatEther(BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
         BigInt((bridgeFeeData as string) || "0") +
-        BigInt("10000000000000")?.toString()))?.toFixed(2)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
+        BigInt("10000000000000")))?.toFixed(2)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     }
     if (!isSuccess) {

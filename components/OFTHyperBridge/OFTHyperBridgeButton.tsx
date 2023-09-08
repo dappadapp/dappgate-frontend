@@ -180,7 +180,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           functionName: "bridgeFee",
         });
 
-        const { hash: txHash } = await writeContract({
+        const { hash: txHash} = await writeContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
           functionName: "sendFrom",
@@ -199,13 +199,20 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ],
         });
 
-      
+        if(txHash === undefined){
+         return toast("An unknown error occured.");
+        }
 
+
+      
+      
+      
+        if (!txHash) {
+          return  toast("An unknown error occured.");
+        }
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
-        if (!txHash) {
-          toast("An unknown error occured.");
-        }
+        toast("Bridge transaction sent!");
 
         const mintPost = async () => {
           await axios.post("/api/newCreate", {
@@ -237,7 +244,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         };
         postBridgeHistory();
       });
-      toast("Bridge transaction sent!");
+   
     } catch (error) {
       console.log(error);
       setLoading(false);
