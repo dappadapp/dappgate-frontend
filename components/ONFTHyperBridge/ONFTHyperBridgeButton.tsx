@@ -187,11 +187,11 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         error?.message.includes("Execution reverted for an unknown reason.")
       ) {
         return toast(
-          `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(2))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
+          `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(4))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
         );
       }
       return toast(
-        `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(2))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
+        `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) + (bridgeFeeData as bigint))?.toString())?.toFixed(4))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     } finally {
       setLoading(false);
