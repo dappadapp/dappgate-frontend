@@ -1,15 +1,15 @@
 import type { Network } from "@/utils/networks";
 import React, { useEffect, useMemo, useState } from "react";
 import MintButton from "./MintButton";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
-import CircleSvg from "@/app/components/CircleSvg";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import BridgeButton from "./BridgeButton";
-import LayerZeroSvg from "@/app/components/LayerZeroSvg";
+import LayerZeroSvg from "@/app/apps/dappgate/components/LayerZeroSvg";
 import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
-import FaAngleDown from "@/app/components/FaAngleDown";
+import FaAngleDown from "@/app/apps/dappgate/components/FaAngleDown";
 import ONFTAbi from "@/config/abi/ONFT.json";
 
 type Props = {
@@ -49,10 +49,11 @@ const ONFTBridge: React.FC<Props> = ({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  network.layerzeroChainId !== 165
-);
+  const filteredNetworksTarget = networks.filter(
+    (network) =>
+      network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      network.layerzeroChainId !== 165
+  );
 
   const { data: balanceOfData, refetch: balanceOfRefetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -91,9 +92,7 @@ const ONFTBridge: React.FC<Props> = ({
         <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
       </div>
       <div
-        className={
-          "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
-        }
+        className={"flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"}
       >
         <ListboxSourceMenu
           value={sourceChain}
@@ -200,12 +199,11 @@ const ONFTBridge: React.FC<Props> = ({
       <div className="mt-4 mb-8 text-sm md:text-base flex flex-col text-gray-400">
         Disclaimer
         <span className="text-xs md:text-sm">
-          Please be aware that any bridge fees encountered while using our
-          platform are not associated with us, nor do we have control over these
-          charges. These fees are fully calculated and processed on
-          LayerZero&apos;s backend. We make no representations or warranties
-          regarding these fees, and we cannot influence or predict the value of
-          these fees. Thank you for your understanding.
+          Please be aware that any bridge fees encountered while using our platform are
+          not associated with us, nor do we have control over these charges. These fees
+          are fully calculated and processed on LayerZero&apos;s backend. We make no
+          representations or warranties regarding these fees, and we cannot influence or
+          predict the value of these fees. Thank you for your understanding.
         </span>
       </div>
       <LayerZeroSvg />

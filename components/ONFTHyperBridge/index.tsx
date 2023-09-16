@@ -1,16 +1,13 @@
-import TransactionPreview from "@/app/components/TransactionPreview";
+import TransactionPreview from "@/app/apps/dappgate/components/TransactionPreview";
 import React, { useState } from "react";
 import ONFTHyperMintButton from "./ONFTHyperMintButton";
 import ONFTHyperBridgeButton from "./ONFTHyperBridgeButton";
 import Image from "next/image";
-import {
-  faCheckCircle,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { networks } from "@/utils/networks";
-import ArrowsSvg from "@/app/components/ArrowsSvg";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ArrowsSvg from "@/app/apps/dappgate/components/ArrowsSvg";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import { useAccount, useContractRead } from "wagmi";
 import ONFTAbi from "../../config/abi/ONFT.json";
@@ -110,13 +107,13 @@ const ONFTHyperBridge: React.FC<Props> = ({
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
-                    )
-                      ? "grayscale"
-                      : "grayscale-0"
-                      } p-2 `}
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                      !selectedHyperBridges.some(
+                        (selectedBridge) => selectedBridge.chainId === network.chainId
+                      )
+                        ? "grayscale"
+                        : "grayscale-0"
+                    } p-2 `}
                   >
                     <Image
                       src={`/chains/${network.image}`}
@@ -128,8 +125,7 @@ const ONFTHyperBridge: React.FC<Props> = ({
                     <h2 className="p-2 flex-1">{network.name}</h2>
 
                     {!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
+                      (selectedBridge) => selectedBridge.chainId === network.chainId
                     ) ? (
                       <FontAwesomeIcon
                         className="absolute top-0 right-0 p-1"
@@ -149,8 +145,7 @@ const ONFTHyperBridge: React.FC<Props> = ({
       </div>
 
       <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-        Step2: Mint {selectedHyperBridges.length} NFTs on {sourceChain.name} to
-        bridge
+        Step2: Mint {selectedHyperBridges.length} NFTs on {sourceChain.name} to bridge
       </div>
 
       <TransactionPreview

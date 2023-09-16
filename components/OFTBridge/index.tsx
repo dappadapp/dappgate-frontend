@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import { useAccount } from "wagmi";
 import { networks } from "@/utils/networks";
-import CircleSvg from "@/app/components/CircleSvg";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import OFTClaimButton from "./OFTClaimButton";
 import OFTBridgeButton from "./OFTBridgeButton";
 
@@ -51,10 +51,11 @@ const OFTBridge: React.FC<Props> = ({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  network.layerzeroChainId !== 165
-);
+  const filteredNetworksTarget = networks.filter(
+    (network) =>
+      network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      network.layerzeroChainId !== 165
+  );
 
   const handleMax = () => {
     if (balanceOfDlgate) {
@@ -69,9 +70,7 @@ const OFTBridge: React.FC<Props> = ({
         <h1 className={"text-3xl font-semibold"}>OFT Bridge</h1>
       </div>
       <div
-        className={
-          "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
-        }
+        className={"flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"}
       >
         <ListboxSourceMenu
           value={sourceChain}
@@ -102,10 +101,7 @@ const OFTBridge: React.FC<Props> = ({
           placeholder="e.g. 1000"
           value={inputOFTAmount}
           onChange={(e) => {
-            if (
-              Number.isInteger(Number(e.target.value)) ||
-              e.target.value === ""
-            ) {
+            if (Number.isInteger(Number(e.target.value)) || e.target.value === "") {
               setInputOFTAmount(e.target.value);
             }
           }}

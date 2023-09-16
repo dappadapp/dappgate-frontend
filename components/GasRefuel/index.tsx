@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import OFTRefuelButton from "./OFTRefuelButton";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
-import CircleSvg from "@/app/components/CircleSvg";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
 import { Network, networks } from "@/utils/networks";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import { ethers } from "ethers";
 import { useAccount, useBalance, useContractRead } from "wagmi";
 import RelayerAbi from "../../config/abi/RelayerV2.json";
@@ -30,9 +30,10 @@ const GasRefuel: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [gasRefuelAmount, setGasRefuelAmount] = useState("");
 
-  const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-     network.relayerAddress !== "" &&
+  const filteredNetworks = networks.filter(
+    (network) =>
+      network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      network.relayerAddress !== "" &&
       network.layerzeroChainId !== 165
   );
 
@@ -102,8 +103,7 @@ const GasRefuel: React.FC<Props> = ({
       </div>
       <div className="flex text-xs xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
         <div className="text-white-700 break-words max-w-[60%] text-base">
-          ${sourceChain.name}{" "}
-          {Number(balanceOfUser?.formatted || 0).toFixed(4) || 0}{" "}
+          ${sourceChain.name} {Number(balanceOfUser?.formatted || 0).toFixed(4) || 0}{" "}
           {sourceChain.symbol}
         </div>
         <div className="text-white-700 break-words max-w-[60%] text-base"></div>
@@ -123,11 +123,9 @@ const GasRefuel: React.FC<Props> = ({
           onChange={(e) => {
             if (!isNaN(parseFloat(e.target.value))) {
               setGasRefuelAmount(e.target.value);
-            }
-            else {
+            } else {
               setGasRefuelAmount("");
             }
-          
           }}
         />
         <button
@@ -150,11 +148,10 @@ const GasRefuel: React.FC<Props> = ({
       <div className="mt-4 text-sm md:text-base flex flex-col text-gray-400">
         Disclaimer
         <span className="text-xs md:text-sm">
-          The token bridge is a service that allows users to transfer tokens
-          between different blockchains. However, it is not a financial product
-          and does not offer any guarantees about the price or liquidity of
-          tokens. The service provider is not liable for any loss or damage
-          arising from the use of the token bridge.
+          The token bridge is a service that allows users to transfer tokens between
+          different blockchains. However, it is not a financial product and does not offer
+          any guarantees about the price or liquidity of tokens. The service provider is
+          not liable for any loss or damage arising from the use of the token bridge.
         </span>
       </div>
     </div>

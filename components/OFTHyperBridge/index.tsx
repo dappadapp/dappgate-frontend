@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import OFTHyperBridgeButton from "./OFTHyperBridgeButton";
-import TransactionPreview from "@/app/components/TransactionPreview";
+import TransactionPreview from "@/app/apps/dappgate/components/TransactionPreview";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckCircle,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { networks } from "@/utils/networks";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import OFTHyperClaimButton from "./OFTHyperClaimButton";
-import ArrowsSvg from "@/app/components/ArrowsSvg";
+import ArrowsSvg from "@/app/apps/dappgate/components/ArrowsSvg";
 
 type Props = {
   sourceChain: Network;
@@ -49,8 +46,9 @@ const OFTHyperBridge: React.FC<Props> = ({
     );
     if (isExist) {
       selectedNetworks = selectedNetworks.filter(
-        (selectedNetwork) => selectedNetwork.chainId !== network.chainId && 
-        selectedNetwork.layerzeroChainId !== 165
+        (selectedNetwork) =>
+          selectedNetwork.chainId !== network.chainId &&
+          selectedNetwork.layerzeroChainId !== 165
       );
       setSelectedHyperBridges(selectedNetworks);
     } else {
@@ -99,13 +97,13 @@ const OFTHyperBridge: React.FC<Props> = ({
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
-                    )
-                      ? "grayscale"
-                      : "grayscale-0"
-                      } p-2 `}
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                      !selectedHyperBridges.some(
+                        (selectedBridge) => selectedBridge.chainId === network.chainId
+                      )
+                        ? "grayscale"
+                        : "grayscale-0"
+                    } p-2 `}
                   >
                     <Image
                       src={`/chains/${network.image}`}
@@ -117,8 +115,7 @@ const OFTHyperBridge: React.FC<Props> = ({
                     <h2 className="p-2 flex-1">{network.name}</h2>
 
                     {!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
+                      (selectedBridge) => selectedBridge.chainId === network.chainId
                     ) ? (
                       <FontAwesomeIcon
                         className="absolute top-0 right-0 p-1"
@@ -163,16 +160,14 @@ const OFTHyperBridge: React.FC<Props> = ({
 
       <div className="flex text-lg xl:text-base font-semibold xl:flex-row justify-between items-center mt-5">
         <div className="text-white-700">
-          Step 3: Bridge {" " + selectedHyperBridges.length + " "} $DLGATE
-          tokens per network to selected networks in Step 1
+          Step 3: Bridge {" " + selectedHyperBridges.length + " "} $DLGATE tokens per
+          network to selected networks in Step 1
         </div>
       </div>
 
       <TransactionPreview
         selectedHyperBridges={selectedHyperBridges}
-        tokenAmountHyperBridge={
-          tokenAmountHyperBridge * selectedHyperBridges.length
-        }
+        tokenAmountHyperBridge={tokenAmountHyperBridge * selectedHyperBridges.length}
         mintCostData={mintCostData}
         bridgeCostData={bridgeCostData}
         sourceChain={sourceChain}
