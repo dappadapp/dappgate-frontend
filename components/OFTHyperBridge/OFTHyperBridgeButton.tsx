@@ -1,12 +1,7 @@
 import type { Network } from "@/utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  useAccount,
-  useContractRead,
-  useNetwork,
-  useSwitchNetwork,
-} from "wagmi";
+import { useAccount, useContractRead, useNetwork, useSwitchNetwork } from "wagmi";
 import { writeContract, readContract } from "@wagmi/core";
 import { toast } from "react-toastify";
 import OFTBridge from "../../config/abi/OFTBridge.json";
@@ -38,9 +33,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   );
   const [adapterParam, setAdapterParams] = useState("");
 
-
-
-
   const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
@@ -63,13 +55,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       );
       setAdapterParams(adapterParams);
     }
-  }, [
- 
-    account,
-    selectedHyperBridges,
-    connectedChain?.nativeCurrency.symbol,
-
-  ]);
+  }, [account, selectedHyperBridges, connectedChain?.nativeCurrency.symbol]);
 
   useEffect(() => {
     refetch();
@@ -80,8 +66,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
 
   useEffect(() => {
     if (gasEstimateData) {
-      const coefficient =
-        connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
+      const coefficient = connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
         `${
           Number(
@@ -89,14 +74,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
               BigInt(1e18)
           ) / coefficient
         } ${connectedChain?.nativeCurrency.symbol}`
-      ); 
-
+      );
     }
 
     var totalCost: bigint = 0n;
     selectedHyperBridges?.map(async (network: Network) => {
-
-
       const gasEstimateArray: any = await readContract({
         address: sourceChain.tokenContractAddress as `0x${string}`,
         abi: OFTBridge,
@@ -110,29 +92,24 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         ],
       });
 
-
-
       const bridgeFeeData_ = await readContract({
         address: sourceChain.tokenContractAddress as `0x${string}`,
         abi: OFTBridge,
         functionName: "bridgeFee",
       });
 
-      console.log("bridgeFeeData_",bridgeFeeData_);
-  
-      if(bridgeFeeData_){
-        totalCost = totalCost + ( BigInt(((gasEstimateArray as any)[0] as string) || "0") +
-        BigInt((bridgeFeeData_ as string) || "0") +
-        BigInt("10000000000000"));
+      console.log("bridgeFeeData_", bridgeFeeData_);
 
-        
+      if (bridgeFeeData_) {
+        totalCost =
+          totalCost +
+          (BigInt(((gasEstimateArray as any)[0] as string) || "0") +
+            BigInt((bridgeFeeData_ as string) || "0") +
+            BigInt("10000000000000"));
       }
 
       setBridgeCostData(ethers.formatEther(totalCost.toString()));
-
-
     });
-
   }, [
     gasEstimateData,
     connectedChain?.nativeCurrency.symbol,
@@ -172,15 +149,13 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ],
         });
 
-  
-
         const bridgeFeeData_ = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
           functionName: "bridgeFee",
         });
 
-        const { hash: txHash} = await writeContract({
+        const { hash: txHash } = await writeContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
           functionName: "sendFrom",
@@ -193,22 +168,18 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             network?.layerzeroChainId,
             account,
             ethers.parseEther(tokenAmountHyperBridge.toString()),
-             account,
+            account,
             "0x0000000000000000000000000000000000000000",
-            adapterParam,
+            "",
           ],
         });
 
-        if(txHash === undefined){
-         return toast("An unknown error occured.");
+        if (txHash === undefined) {
+          return toast("An unknown error occured.");
         }
 
-
-      
-      
-      
         if (!txHash) {
-          return  toast("An unknown error occured.");
+          return toast("An unknown error occured.");
         }
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
@@ -223,9 +194,8 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             chainId: sourceChain.chainId,
             status: 0,
             metadata: {
-              "type": "oft",
-            }
-            
+              type: "oft",
+            },
           });
         };
         mintPost();
@@ -244,7 +214,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         };
         postBridgeHistory();
       });
-   
     } catch (error) {
       console.log(error);
       setLoading(false);
