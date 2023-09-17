@@ -41,14 +41,14 @@ const OFTBridgeButton: React.FC<Props> = ({
       account ? account : "0x0000000000000000000000000000000000000000",
       BigInt(Number(dlgateBridgeAmount)),
       false,
-      adapterParam,
+      "",
     ],
     chainId: sourceChain.chainId,
   });
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
 
-console.log("gasEstimateDataArray", gasEstimateDataArray);
+/*
   const { data: bridgeFeeData } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
@@ -70,7 +70,7 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
     dlgateBridgeAmount,
     connectedChain?.nativeCurrency.symbol,
 
-  ]);
+  ]);*/
 
   const {
     config: sendFromConfig,
@@ -82,7 +82,6 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
     functionName: "sendFrom",
     value:
       BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
-      BigInt((bridgeFeeData as string) || "0") +
       BigInt("10000000000000"),
     args: [
       account,
@@ -130,7 +129,6 @@ console.log("gasEstimateDataArray", gasEstimateDataArray);
       }
       return toast(
         `Make sure you have more than ${Number( ethers.formatEther(BigInt(((gasEstimateData as any)?.[0] as string) || "0") +
-        BigInt((bridgeFeeData as string) || "0") +
         BigInt("10000000000000")))?.toFixed(4)} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
       );
     }

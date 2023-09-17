@@ -529,42 +529,6 @@
   },
   {
     "inputs": [],
-    "name": "bridgeFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "_dstChainId",
-        "type": "uint16"
-      },
-      {
-        "internalType": "address",
-        "name": "_zroPaymentAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_adapterParams",
-        "type": "bytes"
-      }
-    ],
-    "name": "bridgeGas",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "circulatingSupply",
     "outputs": [
       {
@@ -611,40 +575,6 @@
       }
     ],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "_dstChainId",
-        "type": "uint16"
-      },
-      {
-        "internalType": "bool",
-        "name": "_useZro",
-        "type": "bool"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_adapterParams",
-        "type": "bytes"
-      }
-    ],
-    "name": "estimateGasBridgeFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "nativeFee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "zroFee",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1149,19 +1079,6 @@
     "name": "sendFrom",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setBridgeFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

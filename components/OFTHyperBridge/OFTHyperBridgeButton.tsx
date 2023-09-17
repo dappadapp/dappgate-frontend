@@ -76,7 +76,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         } ${connectedChain?.nativeCurrency.symbol}`
       );
     }
-
     var totalCost: bigint = 0n;
     selectedHyperBridges?.map(async (network: Network) => {
       const gasEstimateArray: any = await readContract({
@@ -88,27 +87,19 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           account ? account : "0x0000000000000000000000000000000000000000",
           ethers.parseEther(tokenAmountHyperBridge.toString()),
           false,
-          adapterParam,
+          "",
         ],
       });
 
-      const bridgeFeeData_ = await readContract({
-        address: sourceChain.tokenContractAddress as `0x${string}`,
-        abi: OFTBridge,
-        functionName: "bridgeFee",
-      });
-
-      console.log("bridgeFeeData_", bridgeFeeData_);
-
-      if (bridgeFeeData_) {
+      if (gasEstimateArray) {
         totalCost =
           totalCost +
           (BigInt(((gasEstimateArray as any)[0] as string) || "0") +
-            BigInt((bridgeFeeData_ as string) || "0") +
             BigInt("10000000000000"));
       }
 
       setBridgeCostData(ethers.formatEther(totalCost.toString()));
+
     });
   }, [
     gasEstimateData,
@@ -145,15 +136,10 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             account ? account : "0x0000000000000000000000000000000000000000",
             ethers.parseEther(tokenAmountHyperBridge.toString()),
             false,
-            adapterParam,
+            "",
           ],
         });
 
-        const bridgeFeeData_ = await readContract({
-          address: sourceChain.tokenContractAddress as `0x${string}`,
-          abi: OFTBridge,
-          functionName: "bridgeFee",
-        });
 
         const { hash: txHash } = await writeContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -161,7 +147,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           functionName: "sendFrom",
           value:
             BigInt(((gasEstimateArray as any)[0] as string) || "0") +
-            BigInt((bridgeFeeData_ as string) || "0") +
             BigInt("10000000000000"),
           args: [
             account,
