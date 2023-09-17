@@ -49,8 +49,7 @@ const OFTHyperBridge: React.FC<Props> = ({
     );
     if (isExist) {
       selectedNetworks = selectedNetworks.filter(
-        (selectedNetwork) => selectedNetwork.chainId !== network.chainId && 
-        selectedNetwork.layerzeroChainId !== 165
+        (selectedNetwork) => selectedNetwork.chainId !== network.chainId 
       );
       setSelectedHyperBridges(selectedNetworks);
     } else {
@@ -90,8 +89,7 @@ const OFTHyperBridge: React.FC<Props> = ({
               .filter((network) => {
                 return (
                   !sourceChain.disabledNetworks.includes(network.chainId) &&
-                  network.chainId !== sourceChain.chainId &&
-                  network.layerzeroChainId !== 165
+                  network.chainId !== sourceChain.chainId 
                 );
               })
               .map((network, i) => {

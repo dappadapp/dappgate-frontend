@@ -52,8 +52,7 @@ const OFTBridge: React.FC<Props> = ({
   );
 
   const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  network.layerzeroChainId !== 165
+  network.name.toLowerCase().includes(searchTerm.toLowerCase())
 );
 
   const handleMax = () => {

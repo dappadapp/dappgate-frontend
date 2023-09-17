@@ -218,8 +218,7 @@ export default function Home({
     const selectedHyperBridges_ = networks.filter(
       (network) =>
         !sourceChain.disabledNetworks.includes(network.chainId) &&
-        sourceChain.chainId !== network.chainId &&
-        sourceChain.layerzeroChainId !== 165
+        sourceChain.chainId !== network.chainId 
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);

@@ -50,8 +50,7 @@ const ONFTBridge: React.FC<Props> = ({
   );
 
   const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  network.layerzeroChainId !== 165
+  network.name.toLowerCase().includes(searchTerm.toLowerCase()) 
 );
 
   const { data: balanceOfData, refetch: balanceOfRefetch } = useContractRead({

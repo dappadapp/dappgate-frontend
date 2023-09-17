@@ -101,8 +101,7 @@ const ONFTHyperBridge: React.FC<Props> = ({
               .filter((network) => {
                 return (
                   !sourceChain.disabledNetworks.includes(network.chainId) &&
-                  network.chainId !== sourceChain.chainId &&
-                  network.layerzeroChainId !== 165
+                  network.chainId !== sourceChain.chainId 
                 );
               })
               .map((network, i) => {
