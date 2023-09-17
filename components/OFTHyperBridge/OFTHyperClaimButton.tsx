@@ -91,6 +91,7 @@ const OFTHyperClaimButton: React.FC<Props> = ({
     if (!tokenAmountHyperBridge) {
       return toast("Please enter a valid amount.");
     }
+    
     try {
       setLoading(true);
       if (connectedChain?.id !== sourceChain.chainId) {
