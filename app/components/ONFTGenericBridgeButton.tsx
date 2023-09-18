@@ -45,10 +45,11 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       "0x0000000000000000000000000000000000000000",
       "1",
       false,
-      "0x00010000000000000000000000000000000000000000000000000000000000055730", // version: 1, value: 400000
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80", // version: 1, value: 400000
     ],
     chainId: sourceChain.chainId,
   });
+
 
 
 
@@ -78,11 +79,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       tokenId,
       account,
       "0x0000000000000000000000000000000000000000",
-      "0x00010000000000000000000000000000000000000000000000000000000000055730",
+      "0x00010000000000000000000000000000000000000000000000000000000000061a80",
     ],
   });
-
-  console.log("sendFromConfig", sendFromConfig);
 
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 

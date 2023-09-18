@@ -7,6 +7,7 @@ import {
   w3mProvider,
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
+
 import { configureChains, createConfig, WagmiConfig, Chain } from "wagmi";
 import {
   mainnet,
@@ -40,6 +41,7 @@ import {
   sepolia,
   scrollTestnet,
   mantle,
+  opBNB,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -483,6 +485,7 @@ const chains = [
   loot,
   zora,
   tomo,
+  opBNB,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 

@@ -18,6 +18,7 @@ import {
   zkSync,
   sepolia,
   polygonZkEvm,
+  opBNB,
 } from "wagmi/chains";
 
 export interface Network {
@@ -42,218 +43,48 @@ export interface Network {
 
 }
 
-const gasrefuelcontracts = [
-  // BNB Chain
-  {
-    address: "0xE429E2b18EABDB0B3Faa847fbB46Ff5DE8b59B45",
-    layerzeroChain: 102,
-    chain: 56,
-    rpcUrl: "https://rpc.ankr.com/bsc",
-    id: 0,
-  },
-  // Avalanche
-  {
-    address: "0xB768D455E9aCe7b9C40AE366C7964a738E95F9E2",
-    layerzeroChain: 106,
-    chain: 43114,
-    rpcUrl: "https://api.avax.network/ext/bc/C/rpc",
-    id: 1,
-  },
-  // Polygon
-  {
-    address: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
-    layerzeroChain: 109,
-    chain: 137,
-    rpcUrl: "https://rpc-mainnet.maticvigil.com",
-    id: 2,
-  },
-  // Arbitrum
-  {
-    address: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
-    layerzeroChain: 110,
-    chain: 42161,
-    rpcUrl: "https://arb1.arbitrum.io/rpc",
-    id: 3,
-  },
-  // Optimism
-  {
-    address: "0x577046a82E6B85Ce1E37586BC918DeC09555A497",
-    layerzeroChain: 111,
-    chain: 10,
-    rpcUrl: "https://mainnet.optimism.io",
-    id: 4,
-  },
-  // Fantom
-  {
-    address: "0x311025abC487E6144655b16B0E67cDaa396Ee8a1",
-    layerzeroChain: 112,
-    chain: 250,
-    rpcUrl: "https://rpcapi.fantom.network",
-    id: 5,
-  },
-  // Harmony
-  {
-    address: "0xE649A6E11FB10dD9E5308DAf68C44D2800a47b02",
-    layerzeroChain: 116,
-    chain: 1666600000,
-    rpcUrl: "https://api.harmony.one",
-    id: 6,
-  },
-  // Celo
-  {
-    address: "0x6eC3f5dE9ccEd1352aF013A4f076e1da9856d834",
-    layerzeroChain: 125,
-    chain: 42220,
-    rpcUrl: "https://forno.celo.org",
-    id: 7,
-  },
-  // Moonbeam
-  {
-    address: "0x6884d2Dd87CF4755aC1af2B2F3535f000EE56348",
-    layerzeroChain: 126,
-    chain: 1287,
-    rpcUrl: "https://rpc.testnet.moonbeam.network",
-    id: 8,
-  },
-  // Fuse
-  {
-    address: "0xC3A2180C9d9a353BcD7479b350982217e772D74C",
-    layerzeroChain: 138,
-    chain: 122,
-    rpcUrl: "https://rpc.fuse.io",
-    id: 9,
-  },
-  // Gnosis
-  {
-    address: "0x69dAEc0B57D825e2167ff2f06DEf4e0d9084F4d1",
-    layerzeroChain: 145,
-    chain: 60,
-    rpcUrl: "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID",
-    id: 10,
-  },
-  // Klaytn
-  {
-    address: "0x43F077B4072D63C3E9b2464148451e9147d5121f",
-    layerzeroChain: 150,
-    chain: 8217,
-    rpcUrl: "https://node-api.klaytnapi.com/v1/klaytn",
-    id: 11,
-  },
-  // Metis
-  {
-    address: "0x54B3E1d3256081046dafe11122A3826B76f2a525",
-    layerzeroChain: 151,
-    chain: 240,
-    rpcUrl: "https://api.metis.io",
-    id: 12,
-  },
-  // CoreDAO
-  {
-    address: "0xf773851dcDd2197305621fA6EFe0d4A9E14D4F2c",
-    layerzeroChain: 153,
-    chain: 42614,
-    rpcUrl: "https://core-mainnet.gnosis.io",
-    id: 13,
-  },
-  // OKT (OKX)
-  {
-    address: "0x55E4DE637dAB6a5A98bC643ED3918B35AA20407E",
-    layerzeroChain: 155,
-    chain: 66,
-    rpcUrl: "https://exchainrpc.okex.org",
-    id: 14,
-  },
-  // Polygon zkEVM
-  {
-    address: "0x5D7b86102BCE75C02ed0bbcc80211056f79D7507",
-    layerzeroChain: 158,
-    chain: 80001,
-    rpcUrl: "https://rpc-mumbai.matic.today",
-    id: 15,
-  },
-  // Canto
-  {
-    address: "0x9b57378504dCc215c9063BbCeb19eEe2379B8613",
-    layerzeroChain: 159,
-    chain: 422,
-    rpcUrl: "https://canto-rpc.com",
-    id: 16,
-  },
-  // zkSync Era
-  {
-    address: "0xf3943238980E14f38AAE909e8910AC71819390dc",
-    layerzeroChain: 165,
-    chain: 1666600000,
-    rpcUrl: "https://eth-mainnet.zksync.io",
-    id: 17,
-  },
-  // Moonriver
-  {
-    address: "0xa48Aa414c56c49ef27919968568E3Bf8CfFfcc2e",
-    layerzeroChain: 167,
-    chain: 1285,
-    rpcUrl: "https://rpc.moonriver.moonbeam.network",
-    id: 18,
-  },
-  // Tenet
-  {
-    address: "0x3e9d679506F890390Cc390db8bD23b0e8406d2D8",
-    layerzeroChain: 173,
-    chain: 1666600000,
-    rpcUrl: "https://rpc.tenet.network",
-    id: 19,
-  },
-  // Arbitrum Nova
-  {
-    address: "0x8E31C5476a66bb1C0a417c14D87A723f86133E10",
-    layerzeroChain: 175,
-    chain: 42175,
-    rpcUrl: "https://arb1.arbitrum.io/rpc",
-    id: 20,
-  },
-  // Meter
-  {
-    address: "0x3A01a388D5c5dD45B2592c0a0fa25bBA552E2C00",
-    layerzeroChain: 176,
-    chain: 82,
-    rpcUrl: "https://rpc.meter.io",
-    id: 21,
-  },
-  // Kava
-  {
-    address: "0x12Ac582c664B8B805C4d19f2c188cE4306bF6D1e",
-    layerzeroChain: 177,
-    chain: 459,
-    rpcUrl: "https://rpc.kava.io",
-    id: 22,
-  },
-  // Linea
-  {
-    address: "0xC2Ed142A428Ae7D551fcD260318Db85e9f4FFBA5",
-    layerzeroChain: 183,
-    chain: 186,
-    rpcUrl: "https://rpc.linea.network",
-    id: 23,
-  },
-  // Base
-  {
-    address: "0x55E4DE637dAB6a5A98bC643ED3918B35AA20407E",
-    layerzeroChain: 184,
-    chain: 42161,
-    rpcUrl: "https://arb1.arbitrum.io/rpc",
-    id: 24,
-  },
-  // Mantle
-  {
-    address: "0xAd778F6645548627eE9161dF7bfA55cdC94De544",
-    layerzeroChain: 181,
-    chain: 122,
-    rpcUrl: "https://rpc.fuse.io",
-    id: 25,
-  },
-];
 
 export const networks: Network[] = [
+
+  {
+    name: opBNB.name,
+    chainId: opBNB.id,
+    layerzeroChainId: 202,
+    nftContractAddress: "0xBD0160892A6057D99738718fc6372E7219dD7372",
+    tokenContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    relayerAddress: "0x3a73033c0b1407574c76bdbac67f126f6b4a9aa9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x2C8b33d3801ceF814a542ebC2420a906D61C5278",
+    setOFTContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
+    blockConfirmation: 5,
+    colorClass: "bg-[#FF0000]",
+    image: "opbnb.svg",
+    disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
+    symbol: "BNB",
+    chainName: "bsc-mainnet",
+  },
+
+  {
+    name: zkSync.name,
+    chainId: zkSync.id,
+    layerzeroChainId: 165,
+    nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
+    tokenContractAddress: "0xAc1E37980A160B1fF3D7AFAB54CFaB90577c9bCD",
+    relayerAddress: "0x9923573104957bF457a3C4DF0e21c8b389Dd43df",
+    messageContractAddress:"0x856DA67bfCD0669624bFAAFc3b728FC870c70305",
+    gasRefuelContractAddress: "0xf3943238980E14f38AAE909e8910AC71819390dc",
+    setOFTContractAddress: "0xe06cef4c0eedc65D4ffE1587E8c08b27d9eC8602",
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "zksync-era.svg",
+    logIndex: 3,
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      1101, 80001,534353, 11155111, 7777777, 5151706
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+  },
 
   {
     name: "Linea",
@@ -295,30 +126,6 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: "base-mainnet",
   },
-
-  {
-    name: zkSync.name,
-    chainId: zkSync.id,
-    layerzeroChainId: 165,
-    nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
-    tokenContractAddress: "0xAc1E37980A160B1fF3D7AFAB54CFaB90577c9bCD",
-    relayerAddress: "0x9923573104957bf457a3c4df0e21c8b389dd43df",
-    messageContractAddress:"0x856DA67bfCD0669624bFAAFc3b728FC870c70305",
-    gasRefuelContractAddress: "0xf3943238980E14f38AAE909e8910AC71819390dc",
-    setOFTContractAddress: "0xe06cef4c0eedc65D4ffE1587E8c08b27d9eC8602",
-    blockConfirmation: 5,
-    colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg",
-    logIndex: 3,
-    disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
-      1101, 80001,534353, 11155111, 7777777, 5151706
-    ],
-    symbol: "ETH",
-    chainName: undefined,
-  },
-
-
   {
     name: bsc.name,
     chainId: bsc.id,
