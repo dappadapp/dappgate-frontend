@@ -46,24 +46,7 @@ export interface Network {
 
 export const networks: Network[] = [
 
-  {
-    name: opBNB.name,
-    chainId: opBNB.id,
-    layerzeroChainId: 202,
-    nftContractAddress: "0xBD0160892A6057D99738718fc6372E7219dD7372",
-    tokenContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
-    relayerAddress: "0x3a73033c0b1407574c76bdbac67f126f6b4a9aa9",
-    messageContractAddress: "",
-    gasRefuelContractAddress: "0x2C8b33d3801ceF814a542ebC2420a906D61C5278",
-    setOFTContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
-    blockConfirmation: 5,
-    colorClass: "bg-[#FF0000]",
-    image: "opbnb.svg",
-    disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
-    symbol: "BNB",
-    chainName: "bsc-mainnet",
-  },
-
+  
   {
     name: zkSync.name,
     chainId: zkSync.id,
@@ -87,26 +70,6 @@ export const networks: Network[] = [
   },
 
   {
-    name: "Linea",
-    chainId: 59144,
-    layerzeroChainId: 183,
-    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
-    tokenContractAddress: "0x36e48a4c1465DBDD493a5220610F706EECBE54FC",
-    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
-    messageContractAddress:"0x2a0984Ac92Fb1872EF5739E163fBdaDcb0968381",
-    gasRefuelContractAddress: "0xC2Ed142A428Ae7D551fcD260318Db85e9f4FFBA5",
-    setOFTContractAddress: "0x72A769b01D3f950f226978A5A85b2204C762bf57",
-    blockConfirmation: 5,
-    colorClass: "bg-[#1B1B1D]",
-    image: "linea.svg",
-    disabledNetworks: [
-      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
-      1666600000,  5,80001,534353, 11155111
-    ],
-    symbol: "ETH",
-    chainName: undefined, // TODO: CHANGE TO linea-mainnet
-  },
-  {
     name: "Base",
     chainId: 8453,
     layerzeroChainId: 184,
@@ -126,6 +89,47 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: "base-mainnet",
   },
+
+  {
+    name: "Linea",
+    chainId: 59144,
+    layerzeroChainId: 183,
+    nftContractAddress: "0x673f8009ad54945365be1f6394e3f016fdb4135d",
+    tokenContractAddress: "0x36e48a4c1465DBDD493a5220610F706EECBE54FC",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9", // not available in layer zero
+    messageContractAddress:"0x2a0984Ac92Fb1872EF5739E163fBdaDcb0968381",
+    gasRefuelContractAddress: "0xC2Ed142A428Ae7D551fcD260318Db85e9f4FFBA5",
+    setOFTContractAddress: "0x72A769b01D3f950f226978A5A85b2204C762bf57",
+    blockConfirmation: 5,
+    colorClass: "bg-[#1B1B1D]",
+    image: "linea.svg",
+    disabledNetworks: [
+      66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
+      1666600000,  5,80001,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: undefined, // TODO: CHANGE TO linea-mainnet
+  },
+
+  {
+    name: opBNB.name,
+    chainId: opBNB.id,
+    layerzeroChainId: 202,
+    nftContractAddress: "0xBD0160892A6057D99738718fc6372E7219dD7372",
+    tokenContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    relayerAddress: "0x3a73033c0b1407574c76bdbac67f126f6b4a9aa9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x2C8b33d3801ceF814a542ebC2420a906D61C5278",
+    setOFTContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
+    blockConfirmation: 5,
+    colorClass: "bg-[#FF0000]",
+    image: "opbnb.svg",
+    disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
+    symbol: "BNB",
+    chainName: "bsc-mainnet",
+  },
+
+ 
   {
     name: bsc.name,
     chainId: bsc.id,
