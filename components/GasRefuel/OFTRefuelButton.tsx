@@ -59,8 +59,8 @@ const OFTRefuelButton: React.FC<Props> = ({
     abi: GasRefuel,
     functionName: "bridgeGas",
     gas: 1_000_000n,
-    value: BigInt(
-      gasEstimateDataArray ? gasEstimateDataArray[0] : "13717131402195452"
+    value: gasEstimateDataArray && BigInt(
+        gasEstimateDataArray?.[0] 
     )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")),
     args: [
       targetChain.layerzeroChainId,
