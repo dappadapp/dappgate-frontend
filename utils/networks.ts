@@ -747,7 +747,7 @@ https://teloscan.io
     chainName: undefined,
     isTestnet: true,
   },
-
+  /*
   {
     name: sepolia.name,
     chainId: sepolia.id,
@@ -767,7 +767,7 @@ https://teloscan.io
     chainName: "eth-sepolia",
     isTestnet: true,
   },
-  /*
+
   {
     name: mainnet.name,
     chainId: mainnet.id,
