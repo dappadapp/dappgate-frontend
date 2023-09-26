@@ -1,11 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  EthereumClient,
-  w3mConnectors,
-  w3mProvider,
-} from "@web3modal/ethereum";
+import { EthereumClient, w3mConnectors, w3mProvider } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 
 import { configureChains, createConfig, WagmiConfig, Chain } from "wagmi";
@@ -353,7 +349,6 @@ const linea = {
   },
 } as const satisfies Chain;
 
-
 const loot = {
   id: 5151706,
   name: "Loot Chain",
@@ -488,7 +483,6 @@ const chains = [
   opBNB,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
-
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
   autoConnect: true,
