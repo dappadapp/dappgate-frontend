@@ -70,7 +70,7 @@ const OFTRefuelButton: React.FC<Props> = ({
         ""
       ),
       adapterParam,
-      0,
+      1,
       0,
     ],
   });
