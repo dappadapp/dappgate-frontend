@@ -49,6 +49,7 @@ const OFTRefuelButton: React.FC<Props> = ({
 
   const gasEstimateDataArray = gasEstimateData as Array<bigint>;
 
+  console.log("gasEstimateDataArray", gasEstimateDataArray);
 
   const {
     config: sendFromConfig,
@@ -59,8 +60,8 @@ const OFTRefuelButton: React.FC<Props> = ({
     abi: GasRefuel,
     functionName: "bridgeGas",
     gas: 1_000_000n,
-    value: gasEstimateDataArray && BigInt(
-        gasEstimateDataArray?.[0] 
+    value: BigInt(
+      gasEstimateDataArray ? gasEstimateDataArray[0] : "1"
     )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")),
     args: [
       targetChain.layerzeroChainId,
@@ -69,7 +70,7 @@ const OFTRefuelButton: React.FC<Props> = ({
         ""
       ),
       adapterParam,
-      1,
+      0,
       0,
     ],
   });
