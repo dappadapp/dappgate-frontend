@@ -81,7 +81,7 @@ const SendButton: React.FC<Props> = ({ sourceChain, targetChain, receiverAddress
     }
     if (!sendMessage) return alert("Make sure you have enough ETH and you're on the correct network.");
     if (!isSuccess) {
-      return alert("An unknown error occured. Please try again.");
+      return  toast("Temporarly closed for maintenance.");
     }
     try {
       setLoading(true);

@@ -144,7 +144,7 @@ export default function Home({
           return;
         }
         console.log(error.code);
-        toast("An error occured.");
+        toast("Temporarly closed for maintenance.");
         return;
       }
     }

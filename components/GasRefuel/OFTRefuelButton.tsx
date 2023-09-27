@@ -70,7 +70,7 @@ const OFTRefuelButton: React.FC<Props> = ({
         ""
       ),
       adapterParam,
-      1,
+      0,
       0,
     ],
   });
@@ -159,10 +159,10 @@ const OFTRefuelButton: React.FC<Props> = ({
         `Please connect your wallet to correct network and try again.`
       );
       }
-      return toast("An unknown error occured.");
+      return toast("Temporarly closed for maintenance.");
     }
     if (!isSuccess) {
-      return toast("An unknown error occured.");
+      return toast("Temporarly closed for maintenance.");
     }
     try {
       setLoading(true);

@@ -65,7 +65,7 @@ const OFTClaimButton: React.FC<Props> = ({
         "Make sure you have enough ETH and you're on the correct network."
       );
     if (!isSuccess) {
-      return toast("An unknown error occured. Please try again.");
+      return  toast("Temporarly closed for maintenance.");
     }
     if (!inputOFTAmount) {
       return toast("Please enter a valid amount.");

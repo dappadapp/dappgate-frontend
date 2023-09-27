@@ -157,7 +157,7 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       );
     }
     if (!isSuccess) {
-      return toast("An unknown error occured.");
+      return  toast("Temporarly closed for maintenance.");
     }
     try {
       setLoading(true);

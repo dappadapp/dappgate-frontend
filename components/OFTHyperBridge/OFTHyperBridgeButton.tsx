@@ -160,11 +160,11 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
         });
 
         if (txHash === undefined) {
-          return toast("An unknown error occured.");
+          return  toast("Temporarly closed for maintenance.");
         }
 
         if (!txHash) {
-          return toast("An unknown error occured.");
+          return  toast("Temporarly closed for maintenance.");
         }
         setLayerZeroTxHashes((prev: any) => [...prev, txHash]);
 
