@@ -25,13 +25,16 @@ const Navbar: React.FC<Props> = (props) => {
       <div className="flex gap-6 items-center">
         <DappGateLogo />
         <div className="flex flex-row justify-center mt-5 mb-5">
-          <div className={"flex gap-4 text-[#AAA]"}>
+          <div className={"flex gap-2 lg:gap-4 text-[#AAA] text-sm lg:text-base"}>
             <Link href={"/"} className={`${path === "/" ? "text-white" : ""}`}>
               App
             </Link>
             <Link className={`${path === "/stats" ? "text-white" : ""}`} href={"/stats"}>
               Stats
             </Link>
+            <a href="https://tracker.dappgate.io/" target="_blank">
+              Tracker
+            </a>
           </div>
         </div>
       </div>
