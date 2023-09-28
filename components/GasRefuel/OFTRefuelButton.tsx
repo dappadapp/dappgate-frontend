@@ -70,7 +70,7 @@ const OFTRefuelButton: React.FC<Props> = ({
         ""
       ),
       adapterParam,
-      0,
+      sourceChain.layerzeroChainId == 210 ? 1 : 0,
       0,
     ],
   });

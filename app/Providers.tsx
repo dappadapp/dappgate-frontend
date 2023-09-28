@@ -436,6 +436,36 @@ const tomo = {
   },
 } as const satisfies Chain;
 
+
+const astar = {
+  id: 592,
+  name: "Astar EVM",
+  network: "astar",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Astar",
+    symbol: "ASTR",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://evm.astar.network"],
+    },
+    public: {
+      http: ["https://evm.astar.network"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Astar Explorer",
+      url: "https://blockscout.com/astar",
+    },
+    default: {
+      name: "Astar Explorer",
+      url: "https://blockscout.com/astar",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -481,6 +511,7 @@ const chains = [
   zora,
   tomo,
   opBNB,
+  astar,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);

@@ -83,6 +83,28 @@ export const networks: Network[] = [
     chainName: "avalanche-mainnet",
   },
 
+  {
+    name: "Astar",
+    chainId: 592,
+    layerzeroChainId: 210,
+    nftContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    tokenContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress:"",
+    gasRefuelContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    setOFTContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#2967FF]",
+    image: "astar.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 80001, 5,534353, 11155111
+    ],
+    symbol: "ASTR",
+    chainName: "astar-mainnet",
+  },
+
   
   {
     name: zkSync.name,
