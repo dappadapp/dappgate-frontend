@@ -19,6 +19,7 @@ import {
   sepolia,
   polygonZkEvm,
   opBNB,
+  lineaTestnet,
 } from "wagmi/chains";
 
 export interface Network {
@@ -794,6 +795,27 @@ https://teloscan.io
     blockConfirmation: 5,
     colorClass: "bg-[#E5D1B8]",
     image: "scroll.svg",
+    disabledNetworks: [
+      56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+    isTestnet: true,
+  },
+
+  {
+    name: lineaTestnet.name,
+    chainId: lineaTestnet.id,
+    layerzeroChainId: 10170,
+    nftContractAddress: "0xE1b942049E7B744128FE9808D9d43FC2BB1376FD",
+    tokenContractAddress: "0xc67505deaa9c0c08b9bcf2f55476c66b77e0c82f",
+    zkNFTContractAddress: undefined,
+    relayerAddress: "",
+    blockConfirmation: 5,
+    colorClass: "bg-[#E5D1B8]",
+    image: "linea.svg",
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
