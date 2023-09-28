@@ -810,7 +810,7 @@ https://teloscan.io
     chainId: lineaTestnet.id,
     layerzeroChainId: 10170,
     nftContractAddress: "0xE1b942049E7B744128FE9808D9d43FC2BB1376FD",
-    tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    tokenContractAddress: "0xA245D6427742c9e342817329f8Ac620dAdB0ed45",
     zkNFTContractAddress: undefined,
     relayerAddress: "",
     blockConfirmation: 5,
