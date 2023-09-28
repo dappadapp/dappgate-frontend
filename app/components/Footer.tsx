@@ -13,6 +13,8 @@ const Footer = () => {
                 DappLabs
               </a>
             </p>
+
+            
             <div className={"flex gap-4 text-xl text-gray-400 "}>
               <a
                 href="https://twitter.com/DappGate"

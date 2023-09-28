@@ -7,13 +7,14 @@ type Props = {
 };
 
 export const tabsConfig = [
+  "zkONFT Bridge",
   "ONFT Bridge",
   "ONFT HyperBridge",
   "Gas Refuel",
   "OFT Bridge",
   "OFT HyperBridge",
-  "Message",
-  "Stargate Bridge",
+
+
 ];
 
 const Tabs: React.FC<Props> = ({ tabIndex, setTabIndex }) => {
@@ -26,6 +27,15 @@ const Tabs: React.FC<Props> = ({ tabIndex, setTabIndex }) => {
             selected ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none" : "bg-transparent"
           }`}
         >
+
+          {title === "zkONFT Bridge" && (
+            <span className="relative inline-block dot">
+               <span
+                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
+              />
+            
+            </span>
+          )}
         
         {title === "Gas Refuel" && (
             <span className="relative inline-block dot">

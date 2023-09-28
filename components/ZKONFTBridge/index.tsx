@@ -10,8 +10,7 @@ import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
 import FaAngleDown from "@/app/components/FaAngleDown";
-import ONFTAbi from "@/config/abi/ONFT.json";
-
+import ONFTAbi from "@/config/abi/ZKONFTBridge.json";
 type Props = {
   sourceChain: Network;
   targetChain: Network;
@@ -24,6 +23,8 @@ type Props = {
   setIsBridgeModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLayerZeroTxHashes: React.Dispatch<React.SetStateAction<string[]>>;
   setEstimatedGas: React.Dispatch<React.SetStateAction<string>>;
+  tokenIds: any;
+  setTokenIds: any;
 };
 
 const ONFTBridge: React.FC<Props> = ({
@@ -38,6 +39,8 @@ const ONFTBridge: React.FC<Props> = ({
   setIsBridgeModalOpen,
   setLayerZeroTxHashes,
   setEstimatedGas,
+  tokenIds,
+  setTokenIds,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showInput, setShowInput] = useState(false);
@@ -47,36 +50,29 @@ const ONFTBridge: React.FC<Props> = ({
 
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    && network.zkNFTContractAddress !== undefined
+    && network?.layerzeroChainId === 102
+    || network?.layerzeroChainId === 109
+    || network?.layerzeroChainId === 153
   );
 
   const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-);
+    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    && network.zkNFTContractAddress !== undefined
+  );
 
   const { data: balanceOfData, refetch: balanceOfRefetch } = useContractRead({
-    address: sourceChain.nftContractAddress as `0x${string}`,
+    address: sourceChain.zkNFTContractAddress as `0x${string}`,
     chainId: sourceChain.chainId,
     abi: ONFTAbi,
     functionName: "balanceOf",
     args: [account],
   });
 
-  const { data: tokenIds } = useContractReads({
-    contracts: Array.from(Array(Number(balanceOfData || 0)).keys()).map((i) => {
-      return {
-        address: sourceChain.nftContractAddress as `0x${string}`,
-        abi: ONFTAbi as any,
-        functionName: "tokenOfOwnerByIndex",
-        args: [account || "0x0000000000000000000000000000000000000000", i],
-        chainId: sourceChain.chainId,
-      };
-    }),
-    select: (data) => data.map((d) => `${d.result}`),
-  });
 
   useEffect(() => {
     if (!tokenIds || tokenIds.length === 0) return;
-    setInputTokenId(tokenIds[0]);
+    setInputTokenId(tokenIds);
   }, [tokenIds]);
 
 
@@ -85,7 +81,7 @@ const ONFTBridge: React.FC<Props> = ({
       className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
     >
       <div className="flex flex-row justify-between items-center">
-        <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
+        <h1 className={"text-3xl font-semibold"}>zkONFT Bridge</h1>
       </div>
       <div
         className={
@@ -102,7 +98,7 @@ const ONFTBridge: React.FC<Props> = ({
         <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
         <ListboxTargetMenu
           value={targetChain}
-          sourceValue={sourceChain}
+          sourceValue={targetChain}
           onChange={onChangeTargetChain}
           options={filteredNetworksTarget}
           searchValue={searchTerm}
@@ -119,10 +115,11 @@ const ONFTBridge: React.FC<Props> = ({
           targetChain={targetChain}
           refCode={refCode}
           balanceOfRefetch={balanceOfRefetch}
+          setTokenIds={setTokenIds}
         />
 
         <div className="flex flex-col items-center">
-          {sourceChain?.name !== undefined ? (
+          {sourceChain?.name !== undefined && sourceChain.layerzeroChainId !== 153 ? (
             <button
               className={
                 "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
@@ -140,17 +137,18 @@ const ONFTBridge: React.FC<Props> = ({
               targetChain={targetChain}
               setLayerZeroTxHashes={setLayerZeroTxHashes}
               setEstimatedGas={setEstimatedGas}
-              inputTokenId={inputTokenId}
-              balanceOfRefetch={balanceOfRefetch}
+              tokenId={inputTokenId}
+              setTokenIds={setTokenIds}
+              tokenIds={inputTokenId}
+
             />
           )}
 
           <FaAngleDown setShowInput={setShowInput} />
 
           <div
-            className={`w-[150px] mt-4 transition-all overflow-hidden ${
-              !showInput ? "max-h-[0px]" : "max-h-[200px]"
-            }`}
+            className={`w-[150px] mt-4 transition-all overflow-hidden ${!showInput ? "max-h-[0px]" : "max-h-[200px]"
+              }`}
           >
             <input
               placeholder="Token ID"
@@ -166,9 +164,8 @@ const ONFTBridge: React.FC<Props> = ({
         </div>
       </div>
       <div
-        className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${
-          layerZeroTxHashes.length !== 0 ? "max-h-[1000px]" : "max-h-0"
-        }`}
+        className={`w-full flex flex-col gap-4 mt-8 transition-all overflow-hidden ${layerZeroTxHashes.length !== 0 ? "max-h-[1000px]" : "max-h-0"
+          }`}
       >
         <h1 className={"text-3xl font-semibold"}>Layer Zero Transactions</h1>
         {layerZeroTxHashes.map((hash, i) => {
@@ -176,19 +173,17 @@ const ONFTBridge: React.FC<Props> = ({
             <div key={hash} className="ml-4">
               Transaction #{i + 1}:
               <a
-                href={`${
-                  sourceChain.isTestnet
+                href={`${sourceChain.isTestnet
                     ? "https://testnet.layerzeroscan.com"
                     : "https://layerzeroscan.com"
-                }/tx/${hash}`}
+                  }/tx/${hash}`}
                 target="_blank"
                 className="text-orange-400"
               >
-                {`${
-                  sourceChain.isTestnet
+                {`${sourceChain.isTestnet
                     ? "testnet.layerzeroscan.com"
                     : "layerzeroscan.com"
-                }/tx/${formatAddress(hash)}`}
+                  }/tx/${formatAddress(hash)}`}
               </a>
             </div>
           );

@@ -20,7 +20,9 @@ import FAQModal from "./components/FAQModal";
 import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 import BridgeModal from "./components/BridgeModal";
+import ZKBridgeModal from "./components/ZKBridgeModal";
 import ONFTBridge from "@/components/ONFTBridge";
+import ZKONFTBridge from "@/components/ZKONFTBridge";
 import ONFTHyperBridge from "@/components/ONFTHyperBridge";
 import GasRefuel from "@/components/GasRefuel";
 import OFTBridge from "@/components/OFTBridge";
@@ -44,6 +46,7 @@ export default function Home({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [refCode, setRefCode] = useState<string>("");
@@ -56,8 +59,11 @@ export default function Home({
   const [isRefModalOpen, setIsRefModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
+  const [isZKBridgeModalOpen, setIsZKBridgeModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [pendingTxs, setPendingTxs] = useState<string[]>([]);
+  const [tokenIds, setTokenIds] = useState({});
+
 
   // fetching disabled bridges data
   const { data: disabledBridgesData } = useContractReads({
@@ -278,6 +284,21 @@ export default function Home({
         />
       ) : null}
 
+
+{isZKBridgeModalOpen ? (
+        <ZKBridgeModal
+          onCloseModal={() => {
+            setIsZKBridgeModalOpen(false);
+          }}
+          sourceChain={sourceChain}
+          targetChain={targetChain}
+          setLayerZeroTxHashes={setLayerZeroTxHashes}
+          setEstimatedGas={setEstimatedGas}
+          setTokenIds={setTokenIds}
+          tokenIds={tokenIds}
+        />
+      ) : null}
+
       <div
         className={
           "absolute overflow-y-scroll z-10 w-full min-h-[800px] h-full flex flex-col p-2"
@@ -288,10 +309,10 @@ export default function Home({
 
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
-              <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
-              <a href={"/"}>Docs</a>
-              <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
-              <a href={"https://tracker.dappgate.io/"} target="_blank">
+            
+             <button onClick={() => setTabIndex(6)} >Messages</button>
+             <button onClick={() => setTabIndex(7)}>StarGate</button>
+             <a href={"https://tracker.dappgate.io/"} target="_blank">
                 Tracker{" "}
                 <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
               </a>
@@ -304,7 +325,7 @@ export default function Home({
           >
             <Tabs tabIndex={tabIndex} setTabIndex={setTabIndex} />
 
-            {tabIndex == 0 ? (
+            {tabIndex == 1 ? (
               <ONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -318,7 +339,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 1 ? (
+            ) : tabIndex == 2 ? (
               <ONFTHyperBridge
                 sourceChain={sourceChain}
                 selectedHyperBridges={selectedHyperBridges}
@@ -328,7 +349,7 @@ export default function Home({
                 setEstimatedGas={setEstimatedGas}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
               />
-            ) : tabIndex == 2 ? (
+            ) : tabIndex == 3 ? (
               <GasRefuel
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -338,7 +359,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 3 ? (
+            ) : tabIndex == 4 ? (
               <OFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -352,7 +373,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setPendingTxs={setPendingTxs}
               />
-            ) : tabIndex == 4 ? (
+            ) : tabIndex == 5 ? (
               <OFTHyperBridge
                 sourceChain={sourceChain}
                 selectedHyperBridges={selectedHyperBridges}
@@ -362,7 +383,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 5 ? (
+            ) : tabIndex == 6 ? (
               <Message
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -370,9 +391,37 @@ export default function Home({
                 onChangeTargetChain={onChangeTargetChain}
                 onArrowClick={onArrowClick}
               />
-            ) : tabIndex == 6 ? (
+            ) : tabIndex == 7 ? (
               <StargateBridge />
-            ) : null}
+            ) :tabIndex == 0 ? (
+              <ZKONFTBridge
+                sourceChain={sourceChain}
+                targetChain={targetChain}
+                refCode={refCode}
+                estimatedGas={estimatedGas}
+                layerZeroTxHashes={layerZeroTxHashes}
+                onChangeSourceChain={onChangeSourceChain}
+                onChangeTargetChain={onChangeTargetChain}
+                onArrowClick={onArrowClick}
+                setIsBridgeModalOpen={setIsZKBridgeModalOpen}
+                setLayerZeroTxHashes={setLayerZeroTxHashes}
+                setEstimatedGas={setEstimatedGas}
+                tokenIds={tokenIds}
+                setTokenIds={setTokenIds}
+              />
+            ):
+            null}
+          </div>
+          <div className="flex flex-row justify-center mt-5 mb-5">
+            <div className={"flex gap-4"}>
+              <button onClick={() => setIsFAQModalOpen(true)}>FAQ</button>
+              <a href={"/"}>Docs</a>
+              <button onClick={() => setIsHistoryModalOpen(true)}>History</button>
+              <a href={"https://tracker.dappgate.io/"} target="_blank">
+                Tracker{" "}
+                <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
+              </a>
+            </div>
           </div>
           <Footer />
         </div>
@@ -414,8 +463,10 @@ export default function Home({
             ></div>
           </div>
         </div>
+    
       </div>
       <ToastContainer position="top-right" theme="dark" />
+  
     </div>
   );
 }
