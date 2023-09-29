@@ -89,7 +89,7 @@ const OFTHyperBridge: React.FC<Props> = ({
               .filter((network) => {
                 return (
                   !sourceChain.disabledNetworks.includes(network.chainId) &&
-                  network.chainId !== sourceChain.chainId 
+                  network.chainId !== sourceChain.chainId &&  network.chainId !== 1
                 );
               })
               .map((network, i) => {
