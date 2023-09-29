@@ -48,11 +48,11 @@ const OFTBridge: React.FC<Props> = ({
   const { address: account } = useAccount();
 
   const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&  network.chainId !== 1
   );
 
   const filteredNetworksTarget = networks.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase())
+  network.name.toLowerCase().includes(searchTerm.toLowerCase()) && network.chainId !== 1
 );
 
   const handleMax = () => {

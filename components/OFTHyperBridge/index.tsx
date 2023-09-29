@@ -38,7 +38,7 @@ const OFTHyperBridge: React.FC<Props> = ({
   const [tokenAmountHyperBridge, setTokenAmountHyperBridge] = useState(0);
 
   const filteredNetworks = networks.filter((network) =>
-    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+    network.name.toLowerCase().includes(searchTerm.toLowerCase()) && network.chainId !== 1
   );
 
   const handleButtonClick = async (index: number, network?: any) => {

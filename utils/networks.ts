@@ -1,4 +1,5 @@
 import {
+  mainnet,
   arbitrum,
   avalanche,
   bsc,
@@ -20,6 +21,7 @@ import {
   polygonZkEvm,
   opBNB,
   lineaTestnet,
+  aurora,
 } from "wagmi/chains";
 
 export interface Network {
@@ -85,6 +87,26 @@ export const networks: Network[] = [
   },
 
   {
+    name: mainnet.name,
+    chainId: mainnet.id,
+    layerzeroChainId: 101,
+    nftContractAddress: "0xB66CAeA47F6837b5A6c8903d9c4adD6ee364Ce88",
+    tokenContractAddress: "",
+    gasRefuelContractAddress: "",
+    relayerAddress: "0x902F09715B6303d4173037652FA7377e5b98089E",
+    blockConfirmation: 1,
+    colorClass: 'bg-[#777777]',
+    image: "ethereum.svg",
+    disabledNetworks: [
+      5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700,
+      8217, 42161, 42170, 43114, 1666600000, 80001, 5,80001,534353, 11155111,
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 42220
+    ],
+    symbol: "ETH",
+  },
+
+  {
     name: "Astar",
     chainId: 592,
     layerzeroChainId: 210,
@@ -106,6 +128,29 @@ export const networks: Network[] = [
     chainName: "astar-mainnet",
   },
 
+  {
+    name: "Aurora",
+    chainId: aurora.id,
+    layerzeroChainId: 211,
+    nftContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress:"",
+    gasRefuelContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    setOFTContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#2967FF]",
+    image: "aurora.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 80001, 5,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: "aurora-mainnet",
+  },
+
+  
   
   {
     name: zkSync.name,
@@ -846,18 +891,5 @@ https://teloscan.io
     isTestnet: true,
   },
 
-  {
-    name: mainnet.name,
-    chainId: mainnet.id,
-    layerzeroChainId: 101,
-    nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    tokenContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    gasRefuelContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-    relayerAddress: "0x902F09715B6303d4173037652FA7377e5b98089E",
-    blockConfirmation: 1,
-    colorClass: 'bg-[#777777]',
-    image: "ethereum.svg",
-    disabledNetworks: [],
-    symbol: "ETH",
-  },*/
+ */
 ];

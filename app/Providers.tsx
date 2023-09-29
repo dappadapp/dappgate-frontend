@@ -39,6 +39,7 @@ import {
   mantle,
   opBNB,
   lineaTestnet,
+  aurora,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -514,6 +515,7 @@ const chains = [
   opBNB,
   astar,
   lineaTestnet,
+  aurora,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);

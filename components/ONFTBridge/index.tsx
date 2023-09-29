@@ -45,6 +45,26 @@ const ONFTBridge: React.FC<Props> = ({
 
   const { address: account } = useAccount();
 
+
+    // fetching disabled bridges data
+    const { data: disabledBridgesData } = useContractReads({
+      contracts: networks.map((network) => ({
+        address: sourceChain.nftContractAddress as `0x${string}`,
+        abi: ONFTAbi as any,
+        functionName: "estimateSendFee",
+        args: [
+          `${network.layerzeroChainId}`,
+          "0x0000000000000000000000000000000000000000",
+          "1",
+          false,
+          "0x",
+        ],
+        chainId: sourceChain.chainId,
+      })),
+    });
+
+    console.log("disabledBridgesData",disabledBridgesData);
+
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
