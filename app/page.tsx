@@ -96,10 +96,10 @@ export default function Home({
 
   // fill with individual network data
 
-  const initialSelectedHyperBridges = networks.filter(
+  const initialSelectedHyperBridges = networks?.filter(
     (network) =>
-      !sourceChain.disabledNetworks.includes(network.chainId) &&
-      sourceChain.chainId !== network.chainId
+      !sourceChain?.disabledNetworks?.includes(network?.chainId) &&
+      sourceChain?.chainId !== network?.chainId
   );
   const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
     initialSelectedHyperBridges
@@ -164,9 +164,9 @@ export default function Home({
       disabledNetworks: disabledNetworks as number[],
     }));
 
-    const newSelectedHyperBridges = networks.filter(
+    const newSelectedHyperBridges = networks?.filter(
       (network) =>
-        !selectedNetwork.disabledNetworks.includes(network.chainId) &&
+        !selectedNetwork?.disabledNetworks?.includes(network?.chainId) &&
         network.chainId !== selectedNetwork.chainId
     );
 

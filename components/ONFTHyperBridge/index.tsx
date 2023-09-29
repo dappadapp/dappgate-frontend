@@ -100,8 +100,8 @@ const ONFTHyperBridge: React.FC<Props> = ({
             {networks
               .filter((network) => {
                 return (
-                  !sourceChain.disabledNetworks.includes(network.chainId) &&
-                  network.chainId !== sourceChain.chainId 
+                  !sourceChain?.disabledNetworks?.includes(network?.chainId) &&
+                  network?.chainId !== sourceChain?.chainId 
                 );
               })
               .map((network, i) => {
@@ -109,9 +109,9 @@ const ONFTHyperBridge: React.FC<Props> = ({
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges.some(
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges?.some(
                       (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
+                        selectedBridge?.chainId === network?.chainId
                     )
                       ? "grayscale"
                       : "grayscale-0"
