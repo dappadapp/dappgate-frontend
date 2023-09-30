@@ -89,7 +89,7 @@ const ONFTBridge: React.FC<Props> = ({
         }
       >
         <ListboxSourceMenu
-          value={sourceChain}
+          value={filteredNetworks[0]}
           onChange={onChangeSourceChain}
           options={filteredNetworks}
           searchValue={searchTerm}
@@ -97,7 +97,7 @@ const ONFTBridge: React.FC<Props> = ({
         />
         <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
         <ListboxTargetMenu
-          value={targetChain}
+          value={filteredNetworksTarget[1]}
           sourceValue={targetChain}
           onChange={onChangeTargetChain}
           options={filteredNetworksTarget}

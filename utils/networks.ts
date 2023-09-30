@@ -49,6 +49,52 @@ export interface Network {
 
 
 export const networks: Network[] = [
+
+   
+  {
+    name: zkSync.name,
+    chainId: zkSync.id,
+    layerzeroChainId: 165,
+    nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
+    tokenContractAddress: "0xAc1E37980A160B1fF3D7AFAB54CFaB90577c9bCD",
+    relayerAddress: "0x9923573104957bF457a3C4DF0e21c8b389Dd43df",
+    messageContractAddress:"0x856DA67bfCD0669624bFAAFc3b728FC870c70305",
+    gasRefuelContractAddress: "0xf3943238980E14f38AAE909e8910AC71819390dc",
+    setOFTContractAddress: "0xe06cef4c0eedc65D4ffE1587E8c08b27d9eC8602",
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "zksync-era.svg",
+    logIndex: 3,
+    disabledNetworks: [
+      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
+      1101, 80001,534353, 11155111, 7777777, 5151706
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+  },
+
+  {
+    name: "Base",
+    chainId: 8453,
+    layerzeroChainId: 184,
+    nftContractAddress: "0x18c78a0B1fD00084C83E5B4365cdDee1e6cDba84",
+    tokenContractAddress: "0xbaa198F5eC7cc289ceE58510Ab8842C4B939D5F5",
+    relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
+    messageContractAddress:"0xe828C7e9Cce86b22fb1ad4Ac35F4Ec856f0Cef32",
+    gasRefuelContractAddress: "0x55E4DE637dAB6a5A98bC643ED3918B35AA20407E",
+    setOFTContractAddress: "0xEab5C72E2246415fAf0FBbf75Ac6ea96661552a5",
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#2967FF]",
+    image: "base.svg",
+    disabledNetworks: [
+      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
+      82, 80001, 5,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: "base-mainnet",
+  },
   {
     name: bsc.name,
     chainId: bsc.id,
@@ -151,51 +197,7 @@ export const networks: Network[] = [
   },
 
   
-  
-  {
-    name: zkSync.name,
-    chainId: zkSync.id,
-    layerzeroChainId: 165,
-    nftContractAddress: "0x5EF03134973b827a35D7f057B42F687D014e182d",
-    tokenContractAddress: "0xAc1E37980A160B1fF3D7AFAB54CFaB90577c9bCD",
-    relayerAddress: "0x9923573104957bF457a3C4DF0e21c8b389Dd43df",
-    messageContractAddress:"0x856DA67bfCD0669624bFAAFc3b728FC870c70305",
-    gasRefuelContractAddress: "0xf3943238980E14f38AAE909e8910AC71819390dc",
-    setOFTContractAddress: "0xe06cef4c0eedc65D4ffE1587E8c08b27d9eC8602",
-    zkNFTContractAddress: undefined,
-    blockConfirmation: 5,
-    colorClass: "bg-[#8C8DFC]",
-    image: "zksync-era.svg",
-    logIndex: 3,
-    disabledNetworks: [
-      5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
-      1101, 80001,534353, 11155111, 7777777, 5151706
-    ],
-    symbol: "ETH",
-    chainName: undefined,
-  },
-
-  {
-    name: "Base",
-    chainId: 8453,
-    layerzeroChainId: 184,
-    nftContractAddress: "0x18c78a0B1fD00084C83E5B4365cdDee1e6cDba84",
-    tokenContractAddress: "0xbaa198F5eC7cc289ceE58510Ab8842C4B939D5F5",
-    relayerAddress: "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
-    messageContractAddress:"0xe828C7e9Cce86b22fb1ad4Ac35F4Ec856f0Cef32",
-    gasRefuelContractAddress: "0x55E4DE637dAB6a5A98bC643ED3918B35AA20407E",
-    setOFTContractAddress: "0xEab5C72E2246415fAf0FBbf75Ac6ea96661552a5",
-    zkNFTContractAddress: undefined,
-    blockConfirmation: 5,
-    colorClass: "bg-[#2967FF]",
-    image: "base.svg",
-    disabledNetworks: [
-      1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
-      82, 80001, 5,534353, 11155111
-    ],
-    symbol: "ETH",
-    chainName: "base-mainnet",
-  },
+ 
 
   {
     name: "Linea",
