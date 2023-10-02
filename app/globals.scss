@@ -106,28 +106,27 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
-
 .dot {
   width: 8px;
   height: 8px;
   background-color: green;
   border-radius: 50%;
   position: relative !important;
-  top: 0  !important;
-  right: 0  !important;
+  top: 0 !important;
+  right: 0 !important;
   float: right;
-    margin-left: 4px;
-    margin-bottom: 3px;
-
+  margin-left: 4px;
+  margin-bottom: 3px;
 }
 
 /* Animation for flashing dot */
 @keyframes flash {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  25%, 75% {
+  25%,
+  75% {
     opacity: 0;
   }
   100% {
@@ -138,4 +137,39 @@ input[type="number"] {
 /* Apply animation to dot on hover */
 .dot {
   animation: flash 3s infinite;
+}
+.btn-grad {
+  background-image: linear-gradient(to right, #5d4157 0%, #a8caba 51%, #5d4157 100%);
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    height: 2px;
+    width: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #9b9b9b;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
 }

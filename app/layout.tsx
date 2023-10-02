@@ -1,43 +1,36 @@
-import Providers from "./Providers";
 import "./globals.scss";
-import { Inter } from "next/font/google";
-import Script from "next/script";
-const inter = Inter({ subsets: ["latin"] });
+import { Outfit } from "next/font/google";
+import Layout from "@/components/Layout/Layout";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import Providers from "./Providers";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Footer from "@/components/Footer/Footer";
+
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "DappGate",
-  description: "NFT mint & bridge with LayerZero",
+  title: "DropBase",
+  description: "Airdrop App",
 };
 
 export default function RootLayout({
+  cookies,
   children,
 }: {
+  cookies: RequestCookie[];
   children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          id="google-analytics"
-          strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-7KXLVFJGFD`}
-        />
-        <Script strategy="lazyOnload" id="google-analytics">
-          {`
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', 'G-7KXLVFJGFD', {
-                    page_path: window.location.pathname,
-                    });
-        `}
-        </Script>
-
-        <script type="text/javascript" src="https://www.bugherd.com/sidebarv2.js?apikey=rtp3yqfdikrd7pfzs4czgg" async={true}></script>
-
-      </head>
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
+      <body
+        className={`min-h-screen flex flex-col md:flex-row items-start bg-[#0C0C0C] relative ${outfit.className}`}
+      >
+        <Providers>
+          <Sidebar />
+          <div className="flex flex-col p-8 w-full">
+            <Layout>{children}</Layout>
+          </div>
+        </Providers>
       </body>
     </html>
   );

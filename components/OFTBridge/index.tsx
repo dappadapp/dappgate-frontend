@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import { useAccount } from "wagmi";
 import { networks } from "@/utils/networks";
-import CircleSvg from "@/app/components/CircleSvg";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import OFTClaimButton from "./OFTClaimButton";
 import OFTBridgeButton from "./OFTBridgeButton";
 

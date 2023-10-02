@@ -1,4 +1,4 @@
-import TransactionPreview from "@/app/components/TransactionPreview";
+import TransactionPreview from "@/app/apps/dappgate/components/TransactionPreview";
 import React, { useState } from "react";
 import ONFTHyperMintButton from "./ONFTHyperMintButton";
 import ONFTHyperBridgeButton from "./ONFTHyperBridgeButton";
@@ -9,8 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { networks } from "@/utils/networks";
-import ArrowsSvg from "@/app/components/ArrowsSvg";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ArrowsSvg from "@/app/apps/dappgate/components/ArrowsSvg";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import { useAccount, useContractRead } from "wagmi";
 import ONFTAbi from "../../config/abi/ONFT.json";

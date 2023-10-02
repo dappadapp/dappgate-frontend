@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import OFTRefuelButton from "./OFTRefuelButton";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
-import CircleSvg from "@/app/components/CircleSvg";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
 import { Network, networks } from "@/utils/networks";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import { ethers } from "ethers";
 import { useAccount, useBalance, useContractRead } from "wagmi";
 import RelayerAbi from "../../config/abi/RelayerV2.json";

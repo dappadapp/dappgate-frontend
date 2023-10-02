@@ -1,6 +1,6 @@
-import CircleSvg from "@/app/components/CircleSvg";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import { Network, networks } from "@/utils/networks";
 import React, { use, useState } from "react";
 import DappLetterAbi from "@/config/abi/Message.json";
@@ -13,7 +13,7 @@ import {
   useBlockNumber,
 } from "wagmi";
 import { parseAbiItem } from "viem";
-import CommentsSvg from "@/app/components/CommentsSvg";
+import CommentsSvg from "@/app/apps/dappgate/components/CommentsSvg";
 import { useEffect } from "react";
 
 const chains = [

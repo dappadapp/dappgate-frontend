@@ -1,4 +1,4 @@
-import StargateWidget from "@/app/components/StargateWidget";
+import StargateWidget from "@/app/apps/dappgate/components/StargateWidget";
 import React from "react";
 
 const StargateBridge = () => {

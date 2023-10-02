@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OFTHyperBridgeButton from "./OFTHyperBridgeButton";
-import TransactionPreview from "@/app/components/TransactionPreview";
+import TransactionPreview from "@/app/apps/dappgate/components/TransactionPreview";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,10 +8,10 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { networks } from "@/utils/networks";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
 import type { Network } from "@/utils/networks";
 import OFTHyperClaimButton from "./OFTHyperClaimButton";
-import ArrowsSvg from "@/app/components/ArrowsSvg";
+import ArrowsSvg from "@/app/apps/dappgate/components/ArrowsSvg";
 
 type Props = {
   sourceChain: Network;

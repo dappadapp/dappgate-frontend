@@ -1,15 +1,15 @@
 import type { Network } from "@/utils/networks";
 import React, { useEffect, useMemo, useState } from "react";
 import MintButton from "./MintButton";
-import ListboxSourceMenu from "@/app/components/ListboxSourceMenu";
-import CircleSvg from "@/app/components/CircleSvg";
-import ListboxTargetMenu from "@/app/components/ListboxTargetMenu";
+import ListboxSourceMenu from "@/app/apps/dappgate/components/ListboxSourceMenu";
+import CircleSvg from "@/app/apps/dappgate/components/CircleSvg";
+import ListboxTargetMenu from "@/app/apps/dappgate/components/ListboxTargetMenu";
 import BridgeButton from "./BridgeButton";
-import LayerZeroSvg from "@/app/components/LayerZeroSvg";
+import LayerZeroSvg from "@/app/apps/dappgate/components/LayerZeroSvg";
 import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
-import FaAngleDown from "@/app/components/FaAngleDown";
+import FaAngleDown from "@/app/apps/dappgate/components/FaAngleDown";
 import ONFTAbi from "@/config/abi/ONFT.json";
 
 type Props = {
