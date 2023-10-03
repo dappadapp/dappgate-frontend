@@ -22,8 +22,15 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
 interface LeaderboardResponse {
   walletCount: number;
+  data: any;
+}
+
+interface UserResponse {
+  wallet: string;
   data: any;
 }
 export default function LeaderBoard() {
@@ -35,8 +42,9 @@ export default function LeaderBoard() {
   const [totalUsers, setTotalUsers] = React.useState<any>(0);
   const [pagination, setPagination] = React.useState<any>(100000000);
   const [leaderboard, setLeaderboard] = React.useState<any>([]);
-
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [user, setUser] = React.useState<any>([]);
   const itemsPerPage = 10; // Set the number of items per page
 
   // Calculate the index range for the current page
@@ -95,15 +103,17 @@ export default function LeaderBoard() {
     })),
   });
 
-  console.log("passss", networks.filter((network) => network?.trackerContractAddress !== undefined))
-  console.log("allPassBalances", allPassBalances)
-
   useEffect(() => {
-    totalSum();
-  }, [allOFTBalances, allNftBalances, allPassBalances, address]);
+    saveOFT();
+    saveONFT();
+    savePass();
+  }, [allOFTBalances, allNftBalances, allPassBalances]);
+
 
   useEffect(() => {
     getLeaderboard();
+    getSingleUser();
+    refreshData();
   }, []);
 
   const totalSum = () => {
@@ -111,11 +121,15 @@ export default function LeaderBoard() {
       toast("You are already in the leaderboard");
       return;
     }
-    else{   
-    saveOFT();
-    saveONFT();
-    savePass();
-  }
+    else {
+      saveOFT();
+      saveONFT();
+      savePass();
+      getSingleUser();
+
+      toast("Successfully joined leaderboard");
+      return;
+    }
   }
 
   const saveONFT = () => {
@@ -140,8 +154,6 @@ export default function LeaderBoard() {
     setOftBalance(totalBalance);
 
     joinLeaderboard(Number(ethers.formatUnits(totalBalance.toString())), "OFT");
-
-
   }
 
   const savePass = () => {
@@ -161,20 +173,16 @@ export default function LeaderBoard() {
   const joinLeaderboard = (totalBalance: number | undefined, type: string | undefined) => {
     if (!totalBalance || !type) return;
 
- 
-    else {
-      axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
-        getLeaderboard();
-        refechOFT();
-        refetchNFT();
 
-        toast("Successfully joined leaderboard");
-        return;
 
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
+    axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
+      getLeaderboard();
+      refechOFT();
+      refetchNFT();
+
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   const getLeaderboard = async () => {
@@ -193,6 +201,35 @@ export default function LeaderBoard() {
     }
   }
 
+  const getSingleUser = async () => {
+    if (!address) return;
+    try {
+      const response = await axios.post<UserResponse>("/api/getSingleUser", { wallet: address });
+    
+      if (response) {
+        setUser(response.data);
+      }
+    } catch (error) {
+      // Handle errors
+    }
+  }
+
+  const refreshData = async() => {
+    setIsRefreshing(true);
+    getLeaderboard();
+    await refechOFT();
+    await refetchNFT();
+    await refecthPass();
+    getSingleUser();
+    setIsRefreshing(false);
+
+    toast("Successfully refreshed leaderboard");
+    return;
+
+  }
+
+  console.log("user", user)
+
   return (
     <div className="flex w-full flex-col gap-5 mt-7">
       <div className="flex justify-between items-center border p-7 rounded-lg border-white border-opacity-5 bg-[#0C0C0C]">
@@ -210,16 +247,18 @@ export default function LeaderBoard() {
           <Avvvatars value={address ? formatAddress(address) : ""} style="shape" size={80} />
           <div className="flex flex-col text-lg text-white">
             <span className="font-semibold text-grey-cool-500 text-2xl font-bold">Your Ranking:</span>
+
             <div className="flex items-center mt-1">
-              <div className="bg-gradient-to-br from-purple-600 to-indigo-500 text-white rounded-md px-2 py-1 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                {leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.index}
+              <div className="bg-gradient-to-br from-purple-600 to-indigo-500 text-white rounded-md px-3 py-1 ml-2 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                {leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.index || "-"}
               </div>
-              <span className="text-[#858585] ml-2 text-2xl">/ {totalUsers}+</span>
+              <span className="text-[#858585] p-2 text-2xl">/ {totalUsers}+</span>
+              <FontAwesomeIcon icon={faSync} className={`ml-2 text-[#888888] hover:cursor-pointer items-center ${isRefreshing ? 'refreshing' : ''}`} onClick={() => refreshData()} />
             </div>
           </div>
         </div>
       </div>
-      <table className="overflow-y-scroll border-separate border-spacing-y-2 text-x md:text-base w-full">
+      <table className="overflow-y-scroll border-separate border-spacing-y-1 text-x md:text-base w-full">
         <tbody className="overflow-y-scroll block table-fixed w-full mx-auto h-[auto]">
           <tr className="bg-[#111] w-[80%] text-white">
             <td className="overflow-hidden w-[20%] whitespace-nowrap pl-2"></td>
@@ -229,7 +268,7 @@ export default function LeaderBoard() {
           </tr>
           {paginatedData.map((item: any, index: number) => (
 
-            <tr  key={item.wallet} className={`pt-4  w-[80%] shadow-inner rounded-lg ${item?.wallet.toLowerCase() === address?.toString().toLowerCase() ? 'bg-[#1abc9c] text-[#000]' : 'text-[#AAA]'}`}>
+            <tr key={item.wallet} className={`pt-4  w-[80%] shadow-inner rounded-lg ${item?.wallet.toLowerCase() === address?.toString().toLowerCase() ? 'bg-[#1abc9c] text-[#000]' : 'text-[#AAA]'}`}>
               <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
                 <span className={`rounded-full py-1 px-3 ${item?.index === 1 ? 'bg-[#FFAD0E]' : item?.index === 2 ? 'bg-[#AD5707]' : item?.index === 3 ? 'bg-[#939393]' : item?.index === 4 ? 'bg-gray-600' : 'bg-gray-800'} text-white`}>
                   {item?.index}
@@ -246,8 +285,8 @@ export default function LeaderBoard() {
                 {item.total} TX
               </td>
             </tr>
-          ))}
 
+          ))}
         </tbody>
       </table>
       <div className="flex justify-center">
@@ -256,7 +295,7 @@ export default function LeaderBoard() {
             key={page}
             onClick={() => handlePageChange(page)}
             className={`mx-1 focus:outline-none ${page === currentPage
-              ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl'
+              ? 'bg-gradient-to-br from-purple-600 to-indigo-500 text-white shadow-lg hover:shadow-xl'
               : 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out'
               } rounded-full px-4 py-2`}
           >
