@@ -113,10 +113,15 @@ export default function LeaderBoard() {
   useEffect(() => {
     getLeaderboard();
     getSingleUser();
-    refreshData();
   }, []);
 
   const totalSum = () => {
+    if (!address) 
+    {
+      toast("Please connect your wallet");
+      return;
+    }
+    else
     if (leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.wallet === address?.toString().toLowerCase()) {
       toast("You are already in the leaderboard");
       return;
@@ -215,6 +220,12 @@ export default function LeaderBoard() {
   }
 
   const refreshData = async() => {
+
+    if (!address) 
+    {
+      toast("Please connect your wallet");
+      return;
+    }
     setIsRefreshing(true);
     getLeaderboard();
     await refechOFT();
