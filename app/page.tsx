@@ -6,7 +6,7 @@ import React from "react";
 export default function Home() {
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-7">
         <ProjectCard
           description="Pioneering #LayerZero to bridge ONFTs and OFTs across networks"
           url="/apps/dappgate"

@@ -26,12 +26,12 @@ const menuItems = [
   },
   {
     title: "Discover",
-    href: "/discover",
+    href: "#",
     icon: <FaCompass size={24} />,
   },
   {
     title: "Upcoming",
-    href: "/upcoming",
+    href: "#",
     icon: <FaClock size={24} />,
   },
 ];
@@ -66,6 +66,7 @@ const Sidebar: React.FC = (props) => {
       </Link>
       <nav className={`hidden md:flex flex-col items-start ml-2 gap-5 flex-1`}>
         {menu}
+        <ConnectButton />
       </nav>
 
       {/* Mobile */}
@@ -88,7 +89,7 @@ const Sidebar: React.FC = (props) => {
       </nav>
 
       <div className="hidden md:flex w-full">
-        <ConnectButton />
+      
       </div>
     </header>
   );

@@ -1,128 +1,218 @@
 "use client";
 import Image from "next/image";
-import React from "react";
-import pfpExample from "@/assets/pfpExample.svg";
+import React, { use, useEffect } from "react";
+import avatar from "@/assets/placeholder.svg";
+import Avvvatars from 'avvvatars-react'
+import { generate, count } from "random-words";
 
+import {
+  useAccount,
+  useBalance,
+  useContractReads,
+  useNetwork,
+  useSwitchNetwork,
+  useWaitForTransaction,
+} from "wagmi";
+import formatAddress from "@/utils/formatAddress";
+import { networks } from "@/utils/networks";
+import ONFTAbi from "@/config/abi/ONFT.json";
+import OFTAbi from "../../config/abi/OFTBridge.json";
+import axios from "axios";
+
+interface LeaderboardResponse {
+  walletCount: number;
+  data: any;
+}
 export default function LeaderBoard() {
+
+  const [nftBalance, setNftBalance] = React.useState<any>(0)
+  const [oftBalance, setOftBalance] = React.useState<any>(0)
+  const { address } = useAccount();
+  const [totalUsers, setTotalUsers] = React.useState<any>(0);
+  const [pagination, setPagination] = React.useState<any>(10);
+  const [leaderboard, setLeaderboard] = React.useState<any>([]);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 50; // Set the number of items per page
+
+  // Calculate the index range for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  // Get the data for the current page
+  const paginatedData = leaderboard.slice(startIndex, endIndex);
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
+
+  // Generate an array of page numbers
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  console.log("pageNumbers", pageNumbers)
+  // Handle pagination changes
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+
+  };
+
+  const { data: allNftBalances, refetch: refetchNFT } = useContractReads({
+    contracts: networks.filter((network) => network?.isTestnet === undefined || network?.isTestnet === false).map((network) => ({
+      address: network.nftContractAddress as `0x${string}`,
+      abi: ONFTAbi as any,
+      functionName: "balanceOf",
+      args: [
+        address,
+      ],
+      chainId: network.chainId,
+    })),
+  });
+
+  const { data: allOFTBalances, refetch: refechOFT } = useContractReads({
+    contracts: networks.filter((network) => network?.isTestnet === undefined || network?.isTestnet === false).map((network) => ({
+      address: network.tokenContractAddress as `0x${string}`,
+      abi: OFTAbi as any,
+      functionName: "balanceOf",
+      args: [
+        address,
+      ],
+      chainId: network.chainId,
+    })),
+  });
+
+  useEffect(() => {
+    totalSum();
+  }, [allOFTBalances, allNftBalances, address]);
+
+  useEffect(() => {
+    getLeaderboard();
+  }, []);
+
+  const totalSum = () => {
+    saveOFT();
+    saveONFT();
+  }
+
+  const saveONFT = () => {
+    if (!allNftBalances) return;
+
+    const totalBalance = allNftBalances
+      .filter((balance) => balance?.result !== undefined)
+      .reduce((accumulator, balance) => accumulator + Number(balance?.result), 0);
+
+    setNftBalance(totalBalance);
+
+    joinLeaderboard(totalBalance, "NFT");
+  }
+
+  const saveOFT = () => {
+    if (!allOFTBalances) return;
+
+    const totalBalance = allOFTBalances
+      .filter((balance) => balance?.result !== undefined)
+      .reduce((accumulator, balance) => accumulator + Number(balance?.result), 0);
+
+    setOftBalance(totalBalance);
+
+    joinLeaderboard(totalBalance, "OFT");
+
+  }
+
+  const joinLeaderboard = (totalBalance: number | undefined, type: string | undefined) => {
+    axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
+      console.log(res.data);
+       getLeaderboard();
+       refechOFT();
+       refetchNFT();
+    }).catch((err) => {
+      console.log(err)
+    })
+ }
+
+  const getLeaderboard = async () => {
+    try {
+      const response = await axios.post<LeaderboardResponse>("/api/getLeaderboard", { pagination: pagination });
+      const total = response.data;
+
+      if (total) {
+        setTotalUsers(total.walletCount);
+      }
+      if (total) {
+        setLeaderboard(total?.data);
+      }
+    } catch (error) {
+      // Handle errors
+    }
+  }
+
   return (
-    <div className="flex w-full flex-col gap-8">
-      <div className="flex justify-between items-center border p-4 rounded-lg border-white border-opacity-5 bg-[#0C0C0C]">
-        <div className="flex flex-col">
-          <span className="text-white text-4xl">Leaderboard</span>
-          <span className="text-[#858585] break-words">
-            Exclusive ranking for AVNU traders. Trade, earn points, and win unique
-            rewards.
+    <div className="flex w-full flex-col gap-5 mt-7">
+      <div className="flex justify-between items-center border p-7 rounded-lg border-white border-opacity-5 bg-[#0C0C0C]">
+        <div className="flex flex-col items-start">
+          <div className="flex items-center mb-3">
+            <span className="text-white text-5xl mr-5">Leaderboard</span>
+            <button className="btn-grad p-3 ml-5" onClick={totalSum}>Join Leaderboard</button>
+
+          </div>
+          <span className="text-cool-gray-400 break-words mt-4">
+            Exclusive ranking for DappGate users. Mint, bridge, and get XP to earn unique rewards.
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <Image
-            src={pfpExample}
-            alt="pfp-image"
-            width={80}
-            height={80}
-            className="w-20 h-20 rounded-lg"
-          />
-          <div className="flex flex-col text-sm text-white">
-    <span>Your Ranking:</span>
-    <div className="flex">
-      <span>100/</span>
-      <span className="text-[#858585]">100K+</span>
-    </div>
-  </div>
+          <Avvvatars value={address ? formatAddress(address) : ""} style="shape" size={80} />
+          <div className="flex flex-col text-lg text-white">
+            <span className="font-semibold text-grey-cool-500 text-2xl font-bold">Your Ranking:</span>
+            <div className="flex items-center mt-1">
+              <div className="bg-gradient-to-br from-purple-600 to-indigo-500 text-white rounded-md px-2 py-1 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                {leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.index}
+              </div>
+              <span className="text-[#858585] ml-2 text-2xl">/ {totalUsers}+</span>
+            </div>
+          </div>
         </div>
       </div>
-      <span className="">Leaderboard</span>
-      <table className=" overflow-y-scroll border-separate border-spacing-y-2 text-x md:text-base w-full">
-        <tbody className="overflow-y-scroll block table-fixed w-full mx-auto h-[380px]">
+      <table className="overflow-y-scroll border-separate border-spacing-y-2 text-x md:text-base w-full">
+        <tbody className="overflow-y-scroll block table-fixed w-full mx-auto h-[auto]">
           <tr className="bg-[#111] w-[80%] text-white">
             <td className="overflow-hidden w-[20%] whitespace-nowrap pl-2"></td>
             <td className="overflow-hidden w-[40%] whitespace-nowrap pl-2">Address</td>
             <td className="w-[40.6%]">XP</td>
             <td className=" table-cell w-[40.6%]">Transactions</td>
           </tr>
-          <tr className=" pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
-            <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-            <span className="bg-[#FFAD0E] text-white rounded-full py-1 px-3">
-      1
-    </span>
-            </td>
-            <td className="table-cell w-[40.6%] flex items-center">
-              <div className="flex items-center">
-                <Image
-                  src={pfpExample}
-                  alt="User Avatar"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <span className="whitespace-nowrap">0x3D6a34D8ECe464....</span>
-              </div>
-            </td>
+          {paginatedData.map((item: any, index: number) => (
 
-            <td className=" table-cell w-[40%]">100XP</td>
-            <td className=" pr-2 w-[40%] rounded-r-lg">112TX</td>
-          </tr>
-          <tr className=" pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
-            <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-            <span className="bg-[#AD5707] text-white rounded-full py-1 px-3">
-      2
-    </span>
-            </td>
-            <td className="table-cell w-[40.6%] flex items-center">
-              <div className="flex items-center">
-                <Image
-                  src={pfpExample}
-                  alt="User Avatar"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <span className="whitespace-nowrap">0x3D6a34D8ECe464....</span>
-              </div>
-            </td>
+            <tr className="pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
+              <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
+                <span className={`rounded-full py-1 px-3 ${item?.index  === 1 ? 'bg-[#FFAD0E]' : item?.index === 2 ? 'bg-[#AD5707]' : item?.index === 3 ? 'bg-[#939393]' : item?.index === 4 ? 'bg-gray-600' : 'bg-gray-800'} text-white`}>
+                  {item?.index}
+                </span>
+              </td>
+              <td className="table-cell w-[40.6%] flex items-center">
+                <div className="flex items-center">
+                  <Avvvatars value={item?.wallet} style="shape" />
+                  <span className="whitespace-nowrap ml-3">{formatAddress(item.wallet)}</span>
+                </div>
+              </td>
+              <td className=" table-cell w-[40%]">{item.nft * 0.5} XP</td>
+              <td className=" pr-2 w-[40%] rounded-r-lg">{item.total} TX</td>
+            </tr>
+          ))}
 
-            <td className=" table-cell w-[40%]">100XP</td>
-            <td className=" pr-2 w-[40%] rounded-r-lg">112TX</td>
-          </tr>
-          <tr className=" pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
-            <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-            <span className="bg-[#939393] text-white rounded-full py-1 px-3">
-      3
-    </span>
-            </td>
-            <td className="table-cell w-[40.6%] flex items-center">
-              <div className="flex items-center">
-                <Image
-                  src={pfpExample}
-                  alt="User Avatar"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <span className="whitespace-nowrap">0x3D6a34D8ECe464....</span>
-              </div>
-            </td>
-
-            <td className=" table-cell w-[40%]">100XP</td>
-            <td className=" pr-2 w-[40%] rounded-r-lg">112TX</td>
-          </tr>
-          <tr className=" pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
-            <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-            <span className="bg-gray-600 text-white rounded-full py-1 px-3">
-      4
-    </span>
-            </td>
-            <td className="table-cell w-[40.6%] flex items-center">
-              <div className="flex items-center">
-                <Image
-                  src={pfpExample}
-                  alt="User Avatar"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <span className="whitespace-nowrap">0x3D6a34D8ECe464....</span>
-              </div>
-            </td>
-
-            <td className=" table-cell w-[40%]">100XP</td>
-            <td className=" pr-2 w-[40%] rounded-r-lg">112TX</td>
-          </tr>
-         
         </tbody>
       </table>
+      <div className="flex justify-center">
+        {pageNumbers.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`mx-1 focus:outline-none ${page === currentPage
+                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl'
+                : 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out'
+              } rounded-full px-4 py-2`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
