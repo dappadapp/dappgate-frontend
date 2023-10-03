@@ -18,6 +18,7 @@ import { networks } from "@/utils/networks";
 import ONFTAbi from "@/config/abi/ONFT.json";
 import OFTAbi from "../../config/abi/OFTBridge.json";
 import axios from "axios";
+import { ethers } from "ethers";
 
 interface LeaderboardResponse {
   walletCount: number;
@@ -113,7 +114,7 @@ export default function LeaderBoard() {
 
     setOftBalance(totalBalance);
 
-    joinLeaderboard(totalBalance, "OFT");
+    joinLeaderboard(Number(ethers.formatUnits(totalBalance.toString())), "OFT");
 
   }
 
@@ -192,7 +193,7 @@ export default function LeaderBoard() {
                   <span className="whitespace-nowrap ml-3">{formatAddress(item.wallet)}</span>
                 </div>
               </td>
-              <td className=" table-cell w-[40%]">{item.nft * 0.5} XP</td>
+              <td className=" table-cell w-[40%]">{item.nft * 0.5 + item.oft * 0.2} XP</td>
               <td className=" pr-2 w-[40%] rounded-r-lg">{item.total} TX</td>
             </tr>
           ))}
