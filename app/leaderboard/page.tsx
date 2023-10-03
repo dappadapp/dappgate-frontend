@@ -17,6 +17,7 @@ import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
 import ONFTAbi from "@/config/abi/ONFT.json";
 import OFTAbi from "../../config/abi/OFTBridge.json";
+import PassAbi from "../../config/abi/Pass.json";
 import axios from "axios";
 import { ethers } from "ethers";
 
@@ -28,6 +29,7 @@ export default function LeaderBoard() {
 
   const [nftBalance, setNftBalance] = React.useState<any>(0)
   const [oftBalance, setOftBalance] = React.useState<any>(0)
+  const [passBalance, setPassBalance] = React.useState<any>(0)
   const { address } = useAccount();
   const [totalUsers, setTotalUsers] = React.useState<any>(0);
   const [pagination, setPagination] = React.useState<any>(10);
@@ -80,9 +82,22 @@ export default function LeaderBoard() {
     })),
   });
 
+  const { data: allPassBalances, refetch: refecthPass } = useContractReads({
+    contracts: networks.filter((network) =>  network?.trackerContractAddress !== undefined ).map((network) => ({
+      address: network?.trackerContractAddress as `0x${string}`,
+      abi: PassAbi as any,
+      functionName: "balanceOf",
+      args: [
+        address,
+      ],
+      chainId: network.chainId,
+    })),
+  });
+
+
   useEffect(() => {
     totalSum();
-  }, [allOFTBalances, allNftBalances, address]);
+  }, [allOFTBalances, allNftBalances, allPassBalances, address]);
 
   useEffect(() => {
     getLeaderboard();
@@ -91,6 +106,7 @@ export default function LeaderBoard() {
   const totalSum = () => {
     saveOFT();
     saveONFT();
+    savePass();
   }
 
   const saveONFT = () => {
@@ -115,6 +131,19 @@ export default function LeaderBoard() {
     setOftBalance(totalBalance);
 
     joinLeaderboard(Number(ethers.formatUnits(totalBalance.toString())), "OFT");
+
+  }
+
+  const savePass = () => {
+    if (!allPassBalances) return;
+
+    const totalBalance = allPassBalances
+      .filter((balance) => balance?.result !== undefined)
+      .reduce((accumulator, balance) => accumulator + Number(balance?.result), 0);
+
+      setPassBalance(totalBalance);
+
+    joinLeaderboard(totalBalance, "PASS");
 
   }
 
@@ -193,8 +222,8 @@ export default function LeaderBoard() {
                   <span className="whitespace-nowrap ml-3">{formatAddress(item.wallet)}</span>
                 </div>
               </td>
-              <td className=" table-cell w-[40%]">{item.nft * 0.5 + item.oft * 0.2} XP</td>
-              <td className=" pr-2 w-[40%] rounded-r-lg">{item.total} TX</td>
+              <td className=" table-cell w-[40%]">{item?.xp} XP</td>
+              <td className=" pr-2 w-[40%] rounded-r-lg">{item?.total} TX</td>
             </tr>
           ))}
 
