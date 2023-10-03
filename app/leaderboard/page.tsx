@@ -94,6 +94,8 @@ export default function LeaderBoard() {
     })),
   });
 
+  console.log("passss",networks.filter((network) =>  network?.trackerContractAddress !== undefined ) )
+  console.log("allPassBalances", allPassBalances)
 
   useEffect(() => {
     totalSum();
@@ -222,8 +224,10 @@ export default function LeaderBoard() {
                   <span className="whitespace-nowrap ml-3">{formatAddress(item.wallet)}</span>
                 </div>
               </td>
-              <td className=" table-cell w-[40%]">{item?.xp} XP</td>
-              <td className=" pr-2 w-[40%] rounded-r-lg">{item?.total} TX</td>
+              <td className="text-sm lg:text-base table-cell w-[40%]">{item?.xp} XP</td>
+              <td className=" pr-2 w-[40%] text-right rounded-r-lg text-sm lg:text-base">
+                {item.total} TX
+              </td>
             </tr>
           ))}
 

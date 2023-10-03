@@ -23,17 +23,17 @@ const ProjectCard: React.FC<Props> = ({ description, image, name, url, status })
         border: "1px solid #808080",
         position: "relative", // Make the card relative
       }}
-      className="flex flex-col  justify-end items-start w-full p-4 md:h-[250px]"
+      className="flex flex-col lg:justify-end justify-start items-start w-full lg:pt-4 pt-10 p-4 md:h-[250px]"
       onClick={() => openInNewTab(url)}
     >
       <div
-        className="absolute top-2 right-2 text-white py-1 px-2 rounded-md"
-        style={{ backgroundColor: status == "Coming Soon" ? '#FF5722' : '#00E676' }} // Use your desired color
+        className="absolute top-1 right-1 lg:top-2 lg:right-2 text-white py-1 px-2 text-xs lg:text-base rounded-md"
+        style={{ backgroundColor: status == "Coming Soon" ? "#FF5722" : "#00E676" }} // Use your desired color
       >
         {status}
       </div>
-      <h2 className="text-white text-2xl">{name}</h2>
-      <h3 className="text-[#808080] text-lg word">{description}</h3>
+      <h2 className="text-white text-lg lg:text-2xl">{name}</h2>
+      <h3 className="text-[#808080] text-xs lg:text-lg ">{description}</h3>
     </div>
   );
 };
