@@ -20,7 +20,8 @@ import OFTAbi from "../../config/abi/OFTBridge.json";
 import PassAbi from "../../config/abi/Pass.json";
 import axios from "axios";
 import { ethers } from "ethers";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface LeaderboardResponse {
   walletCount: number;
   data: any;
@@ -32,11 +33,11 @@ export default function LeaderBoard() {
   const [passBalance, setPassBalance] = React.useState<any>(0)
   const { address } = useAccount();
   const [totalUsers, setTotalUsers] = React.useState<any>(0);
-  const [pagination, setPagination] = React.useState<any>(10);
+  const [pagination, setPagination] = React.useState<any>(100000000);
   const [leaderboard, setLeaderboard] = React.useState<any>([]);
 
   const [currentPage, setCurrentPage] = React.useState(1);
-  const itemsPerPage = 50; // Set the number of items per page
+  const itemsPerPage = 10; // Set the number of items per page
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -83,7 +84,7 @@ export default function LeaderBoard() {
   });
 
   const { data: allPassBalances, refetch: refecthPass } = useContractReads({
-    contracts: networks.filter((network) =>  network?.trackerContractAddress !== undefined ).map((network) => ({
+    contracts: networks.filter((network) => network?.trackerContractAddress !== undefined).map((network) => ({
       address: network?.trackerContractAddress as `0x${string}`,
       abi: PassAbi as any,
       functionName: "balanceOf",
@@ -94,7 +95,7 @@ export default function LeaderBoard() {
     })),
   });
 
-  console.log("passss",networks.filter((network) =>  network?.trackerContractAddress !== undefined ) )
+  console.log("passss", networks.filter((network) => network?.trackerContractAddress !== undefined))
   console.log("allPassBalances", allPassBalances)
 
   useEffect(() => {
@@ -106,9 +107,15 @@ export default function LeaderBoard() {
   }, []);
 
   const totalSum = () => {
+    if (leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.wallet === address?.toString().toLowerCase()) {
+      toast("You are already in the leaderboard");
+      return;
+    }
+    else{   
     saveOFT();
     saveONFT();
     savePass();
+  }
   }
 
   const saveONFT = () => {
@@ -134,6 +141,7 @@ export default function LeaderBoard() {
 
     joinLeaderboard(Number(ethers.formatUnits(totalBalance.toString())), "OFT");
 
+
   }
 
   const savePass = () => {
@@ -143,22 +151,31 @@ export default function LeaderBoard() {
       .filter((balance) => balance?.result !== undefined)
       .reduce((accumulator, balance) => accumulator + Number(balance?.result), 0);
 
-      setPassBalance(totalBalance);
+    setPassBalance(totalBalance);
 
     joinLeaderboard(totalBalance, "PASS");
+
 
   }
 
   const joinLeaderboard = (totalBalance: number | undefined, type: string | undefined) => {
-    axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
-      console.log(res.data);
-       getLeaderboard();
-       refechOFT();
-       refetchNFT();
-    }).catch((err) => {
-      console.log(err)
-    })
- }
+    if (!totalBalance || !type) return;
+
+ 
+    else {
+      axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
+        getLeaderboard();
+        refechOFT();
+        refetchNFT();
+
+        toast("Successfully joined leaderboard");
+        return;
+
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  }
 
   const getLeaderboard = async () => {
     try {
@@ -166,7 +183,7 @@ export default function LeaderBoard() {
       const total = response.data;
 
       if (total) {
-        setTotalUsers(total.walletCount);
+        setTotalUsers(total?.walletCount);
       }
       if (total) {
         setLeaderboard(total?.data);
@@ -208,13 +225,13 @@ export default function LeaderBoard() {
             <td className="overflow-hidden w-[20%] whitespace-nowrap pl-2"></td>
             <td className="overflow-hidden w-[40%] whitespace-nowrap pl-2">Address</td>
             <td className="w-[40.6%]">XP</td>
-            <td className=" table-cell w-[40.6%]">Transactions</td>
+            <td className=" table-cell w-[40.6%] pr-4">Transactions</td>
           </tr>
           {paginatedData.map((item: any, index: number) => (
 
-            <tr className="pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
+            <tr  key={item.wallet} className={`pt-4  w-[80%] shadow-inner rounded-lg ${item?.wallet.toLowerCase() === address?.toString().toLowerCase() ? 'bg-[#1abc9c] text-[#000]' : 'text-[#AAA]'}`}>
               <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-                <span className={`rounded-full py-1 px-3 ${item?.index  === 1 ? 'bg-[#FFAD0E]' : item?.index === 2 ? 'bg-[#AD5707]' : item?.index === 3 ? 'bg-[#939393]' : item?.index === 4 ? 'bg-gray-600' : 'bg-gray-800'} text-white`}>
+                <span className={`rounded-full py-1 px-3 ${item?.index === 1 ? 'bg-[#FFAD0E]' : item?.index === 2 ? 'bg-[#AD5707]' : item?.index === 3 ? 'bg-[#939393]' : item?.index === 4 ? 'bg-gray-600' : 'bg-gray-800'} text-white`}>
                   {item?.index}
                 </span>
               </td>
@@ -225,7 +242,7 @@ export default function LeaderBoard() {
                 </div>
               </td>
               <td className="text-sm lg:text-base table-cell w-[40%]">{item?.xp} XP</td>
-              <td className=" pr-2 w-[40%] text-right rounded-r-lg text-sm lg:text-base">
+              <td className=" pr-2 w-[40%] text-right rounded-r-lg text-sm lg:text-base pr-4">
                 {item.total} TX
               </td>
             </tr>
@@ -239,14 +256,15 @@ export default function LeaderBoard() {
             key={page}
             onClick={() => handlePageChange(page)}
             className={`mx-1 focus:outline-none ${page === currentPage
-                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl'
-                : 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out'
+              ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl'
+              : 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out'
               } rounded-full px-4 py-2`}
           >
             {page}
           </button>
         ))}
       </div>
+      <ToastContainer position="top-right" theme="dark" />
     </div>
   );
 }
