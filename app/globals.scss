@@ -138,8 +138,16 @@ input[type="number"] {
 .dot {
   animation: flash 3s infinite;
 }
+
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 .btn-grad {
-  background-image: linear-gradient(to right, #FF5722 0%, #00E676 60%, #a14428 100%);
+  background-image: linear-gradient(to right, #ab7a8a 10%, #71cbbc 40%, #7f5d78 100%);
   transition: 0.5s;
   background-size: 200% auto;
   color: white;

@@ -275,7 +275,7 @@ export default function LeaderBoard() {
             </span>
 
             <div className="flex items-center mt-1">
-              <div className="bg-gradient-to-br from-purple-600 to-indigo-500 text-white rounded-md px-3 py-1 ml-2 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-[#71cbbc] text-white rounded-md px-3 py-1 ml-2 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                 {leaderboard.filter(
                   (item: any) => item?.wallet === address?.toString().toLowerCase()
                 )?.[0]?.index || "-"}
@@ -349,7 +349,7 @@ export default function LeaderBoard() {
             onClick={() => handlePageChange(page)}
             className={`mx-1 focus:outline-none ${
               page === currentPage
-                ? "bg-gradient-to-br from-purple-600 to-indigo-500 text-white shadow-lg hover:shadow-xl"
+                ? "bg-[#71cbbc] text-white shadow-lg hover:shadow-xl"
                 : "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out"
             } rounded-full px-4 py-2`}
           >
