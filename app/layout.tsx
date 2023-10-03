@@ -27,7 +27,7 @@ export default function RootLayout({
       >
         <Providers>
           <Sidebar />
-          <div className="flex flex-col p-8 w-full">
+          <div className="flex flex-col p-3 lg:p-8 w-full">
             <Layout>{children}</Layout>
           </div>
         </Providers>

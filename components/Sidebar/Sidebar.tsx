@@ -58,11 +58,10 @@ const Sidebar: React.FC = (props) => {
   });
 
   return (
-    <header className="flex md:min-w-[18%] md:top-0 md:h-screen px-4 md:bg-black flex-col pl-5 pb-4 gap-24 md:sticky md:pt-8">
+    <header className="flex md:min-w-[18%] w-full md:w-auto md:top-0 md:h-screen px-4 md:bg-black flex-col pl-5 pb-4 gap-24 md:sticky md:pt-8">
       {/* Desktop */}
       <Link href="/" className="hidden md:flex items-center p-3 ">
-       <DappGateLogo />
-       
+        <DappGateLogo />
       </Link>
       <nav className={`hidden md:flex flex-col items-start ml-2 gap-5 flex-1`}>
         {menu}
@@ -76,21 +75,21 @@ const Sidebar: React.FC = (props) => {
         }`}
         onClick={() => setMenuOpen(false)}
       ></div>
-      <div className="flex md:hidden mt-5 items-center bg-transparent self-center z-50">
+
+      <div className="flex right-1 justify-between w-full md:hidden mt-5 items-center bg-transparent self-center z-50">
+        <DappGateLogo />
         <FaBars onClick={() => setMenuOpen((prev) => !prev)} />
       </div>
       <nav
         className={`flex md:hidden flex-col w-full items-center gap-10 transition-all overflow-hidden absolute left-0 mt-16 z-50 ${
-          isMenuOpen ? "px-10" : "max-w-[0px] px-0"
+          isMenuOpen ? "px-10 pt-8" : "max-w-[0px] px-0"
         }`}
       >
         {menu}
         <ConnectButton />
       </nav>
 
-      <div className="hidden md:flex w-full">
-      
-      </div>
+      <div className="hidden md:flex w-full"></div>
     </header>
   );
 };

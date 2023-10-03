@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { use, useEffect } from "react";
 import avatar from "@/assets/placeholder.svg";
-import Avvvatars from 'avvvatars-react'
+import Avvvatars from "avvvatars-react";
 import { generate, count } from "random-words";
 
 import {
@@ -25,9 +25,8 @@ interface LeaderboardResponse {
   data: any;
 }
 export default function LeaderBoard() {
-
-  const [nftBalance, setNftBalance] = React.useState<any>(0)
-  const [oftBalance, setOftBalance] = React.useState<any>(0)
+  const [nftBalance, setNftBalance] = React.useState<any>(0);
+  const [oftBalance, setOftBalance] = React.useState<any>(0);
   const { address } = useAccount();
   const [totalUsers, setTotalUsers] = React.useState<any>(0);
   const [pagination, setPagination] = React.useState<any>(10);
@@ -49,35 +48,38 @@ export default function LeaderBoard() {
   // Generate an array of page numbers
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
-  console.log("pageNumbers", pageNumbers)
+  console.log("pageNumbers", pageNumbers);
   // Handle pagination changes
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
-
   };
 
   const { data: allNftBalances, refetch: refetchNFT } = useContractReads({
-    contracts: networks.filter((network) => network?.isTestnet === undefined || network?.isTestnet === false).map((network) => ({
-      address: network.nftContractAddress as `0x${string}`,
-      abi: ONFTAbi as any,
-      functionName: "balanceOf",
-      args: [
-        address,
-      ],
-      chainId: network.chainId,
-    })),
+    contracts: networks
+      .filter(
+        (network) => network?.isTestnet === undefined || network?.isTestnet === false
+      )
+      .map((network) => ({
+        address: network.nftContractAddress as `0x${string}`,
+        abi: ONFTAbi as any,
+        functionName: "balanceOf",
+        args: [address],
+        chainId: network.chainId,
+      })),
   });
 
   const { data: allOFTBalances, refetch: refechOFT } = useContractReads({
-    contracts: networks.filter((network) => network?.isTestnet === undefined || network?.isTestnet === false).map((network) => ({
-      address: network.tokenContractAddress as `0x${string}`,
-      abi: OFTAbi as any,
-      functionName: "balanceOf",
-      args: [
-        address,
-      ],
-      chainId: network.chainId,
-    })),
+    contracts: networks
+      .filter(
+        (network) => network?.isTestnet === undefined || network?.isTestnet === false
+      )
+      .map((network) => ({
+        address: network.tokenContractAddress as `0x${string}`,
+        abi: OFTAbi as any,
+        functionName: "balanceOf",
+        args: [address],
+        chainId: network.chainId,
+      })),
   });
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function LeaderBoard() {
   const totalSum = () => {
     saveOFT();
     saveONFT();
-  }
+  };
 
   const saveONFT = () => {
     if (!allNftBalances) return;
@@ -103,7 +105,7 @@ export default function LeaderBoard() {
     setNftBalance(totalBalance);
 
     joinLeaderboard(totalBalance, "NFT");
-  }
+  };
 
   const saveOFT = () => {
     if (!allOFTBalances) return;
@@ -115,23 +117,34 @@ export default function LeaderBoard() {
     setOftBalance(totalBalance);
 
     joinLeaderboard(Number(ethers.formatUnits(totalBalance.toString())), "OFT");
+  };
 
-  }
-
-  const joinLeaderboard = (totalBalance: number | undefined, type: string | undefined) => {
-    axios.post("/api/joinLeaderboard", { address: address, balance: totalBalance, contract: type }).then((res) => {
-      console.log(res.data);
-       getLeaderboard();
-       refechOFT();
-       refetchNFT();
-    }).catch((err) => {
-      console.log(err)
-    })
- }
+  const joinLeaderboard = (
+    totalBalance: number | undefined,
+    type: string | undefined
+  ) => {
+    axios
+      .post("/api/joinLeaderboard", {
+        address: address,
+        balance: totalBalance,
+        contract: type,
+      })
+      .then((res) => {
+        console.log(res.data);
+        getLeaderboard();
+        refechOFT();
+        refetchNFT();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getLeaderboard = async () => {
     try {
-      const response = await axios.post<LeaderboardResponse>("/api/getLeaderboard", { pagination: pagination });
+      const response = await axios.post<LeaderboardResponse>("/api/getLeaderboard", {
+        pagination: pagination,
+      });
       const total = response.data;
 
       if (total) {
@@ -143,28 +156,40 @@ export default function LeaderBoard() {
     } catch (error) {
       // Handle errors
     }
-  }
+  };
 
   return (
-    <div className="flex w-full flex-col gap-5 mt-7">
-      <div className="flex justify-between items-center border p-7 rounded-lg border-white border-opacity-5 bg-[#0C0C0C]">
+    <div className="flex w-full flex-col gap-5 mt-0 lg:mt-7">
+      <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 justify-between items-center border p-7 rounded-lg border-white border-opacity-5 bg-[#0C0C0C]">
         <div className="flex flex-col items-start">
           <div className="flex items-center mb-3">
-            <span className="text-white text-5xl mr-5">Leaderboard</span>
-            <button className="btn-grad p-3 ml-5" onClick={totalSum}>Join Leaderboard</button>
-
+            <span className="text-white text-2xl lg:text-5xl mr-5">Leaderboard</span>
+            <button className="btn-grad p-3 ml-5" onClick={totalSum}>
+              Join Leaderboard
+            </button>
           </div>
           <span className="text-cool-gray-400 break-words mt-4">
-            Exclusive ranking for DappGate users. Mint, bridge, and get XP to earn unique rewards.
+            Exclusive ranking for DappGate users. Mint, bridge, and get XP to earn unique
+            rewards.
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <Avvvatars value={address ? formatAddress(address) : ""} style="shape" size={80} />
+          <Avvvatars
+            value={address ? formatAddress(address) : ""}
+            style="shape"
+            size={80}
+          />
           <div className="flex flex-col text-lg text-white">
-            <span className="font-semibold text-grey-cool-500 text-2xl font-bold">Your Ranking:</span>
+            <span className="font-semibold text-grey-cool-500 text-2xl">
+              Your Ranking:
+            </span>
             <div className="flex items-center mt-1">
               <div className="bg-gradient-to-br from-purple-600 to-indigo-500 text-white rounded-md px-2 py-1 text-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                {leaderboard.filter((item: any) => item?.wallet === address?.toString().toLowerCase())?.[0]?.index}
+                {
+                  leaderboard.filter(
+                    (item: any) => item?.wallet === address?.toString().toLowerCase()
+                  )?.[0]?.index
+                }
               </div>
               <span className="text-[#858585] ml-2 text-2xl">/ {totalUsers}+</span>
             </div>
@@ -175,29 +200,50 @@ export default function LeaderBoard() {
         <tbody className="overflow-y-scroll block table-fixed w-full mx-auto h-[auto]">
           <tr className="bg-[#111] w-[80%] text-white">
             <td className="overflow-hidden w-[20%] whitespace-nowrap pl-2"></td>
-            <td className="overflow-hidden w-[40%] whitespace-nowrap pl-2">Address</td>
-            <td className="w-[40.6%]">XP</td>
-            <td className=" table-cell w-[40.6%]">Transactions</td>
+            <td className="overflow-hidden w-[40%] whitespace-nowrap pl-2 text-sm lg:text-base">
+              Address
+            </td>
+            <td className="w-[40.6%] text-sm lg:text-base">XP</td>
+            <td className=" table-cell w-[40.6%] text-sm lg:text-base">Transactions</td>
           </tr>
           {paginatedData.map((item: any, index: number) => (
-
-            <tr className="pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg">
+            <tr
+              key={"leader-" + index}
+              className="pt-4 text-[#AAA] w-[80%] shadow-inner rounded-lg"
+            >
               <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
-                <span className={`rounded-full py-1 px-3 ${item?.index  === 1 ? 'bg-[#FFAD0E]' : item?.index === 2 ? 'bg-[#AD5707]' : item?.index === 3 ? 'bg-[#939393]' : item?.index === 4 ? 'bg-gray-600' : 'bg-gray-800'} text-white`}>
+                <span
+                  className={`rounded-full py-1 px-2.5 lg:px-3 ${
+                    item?.index === 1
+                      ? "bg-[#FFAD0E]"
+                      : item?.index === 2
+                      ? "bg-[#AD5707]"
+                      : item?.index === 3
+                      ? "bg-[#939393]"
+                      : item?.index === 4
+                      ? "bg-gray-600"
+                      : "bg-gray-800"
+                  } text-white`}
+                >
                   {item?.index}
                 </span>
               </td>
-              <td className="table-cell w-[40.6%] flex items-center">
+              <td className="table-cell w-[40.6%] items-center">
                 <div className="flex items-center">
                   <Avvvatars value={item?.wallet} style="shape" />
-                  <span className="whitespace-nowrap ml-3">{formatAddress(item.wallet)}</span>
+                  <span className="text-sm lg:text-base whitespace-nowrap ml-3">
+                    {formatAddress(item.wallet)}
+                  </span>
                 </div>
               </td>
-              <td className=" table-cell w-[40%]">{item.nft * 0.5 + item.oft * 0.2} XP</td>
-              <td className=" pr-2 w-[40%] rounded-r-lg">{item.total} TX</td>
+              <td className="text-sm lg:text-base table-cell w-[40%]">
+                {item.nft * 0.5 + item.oft * 0.2} XP
+              </td>
+              <td className=" pr-2 w-[40%] text-right rounded-r-lg text-sm lg:text-base">
+                {item.total} TX
+              </td>
             </tr>
           ))}
-
         </tbody>
       </table>
       <div className="flex justify-center">
@@ -205,10 +251,11 @@ export default function LeaderBoard() {
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`mx-1 focus:outline-none ${page === currentPage
-                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl'
-                : 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out'
-              } rounded-full px-4 py-2`}
+            className={`mx-1 focus:outline-none ${
+              page === currentPage
+                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg hover:shadow-xl"
+                : "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out"
+            } rounded-full px-4 py-2`}
           >
             {page}
           </button>
