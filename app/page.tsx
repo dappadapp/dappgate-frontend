@@ -37,8 +37,8 @@ const dummyProjectsdata = [
     status: "Coming Soon",
   },
   {
-    description: "",
-    url: "ZetaGate: Your Cross-Chain, NFT, and Messaging Gate",
+    description: "ZetaGate: Your Cross-Chain, NFT, and Messaging Gate",
+    url: "",
     image: "https://i.ibb.co/2NrJrx9/Screenshot-2023-10-01-at-02-35-15.png",
     name: "ZetaGate",
     status: "Coming Soon",
