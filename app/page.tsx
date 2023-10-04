@@ -8,8 +8,7 @@ const dummyAppsData = [
     title: "DappGate",
     sub_title: "Layerzero ONFT/OFT Bridge",
     description: "Pioneering #LayerZero to bridge ONFTs and OFTs across networks",
-    image_url:
-      "https://pbs.twimg.com/profile_images/1707960655490281472/3mrVLogY_400x400.jpg",
+    image_url: "/dappgate.png",
     url: "/apps/dappgate",
   },
   {
@@ -26,7 +25,7 @@ const dummyProjectsdata = [
   {
     description: "Pioneering #LayerZero to bridge ONFTs and OFTs across networks",
     url: "/apps/dappgate",
-    image: "https://pbs.twimg.com/media/F6Tx4PIW8AAabgn?format=jpg&name=4096x4096",
+    image: "/dappgate.png",
     name: "DappGate",
     status: "Live",
   },
