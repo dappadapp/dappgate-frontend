@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaBars, FaChartArea, FaChartLine, FaClock, FaCompass } from "react-icons/fa";
+import { FaBars, FaBullseye, FaChartArea, FaChartLine, FaClock, FaCompass } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaSpa } from "react-icons/fa";
@@ -25,9 +25,9 @@ const menuItems = [
     icon: <FaChartLine size={24} />,
   },
   {
-    title: "Discover",
+    title: "Quests",
     href: "#",
-    icon: <FaCompass size={24} />,
+    icon: <FaBullseye size={24} />,
   },
   {
     title: "Upcoming",
@@ -39,21 +39,30 @@ const menuItems = [
 const Sidebar: React.FC = (props) => {
   const pathname = usePathname();
   const [isMenuOpen, setMenuOpen] = useState(false);
-
+  const [showTooltip, setShowTooltip] = useState(false);
   const menu = menuItems.map((menuItem) => {
     return (
       <Link
-        href={menuItem.href || ""}
-        className={`flex items-center gap-2 p-3 w-full transition-all hover:text-white ${
-          pathname === menuItem.href
-            ? "[&>svg]:fill-white text-white rounded-lg btn-grad"
-            : "[&>svg]:fill-[#AAA] text-[#AAA]"
-        }`}
-        key={`menu-item-${menuItem.href}`}
-        onClick={() => setMenuOpen(false)}
-      >
-        {menuItem.icon} {menuItem.title}
-      </Link>
+      href={menuItem.href || ''}
+      className={`relative flex items-center gap-2 p-3 w-full transition-all hover:text-white ${
+        pathname === menuItem.href
+          ? 'fill-white text-white rounded-lg btn-grad'
+          : 'fill-[#AAA] text-[#AAA]'
+      }`}
+      key={`menu-item-${menuItem.href}`}
+      onClick={() => setMenuOpen(false)}
+      onMouseEnter={() => menuItem.href === "#" && setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+    >
+      {menuItem.icon} {menuItem.title}
+
+      {/* Tooltip */}
+      {showTooltip && menuItem.href === "#" && (
+        <span className="absolute left-1/2 transform -translate-x-1/5  p-2 bg-black text-white text-xs rounded  transition-opacity">
+          Coming Soon!
+        </span>
+      )}
+    </Link>
     );
   });
 
