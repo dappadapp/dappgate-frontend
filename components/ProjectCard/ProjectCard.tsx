@@ -1,6 +1,9 @@
 import React from "react";
 
 type Props = {
+  project: ProjectType;
+};
+type ProjectType = {
   image: string;
   name: string;
   description: string;
@@ -8,7 +11,8 @@ type Props = {
   status: string;
 };
 
-const ProjectCard: React.FC<Props> = ({ description, image, name, url, status }) => {
+const ProjectCard: React.FC<Props> = ({ project }) => {
+  const { description, image, name, url, status } = project;
   const openInNewTab = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
