@@ -32,7 +32,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
     >
       <div
         className="absolute top-1 right-1 lg:top-2 lg:right-2 text-white py-1 px-2 text-xs lg:text-base rounded-md"
-        style={{ backgroundColor: status == "Coming Soon" ? "#FF5722" : "#004225" }} // Use your desired color
+        style={{ backgroundColor: status == "Coming Soon" ? "#FF5722" : "#009900" }} // Use your desired color
       >
         {status}
       </div>

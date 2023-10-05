@@ -10,6 +10,26 @@ const nextConfig = {
     }
     return config;
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/apps/aggre',
+        destination: 'https://aggre.io',
+        permanent: true,
+      },
+      {
+        source: '/apps/tracker',
+        destination: 'https://tracker.dappgate.io',
+        permanent: true,
+      },
+      {
+        source: '/apps/dappad',
+        destination: 'https://app.dappad.app',
+        permanent: true,
+      }
+    ]
+  },
 };
 
 module.exports = nextConfig;

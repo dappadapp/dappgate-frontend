@@ -69,13 +69,13 @@ const Sidebar: React.FC = (props) => {
   return (
     <header className="flex md:min-w-[19%] w-full md:w-auto md:top-0 md:h-screen px-4 md:bg-black flex-col pl-5 pb-4 gap-24 md:sticky md:pt-8">
       {/* Desktop */}
-      <Link href="/" className="hidden md:flex items-center p-3 ">
+      <Link href="/" className="hidden md:flex items-center p-3 -mt-2">
         <DappGateLogo />
       </Link>
-      <nav className={`hidden md:flex flex-col items-start ml-2 gap-5 flex-1`}>
+      <nav className={`hidden md:flex flex-col items-start ml-2 gap-5 flex-1 `}>
         {menu}
         <ConnectButton />
-      </nav>
+      </nav>  
 
       {/* Mobile */}
       <div

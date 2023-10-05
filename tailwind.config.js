@@ -13,6 +13,10 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    textColor: {
+      'gatewayColor': '#FF5733', // Your desired color for "Gateway"
+        'airdropsColor': '#009900', // Your desired color for "Airdrops"
+    },
   },
   plugins: [],
 }

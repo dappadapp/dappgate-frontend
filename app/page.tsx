@@ -71,7 +71,14 @@ const dummyPorjectListData = [
 export default function Home() {
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-7">
+      
+    
+      <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-center">
+        <span className="text-blue-400">Explore</span>. <span className="text-purple-400">Discover</span>. <span className="text-pink-400">Earn.</span> 
+      </h1>
+     
+  
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
         {dummyProjectsdata.map((project) => (
           <ProjectCard key={"project-" + project.name} project={project} />
         ))}
