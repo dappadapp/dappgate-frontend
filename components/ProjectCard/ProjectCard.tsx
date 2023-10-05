@@ -27,7 +27,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
         border: "1px solid #808080",
         position: "relative", // Make the card relative
       }}
-      className="flex flex-col lg:justify-end justify-start items-start w-full lg:pt-4 pt-10 p-4 md:h-[250px] hover:cursor-pointer"
+      className="flex flex-col lg:justify-end transition-all hover:scale-105 duration-300  hover:z-10 justify-start items-start w-full lg:pt-4 pt-10 p-4 md:h-[250px] hover:cursor-pointer"
       onClick={url ? () => openInNewTab(url) : () => {}}
     >
       <div
