@@ -17,7 +17,7 @@ const dummyAppsData = [
     description:
       "Track wallet transactions and discover your eligibility for blockchain airdrops!",
     image_url:
-      "https://pbs.twimg.com/profile_images/1707960655490281472/3mrVLogY_400x400.jpg",
+      "/tracker.jpg",
     url: "https://tracker.dappgate.io",
   },
 ];
@@ -25,21 +25,35 @@ const dummyProjectsdata = [
   {
     description: "Pioneering #LayerZero to bridge ONFTs and OFTs across networks",
     url: "/apps/dappgate",
-    image: "/dappgate.png",
+    image: "/dappgate-card.jpeg",
     name: "DappGate",
     status: "Live",
   },
   {
+    description: "Track wallet transactions and discover your eligibility for blockchain airdrops!",
+    url: "https://tracker.dappgate.io",
+    image: "/tracker.jpg",
+    name: "Tracker",
+    status: "Live",
+  },
+  {
+    description: "Your entry point to layer 2 EcoSystem",
+    url: "https://app.dappad.app/",
+    image: "/dappad.png",
+    name: "Dappad+",
+    status: "Testnet Live",
+  },
+  {
     description: "First Aggregator at Scroll Network",
-    url: "",
-    image: "https://i.ibb.co/L6Rhdh6/Whats-App-Image-2023-09-30-at-20-18-33-1.jpg",
+    url: "#",
+    image: "/aggre.jpg",
     name: "Aggre",
     status: "Coming Soon",
   },
   {
-    description: "ZetaGate: Your Cross-Chain, NFT, and Messaging Gate",
-    url: "",
-    image: "https://i.ibb.co/2NrJrx9/Screenshot-2023-10-01-at-02-35-15.png",
+    description: "Your Cross-Chain swap, NFT, and Messaging Gate",
+    url: "#",
+    image: "/zetagate.png",
     name: "ZetaGate",
     status: "Coming Soon",
   },
