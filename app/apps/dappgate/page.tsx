@@ -325,7 +325,7 @@ export default function Home({
           >
             <Tabs tabIndex={tabIndex} setTabIndex={setTabIndex} />
 
-            {tabIndex == 1 ? (
+            {tabIndex == 0 ? (
               <ONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -339,7 +339,7 @@ export default function Home({
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
                 setEstimatedGas={setEstimatedGas}
               />
-            ) : tabIndex == 2 ? (
+            ) : tabIndex == 1 ? (
               <ONFTHyperBridge
                 sourceChain={sourceChain}
                 selectedHyperBridges={selectedHyperBridges}
@@ -393,7 +393,7 @@ export default function Home({
               />
             ) : tabIndex == 7 ? (
               <StargateBridge />
-            ) :tabIndex == 0 ? (
+            ) :tabIndex == 2 ? (
               <ZKONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
