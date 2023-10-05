@@ -7,9 +7,9 @@ type Props = {
 };
 
 export const tabsConfig = [
+   "ONFT Bridge",
+     "ONFT HyperBridge",
   "zkONFT Bridge",
-  "ONFT Bridge",
-  "ONFT HyperBridge",
   "Gas Refuel",
   "OFT Bridge",
   "OFT HyperBridge",
