@@ -25,8 +25,8 @@ const ListboxSourceMenu = ({
 }: Props) => {
   return (
     <Listbox value={value} onChange={onChange} >
-      <div className={`relative w-full sm:w-[36%] ${className}`}>
-        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none ">
+      <div className={`relative w-full sm:w-[36%] hover:text-black ${className}`}>
+        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white bg-opacity-5 py-4 px-4 text-left text-lg focus:outline-none hover:text-black">
           <div className="flex items-center gap-2">
             <Image
               src={`/chains/${value.image}`}
@@ -61,9 +61,9 @@ const ListboxSourceMenu = ({
               <Listbox.Option
                 key={i}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-white text-black" : "text-white"
-                  }`
+                `text-white relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                  active ? "text-black bg-gray-500 " : "text-white hover:text-black"
+                }`
                 }
                 value={option}
               >
@@ -80,7 +80,7 @@ const ListboxSourceMenu = ({
 const defaultOptionRenderer = (option: any, selected: any) => (
   <div className="flex items-center gap-2">
     {selected ? (
-      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black ">
+      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black">
         <FontAwesomeIcon icon={faCheck} />
       </span>
     ) : null}
@@ -91,7 +91,7 @@ const defaultOptionRenderer = (option: any, selected: any) => (
       height={25}
       className="rounded-full"
     />
-    <span className="block truncate text-lg">{option.name}</span>
+    <span className="block truncate text-lg text-black">{option.name}</span>
   </div>
 );
 

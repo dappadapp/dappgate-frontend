@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: "Lexend Deca", sans-serif;
+  color: #fff;
+  background: #000;
+}
+
+.bg-pattern {
+  background: url("/bg-pattern.png") repeat center center;
+  opacity: 0.2;
+}
+.bg-effect {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
+}
+.bg-blur:after {
+  position: absolute;
+  content: "";
+  width: 400vw;
+  height: 400vh;
+  background: transparent;
+  backdrop-filter: blur(90px);
+}
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2e2e2e #dfe9eb;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(152, 152, 152, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bridge-animaton {
+  background-blend-mode: screen;
+  animation: bridge-animaton 4s infinite linear;
+}
+.bridge-animaton *:nth-child(2) {
+  animation: transparent 4s infinite linear;
+}
+
+@keyframes bridge-animaton {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+    width: 0;
+  }
+}
+
+@keyframes transparent {
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.jss24 {
+  align-items: center !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+  position: relative !important;
+  top: 0 !important;
+  right: 0 !important;
+  float: right;
+  margin-left: 4px;
+  margin-bottom: 3px;
+}
+
+/* Animation for flashing dot */
+@keyframes flash {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Apply animation to dot on hover */
+.dot {
+  animation: flash 3s infinite;
+}
+
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-grad {
+  background-image: linear-gradient(to right, #ab7a8a 10%, #71cbbc 40%, #7f5d78 100%);
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    height: 2px;
+    width: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #9b9b9b;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.refreshing {
+  animation: spin 2s linear infinite; /* Adjust animation duration as needed */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
