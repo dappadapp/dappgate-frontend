@@ -300,7 +300,7 @@ const Dashboard: React.FC = ({
                                 type="text"
                                 value={mintFee}
                                 onChange={(e) => setMintFee(e.target.value)}
-                                className="text-black border rounded px-2 py-1 w-50"
+                                className="bg-black border rounded px-2 py-1 w-50"
                             />
                             <button
                                 onClick={handleOFTMintFeeUpdate}
@@ -312,12 +312,12 @@ const Dashboard: React.FC = ({
                     </div>
                     <div>
                         <label className="block text-white-600 mb-2 mt-3">Current Bridge Fee: <strong>{currentBridgeFee} {sourceChain?.symbol} </strong></label>
-                        <div className="flex items-center">
+                        <div className="flex items-center text-black">
                             <input
                                 type="text"
                                 value={bridgeFee}
                                 onChange={(e) => setBridgeFee(e.target.value)}
-                                className="text-black border rounded px-2 py-1 w-50"
+                                className="bg-black border rounded px-2 py-1 w-50"
                             />
                             <button
                                 onClick={handleOFTBridgeFeeUpdate}
@@ -337,7 +337,7 @@ const Dashboard: React.FC = ({
                                 type="text"
                                 value={onftMintFee}
                                 onChange={(e) => setONFTMintFee(e.target.value)}
-                                className="text-black border rounded px-2 py-1 w-50"
+                                className="bg-black border rounded px-2 py-1 w-50"
                             />
                             <button
                                 onClick={handleONFTMintFeeUpdate}
@@ -354,7 +354,7 @@ const Dashboard: React.FC = ({
                                 type="text"
                                 value={onftBridgeFee}
                                 onChange={(e) => setONFTBridgeFee(e.target.value)}
-                                className="text-black border rounded px-2 py-1 w-50"
+                                className="bg-black border rounded px-2 py-1 w-50"
                             />
                             <button
                                 onClick={handleONFTBridgeFeeUpdate}
