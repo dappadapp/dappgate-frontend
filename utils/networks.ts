@@ -22,6 +22,7 @@ import {
   opBNB,
   lineaTestnet,
   aurora,
+  dfk,
 } from "wagmi/chains";
 
 export interface Network {
@@ -196,7 +197,26 @@ export const networks: Network[] = [
     chainName: "aurora-mainnet",
   },
 
-  
+  {
+    name: dfk.name,
+    chainId: dfk.id,
+    layerzeroChainId: 115,
+    nftContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    tokenContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    relayerAddress: "0x473132bb594caEF281c68718F4541f73FE14Dc89",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    setOFTContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    zkNFTContractAddress: "",
+    blockConfirmation: 5,
+    colorClass: "bg-[#196aff]",
+    disabledNetworks: [
+      1, 5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
+      7700, 8217, 42170, 80001, 5,80001,534353, 11155111
+    ],
+    symbol: "JEWEL",
+    image: "dfk.svg",
+},
  
 
   {
@@ -650,15 +670,7 @@ export const networks: Network[] = [
     symbol: "FTM",
     chainName: "fantom-mainnet",
   },
-  /*   {
-      name: dfk.name,
-      chainId: dfk.id,
-      layerzeroChainId: 115,
-      nftContractAddress: "0x119084e783FdCc8Cc11922631dBcc18E55DD42eB",
-      blockConfirmation: 1,
-      colorClass: "bg-[#81bb04]",
-      image: "dfk.svg",
-    }, */
+
   {
     name: harmonyOne.name,
     chainId: harmonyOne.id,
