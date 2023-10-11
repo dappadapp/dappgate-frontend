@@ -27,7 +27,7 @@ const menuItems = [
 
   {
     title: "Scroll Bridge",
-    href: "/scroll-bridge",
+    href: "/bridge",
     icon: <FaWallet size={24} />,
   },
   {
