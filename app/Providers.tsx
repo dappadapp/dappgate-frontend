@@ -468,6 +468,35 @@ const astar = {
   },
 } as const satisfies Chain;
 
+const scroll = {
+  id: 534352,
+  name: "Scroll",
+  network: "scroll",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Scroll",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.scroll.io"],
+    },
+    public: {
+      http: ["https://rpc.scroll.io"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Scroll Explorer",
+      url: "https://blockscout.scroll.io/",
+    },
+    default: {
+      name: "Scroll Explorer",
+      url: "https://blockscout.scroll.io/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -516,6 +545,8 @@ const chains = [
   astar,
   lineaTestnet,
   aurora,
+  scroll,
+
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);

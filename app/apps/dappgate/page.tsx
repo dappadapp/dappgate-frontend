@@ -84,10 +84,14 @@ export default function Home({
 
   useEffect(() => {
     if (!disabledBridgesData) return;
+
+    console.log("disabledBridgesData", disabledBridgesData);
     const disabledNetworks = disabledBridgesData.map((data: any, i: number) => {
       if (data.status === "failure") return networks[i].chainId;
       else return 0;
     });
+
+    
     setSourceChain((prev) => ({
       ...prev,
       disabledNetworks: disabledNetworks as number[],
@@ -99,7 +103,7 @@ export default function Home({
   const initialSelectedHyperBridges = networks?.filter(
     (network) =>
       !sourceChain?.disabledNetworks?.includes(network?.chainId) &&
-      sourceChain?.chainId !== network?.chainId
+      network?.chainId !== sourceChain.chainId
   );
   const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
     initialSelectedHyperBridges
