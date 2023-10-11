@@ -267,7 +267,7 @@ const ScrollBridge: React.FC = ({
 </div>
 
         <div>{/* Official Scroll Bridge Contract is in use */}
-<div className="text-lg font-semi-bold mb-1 mt-10 text-grey-400"><strong className="text-blue-300 ml-5"> Powered by Scroll</strong> <br></br> Official Bridge Contract</div>
+<div className="text-lg font-semi-bold mb-1 mt-10 text-grey-400"><strong className="text-blue-300 ml-5"> Powered by Scroll</strong> <br></br> </div>
 </div>
           
         
