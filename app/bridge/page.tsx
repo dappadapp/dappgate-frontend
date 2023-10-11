@@ -121,31 +121,31 @@ const ScrollBridge: React.FC = ({
         }     
         
         
-       const fee = await readContract({
-            address: "0x28EeB8751855AfcE0a5FE51ff376D24Cc40d1013" as `0x${string}`,
-            abi: Bridge,
-            functionName: "fee",
-          });
-    
-
-
-      
-          console.log("aaaaa",  BigInt(ethers.parseEther(amount) ) +  BigInt("200000000000000") + BigInt("955000000000000"));
-
-       
+  
         try{
 
+          const fee = await readContract({
+            address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
+            abi: BridgeAbi,
+            functionName: "fee",
+          });
+  
+          console.log("fee",fee);
+
+          if(fee){
+
+            console.log("fee",BigInt(ethers.parseEther(amount) ) +  BigInt("220000000000000") + BigInt(fee?.toString()));
+
         const { hash: txHash } = await writeContract({
-            address: "0x15bA80E240E4c2C893C1605a67Ff3D483972323d" as `0x${string}`,
+            address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
             abi: BridgeAbi,
             functionName: "depositETH",
-            value: BigInt(ethers.parseEther(amount) ) +  BigInt("200000000000000") + BigInt("955000000000000"),
+            value: BigInt(ethers.parseEther(amount) ) +  BigInt("220000000000000") + BigInt(fee?.toString()),
             args: [
                 account,
                 BigInt(ethers.parseEther(amount)),
                 "400000",
                 BigInt(ethers.parseEther(amount))  +  BigInt("200000000000000"),
-              
             ],
             chainId: 1,
         });
@@ -167,10 +167,11 @@ const ScrollBridge: React.FC = ({
         }
 
         setLoading(false);
+      }
 
     }catch(e){
         console.log("e",e);
-        toast("Transaction Rejected!");
+        toast("Not Enough Ether!");
         setLoading(false);
         return;
     }
