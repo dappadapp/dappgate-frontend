@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaBars, FaBullseye, FaChartArea, FaChartLine, FaClock, FaCompass } from "react-icons/fa";
+import { FaBars, FaBullseye, FaChartArea, FaChartLine, FaClock, FaCompass, FaSubway, FaWallet } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaSpa } from "react-icons/fa";
@@ -23,6 +23,12 @@ const menuItems = [
     title: "Leaderboard",
     href: "/leaderboard",
     icon: <FaChartLine size={24} />,
+  },
+
+  {
+    title: "Scroll Bridge",
+    href: "/scroll-bridge",
+    icon: <FaWallet size={24} />,
   },
   {
     title: "Quests",

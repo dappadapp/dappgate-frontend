@@ -22,6 +22,14 @@ const dummyAppsData = [
   },
 ];
 const dummyProjectsdata = [
+
+  {
+    description: "Scroll bridge is a bridge that allows users to transfer assets from Ethereum",
+    url: "/bridge",
+    image: "/bridge-card.png",
+    name: "Scroll Bridge",
+    status: "Live",
+  },
   {
     description: "Pioneering #LayerZero to bridge ONFTs and OFTs across networks",
     url: "/apps/dappgate",
