@@ -11,6 +11,7 @@ import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 // import abi
 import BridgeAbi from "../../config/abi/ScrollBridge.json";
+import Withdraw from "../../config/abi/L2Withdraw.json";
 import Bridge from "../../config/abi/Bridge.json";
 import { ethers } from "ethers";
 import { writeContract, readContract } from '@wagmi/core'
@@ -27,8 +28,8 @@ const ScrollBridge: React.FC = ({
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[0]);
-  const [targetChain, setTargetChain] = useState(networks[1]);
+  const [sourceChain, setSourceChain] = useState(networks[6]);
+  const [targetChain, setTargetChain] = useState(networks[0]);
 
   const [balance, setBalance] = useState("");
 
@@ -39,10 +40,8 @@ const ScrollBridge: React.FC = ({
 
   const { data: balanceOfUser } = useBalance({
     address: account as `0x${string}`,
-    chainId: 1,
+    chainId: connectedChain?.id,
   });
-
-  console.log("balanceOfUser", balanceOfUser);
 
   const [userBalance, setUserBalance] = useState<number | string>("");
 
@@ -50,9 +49,18 @@ const ScrollBridge: React.FC = ({
     if (balanceOfUser) {
       setUserBalance(balanceOfUser?.formatted || 0);
     }
+    handleSwitch();
+    
   }, [balanceOfUser, account]);
 
 
+  const handleSwitch = async () => {
+    if (connectedChain?.id !== 1 && connectedChain?.id !== 534352) {
+      await switchNetworkAsync?.(1);
+      setTargetChain(networks[0]);
+      setSourceChain(networks[6]);
+    }
+  }
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
@@ -81,6 +89,17 @@ const ScrollBridge: React.FC = ({
 
   };
 
+  const onArrowClick = async () => {
+    try {
+      if (connectedChain?.id !== targetChain.chainId) {
+        await switchNetworkAsync?.(targetChain.chainId);
+      }
+      setSourceChain(targetChain);
+      setTargetChain(sourceChain);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleBridge = async () => {
 
@@ -90,6 +109,9 @@ const ScrollBridge: React.FC = ({
     if (connectedChain?.id !== 1) {
       setLoading(false);
       toast("Please connect to Ethereum Mainnet.");
+      await switchNetworkAsync?.(1);
+      setTargetChain(networks[0]);
+      setSourceChain(networks[6]);
       return;
     }
 
@@ -124,8 +146,6 @@ const ScrollBridge: React.FC = ({
         abi: BridgeAbi,
         functionName: "fee",
       });
-
-      console.log("fee", fee);
 
       if (fee) {
 
@@ -170,12 +190,80 @@ const ScrollBridge: React.FC = ({
       setLoading(false);
       return;
     }
-
-
   };
 
+  const handleWithdraw = async () => {
+      
+      console.log("connectedChain", connectedChain);
+      setLoading(true);
+  
+      if (connectedChain?.id !== 534352) {
+        setLoading(false);
+        toast("Please connect to Scroll Mainnet.");
+        await switchNetworkAsync?.(534352);
+        setTargetChain(networks[6]);
+        setSourceChain(networks[0]);
+        return;
+      }
+  
+      if (account === undefined) {
+        setLoading(false);
+        return toast("Please connect your wallet.");
+      }
 
 
+      if (amount === "") {
+        toast("Please enter an amount.");
+        setLoading(false);
+        return;
+      }
+
+      if (Number(amount) <= 0) {
+        toast("Please enter an amount greater than 0.");
+        setLoading(false);
+        return;
+      }
+
+      if (balanceOfUser && +(amount) > +(balanceOfUser?.formatted)) {
+        toast("You don't have enough balance.");
+        setLoading(false);
+        return;
+      }
+
+      const { hash: txHash } = await writeContract({
+        address: "0x4C0926FF5252A435FD19e10ED15e5a249Ba19d79" as `0x${string}`,
+        abi: Withdraw,
+        functionName: "withdrawETH",
+        value: BigInt(ethers.parseEther(amount)) ,
+        args: [
+          account,
+          BigInt(ethers.parseEther(amount)),
+          "400000",
+        ],
+        chainId: 534352,
+      });
+
+
+      if (txHash) {
+        console.log("txHash", txHash);
+        toast("Withdraw Transaction sent, PLEASE WAIT!");
+
+
+        const data = await waitForTransaction({
+          hash: txHash,
+        })
+        if (data?.status === "success") {
+          toast("Withdraw Transaction Sent Successfully!");
+          setLoading(false);
+          return;
+        }
+      }
+
+      setLoading(false);
+    
+
+
+    }
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -196,18 +284,18 @@ const ScrollBridge: React.FC = ({
       </h2>
       <div className="flex mb-5 w-full md:w-full items-center justify-center mt-5 mb-5">
         <ListboxSourceMenu
-          value={networks.filter((network) => network.chainId === 1)[0]}
+          value={sourceChain}
           onChange={onChangeSourceChain}
-          options={networks.filter((network) => network.chainId === 5343521)}
+          options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1)}
           searchValue={searchTerm}
           setSearchValue={setSearchTerm}
           className="w-full "
         />
-        <CircleSvg onArrowClick={() => {}} isClickable={true} />
+        <CircleSvg onArrowClick={onArrowClick} isClickable={true} />
         <ListboxSourceMenu
-          value={networks.filter((network) => network.chainId === 534352)[0]}
+          value={targetChain}
           onChange={onChangeSourceChain}
-          options={networks.filter((network) => network.chainId === 1111111111111)}
+          options={networks.filter((network) => network.chainId === 1 ||  network.chainId === 534352)}
           searchValue={searchTerm}
           setSearchValue={setSearchTerm}
           className="w-full"
@@ -217,7 +305,7 @@ const ScrollBridge: React.FC = ({
         <div className="shadow-md rounded-lg p-10 w-full md:w-auto">
           <div className="flex flex-col md:flex-row items-center justify-between mb-2">
             <h2 className="text-lg md:text-xl text-white font-semibold mb-2 md:mb-0">
-              Deposit ETH Amount
+              {connectedChain?.id == 1 ?"Deposit": "Withdraw" } ETH Amount
             </h2>
             <span className="text-lg md:text-xl text-white md:ml-4">
               Balance: {Number(balanceOfUser?.formatted).toFixed(4)} ETH
@@ -231,12 +319,39 @@ const ScrollBridge: React.FC = ({
               className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em] mb-2 md:mb-0"
               placeholder="Enter ETH amount"
             />
-            <button
-              onClick={handleBridge}
+            {connectedChain?.id === 1 ? (
+
+<button
+onClick={handleBridge}
+className="flex items-center ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed"
+disabled={loading}
+>
+Bridge ETH
+{loading && (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-4 h-4 animate-spin"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+    />
+  </svg>
+)}
+</button>
+            ) : (
+
+              <button
+              onClick={() => "#"}
               className="flex items-center ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed"
               disabled={loading}
             >
-              Bridge ETH
+              Withdraw ETH
               {loading && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -254,6 +369,10 @@ const ScrollBridge: React.FC = ({
                 </svg>
               )}
             </button>
+            )
+            
+            
+            }
           </div>
         </div>
       </div>

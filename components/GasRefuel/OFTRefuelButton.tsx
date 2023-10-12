@@ -59,7 +59,6 @@ const OFTRefuelButton: React.FC<Props> = ({
     address: sourceChain.gasRefuelContractAddress as `0x${string}`,
     abi: GasRefuel,
     functionName: "bridgeGas",
-    gas: 1_000_000n,
     value: BigInt(
       gasEstimateDataArray ? gasEstimateDataArray[0] : "1"
     )+ (sourceChain.symbol === "ETH" ?  BigInt("5005640000000") :  BigInt("50056400000000")),
@@ -89,7 +88,7 @@ const OFTRefuelButton: React.FC<Props> = ({
  
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
+        [2, 400000, BigInt(Number(gasRefuelAmount) * 10 ** 18), account]
       );
       setAdapterParams(adapterParams);
 
