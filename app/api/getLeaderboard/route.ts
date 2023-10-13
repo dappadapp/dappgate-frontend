@@ -7,14 +7,12 @@ export async function POST(request: Request) {
     const headers = {
         "Content-Type": "application/json",
         "x-api-key": process.env.NEXT_PUBLIC_NEW_API_KEY,
-      };
-      
+      };      
 
-  const statusDataResponse = await axios.get(`${process.env.NEXT_PUBLIC_NEW_BASE_URL}/dropbase/leaderboard?amount=${data?.pagination}`, {
+  const statusDataResponse = await axios.get(`${process.env.NEXT_PUBLIC_NEW_BASE_URL}/dropbase/leaderboard?amount=${data?.pagination}&page=${data?.page}`, {
     headers,
   });
 
-  console.log("statusDataResponse", statusDataResponse.data);
 
   return NextResponse.json(statusDataResponse.data);
 }
