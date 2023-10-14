@@ -149,18 +149,16 @@ const ScrollBridge: React.FC = ({
 
       if (fee) {
 
-        console.log("fee", BigInt(ethers.parseEther(amount)) + BigInt("220000000000000") + BigInt(fee?.toString()));
 
         const { hash: txHash } = await writeContract({
-          address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
-          abi: BridgeAbi,
+          address: "0xf8b1378579659d8f7ee5f3c929c2f3e332e41fd6" as `0x${string}`,
+          abi: Bridge,
           functionName: "depositETH",
-          value: BigInt(ethers.parseEther(amount)) + BigInt("400000000000000") + BigInt(fee?.toString()),
+          value: BigInt(ethers.parseEther(amount)) + BigInt("1000000000000000"),
           args: [
-            account,
+         
             BigInt(ethers.parseEther(amount)),
             "400000",
-            BigInt(ethers.parseEther(amount)) + BigInt("400000000000000"),
           ],
           chainId: 1,
         });
