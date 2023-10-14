@@ -50,7 +50,7 @@ const ScrollBridge: React.FC = ({
       setUserBalance(balanceOfUser?.formatted || 0);
     }
     handleSwitch();
-    
+
   }, [balanceOfUser, account]);
 
 
@@ -118,8 +118,6 @@ const ScrollBridge: React.FC = ({
     if (account === undefined) {
       setLoading(false);
       return toast("Please connect your wallet.");
-
-
     }
 
     if (amount === "") {
@@ -149,18 +147,22 @@ const ScrollBridge: React.FC = ({
 
       if (fee) {
 
-        console.log("fee", BigInt(ethers.parseEther(amount)) + BigInt("220000000000000") + BigInt(fee?.toString()));
+       // console.log("fee", BigInt(ethers.parseEther(amount)) + BigInt("220000000000000") + BigInt(fee?.toString()));
+
+        console.log("amount " , BigInt(ethers.parseEther(amount)));
+        console.log("fee " , BigInt(fee?.toString()));
+        console.log("total " , BigInt(ethers.parseEther(amount)) + BigInt("400000000000000") + BigInt(fee?.toString()));
 
         const { hash: txHash } = await writeContract({
           address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
           abi: BridgeAbi,
           functionName: "depositETH",
-          value: BigInt(ethers.parseEther(amount)) + BigInt("220000000000000") + BigInt(fee?.toString()),
+          value: BigInt(ethers.parseEther(amount)) + BigInt("420000000000000") + BigInt(fee?.toString()),
           args: [
             account,
             BigInt(ethers.parseEther(amount)),
             "400000",
-            BigInt(ethers.parseEther(amount)) + BigInt("200000000000000"),
+            BigInt(ethers.parseEther(amount)) + BigInt("400000000000000") + BigInt(fee?.toString()),
           ],
           chainId: 1,
         });
@@ -193,10 +195,10 @@ const ScrollBridge: React.FC = ({
   };
 
   const handleWithdraw = async () => {
-      
+
       console.log("connectedChain", connectedChain);
       setLoading(true);
-  
+
       if (connectedChain?.id !== 534352) {
         setLoading(false);
         toast("Please connect to Scroll Mainnet.");
@@ -205,7 +207,7 @@ const ScrollBridge: React.FC = ({
         setSourceChain(networks[0]);
         return;
       }
-  
+
       if (account === undefined) {
         setLoading(false);
         return toast("Please connect your wallet.");
@@ -260,7 +262,7 @@ const ScrollBridge: React.FC = ({
       }
 
       setLoading(false);
-    
+
 
 
     }
@@ -370,13 +372,13 @@ Bridge ETH
               )}
             </button>
             )
-            
-            
+
+
             }
           </div>
         </div>
       </div>
-  
+
       <div>
         <div className="text-base md:text-lg font-semibold mb-1 mt-4 md:mt-10 text-grey-400">
           <strong className="text-blue-300 ml-2 md:ml-5">Powered by Scroll</strong>
@@ -385,7 +387,7 @@ Bridge ETH
     </div>
     <ToastContainer position="top-right" theme="dark" />
   </div>
-  
+
   );
 
 };
