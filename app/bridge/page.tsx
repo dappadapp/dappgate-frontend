@@ -155,12 +155,12 @@ const ScrollBridge: React.FC = ({
           address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
           abi: BridgeAbi,
           functionName: "depositETH",
-          value: BigInt(ethers.parseEther(amount)) + BigInt("400000000000000") + BigInt(fee?.toString()),
+          value: BigInt(ethers.parseEther(amount)) + BigInt("220000000000000") + BigInt(fee?.toString()),
           args: [
             account,
             BigInt(ethers.parseEther(amount)),
             "400000",
-            BigInt(ethers.parseEther(amount)) + BigInt("400000000000000"),
+            BigInt(ethers.parseEther(amount)) + BigInt("200000000000000"),
           ],
           chainId: 1,
         });
