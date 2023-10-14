@@ -50,7 +50,7 @@ const ScrollBridge: React.FC = ({
       setUserBalance(balanceOfUser?.formatted || 0);
     }
     handleSwitch();
-    
+
   }, [balanceOfUser, account]);
 
 
@@ -118,8 +118,6 @@ const ScrollBridge: React.FC = ({
     if (account === undefined) {
       setLoading(false);
       return toast("Please connect your wallet.");
-
-
     }
 
     if (amount === "") {
@@ -191,10 +189,10 @@ const ScrollBridge: React.FC = ({
   };
 
   const handleWithdraw = async () => {
-      
+
       console.log("connectedChain", connectedChain);
       setLoading(true);
-  
+
       if (connectedChain?.id !== 534352) {
         setLoading(false);
         toast("Please connect to Scroll Mainnet.");
@@ -203,7 +201,7 @@ const ScrollBridge: React.FC = ({
         setSourceChain(networks[0]);
         return;
       }
-  
+
       if (account === undefined) {
         setLoading(false);
         return toast("Please connect your wallet.");
@@ -258,7 +256,7 @@ const ScrollBridge: React.FC = ({
       }
 
       setLoading(false);
-    
+
 
 
     }
@@ -368,13 +366,13 @@ Bridge ETH
               )}
             </button>
             )
-            
-            
+
+
             }
           </div>
         </div>
       </div>
-  
+
       <div>
         <div className="text-base md:text-lg font-semibold mb-1 mt-4 md:mt-10 text-grey-400">
           <strong className="text-blue-300 ml-2 md:ml-5">Powered by Scroll</strong>
@@ -383,7 +381,7 @@ Bridge ETH
     </div>
     <ToastContainer position="top-right" theme="dark" />
   </div>
-  
+
   );
 
 };
