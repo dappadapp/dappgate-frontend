@@ -53,10 +53,10 @@ const dummyProjectsdata = [
   },
   {
     description: "First Aggregator at Scroll Network",
-    url: "",
+    url: "https://app.aggre.io/",
     image: "/aggre.jpg",
     name: "Aggre",
-    status: "Coming Soon",
+    status: "Live",
   },
   {
     description: "Your Cross-Chain swap, NFT, and Messaging Gate",
