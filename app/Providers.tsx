@@ -40,6 +40,9 @@ import {
   opBNB,
   lineaTestnet,
   aurora,
+  boba,
+  telos,
+  confluxESpace,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -497,6 +500,35 @@ const scroll = {
   },
 } as const satisfies Chain;
 
+const orderly = {
+  id: 291,
+  name: "Orderly",
+  network: "orderly",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Orderly",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.orderly.network"],
+    },
+    public: {
+      http: ["https://rpc.orderly.network"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Orderly Explorer",
+      url: "https://explorer.orderly.network/",
+    },
+    default: {
+      name: "Orderly Explorer",
+      url: "https://explorer.orderly.network/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -546,7 +578,9 @@ const chains = [
   lineaTestnet,
   aurora,
   scroll,
-
+  telos,
+  confluxESpace,
+  orderly,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
