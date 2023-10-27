@@ -26,7 +26,7 @@ const menuItems = [
   },
 
   {
-    title: "Scroll Contact Deploy",
+    title: "Scroll Contract Deploy",
     href: "/deploy",
     icon: <FaCompass size={24} />,
   },
