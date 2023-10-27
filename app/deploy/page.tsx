@@ -1,8 +1,7 @@
 "use client";
-import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAccount, useBalance, useContractRead, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
 import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
@@ -132,107 +131,57 @@ const ScrollBridge: React.FC = ({
     return shortenedHash;
   };
 
+import Link from "next/link";
+
+const options = [
+  {
+    to: "/deploy/erc20",
+    name: "ERC20 TOKEN",
+    desc: "Deploys an ERC20 token",
+  },
+  {
+    to: "/deploy/basic",
+    name: "BASIC TOKEN",
+    desc: "Deploys a simple and cheap contract",
+  },
+];
+
+const Deploy: React.FC = ({}) => {
   return (
-    <div className="relative w-full h-auto min-h-[1000px] overflow-x-hidden">
-      <div className="relative z-10 w-full min-h-[1000px] h-full flex flex-col p-2 align-middle justify-center items-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-2 md:mb-5 mt-10 text-white">
-          Welcome to Scroll
-        </h2>
+    <div className="relative w-full h-auto overflow-x-hidden">
+      <div className="relative z-10 w-full min-h-[90vh]  px-8 gap-10 lg:px-28 h-full flex flex-col p-2  justify-center items-center">
+        <h2 className="text-5xl md:text-6xl font-bold text-white">Welcome to Scroll</h2>
         <h2 className="text-5xl md:text-6xl font-bold mb-5 md:mb-5 text-white">
           Contract Deploy Tool
         </h2>
-        <div className="flex mb-5 w-full md:w-full items-center justify-center mt-5 mb-5">
-          <ListboxSourceMenu
-            value={sourceChain}
-            onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161 || network.chainId === 324 || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10)}
-            searchValue={searchTerm}
-            setSearchValue={setSearchTerm}
-            className="w-full "
-          />
-
-        </div>
-        <div className="flex flex-col items-center justify-center mb-4 md:mb-10 w-min-[700px]">
-          <h1 className="text-5xl md:text-3xl text-white font-semibold mb-2 md:mb-0 text-center mb-10 mt-5">ERC20 Token Contract Tool</h1>
-
-          <div className="shadow-md rounded-lg p-10 md:w-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-2">
-              <h2 className="text-lg md:text-xl text-white font-semibold mb-2 md:mb-0">
-                Enter name and symbol
-              </h2>
-              <span className="text-lg md:text-xl text-white md:ml-4">
-                Balance: {Number(balanceOfUser?.formatted).toFixed(4)} ETH
-              </span>
-            </div>
-            <div className="flex flex-col items-center mt-4 md:mt-5 w-full">
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em]"
-                  placeholder="Enter Token Name"
-                />
-              </div>
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={symbol}
-                  onChange={(e) => setSymbol(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em] mt-1"
-                  placeholder="Enter Token Symbol"
-                />
-
-              </div>
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={initialSupply}
-                  onChange={(e) => setInitialSupply(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em] mt-1"
-                  placeholder="Enter Token Initial Supply e.g (100)"
-                />
-              </div>
-
-              <button
-                onClick={onSubmit}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed mt-4"
-                disabled={loading}
-              >
-                Deploy ERC20 Contract (~$1.5)
-                {loading && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4 animate-spin ml-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
-
+        <div className="flex flex-col lg:flex-row justify-between items-center w-full lg:w-3/4">
+          <div className="flex flex-col gap-4 items-center">
+            <Link
+              href={options[0].to}
+              className="px-6 bg-[#fff] text-[#000] rounded-md py-4"
+            >
+              {options[0].name}
+            </Link>
+            <span className="text-sm">{options[0].desc}</span>
+          </div>
+          <span className="text-xl lg:text-3xl"></span>
+          <div className="flex flex-col gap-4 items-center">
+            <Link
+              href={options[1].to}
+              className="px-6 bg-[#fff] text-[#000] rounded-md py-4"
+            >
+              {options[1].name}
+            </Link>
+            <span className="text-sm">{options[1].desc}</span>
           </div>
         </div>
-
-        <div>
-          <div className="text-base md:text-lg font-semibold mb-1 mt-4 md:mt-10 text-grey-400">
-            <strong className="text-blue-300 ml-2 md:ml-5">Powered by Scroll</strong>
-          </div>
+        <div className="text-base md:text-lg font-semibold text-grey-400">
+          <strong className="text-blue-300">Powered by Scroll</strong>
         </div>
       </div>
       <ToastContainer position="top-right" theme="dark" />
     </div>
-
   );
-
 };
 
-export default ScrollBridge;
+export default Deploy;
