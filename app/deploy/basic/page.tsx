@@ -5,10 +5,11 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAccount, useBalance, useContractRead, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
-import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
+import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
-import erc20Json from "../../config/deployErc20.json";
-const ScrollBridge: React.FC = ({
+import basicContract from "../../../config/basicContract.json";
+import { Basic } from "next/font/google";
+const BasicContract: React.FC = ({
 }) => {
 
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -17,9 +18,10 @@ const ScrollBridge: React.FC = ({
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0.0008376"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0.0001407"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
+  console.log("chainId", chainId);
   const { data: walletClient } = useWalletClient({ chainId });
   const {
     data: deployTx,
@@ -29,11 +31,9 @@ const ScrollBridge: React.FC = ({
     hash,
   });
 
-  console.log("connectedChain", connectedChain);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [sourceChain, setSourceChain] = useState(networks[0]);
-  const [targetChain, setTargetChain] = useState();
+  const [targetChain, setTargetChain] = useState(networks[0]);
 
   const [balance, setBalance] = useState("");
 
@@ -58,6 +58,11 @@ const ScrollBridge: React.FC = ({
   }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain, hash]);
 
 
+  useEffect(() => {
+    if (connectedChain) {
+      setChainId(connectedChain.id);
+    }
+  }, [connectedChain,sourceChain,targetChain,hash,chainId,account]);
 
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
@@ -85,29 +90,34 @@ const ScrollBridge: React.FC = ({
 
   };
 
+  const onArrowClick = async () => {
+    try {
+      if (connectedChain?.id !== targetChain.chainId) {
+        await switchNetworkAsync?.(targetChain.chainId);
+      }
+      setSourceChain(targetChain);
+      setTargetChain(sourceChain);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 
   async function onSubmit() {
     try {
-
-      if (!name || !symbol || !initialSupply || !fee) {
-        toast("Please fill in all required fields.");
-        return;
-      }
-
       setLoading(true);
       // Convert fee to wei
       const feeWei = `${parseFloat(fee) * 1e18}`;
 
       const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
-      const abi = erc20Json.abi;
-      const bytecode = erc20Json?.data?.bytecode.object as `0x${string}`;
+      const abi = basicContract.abi;
+      const bytecode = basicContract?.data?.bytecode.object as `0x${string}`;
 
       console.log("bytecode", bytecode);
 
-      const args = [name, symbol, weiInitialSupply, feeWei];
+      const args = [feeWei];
       const hash = await walletClient?.deployContract({ abi, bytecode, args, value: BigInt(feeWei) });
       setHash(hash);
       toast("Contract deployed!");
@@ -153,53 +163,24 @@ const ScrollBridge: React.FC = ({
 
         </div>
         <div className="flex flex-col items-center justify-center mb-4 md:mb-10 w-min-[700px]">
-          <h1 className="text-5xl md:text-3xl text-white font-semibold mb-2 md:mb-0 text-center mb-10 mt-5">ERC20 Token Contract Tool</h1>
+          <h1 className="text-5xl md:text-3xl text-white font-semibold mb-2 md:mb-0 text-center mb-10 mt-5">Basic Contract Tool</h1>
 
           <div className="shadow-md rounded-lg p-10 md:w-auto">
             <div className="flex flex-col md:flex-row items-center justify-between mb-2">
-              <h2 className="text-lg md:text-xl text-white font-semibold mb-2 md:mb-0">
-                Enter name and symbol
-              </h2>
+        
               <span className="text-lg md:text-xl text-white md:ml-4">
                 Balance: {Number(balanceOfUser?.formatted).toFixed(4)} ETH
               </span>
             </div>
             <div className="flex flex-col items-center mt-4 md:mt-5 w-full">
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em]"
-                  placeholder="Enter Token Name"
-                />
-              </div>
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={symbol}
-                  onChange={(e) => setSymbol(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em] mt-1"
-                  placeholder="Enter Token Symbol"
-                />
-
-              </div>
-              <div className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={initialSupply}
-                  onChange={(e) => setInitialSupply(e.target.value)}
-                  className="bg-black border rounded px-4 py-4 text-white w-full md:w-[30em] mt-1"
-                  placeholder="Enter Token Initial Supply e.g (100)"
-                />
-              </div>
-
+      
+              
               <button
                 onClick={onSubmit}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed mt-4"
                 disabled={loading}
               >
-                Deploy ERC20 Contract (~$1.5)
+                Deploy Basic Contract (~$0.25)
                 {loading && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -235,4 +216,4 @@ const ScrollBridge: React.FC = ({
 
 };
 
-export default ScrollBridge;
+export default BasicContract;

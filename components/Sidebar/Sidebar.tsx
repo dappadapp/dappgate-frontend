@@ -35,8 +35,6 @@ const menuItems = [
     href: "/bridge",
     icon: <FaWallet size={24} />,
   },
-
-
   {
     title: "Quests",
     href: "#",
