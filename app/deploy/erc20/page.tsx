@@ -28,7 +28,7 @@ const ScrollBridge: React.FC = ({}) => {
   const [initialSupply, setInitialSupply] = useState<string>("");
   const [fee, setFee] = useState<string>("0.0008376"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
-  const [chainId, setChainId] = useState<number>(534352); // Set the desired chain ID
+  const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   const { data: walletClient } = useWalletClient({ chainId });
   const {
     data: deployTx,
@@ -39,7 +39,7 @@ const ScrollBridge: React.FC = ({}) => {
   });
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[6]);
+  const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[0]);
 
   const [balance, setBalance] = useState("");
@@ -59,16 +59,16 @@ const ScrollBridge: React.FC = ({}) => {
     if (balanceOfUser) {
       setUserBalance(balanceOfUser?.formatted || 0);
     }
-    handleSwitch();
+  
   }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain, hash]);
 
-  const handleSwitch = async () => {
-    if (connectedChain?.id !== 1 && connectedChain?.id !== 534352) {
-      await switchNetworkAsync?.(1);
-      setTargetChain(networks[0]);
-      setSourceChain(networks[6]);
+
+  useEffect(() => {
+    if (connectedChain) {
+      setChainId(connectedChain?.id);
     }
-  };
+  }
+  , [connectedChain,sourceChain,targetChain,hash,chainId,account]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
@@ -77,10 +77,8 @@ const ScrollBridge: React.FC = ({}) => {
         if (chain.chainId !== connectedChain?.id) {
           await switchNetworkAsync?.(chain.chainId);
         }
-        if (chain.name === targetChain.name) {
-          setTargetChain(sourceChain);
-        }
-        setSourceChain(chain);
+
+        setSourceChain(chain || networks[0]);
         toast("Chain changed!");
       } catch (error: any) {
         if (error.code === 4001) {
@@ -91,18 +89,6 @@ const ScrollBridge: React.FC = ({}) => {
         toast("Temporarly closed for maintenance.");
         return;
       }
-    }
-  };
-
-  const onArrowClick = async () => {
-    try {
-      if (connectedChain?.id !== targetChain.chainId) {
-        await switchNetworkAsync?.(targetChain.chainId);
-      }
-      setSourceChain(targetChain);
-      setTargetChain(sourceChain);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -120,7 +106,7 @@ const ScrollBridge: React.FC = ({}) => {
       const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
       const abi = erc20Json.abi;
-      const bytecode = erc20Json?.data?.bytecode.object as `0x${string}`;
+      const bytecode = erc20Json?.data?.bytecode?.object as `0x${string}`;
 
       console.log("bytecode", bytecode);
 
@@ -163,9 +149,9 @@ const ScrollBridge: React.FC = ({}) => {
         </h2>
         <div className="flex mb-5 w-full md:w-full items-center justify-center mt-5 mb-5">
           <ListboxSourceMenu
-            value={networks[0]}
+            value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352)}
+            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161 || network.chainId === 324 || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10)}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "

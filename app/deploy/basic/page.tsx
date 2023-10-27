@@ -18,7 +18,7 @@ const BasicContract: React.FC = ({
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0.0001407"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0.00008447"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   console.log("chainId", chainId);
@@ -90,17 +90,6 @@ const BasicContract: React.FC = ({
 
   };
 
-  const onArrowClick = async () => {
-    try {
-      if (connectedChain?.id !== targetChain.chainId) {
-        await switchNetworkAsync?.(targetChain.chainId);
-      }
-      setSourceChain(targetChain);
-      setTargetChain(sourceChain);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
 
 
@@ -110,11 +99,11 @@ const BasicContract: React.FC = ({
       // Convert fee to wei
       const feeWei = `${parseFloat(fee) * 1e18}`;
 
-      const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
       const abi = basicContract.abi;
-      const bytecode = basicContract?.data?.bytecode.object as `0x${string}`;
+      const bytecode = basicContract?.data?.bytecode?.object as `0x${string}`;
 
+      console.log("chainId chainId", chainId);
       console.log("bytecode", bytecode);
 
       const args = [feeWei];
