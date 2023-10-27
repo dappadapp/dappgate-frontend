@@ -148,7 +148,9 @@ const ScrollBridge: React.FC = ({
       setInitialSupply("");
     } catch (error) {
       console.error(error);
+      setLoading(false);
       toast("Error deploying contract.");
+
     }
   }
 
