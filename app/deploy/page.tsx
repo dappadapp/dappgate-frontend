@@ -17,7 +17,7 @@ const options = [
   },
   {
     to: "/deploy/basic",
-    name: "BASIC CONTRACT (~$0.25)",
+    name: "BASIC CONTRACT (~$0.15)",
     desc: "Deploys a simple and cheap contract",
   },
 ];

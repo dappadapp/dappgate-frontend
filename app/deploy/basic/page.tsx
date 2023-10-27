@@ -169,7 +169,7 @@ const BasicContract: React.FC = ({
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed mt-4"
                 disabled={loading}
               >
-                Deploy Basic Contract (~$0.25)
+                Deploy Basic Contract (~$0.15)
                 {loading && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
