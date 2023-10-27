@@ -13,6 +13,9 @@ const BasicContract: React.FC = ({
 }) => {
 
   const { switchNetworkAsync } = useSwitchNetwork();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sourceChain, setSourceChain] = useState(networks[0]);
+  const [targetChain, setTargetChain] = useState(networks[0]);
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
   const [name, setName] = useState<string>("");
@@ -21,8 +24,7 @@ const BasicContract: React.FC = ({
   const [fee, setFee] = useState<string>("0"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
-  console.log("chainId", chainId);
-  const { data: walletClient } = useWalletClient({ chainId });
+  const { data: walletClient,  } = useWalletClient({ chainId: sourceChain?.chainId || 534352 });
   const {
     data: deployTx,
     isError,
@@ -31,13 +33,7 @@ const BasicContract: React.FC = ({
     hash,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[0]);
-  const [targetChain, setTargetChain] = useState(networks[0]);
-
   const [balance, setBalance] = useState("");
-
-
   const { address: account } = useAccount();
 
   const [loading, setLoading] = useState(false);
@@ -53,10 +49,7 @@ const BasicContract: React.FC = ({
     if (balanceOfUser) {
       setUserBalance(balanceOfUser?.formatted || 0);
     }
-
-
   }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain, hash]);
-
 
   useEffect(() => {
     if (connectedChain) {
@@ -103,8 +96,8 @@ const BasicContract: React.FC = ({
       const abi = basicContract.abi;
       const bytecode = basicContract?.data?.bytecode?.object as `0x${string}`;
 
-      const args = [feeWei];
-      const hash = await walletClient?.deployContract({ abi, bytecode, args, value: BigInt(feeWei) });
+     
+      const hash = await walletClient?.deployContract({ abi, bytecode, args: [] });
 
       setHash(hash);
       toast("Contract deployed!");
@@ -142,7 +135,7 @@ const BasicContract: React.FC = ({
           <ListboxSourceMenu
             value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161 || network.chainId === 324 || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10)}
+            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161  || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10 )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "
