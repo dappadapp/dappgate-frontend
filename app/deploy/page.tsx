@@ -12,7 +12,7 @@ import Link from "next/link";
 const options = [
   {
     to: "/deploy/erc20",
-    name: "ERC20 TOKEN (~$1.5)",
+    name: "ERC20 TOKEN  (No Extra Cost)",
     desc: "Deploys an ERC20 token",
   },
   {

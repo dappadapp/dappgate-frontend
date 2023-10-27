@@ -26,7 +26,7 @@ const ScrollBridge: React.FC = ({}) => {
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0.0008376"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   const { data: walletClient } = useWalletClient({ chainId });
@@ -205,7 +205,7 @@ const ScrollBridge: React.FC = ({}) => {
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed mt-4"
                 disabled={loading}
               >
-                Deploy ERC20 Contract (~$1.5)
+                Deploy ERC20 Contract
                 {loading && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
