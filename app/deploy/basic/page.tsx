@@ -18,7 +18,7 @@ const BasicContract: React.FC = ({
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0.00008447"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   console.log("chainId", chainId);
@@ -103,11 +103,9 @@ const BasicContract: React.FC = ({
       const abi = basicContract.abi;
       const bytecode = basicContract?.data?.bytecode?.object as `0x${string}`;
 
-      console.log("chainId chainId", chainId);
-      console.log("bytecode", bytecode);
-
       const args = [feeWei];
       const hash = await walletClient?.deployContract({ abi, bytecode, args, value: BigInt(feeWei) });
+
       setHash(hash);
       toast("Contract deployed!");
       setLoading(false);
@@ -169,7 +167,7 @@ const BasicContract: React.FC = ({
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed mt-4"
                 disabled={loading}
               >
-                Deploy Basic Contract (~$0.15)
+                Deploy Basic Contract
                 {loading && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

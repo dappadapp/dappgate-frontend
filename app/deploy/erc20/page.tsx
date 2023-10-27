@@ -105,7 +105,7 @@ const ScrollBridge: React.FC = ({}) => {
 
       const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
-      const abi = erc20Json.abi;
+      const abi = erc20Json?.abi;
       const bytecode = erc20Json?.data?.bytecode?.object as `0x${string}`;
 
       console.log("bytecode", bytecode);
