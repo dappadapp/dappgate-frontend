@@ -67,7 +67,7 @@ const ScrollBridge: React.FC = ({
     }
     handleSwitch();
 
-  }, [balanceOfUser, account]);
+  }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain,hash]);
 
 
   const handleSwitch = async () => {
@@ -126,10 +126,12 @@ const ScrollBridge: React.FC = ({
         toast("Please fill in all required fields.");
         return;
       }
+
+      setLoading(true);
       // Convert fee to wei
       const feeWei = `${parseFloat(fee) * 1e18}`;
 
-      const weiInitialSupply = `${parseFloat(initialSupply) * 1e18}`;
+      const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
       const abi = erc20Json.abi;
       const bytecode = erc20Json?.data?.bytecode.object as `0x${string}`;
@@ -139,6 +141,11 @@ const ScrollBridge: React.FC = ({
       const args = [name, symbol, weiInitialSupply,feeWei];
       const hash = await walletClient?.deployContract({ abi,  bytecode, args, value: BigInt(feeWei) });
       setHash(hash);
+      toast("Contract deployed!");
+      setLoading(false);
+      setName("");
+      setSymbol("");
+      setInitialSupply("");
     } catch (error) {
       console.error(error);
       toast("Error deploying contract.");

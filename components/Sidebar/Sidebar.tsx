@@ -26,20 +26,23 @@ const menuItems = [
   },
 
   {
+    title: "Scroll Contact Deploy",
+    href: "/deploy",
+    icon: <FaCompass size={24} />,
+  },
+  {
     title: "Scroll Bridge",
     href: "/bridge",
     icon: <FaWallet size={24} />,
   },
+
+
   {
     title: "Quests",
     href: "#",
     icon: <FaBullseye size={24} />,
   },
-  {
-    title: "Upcoming",
-    href: "#",
-    icon: <FaClock size={24} />,
-  },
+
 ];
 
 const Sidebar: React.FC = (props) => {
