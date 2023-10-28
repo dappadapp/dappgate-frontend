@@ -131,6 +131,21 @@ const ScrollBridge: React.FC = ({}) => {
       setHash(hash);
       toast("Contract deployed!");
       setLoading(false);
+
+      const res = await axios.post(
+        "/api/deployContract",
+        {
+          wallet: account,
+          type: "erc20",
+          contract: hash,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       setName("");
       setSymbol("");
       setInitialSupply("");

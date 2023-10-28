@@ -102,6 +102,20 @@ const BasicContract: React.FC = ({
       setHash(hash);
       toast("Contract deployed!");
       setLoading(false);
+
+      const res = await axios.post(
+        "/api/deployContract",
+        {
+          wallet: account,
+          type: "basic",
+          contract: hash,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setName("");
       setSymbol("");
       setInitialSupply("");
@@ -135,7 +149,7 @@ const BasicContract: React.FC = ({
           <ListboxSourceMenu
             value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161  || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10 )}
+            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161  || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10 || network.chainId ===5 )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "
