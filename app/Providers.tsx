@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { EthereumClient, w3mConnectors, w3mProvider } from "@web3modal/ethereum";
-import { Web3Modal } from "@web3modal/react";
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
 import { configureChains, createConfig, WagmiConfig, Chain } from "wagmi";
 import {
@@ -583,13 +582,16 @@ const chains = [
   orderly,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-});
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
+
+const metadata = {
+  name: 'Web3Modal',
+  description: 'Web3Modal',
+  url: 'https://web3modal.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
+}
+
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
+createWeb3Modal({ wagmiConfig, projectId, chains });
 
 const queryClient = new QueryClient();
 
@@ -599,7 +601,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
       </QueryClientProvider>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   );
 }

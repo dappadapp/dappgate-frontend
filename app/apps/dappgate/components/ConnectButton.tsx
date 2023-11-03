@@ -1,6 +1,6 @@
 "use client";
 import formatAddress from "@/utils/formatAddress";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 import React, { use, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { waitForTransaction } from "@wagmi/core";
