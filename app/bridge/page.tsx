@@ -28,7 +28,7 @@ const ScrollBridge: React.FC = ({
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[6]);
+  const [sourceChain, setSourceChain] = useState(networks[9]);
   const [targetChain, setTargetChain] = useState(networks[0]);
 
   const [balance, setBalance] = useState("");
