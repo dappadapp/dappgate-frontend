@@ -34,10 +34,6 @@ import Message from "@/components/Message";
 import Navbar from "./components/Navbar";
 import TracketModal from "./components/TrackerModal";
 
-const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
-  ssr: false,
-});
-
 const ANIMATION_TIME = 4000;
 const ANIMATION_END_TIME = 1000;
 

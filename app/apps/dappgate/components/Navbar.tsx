@@ -6,14 +6,12 @@ import dynamic from "next/dynamic";
 import RefModal from "./RefModal";
 import { usePathname } from "next/navigation";
 import DappGateLogo from "./DappGateLogo";
+import ConnectButton from "./ConnectButton";
 
 type Props = {
   pendingTxs: any;
   refCode: string;
 };
-const ConnectButton: any = dynamic(() => import("./ConnectButton"), {
-
-});
 
 const Navbar: React.FC<Props> = (props) => {
   const [isRefModalOpen, setIsRefModalOpen] = useState(false);
