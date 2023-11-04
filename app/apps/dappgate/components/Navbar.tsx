@@ -12,7 +12,7 @@ type Props = {
   refCode: string;
 };
 const ConnectButton: any = dynamic(() => import("./ConnectButton"), {
-  ssr: false,
+
 });
 
 const Navbar: React.FC<Props> = (props) => {
