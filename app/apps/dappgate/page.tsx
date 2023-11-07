@@ -85,12 +85,12 @@ export default function Home({
   useEffect(() => {
     if (!disabledBridgesData) return;
 
-    console.log("disabledBridgesData", disabledBridgesData);
+   
     const disabledNetworks = disabledBridgesData.map((data: any, i: number) => {
       if (data.status === "failure") return networks[i].chainId;
       else return 0;
     });
-
+    console.log("disabledNetworks", disabledNetworks);
     
     setSourceChain((prev) => ({
       ...prev,
