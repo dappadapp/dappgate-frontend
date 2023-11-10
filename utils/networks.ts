@@ -53,6 +53,51 @@ export interface Network {
 
 
 export const networks: Network[] = [
+
+  {
+    name: "Manta Pacific",
+    chainId: 169,
+    layerzeroChainId: 217,
+    nftContractAddress: "0x8Fc4B76451466743bd2cC95E4cd9A1c948E47DD4",
+    tokenContractAddress: "0xdcf308DAccaedC17027C4924c8c92C7E545AB4a7",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x1A8C9Cf33458Dd7556EEA2b2F903e559FDA916eD",
+    setOFTContractAddress: "0xBD0160892A6057D99738718fc6372E7219dD7372",
+    trackerContractAddress: undefined,
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "manta.png",
+    disabledNetworks: [
+      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+    isTestnet: false,
+  },
+
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
+    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
+    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
+    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
+    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
+    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
+    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
+    blockConfirmation: 5,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
+    symbol: "ETH",
+    chainName: "arbitrum-mainnet",
+  },
   {
     name: "Scroll",
     chainId: 534352,
@@ -78,25 +123,7 @@ export const networks: Network[] = [
     isTestnet: false,
   },
   
-  {
-    name: arbitrum.name,
-    chainId: arbitrum.id,
-    layerzeroChainId: 110,
-    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
-    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
-    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
-    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
-    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
-    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
-    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
-    blockConfirmation: 5,
-    colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg",
-    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
-    symbol: "ETH",
-    chainName: "arbitrum-mainnet",
-  },
+ 
 
   {
     name: telos.name,

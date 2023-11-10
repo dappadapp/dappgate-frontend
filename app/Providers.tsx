@@ -43,6 +43,7 @@ import {
   boba,
   telos,
   confluxESpace,
+
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -529,6 +530,36 @@ const orderly = {
   },
 } as const satisfies Chain;
 
+
+const manta = {
+  id: 169,
+  name: "Manta Network",
+  network: "manta",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Manta Network",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://pacific-rpc.manta.network/http"],
+    },
+    public: {
+      http: ["https://pacific-rpc.manta.network/http"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Manta Explorer",
+      url: "https://pacific-explorer.manta.network/",
+    },
+    default: {
+      name: "Manta Explorer",
+      url: "https://pacific-explorer.manta.network/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -581,6 +612,7 @@ const chains = [
   telos,
   confluxESpace,
   orderly,
+  manta,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
