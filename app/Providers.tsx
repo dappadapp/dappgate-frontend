@@ -560,6 +560,94 @@ const manta = {
   },
 } as const satisfies Chain;
 
+
+const xpla = {
+  id: 37,
+  name: "XPLA Network",
+  network: "xpla",
+  nativeCurrency: {
+    decimals: 18,
+    name: "XPLA Network",
+    symbol: "XPLA",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://dimension-evm-rpc.xpla.dev"],
+    },
+    public: {
+      http: ["https://dimension-evm-rpc.xpla.dev"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "XPLA Explorer",
+      url: "https://explorer.xpla.io/",
+    },
+    default: {
+      name: "XPLA Explorer",
+      url: "https://explorer.xpla.io/",
+    },
+  },
+} as const satisfies Chain;
+
+const horizen = {
+  id: 7332,
+  name: "Horizen EON",
+  network: "xpla",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Horizen",
+    symbol: "ZEN",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://eon-rpc.horizenlabs.io/ethv1"],
+    },
+    public: {
+      http: ["https://eon-rpc.horizenlabs.io/ethv1"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "Horizen Explorer",
+      url: "https://eon-explorer.horizenlabs.io/",
+    },
+    default: {
+      name: "Horizen Explorer",
+      url: "https://eon-explorer.horizenlabs.io/",
+    },
+  },
+} as const satisfies Chain;
+
+const pgn = {
+  id: 424,
+  name: "Public Good Network",
+  network: "pgn",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ethereum",
+    symbol: "pgnETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.publicgoods.network"],
+    },
+    public: {
+      http: ["https://rpc.publicgoods.network"],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "PGN Explorer",
+      url: "https://explorer.publicgoods.network/",
+    },
+    default: {
+      name: "PGN Explorer",
+      url: "https://explorer.publicgoods.network/",
+    },
+  },
+} as const satisfies Chain;
+
 const chains = [
   mainnet,
   goerli,
@@ -613,6 +701,9 @@ const chains = [
   confluxESpace,
   orderly,
   manta,
+  xpla,
+  horizen,
+  pgn,
 ];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);

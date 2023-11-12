@@ -24,7 +24,7 @@ const TransactionPreview = ({
   symbol,
 }: Props) => {
 
-  console.log("selectedHyperBridges",selectedHyperBridges);
+  console.log("selectedHyperBridges PREVIEW",selectedHyperBridges);
   return (
     <>
       <div className="flex justify-center mt-5  mb-4">
@@ -36,7 +36,7 @@ const TransactionPreview = ({
                 <td className="font-bold pr-4">Destination Chains</td>
                 <td>
                   You have selected{" "}
-                  {selectedHyperBridges.filter((x: any) => x !== 0).length}{" "}
+                  {selectedHyperBridges.filter((x: any) => x !== 0 && x.chainId !== 1).length}{" "}
                   destination chains{" "}
                 </td>
               </tr>

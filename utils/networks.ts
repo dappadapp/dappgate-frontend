@@ -98,6 +98,83 @@ export const networks: Network[] = [
     symbol: "ETH",
     chainName: "arbitrum-mainnet",
   },
+
+  {
+    name: "XPLA",
+    chainId: 37,
+    layerzeroChainId: 216,
+    nftContractAddress: "0xf991BFc7b94fE0eA1832544f4651fF51e80C6327",
+    tokenContractAddress: "0xe8A2d314162cF23A51510EAC99d7e57D49b45dAE",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x98A41c5187B42489bC54Cefc549Aa1168852830e",
+    setOFTContractAddress: "0xbf0Cd8934D99FAA0a4802dd151353fD92D66A524",
+    trackerContractAddress: undefined,
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "xpla.svg",
+    disabledNetworks: [
+      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "XPLA",
+    chainName: undefined,
+    isTestnet: false,
+  },
+
+  {
+    name: "Horizen",
+    chainId: 7332,
+    layerzeroChainId: 215,
+    nftContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    tokenContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    setOFTContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    trackerContractAddress: undefined,
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "horizen.svg",
+    disabledNetworks: [
+      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "ZEN",
+    chainName: undefined,
+    isTestnet: false,
+  },
+
+  {
+    name: "PGN",
+    chainId: 424,
+    layerzeroChainId: 218,
+    nftContractAddress: "0xFD92930CA50ab900171643a8a47BC57d760a5d95",
+    tokenContractAddress: "0xc67505DEaA9C0c08B9bcf2F55476C66b77e0c82f",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    setOFTContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    trackerContractAddress: undefined,
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#8C8DFC]",
+    image: "pgn.svg",
+    disabledNetworks: [
+      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "pgnETH",
+    chainName: undefined,
+    isTestnet: false,
+  },
+
+ 
   {
     name: "Scroll",
     chainId: 534352,
@@ -269,7 +346,7 @@ export const networks: Network[] = [
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
   },
-
+  /*
   {
     name: mainnet.name,
     chainId: mainnet.id,
@@ -290,7 +367,7 @@ export const networks: Network[] = [
     ],
     symbol: "ETH",
   },
-
+ */
   {
     name: "Astar",
     chainId: 592,
