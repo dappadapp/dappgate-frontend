@@ -55,6 +55,53 @@ export interface Network {
 export const networks: Network[] = [
 
   {
+    name: "Scroll",
+    chainId: 534352,
+    layerzeroChainId: 214,
+    nftContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
+    tokenContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
+    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
+    messageContractAddress: "",
+    gasRefuelContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
+    setOFTContractAddress: "0xCaF1e7A4AF2627C2Ce8aea82f80AEd713aeB8Faa",
+    trackerContractAddress: undefined,
+    zkNFTContractAddress: undefined,
+    blockConfirmation: 5,
+    colorClass: "bg-[#E5D1B8]",
+    image: "scroll.svg",
+    disabledNetworks: [
+      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
+      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
+      42220, 5,80001,534353, 11155111
+    ],
+    symbol: "ETH",
+    chainName: undefined,
+    isTestnet: false,
+  },
+  
+
+
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
+    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
+    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
+    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
+    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
+    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
+    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
+    blockConfirmation: 5,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
+    symbol: "ETH",
+    chainName: "arbitrum-mainnet",
+  },
+
+  {
     name: "Manta Pacific",
     chainId: 169,
     layerzeroChainId: 217,
@@ -78,27 +125,6 @@ export const networks: Network[] = [
     chainName: undefined,
     isTestnet: false,
   },
-
-  {
-    name: arbitrum.name,
-    chainId: arbitrum.id,
-    layerzeroChainId: 110,
-    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
-    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
-    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
-    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
-    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
-    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
-    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
-    blockConfirmation: 5,
-    colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg",
-    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
-    symbol: "ETH",
-    chainName: "arbitrum-mainnet",
-  },
-
   {
     name: "XPLA",
     chainId: 37,
@@ -175,30 +201,6 @@ export const networks: Network[] = [
   },
 
  
-  {
-    name: "Scroll",
-    chainId: 534352,
-    layerzeroChainId: 214,
-    nftContractAddress: "0x87225C02F104a353d7dA0708907Ec18d1e74ce27",
-    tokenContractAddress: "0xEf7E9A3e3AC8A077B34C20cbdDA1866BDBb883e0",
-    relayerAddress: "0xA658742d33ebd2ce2F0bdFf73515Aa797Fd161D9",
-    messageContractAddress: "",
-    gasRefuelContractAddress: "0x07231C3464eA825bf9490f4C673723E63ebD95F7",
-    setOFTContractAddress: "0xCaF1e7A4AF2627C2Ce8aea82f80AEd713aeB8Faa",
-    trackerContractAddress: undefined,
-    zkNFTContractAddress: undefined,
-    blockConfirmation: 5,
-    colorClass: "bg-[#E5D1B8]",
-    image: "scroll.svg",
-    disabledNetworks: [
-      1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
-      1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
-      42220, 5,80001,534353, 11155111
-    ],
-    symbol: "ETH",
-    chainName: undefined,
-    isTestnet: false,
-  },
   
  
 
