@@ -21,7 +21,7 @@ const BasicContract: React.FC = ({
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0.000051"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   const { data: walletClient,  } = useWalletClient({ chainId: sourceChain?.chainId || 534352 });
@@ -97,7 +97,7 @@ const BasicContract: React.FC = ({
       const bytecode = basicContract?.data?.bytecode?.object as `0x${string}`;
 
      
-      const hash = await walletClient?.deployContract({ abi, bytecode, args: [] });
+      const hash = await walletClient?.deployContract({ abi, bytecode, args: [feeWei] ,  value: BigInt(feeWei),});
 
       setHash(hash);
       toast("Contract deployed!");

@@ -34,7 +34,7 @@ const ScrollBridge: React.FC = ({}) => {
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0.0001277"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
   const { data: walletClient,  } = useWalletClient({ chainId: sourceChain?.chainId || 534352 });
@@ -118,14 +118,14 @@ const ScrollBridge: React.FC = ({}) => {
 
       console.log("bytecode", bytecode);
 
-      const args = [name, symbol, weiInitialSupply];
+      const args = [name, symbol,feeWei];
  
       const hash = await walletClient?.deployContract({
         abi: abi as any,
         account: account as `0x${string}`,
         bytecode: bytecode as any,
         args: args as any,
-      
+        value: BigInt(feeWei),
         gasPrice: feeData.data?.gasPrice || BigInt(0),
       });
       setHash(hash);
