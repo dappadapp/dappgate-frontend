@@ -4,11 +4,12 @@ import React, { use, useEffect, useState } from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAccount, useBalance, useContractRead, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
+import { useAccount, useBalance, useContractRead, useFeeData, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
 import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 import basicContract from "../../../config/basicContract.json";
 import { Basic } from "next/font/google";
+import { ethers } from "ethers";
 const BasicContract: React.FC = ({
 }) => {
 
@@ -57,7 +58,9 @@ const BasicContract: React.FC = ({
     }
   }, [connectedChain,sourceChain,targetChain,hash,chainId,account]);
 
-
+  const feeData = useFeeData({
+    chainId: chainId,
+  })
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
     if (chain) {
@@ -90,14 +93,14 @@ const BasicContract: React.FC = ({
     try {
       setLoading(true);
       // Convert fee to wei
-      const feeWei = `${parseFloat(fee) * 1e18}`;
+      const feeWei = ethers.parseEther(fee);
 
 
       const abi = basicContract.abi;
       const bytecode = basicContract?.data?.bytecode?.object as `0x${string}`;
 
      
-      const hash = await walletClient?.deployContract({ abi, bytecode, args: [feeWei] ,  value: BigInt(feeWei),});
+      const hash = await walletClient?.deployContract({ abi, bytecode, args: [feeWei] , gasPrice: feeData.data?.gasPrice || BigInt(0),  value: BigInt(feeWei)});
 
       setHash(hash);
       toast("Contract deployed!");

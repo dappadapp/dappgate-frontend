@@ -23,6 +23,7 @@ import erc20Json from "../../../config/deployErc20.json";
 import { MockConnector } from '@wagmi/core/connectors/mock'
 import { mainnet } from '@wagmi/core/chains'
 import { createWalletClient } from 'viem'
+import { ethers } from "ethers";
 
 const ScrollBridge: React.FC = ({}) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -109,7 +110,9 @@ const ScrollBridge: React.FC = ({}) => {
 
       setLoading(true);
       // Convert fee to wei
-      const feeWei = `${parseFloat(fee) * 1e18}`;
+      const feeWei = ethers.parseEther(fee);
+
+      console.log("feeWei", feeWei);
 
       const weiInitialSupply = `${parseFloat(initialSupply)}`;
 
@@ -125,7 +128,7 @@ const ScrollBridge: React.FC = ({}) => {
         account: account as `0x${string}`,
         bytecode: bytecode as any,
         args: args as any,
-        value: BigInt(feeWei),
+        value: feeWei as any,
         gasPrice: feeData.data?.gasPrice || BigInt(0),
       });
       setHash(hash);
