@@ -28,7 +28,7 @@ const ScrollBridge: React.FC = ({
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[9]);
+  const [sourceChain, setSourceChain] = useState(networks[13]);
   const [targetChain, setTargetChain] = useState(networks[0]);
 
   const [balance, setBalance] = useState("");
@@ -58,7 +58,7 @@ const ScrollBridge: React.FC = ({
     if (connectedChain?.id !== 1 && connectedChain?.id !== 534352) {
       await switchNetworkAsync?.(1);
       setTargetChain(networks[0]);
-      setSourceChain(networks[9]);
+      setSourceChain(networks[13]);
     }
   }
 
@@ -111,7 +111,7 @@ const ScrollBridge: React.FC = ({
       toast("Please connect to Ethereum Mainnet.");
       await switchNetworkAsync?.(1);
       setTargetChain(networks[0]);
-      setSourceChain(networks[9]);
+      setSourceChain(networks[13]);
       return;
     }
 
@@ -197,7 +197,7 @@ const ScrollBridge: React.FC = ({
       setLoading(false);
       toast("Please connect to Scroll Mainnet.");
       await switchNetworkAsync?.(534352);
-      setTargetChain(networks[9]);
+      setTargetChain(networks[13]);
       setSourceChain(networks[0]);
       return;
     }

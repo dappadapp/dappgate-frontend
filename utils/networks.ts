@@ -348,7 +348,7 @@ export const networks: Network[] = [
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
   },
-  /*
+  
   {
     name: mainnet.name,
     chainId: mainnet.id,
@@ -369,7 +369,7 @@ export const networks: Network[] = [
     ],
     symbol: "ETH",
   },
- */
+
   {
     name: "Astar",
     chainId: 592,
