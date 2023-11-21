@@ -37,8 +37,9 @@ const ScrollBridge: React.FC = ({}) => {
   const [initialSupply, setInitialSupply] = useState<string>("");
   const [fee, setFee] = useState<string>("0.0001277"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
+  console.log("connectedChain", connectedChain);
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
-  const { data: walletClient,  } = useWalletClient({ chainId: sourceChain?.chainId || 534352 });
+  const { data: walletClient  } = useWalletClient({ chainId: chainId  });
   const {
     data: deployTx,
     isError,
@@ -50,6 +51,7 @@ const ScrollBridge: React.FC = ({}) => {
     chainId: chainId,
   })
 
+  console.log("chainIsssd", chainId);
   const [balance, setBalance] = useState("");
 
   const { address: account } = useAccount();
@@ -74,10 +76,12 @@ const ScrollBridge: React.FC = ({}) => {
 
   useEffect(() => {
     if (connectedChain) {
+      
       setChainId(connectedChain?.id);
+
     }
   }
-  , [connectedChain,sourceChain,targetChain,hash,chainId,account]);
+  , [connectedChain,sourceChain,targetChain,hash,chainId,account,feeData,deployTx,isLoading,isError,loading]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
@@ -130,6 +134,7 @@ const ScrollBridge: React.FC = ({}) => {
         args: args as any,
         value: feeWei as any,
         gasPrice: feeData.data?.gasPrice || BigInt(0),
+       
       });
       setHash(hash);
       toast("Contract deployed!");
