@@ -34,7 +34,7 @@ const Deploy: React.FC = ({}) => {
   return (
     <div className="relative w-full h-auto overflow-x-hidden">
       <div className="relative z-10 w-full min-h-[90vh]  px-8 gap-10 lg:px-28 h-full flex flex-col p-2  justify-center items-center">
-        <h2 className="text-5xl md:text-6xl font-bold text-white">Welcome to Scroll</h2>
+        <h2 className="text-5xl md:text-6xl font-bold text-white">Welcome to</h2>
         <h2 className="text-5xl md:text-6xl font-bold mb-5 md:mb-5 text-white">
           Contract Deploy Tool
         </h2>

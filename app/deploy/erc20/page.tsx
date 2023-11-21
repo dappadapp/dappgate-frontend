@@ -20,9 +20,9 @@ import { Network, networks } from "@/utils/networks";
 import CircleSvg from "../../apps/dappgate/components/CircleSvg";
 import erc20Json from "../../../config/deployErc20.json";
 
-import { MockConnector } from '@wagmi/core/connectors/mock'
-import { mainnet } from '@wagmi/core/chains'
-import { createWalletClient } from 'viem'
+import { MockConnector } from "@wagmi/core/connectors/mock";
+import { mainnet } from "@wagmi/core/chains";
+import { createWalletClient } from "viem";
 import { ethers } from "ethers";
 
 const ScrollBridge: React.FC = ({}) => {
@@ -38,7 +38,9 @@ const ScrollBridge: React.FC = ({}) => {
   const [fee, setFee] = useState<string>("0.0001277"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
-  const { data: walletClient,  } = useWalletClient({ chainId: sourceChain?.chainId || 534352 });
+  const { data: walletClient } = useWalletClient({
+    chainId: sourceChain?.chainId || 534352,
+  });
   const {
     data: deployTx,
     isError,
@@ -48,7 +50,7 @@ const ScrollBridge: React.FC = ({}) => {
   });
   const feeData = useFeeData({
     chainId: chainId,
-  })
+  });
 
   const [balance, setBalance] = useState("");
 
@@ -68,16 +70,13 @@ const ScrollBridge: React.FC = ({}) => {
     if (balanceOfUser) {
       setUserBalance(balanceOfUser?.formatted || 0);
     }
-  
   }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain, hash]);
-
 
   useEffect(() => {
     if (connectedChain) {
       setChainId(connectedChain?.id);
     }
-  }
-  , [connectedChain,sourceChain,targetChain,hash,chainId,account]);
+  }, [connectedChain, sourceChain, targetChain, hash, chainId, account]);
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
@@ -121,8 +120,8 @@ const ScrollBridge: React.FC = ({}) => {
 
       console.log("bytecode", bytecode);
 
-      const args = [name, symbol,feeWei];
- 
+      const args = [name, symbol, feeWei];
+
       const hash = await walletClient?.deployContract({
         abi: abi as any,
         account: account as `0x${string}`,
@@ -153,7 +152,7 @@ const ScrollBridge: React.FC = ({}) => {
       setSymbol("");
       setInitialSupply("");
     } catch (error) {
-      console.log("err",error);
+      console.log("err", error);
       setLoading(false);
       toast("Error deploying contract.");
     }
@@ -171,7 +170,7 @@ const ScrollBridge: React.FC = ({}) => {
     <div className="relative w-full h-auto min-h-[1000px] overflow-x-hidden">
       <div className="relative z-10 w-full min-h-[1000px] h-full flex flex-col p-2 align-middle justify-center items-center">
         <h2 className="text-5xl md:text-6xl font-bold mb-2 md:mb-5 mt-10 text-white">
-          Welcome to Scroll
+          Welcome to
         </h2>
         <h2 className="text-5xl md:text-6xl font-bold mb-5 md:mb-5 text-white">
           Contract Deploy Tool
@@ -180,7 +179,15 @@ const ScrollBridge: React.FC = ({}) => {
           <ListboxSourceMenu
             value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161  || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10 )}
+            options={networks.filter(
+              (network) =>
+                network.chainId === 534352 ||
+                network.chainId === 1101 ||
+                network.chainId === 42161 ||
+                network.chainId === 8453 ||
+                network.chainId === 59144 ||
+                network.chainId === 10
+            )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "
