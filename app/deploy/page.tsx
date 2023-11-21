@@ -3,7 +3,15 @@ import React, { useState } from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAccount, useBalance, useContractRead, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useContractRead,
+  useNetwork,
+  useSwitchNetwork,
+  useWaitForTransaction,
+  useWalletClient,
+} from "wagmi";
 import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 import erc20Json from "../../config/deployErc20.json";
@@ -51,7 +59,21 @@ const Deploy: React.FC = ({}) => {
             <span className="text-sm">{options[1].desc}</span>
           </div>
         </div>
-        <div className="text-base md:text-lg font-semibold text-grey-400 mt-8">
+        <span className="font-semibold">
+          Do you want more interaction on Scroll? Check{" "}
+          <a href="https://dappgate.io/apps/dappgate" className="underline">
+            Dappgate
+          </a>
+          !
+        </span>
+        <span className="font-semibold">
+          Also you can track your wallet with{" "}
+          <a href="https://tracker.dappgate.io/" className="underline">
+            Tracker
+          </a>
+          !
+        </span>
+        <div className="text-base md:text-lg font-semibold text-grey-400 mt-4">
           <strong className="text-blue-300">Powered by DappLabs</strong>
         </div>
       </div>
