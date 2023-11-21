@@ -2,7 +2,16 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaBars, FaBullseye, FaChartArea, FaChartLine, FaClock, FaCompass, FaSubway, FaWallet } from "react-icons/fa";
+import {
+  FaBars,
+  FaBullseye,
+  FaChartArea,
+  FaChartLine,
+  FaClock,
+  FaCompass,
+  FaSubway,
+  FaWallet,
+} from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaSpa } from "react-icons/fa";
@@ -26,7 +35,7 @@ const menuItems = [
   },
 
   {
-    title: "Scroll Contract Deploy",
+    title: "Contract Deploy",
     href: "/deploy",
     icon: <FaCompass size={24} />,
   },
@@ -40,7 +49,6 @@ const menuItems = [
     href: "#",
     icon: <FaBullseye size={24} />,
   },
-
 ];
 
 const Sidebar: React.FC = (props) => {
@@ -50,26 +58,25 @@ const Sidebar: React.FC = (props) => {
   const menu = menuItems.map((menuItem) => {
     return (
       <Link
-      href={menuItem.href || ''}
-      className={`relative flex items-center gap-2 p-3 w-full transition-all hover:text-white ${
-        pathname === menuItem.href
-          ? 'fill-white text-white rounded-lg btn-grad'
-          : 'fill-[#AAA] text-[#AAA]'
-      }`}
-      key={`menu-item-${menuItem.href}`}
-      onClick={() => setMenuOpen(false)}
-      onMouseEnter={() => menuItem.href === "#" && setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
-      {menuItem.icon} {menuItem.title}
-
-      {/* Tooltip */}
-      {showTooltip && menuItem.href === "#" && (
-        <span className="absolute left-1/2 transform -translate-x-1/5  p-2 bg-black text-white text-xs rounded  transition-opacity">
-          Coming Soon!
-        </span>
-      )}
-    </Link>
+        href={menuItem.href || ""}
+        className={`relative flex items-center gap-2 p-3 w-full transition-all hover:text-white ${
+          pathname === menuItem.href
+            ? "fill-white text-white rounded-lg btn-grad"
+            : "fill-[#AAA] text-[#AAA]"
+        }`}
+        key={`menu-item-${menuItem.href}`}
+        onClick={() => setMenuOpen(false)}
+        onMouseEnter={() => menuItem.href === "#" && setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {menuItem.icon} {menuItem.title}
+        {/* Tooltip */}
+        {showTooltip && menuItem.href === "#" && (
+          <span className="absolute left-1/2 transform -translate-x-1/5  p-2 bg-black text-white text-xs rounded  transition-opacity">
+            Coming Soon!
+          </span>
+        )}
+      </Link>
     );
   });
 
@@ -82,7 +89,7 @@ const Sidebar: React.FC = (props) => {
       <nav className={`hidden md:flex flex-col items-start ml-2 gap-5 flex-1 `}>
         {menu}
         <ConnectButton />
-      </nav>  
+      </nav>
 
       {/* Mobile */}
       <div

@@ -20,9 +20,9 @@ import { Network, networks } from "@/utils/networks";
 import CircleSvg from "../../apps/dappgate/components/CircleSvg";
 import erc20Json from "../../../config/deployErc20.json";
 
-import { MockConnector } from '@wagmi/core/connectors/mock'
-import { mainnet } from '@wagmi/core/chains'
-import { createWalletClient } from 'viem'
+import { MockConnector } from "@wagmi/core/connectors/mock";
+import { mainnet } from "@wagmi/core/chains";
+import { createWalletClient } from "viem";
 import { ethers } from "ethers";
 
 const ScrollBridge: React.FC = ({}) => {
@@ -49,7 +49,7 @@ const ScrollBridge: React.FC = ({}) => {
   });
   const feeData = useFeeData({
     chainId: chainId,
-  })
+  });
 
   console.log("chainIsssd", chainId);
   const [balance, setBalance] = useState("");
@@ -70,9 +70,7 @@ const ScrollBridge: React.FC = ({}) => {
     if (balanceOfUser) {
       setUserBalance(balanceOfUser?.formatted || 0);
     }
-  
   }, [balanceOfUser, account, connectedChain?.id, sourceChain, targetChain, hash]);
-
 
   useEffect(() => {
     if (connectedChain) {
@@ -125,8 +123,8 @@ const ScrollBridge: React.FC = ({}) => {
 
       console.log("bytecode", bytecode);
 
-      const args = [name, symbol,feeWei];
- 
+      const args = [name, symbol, feeWei];
+
       const hash = await walletClient?.deployContract({
         abi: abi as any,
         account: account as `0x${string}`,
@@ -158,7 +156,7 @@ const ScrollBridge: React.FC = ({}) => {
       setSymbol("");
       setInitialSupply("");
     } catch (error) {
-      console.log("err",error);
+      console.log("err", error);
       setLoading(false);
       toast("Error deploying contract.");
     }
@@ -176,7 +174,7 @@ const ScrollBridge: React.FC = ({}) => {
     <div className="relative w-full h-auto min-h-[1000px] overflow-x-hidden">
       <div className="relative z-10 w-full min-h-[1000px] h-full flex flex-col p-2 align-middle justify-center items-center">
         <h2 className="text-5xl md:text-6xl font-bold mb-2 md:mb-5 mt-10 text-white">
-          Welcome to Scroll
+          Welcome to
         </h2>
         <h2 className="text-5xl md:text-6xl font-bold mb-5 md:mb-5 text-white">
           Contract Deploy Tool
@@ -185,7 +183,15 @@ const ScrollBridge: React.FC = ({}) => {
           <ListboxSourceMenu
             value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1101 || network.chainId === 42161  || network.chainId === 8453 || network.chainId === 59144 || network.chainId === 10 )}
+            options={networks.filter(
+              (network) =>
+                network.chainId === 534352 ||
+                network.chainId === 1101 ||
+                network.chainId === 42161 ||
+                network.chainId === 8453 ||
+                network.chainId === 59144 ||
+                network.chainId === 10
+            )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "
