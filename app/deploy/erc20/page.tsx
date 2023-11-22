@@ -27,8 +27,8 @@ import { ethers } from "ethers";
 
 const ScrollBridge: React.FC = ({}) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [sourceChain, setSourceChain] = useState(networks[0]);
-  const [targetChain, setTargetChain] = useState(networks[0]);
+  const [sourceChain, setSourceChain] = useState(networks[2]);
+  const [targetChain, setTargetChain] = useState(networks[2]);
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
@@ -89,7 +89,7 @@ const ScrollBridge: React.FC = ({}) => {
           await switchNetworkAsync?.(chain.chainId);
         }
 
-        setSourceChain(chain || networks[0]);
+        setSourceChain(chain || networks[2]);
         toast("Chain changed!");
       } catch (error: any) {
         if (error.code === 4001) {
