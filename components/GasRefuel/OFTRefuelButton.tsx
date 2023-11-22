@@ -72,15 +72,16 @@ const OFTRefuelButton: React.FC<Props> = ({
       1,
       1,
     ],
+    enabled: !!gasEstimateDataArray,
   });
 
   const { writeAsync: bridgeGas } = useContractWrite(sendFromConfig);
 
   useEffect(() => {
-    if (gasRefuelAmount) {
+    
       refetch();
-    }
-  }, [gasRefuelAmount]);
+  
+  }, [gasRefuelAmount, sourceChain, targetChain,connectedChain,account,gasEstimateDataArray ]);
 
   useEffect(() => {
     if (gasEstimateDataArray && account) {
