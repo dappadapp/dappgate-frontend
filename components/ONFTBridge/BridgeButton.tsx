@@ -39,7 +39,7 @@ const BridgeButton: React.FC<Props> = ({
   const [mintTxHash, setMintTxHash] = useState("");
   const [gas, setGas] = useState("");
 
-  const { data: gasEstimateData } = useContractRead({
+  const { data: gasEstimateData , refetch} = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "estimateSendFee",
@@ -55,12 +55,19 @@ const BridgeButton: React.FC<Props> = ({
 
 
   console.log("gasEstimateData", gasEstimateData);
-  const { data: bridgeFeeData } = useContractRead({
+  const { data: bridgeFeeData, refetch: getFee } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "bridgeFee",
     chainId: sourceChain.chainId,
   });
+
+  useEffect(() => {
+    
+    refetch();
+    getFee();
+
+}, [bridgeFeeData, sourceChain, targetChain,connectedChain,account,gasEstimateData ]);
 
   const {
     config: sendFromConfig,

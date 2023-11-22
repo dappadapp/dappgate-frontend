@@ -32,7 +32,7 @@ const OFTBridgeButton: React.FC<Props> = ({
   const { address: account } = useAccount();
   const [adapterParam, setAdapterParams] = useState("");
 
-  const { data: gasEstimateData } = useContractRead({
+  const { data: gasEstimateData, refetch } = useContractRead({
     address: sourceChain.tokenContractAddress as `0x${string}`,
     abi: OFTBridge,
     functionName: "estimateSendFee",
@@ -95,6 +95,11 @@ const OFTBridgeButton: React.FC<Props> = ({
   });
   const { writeAsync: sendFrom } = useContractWrite(sendFromConfig);
 
+  useEffect(() => {
+  
+    refetch();
+
+}, [sourceChain, targetChain,connectedChain,account,gasEstimateData, dlgateBridgeAmount ]);
 
 
   const onBridge = async () => {
