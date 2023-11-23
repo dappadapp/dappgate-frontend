@@ -52,6 +52,7 @@ const chains = [
 type Props = {
   sourceChain: Network;
   targetChain: Network;
+  selectedHyperBridges: Network[];
   onChangeSourceChain: (selectedNetwork: Network) => Promise<void>;
   onChangeTargetChain: (selectedNetwork: Network) => Promise<void>;
   onArrowClick: () => Promise<void>;
@@ -60,6 +61,7 @@ type Props = {
 const Message: React.FC<Props> = ({
   sourceChain,
   targetChain,
+  selectedHyperBridges,
   onChangeSourceChain,
   onChangeTargetChain,
   onArrowClick,
@@ -69,7 +71,7 @@ const Message: React.FC<Props> = ({
   const [receiver, setReceiver] = useState("");
   const [isReceivedMessageOpen, setIsReceivedMessageOpen] = useState(false)
 
-  const filteredNetworks = networks.filter((network) =>
+  const filteredNetworks = selectedHyperBridges.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     network.chainId !== 324
   );

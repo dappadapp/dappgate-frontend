@@ -2,7 +2,8 @@ import type { Network } from "@/utils/networks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAccount, useContractRead, useNetwork, useSwitchNetwork } from "wagmi";
-import { writeContract, readContract } from "@wagmi/core";
+import { waitForTransaction,writeContract, readContract } from "@wagmi/core";
+
 import { toast } from "react-toastify";
 import OFTBridge from "../../config/abi/OFTBridge.json";
 import { ethers } from "ethers";
@@ -29,7 +30,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
   const [lzTargetChainId, setLzTargetChainId] = useState(
-    selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
+    selectedHyperBridges ? selectedHyperBridges.filter((network: any) => network.isGrayscale !== true)[0]?.layerzeroChainId : 0
   );
   const [adapterParam, setAdapterParams] = useState("");
 
@@ -40,18 +41,19 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
     args: [
       lzTargetChainId,
       account,
-      selectedHyperBridges.length,
+      selectedHyperBridges.filter((network: any) => network.isGrayscale !== true).length,
       false,
       adapterParam, // version: 1, value: 400000
     ],
     chainId: sourceChain.chainId,
   });
 
+
   useEffect(() => {
     if (account) {
       const adapterParams = ethers.solidityPacked(
         ["uint16", "uint", "uint", "address"],
-        [2, 200000, BigInt(Number(selectedHyperBridges?.length)), account]
+        [2, 200000, BigInt(Number(selectedHyperBridges.filter((network: any) => network.isGrayscale !== true)?.length)), account]
       );
       setAdapterParams(adapterParams);
     }
@@ -60,7 +62,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   useEffect(() => {
     refetch();
     setLzTargetChainId(
-      selectedHyperBridges ? selectedHyperBridges[0]?.layerzeroChainId : 0
+      selectedHyperBridges ? selectedHyperBridges.filter((network: any) => network.isGrayscale !== true)[0]?.layerzeroChainId : 0
     );
   }, [selectedHyperBridges, refetch]);
 
@@ -109,6 +111,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
   ]);
 
   const onBridge = async () => {
+
     if (connectedChain?.id !== sourceChain.chainId) {
       await switchNetworkAsync?.(sourceChain.chainId);
     }
@@ -117,16 +120,17 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
       return toast("Please connect your wallet first.");
     }
 
-    if (!selectedHyperBridges.length) {
+    if (!selectedHyperBridges.filter((network: any) => network.isGrayscale !== true).length) {
       return toast("You didn't choose any destination chains.");
     }
 
     try {
-      setLoading(true);
 
-      selectedHyperBridges?.map(async (network: Network) => {
+
+      selectedHyperBridges.filter((network: any) => network.isGrayscale !== true)?.map(async (network: Network) => {
         setLzTargetChainId(network?.layerzeroChainId);
 
+        setLoading(true);
         const gasEstimateArray: any = await readContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
           abi: OFTBridge,
@@ -139,7 +143,6 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
             "",
           ],
         });
-
 
         const { hash: txHash } = await writeContract({
           address: sourceChain.tokenContractAddress as `0x${string}`,
@@ -159,7 +162,12 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           ],
         });
 
-        if (txHash === undefined) {
+        await waitForTransaction({
+          hash: txHash,
+        });
+
+        if (!txHash) {
+
           return  toast("Temporarly closed for maintenance.");
         }
 
@@ -198,19 +206,58 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           });
         };
         postBridgeHistory();
+        setLoading(false);
       });
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    } finally {
+    } catch (error: any) {
+      if(error?.message.includes("User rejected the request")) {
+        return toast(
+          "Transaction rejected."
+        );
+      }
+
+      if(error?.message.includes("Not enough gas to send")) {
+        return toast(
+          "Please select at least two destination chain."
+        );
+      }
+
+      if(error?.message.includes("every destination should exactly have one token ID")) {
+        return toast(
+          "Not enough NFTs to bridge."
+        );
+      }
+      if (
+        error?.message.includes(
+          "LzApp: destination chain is not a trusted source"
+        )
+      ) {
+        return toast(
+          "It looks like the bridge between these chains are closed."
+        );
+      }
+
+      if (
+        error?.message.includes("Execution reverted for an unknown reason.")
+      ) {
+        return toast(
+          `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) )?.toString())?.toFixed(4))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
+        );
+      }
+      return toast(
+        `Make sure you have more than ${( Number(ethers.formatUnits((gasEstimateData as bigint) )?.toString())?.toFixed(4))} ${sourceChain.symbol} and you're on the correct network.`, {autoClose: 6000}
+      );
+      
+    }
+    finally {
       setLoading(false);
     }
+
   };
 
   return (
     <button
       onClick={onBridge}
-      disabled={!tokenAmountHyperBridge || loading}
+      disabled={ loading}
       className={
         "bg-blue-600 text-xl mt-4 text-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed"
       }
@@ -223,7 +270,7 @@ const OFTHyperBridgeButton: React.FC<Props> = ({
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-4 h-4 animate-spin"
+          className="w-4 h-4 animate-spin inline-block ml-2"
         >
           <path
             strokeLinecap="round"

@@ -11,6 +11,7 @@ import RelayerAbi from "../../config/abi/RelayerV2.json";
 interface Props {
   sourceChain: Network;
   targetChain: Network;
+  selectedHyperBridges: Network[];
   onChangeSourceChain: (selectedNetwork: Network) => Promise<void>;
   onChangeTargetChain: (selectedNetwork: Network) => Promise<void>;
   onArrowClick: () => Promise<void>;
@@ -21,6 +22,7 @@ interface Props {
 const GasRefuel: React.FC<Props> = ({
   sourceChain,
   targetChain,
+  selectedHyperBridges,
   onChangeSourceChain,
   onChangeTargetChain,
   onArrowClick,
@@ -38,9 +40,8 @@ const GasRefuel: React.FC<Props> = ({
 
   const gasRefuelNetworks = networks.filter(
     (network) =>
-      network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      network.relayerAddress !== "" && network.chainId !== 1 &&
-      network.layerzeroChainId !== 165
+    sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+    network?.chainId !== sourceChain.chainId
   );
 
   const { address: account } = useAccount();
@@ -95,7 +96,7 @@ const GasRefuel: React.FC<Props> = ({
           value={targetChain}
           sourceValue={sourceChain}
           onChange={onChangeTargetChain}
-          options={gasRefuelNetworks}
+          options={selectedHyperBridges}
           searchValue={searchTerm}
           setSearchValue={setSearchTerm}
         />

@@ -65,46 +65,13 @@ export default function Home({
   const [tokenIds, setTokenIds] = useState({});
 
 
-  // fetching disabled bridges data
-  const { data: disabledBridgesData } = useContractReads({
-    contracts: networks.map((network) => ({
-      address: sourceChain.nftContractAddress as `0x${string}`,
-      abi: ONFTAbi as any,
-      functionName: "estimateSendFee",
-      args: [
-        `${network.layerzeroChainId}`,
-        "0x0000000000000000000000000000000000000000",
-        "1",
-        false,
-        "0x",
-      ],
-      chainId: sourceChain.chainId,
-    })),
-  });
-
-  useEffect(() => {
-    if (!disabledBridgesData) return;
-
-   
-    const disabledNetworks = disabledBridgesData.map((data: any, i: number) => {
-      if (data.status === "failure") return networks[i].chainId;
-      else return 0;
-    });
-    console.log("disabledNetworks", disabledNetworks);
-    
-    setSourceChain((prev) => ({
-      ...prev,
-      disabledNetworks: disabledNetworks as number[],
-    }));
-  }, [disabledBridgesData]);
-
-  // fill with individual network data
 
   const initialSelectedHyperBridges = networks?.filter(
     (network) =>
-      !sourceChain?.disabledNetworks?.includes(network?.chainId) &&
+      sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
       network?.chainId !== sourceChain.chainId
   );
+
   const [selectedHyperBridges, setSelectedHyperBridges] = useState<Network[]>(
     initialSelectedHyperBridges
   );
@@ -159,19 +126,12 @@ export default function Home({
       }
     }
 
-    const disabledNetworks = disabledBridgesData?.map((data: any, i: number) => {
-      if (data.status === "failure") return networks[i].chainId;
-      else return 0;
-    });
-    setSourceChain((prev) => ({
-      ...prev,
-      disabledNetworks: disabledNetworks as number[],
-    }));
+
 
     const newSelectedHyperBridges = networks?.filter(
       (network) =>
-        !selectedNetwork?.disabledNetworks?.includes(network?.chainId) &&
-        network.chainId !== selectedNetwork.chainId
+      sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+      network?.chainId !== sourceChain.chainId
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
@@ -227,8 +187,8 @@ export default function Home({
   useEffect(() => {
     const selectedHyperBridges_ = networks.filter(
       (network) =>
-        !sourceChain.disabledNetworks.includes(network.chainId) &&
-        sourceChain.chainId !== network.chainId
+      sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+      network?.chainId !== sourceChain.chainId
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
@@ -289,7 +249,7 @@ export default function Home({
       ) : null}
 
 
-{isZKBridgeModalOpen ? (
+      {isZKBridgeModalOpen ? (
         <ZKBridgeModal
           onCloseModal={() => {
             setIsZKBridgeModalOpen(false);
@@ -313,10 +273,10 @@ export default function Home({
 
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
-            
-             <button onClick={() => setTabIndex(6)} >Messages</button>
-             <button onClick={() => setTabIndex(7)}>StarGate</button>
-             <a href={"https://tracker.dappgate.io/"} target="_blank">
+
+              <button onClick={() => setTabIndex(6)} >Messages</button>
+              <button onClick={() => setTabIndex(7)}>StarGate</button>
+              <a href={"https://tracker.dappgate.io/"} target="_blank">
                 Tracker{" "}
                 <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
               </a>
@@ -333,6 +293,7 @@ export default function Home({
               <ONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
+                selectedHyperBridges={selectedHyperBridges}
                 refCode={refCode}
                 estimatedGas={estimatedGas}
                 layerZeroTxHashes={layerZeroTxHashes}
@@ -357,6 +318,7 @@ export default function Home({
               <GasRefuel
                 sourceChain={sourceChain}
                 targetChain={targetChain}
+                selectedHyperBridges={selectedHyperBridges}
                 onChangeSourceChain={onChangeSourceChain}
                 onChangeTargetChain={onChangeTargetChain}
                 onArrowClick={onArrowClick}
@@ -367,6 +329,7 @@ export default function Home({
               <OFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
+                selectedHyperBridges={selectedHyperBridges}
                 refCode={refCode}
                 balanceOfDlgate={balanceOfDlgate}
                 refetchDlgateBalance={refetchDlgateBalance}
@@ -391,13 +354,14 @@ export default function Home({
               <Message
                 sourceChain={sourceChain}
                 targetChain={targetChain}
+                selectedHyperBridges={selectedHyperBridges}
                 onChangeSourceChain={onChangeSourceChain}
                 onChangeTargetChain={onChangeTargetChain}
                 onArrowClick={onArrowClick}
               />
             ) : tabIndex == 7 ? (
               <StargateBridge />
-            ) :tabIndex == 2 ? (
+            ) : tabIndex == 2 ? (
               <ZKONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -413,8 +377,8 @@ export default function Home({
                 tokenIds={tokenIds}
                 setTokenIds={setTokenIds}
               />
-            ):
-            null}
+            ) :
+              null}
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
@@ -441,36 +405,33 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
-              isAnimationStarted ? "bridge-animaton" : ""
-            }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
+              }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-              } rounded-full`}
+                } rounded-full`}
               style={{
                 background: sourceChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${
-                isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-              } rounded-full`}
+                } rounded-full`}
               style={{
                 background: targetChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
           </div>
         </div>
-    
+
       </div>
       <ToastContainer position="top-right" theme="dark" />
-  
+
     </div>
   );
 }

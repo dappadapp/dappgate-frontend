@@ -60,12 +60,7 @@ const ListboxTargetMenu = ({
               placeholder="Search"
             />
             {options.map((option, i) => {
-              const isDisabled = sourceValue.disabledNetworks?.includes(
-                option.chainId
-              );
-
-              // Add 'isDisabled' to the 'option' object.
-              option.isDisabled = isDisabled;
+      
 
               return (
                 <Listbox.Option
@@ -73,14 +68,14 @@ const ListboxTargetMenu = ({
                   className={({ active }) =>
                     `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                       active
-                        ? "bg-white text-black"
+                        ? "bg-gray-600 text-black"
                         : option.isDisabled
                         ? "bg-gray-400 text-white line-through"
                         : "text-white"
                     }`
                   }
                   value={option}
-                  disabled={isDisabled}
+                 
                 >
                   {(props) => optionRenderer(option, props.selected)}
                 </Listbox.Option>

@@ -53,21 +53,40 @@ const ONFTHyperBridge: React.FC<Props> = ({
       chainId: sourceChain.chainId,
     });
 
-  const handleButtonClick = async (index: number, network?: any) => {
-    if (!network) return;
-    let selectedNetworks = selectedHyperBridges;
-    let isExist = selectedNetworks.some(
-      (selectedNetwork) => selectedNetwork.chainId === network.chainId
-    );
-    if (isExist) {
-      selectedNetworks = selectedNetworks.filter(
-        (selectedNetwork) => selectedNetwork.chainId !== network.chainId
+    const handleButtonClick = async (index: number, network?: any) => {
+      console.log("network", network);
+      if (!network) return;
+      
+      let selectedNetworks = selectedHyperBridges;
+      let isExist = selectedNetworks.some(
+          (selectedNetwork) => selectedNetwork.chainId === network.chainId
       );
-      setSelectedHyperBridges(selectedNetworks);
-    } else {
-      setSelectedHyperBridges([...selectedHyperBridges, network]);
-    }
+  
+      if (isExist) {
+          // Find the index of the existing network in the array
+          const existingIndex = selectedNetworks.findIndex(
+              (selectedNetwork) => selectedNetwork.chainId === network.chainId
+          );
+  
+          // Update the network in the array to show it as grayscale
+          selectedNetworks[existingIndex] = {
+              ...selectedNetworks[existingIndex],
+              isGrayscale: !network.isGrayscale || false,
+          };
+  
+          // Update the state to reflect the change
+          setSelectedHyperBridges([...selectedNetworks]);
+      } else {
+          // If the network is in grayscale, remove the grayscale status
+          if (network.isGrayscale) {
+              delete network.isGrayscale;
+          }
+  
+          setSelectedHyperBridges([...selectedNetworks, network]);
+      }
   };
+
+  console.log("selectedHyperBridges", selectedHyperBridges);
 
   return (
     <div
@@ -97,22 +116,13 @@ const ONFTHyperBridge: React.FC<Props> = ({
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
-            {networks
-              .filter((network) => {
-                return (
-                  !sourceChain?.disabledNetworks?.includes(network?.chainId) &&
-                  network?.chainId !== sourceChain?.chainId && network?.chainId !== 1 && network?.chainId !== 8453
-                );
-              })
+            {selectedHyperBridges
               .map((network, i) => {
                 return (
                   <button
                     key={i}
                     onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${!selectedHyperBridges?.some(
-                      (selectedBridge) =>
-                        selectedBridge?.chainId === network?.chainId
-                    )
+                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${network.isGrayscale
                       ? "grayscale"
                       : "grayscale-0"
                       } p-2 `}

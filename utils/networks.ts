@@ -44,6 +44,9 @@ export interface Network {
   image: string;
   logIndex?: number;
   disabledNetworks: number[];
+  isDisabled?: boolean;
+  isGrayscale?: boolean;
+  canBeUsedWith: number[];
   symbol?: string;
   chainName?: string;
   isTestnet?: boolean;
@@ -74,6 +77,7 @@ export const networks: Network[] = [
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
       42220, 5,80001,534353, 11155111
     ],
+    canBeUsedWith: [102,106,109,110,111],
     symbol: "ETH",
     chainName: undefined,
     isTestnet: false,
@@ -95,6 +99,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "arbitrum.svg",
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
     disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "ETH",
     chainName: "arbitrum-mainnet",
@@ -115,6 +120,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E5D1B8]",
     image: "scroll.svg",
+    canBeUsedWith: [102,106,109,110,111,184],
     disabledNetworks: [
       1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
@@ -144,6 +150,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#8C8DFC]",
     image: "xpla.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
@@ -169,6 +176,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#8C8DFC]",
     image: "horizen.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
@@ -194,6 +202,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#8C8DFC]",
     image: "pgn.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1, 56,8453, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 5000,
@@ -223,6 +232,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "telos.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "TLOS",
     chainName: "telos-mainnet",
@@ -242,6 +252,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "conflux.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "CFX",
     chainName: "conflux-mainnet",
@@ -262,6 +273,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#12AAFF]",
     image: "orderly.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "ETH",
     chainName: "orderly-mainnet",
@@ -284,6 +296,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#8C8DFC]",
     image: "zksync-era.svg",
     logIndex: 3,
+    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,212,210],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1088, 1116, 1285, 2222, 8217, 1666600000, 80001,
       1101, 80001,534353, 11155111, 7777777, 5151706
@@ -307,6 +320,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#2967FF]",
     image: "base.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112,126,167,151,145,183,181,195,202],
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
       82, 80001, 5,534353, 11155111
@@ -329,6 +343,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
     disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
     symbol: "BNB",
     chainName: "bsc-mainnet",
@@ -348,6 +363,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
     disabledNetworks: [5, 420, 1116, 80001,  5,80001,534353, 11155111],
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
@@ -365,6 +381,7 @@ export const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: 'bg-[#777777]',
     image: "ethereum.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700,
       8217, 42161, 42170, 43114, 1666600000, 80001, 5,80001,534353, 11155111,
@@ -389,6 +406,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#2967FF]",
     image: "astar.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
       82, 80001, 5,534353, 11155111
@@ -412,6 +430,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#2967FF]",
     image: "aurora.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
       82, 80001, 5,534353, 11155111
@@ -433,6 +452,7 @@ export const networks: Network[] = [
     zkNFTContractAddress: "",
     blockConfirmation: 5,
     colorClass: "bg-[#196aff]",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1, 5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
       7700, 8217, 42170, 80001, 5,80001,534353, 11155111
@@ -457,6 +477,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#1B1B1D]",
     image: "linea.svg",
+    canBeUsedWith: [102,106,109,110,111,159,175,151,112],
     disabledNetworks: [
       66, 82, 100, 122, 324, 1116, 1284, 1285, 1559, 7700, 8217, 42170,
       1666600000,  5,80001,534353, 11155111
@@ -480,6 +501,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#FF0000]",
     image: "opbnb.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
     symbol: "BNB",
     chainName: "bsc-mainnet",
@@ -502,6 +524,7 @@ export const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: "bg-[#7939D5]",
     image: "polygon-zkevm.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 82, 122, 1116, 1285, 1559, 7700, 8217, 42170, 1666600000,
       80001, 324, 5,80001,534353, 11155111
@@ -525,6 +548,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#1B1B1D]",
     image: "mantle.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       1666600000, 1284, 122, 100, 8217, 1116, 66, 7700, 324, 1285, 1559, 42170,
       82, 80001, 5,80001,534353, 11155111
@@ -548,6 +572,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E37B1E]",
     image: "arb-nova.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
@@ -569,6 +594,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#FBCC5C]",
     image: "celo.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ], // TODO: UPDATE
@@ -608,6 +634,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#57ac86]",
     image: "gnosis.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 82, 324, 1116, 1285, 1559, 2222, 1666600000, 80001, 5,80001,534353, 11155111
     ],
@@ -629,6 +656,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#a9f7b0]",
     image: "fuse.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 56, 128566, 82, 324, 1101, 1116, 1285, 1559, 2222, 42161, 5,80001,534353, 11155111,
       42170, 1666600000, 80001,
@@ -651,6 +679,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#f82e08]",
     image: "klaytn.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 56, 66, 82, 137, 324, 1101, 1116, 1285, 1559, 2222, 7700,
       42161, 42170, 1666600000, 80001, 5,80001,534353, 11155111
@@ -672,6 +701,7 @@ export const networks: Network[] = [
     zkNFTContractAddress: "0x32fF95c4E776D783d34e338a59C1E345Ae73B08c",
     blockConfirmation: 5,
     colorClass: "bg-[#00CDB7]",
+    canBeUsedWith: [102,106,109,110,111],
     image: "metis.svg",
     disabledNetworks: [5, 420, 66, 324, 1101, 1116, 1666600000, 80001, 5,80001,534353, 11155111],
     symbol: "METIS",
@@ -692,6 +722,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#FDBE08]",
     image: "coredao.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700,
       8217, 42161, 42170, 43114, 1666600000, 80001, 5,80001,534353, 11155111
@@ -714,6 +745,7 @@ export const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#34EEA4]",
     image: "canto.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
@@ -735,6 +767,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#1fcceb]",
     image: "moonbeam.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
       8217, 42170, 80001, 5,80001,534353, 11155111
@@ -757,6 +790,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E6AE05]",
     image: "moonriver.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1101, 1116, 1559, 7700, 8217, 42170,
       1666600000, 80001, 5,80001,534353, 11155111
@@ -779,6 +813,7 @@ export const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#F2F2F2]",
     image: "tenet.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
@@ -800,6 +835,7 @@ export const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#1C2A59]",
     image: "meter.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [
       5, 420, 66, 100, 122, 1101, 1116, 1285, 2222, 8217, 1666600000, 80001, 5,80001,534353, 11155111
     ],
@@ -821,6 +857,7 @@ export const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#F2524B]",
     image: "kava.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1116, 1559, 7700, 8217, 42170, 1666600000, 5,80001,534353, 11155111,
       80001,
@@ -853,6 +890,7 @@ export const networks: Network[] = [
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
     logIndex: 2,
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
     disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
     symbol: "MATIC",
     chainName: "matic-mainnet",
@@ -873,6 +911,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#FF0420]",
     image: "optimism.svg",
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
     disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "ETH",
     chainName: "optimism-mainnet",
@@ -892,6 +931,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#196aff]",
     image: "fantom.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [5, 420, 66, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
     symbol: "FTM",
     chainName: "fantom-mainnet",
@@ -912,6 +952,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#41dccc]",
     image: "harmony.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [
       5, 420, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222, 7700,
       8217, 42170, 80001, 5,80001,534353, 11155111
@@ -935,6 +976,7 @@ export const networks: Network[] = [
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "okex.svg",
+    canBeUsedWith: [102,106,109,110,111, 176,159,175,151,112],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
       7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
@@ -972,6 +1014,7 @@ https://teloscan.io
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "loot.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
       7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
@@ -996,6 +1039,7 @@ https://teloscan.io
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "zora.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
       7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
@@ -1020,6 +1064,7 @@ https://teloscan.io
     blockConfirmation: 2,
     colorClass: "bg-[#000000]",
     image: "tomo.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1101, 1116, 1285, 1559, 2222,
       7700, 8217, 42170, 1666600000, 80001, 5,80001,534353, 11155111
@@ -1029,7 +1074,7 @@ https://teloscan.io
   },
   
 
-
+/*
   {
     name: goerli.name,
     chainId: goerli.id,
@@ -1043,6 +1088,7 @@ https://teloscan.io
     blockConfirmation: 3,
     colorClass: "bg-[#373737]",
     image: "ethereum.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
@@ -1065,6 +1111,7 @@ https://teloscan.io
     logIndex: 2,
     colorClass: "bg-[#7F43DF]",
     image: "polygon.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000, 5,80001,534353, 11155111
@@ -1087,6 +1134,7 @@ https://teloscan.io
     blockConfirmation: 5,
     colorClass: "bg-[#E5D1B8]",
     image: "scroll.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,
@@ -1109,6 +1157,7 @@ https://teloscan.io
     blockConfirmation: 5,
     colorClass: "bg-[#E5D1B8]",
     image: "linea.svg",
+    canBeUsedWith: [102,106,109,110,111],
     disabledNetworks: [
       56, 43114, 137, 42161, 10, 250, 1666600000, 1284, 122, 100, 8217, 1088,
       1116, 66, 1101, 7700, 324, 1285, 1559, 42170, 82, 2222, 59144, 8453, 5000,

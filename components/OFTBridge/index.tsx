@@ -20,6 +20,7 @@ type Props = {
   targetChain: Network;
   refCode: string;
   balanceOfDlgate: FetchBalanceResult | undefined;
+  selectedHyperBridges: Network[];
   refetchDlgateBalance: () => Promise<any>;
   onChangeSourceChain: (selectedNetwork: Network) => Promise<void>;
   onChangeTargetChain: (selectedNetwork: Network) => Promise<void>;
@@ -34,6 +35,7 @@ const OFTBridge: React.FC<Props> = ({
   targetChain,
   refCode,
   balanceOfDlgate,
+  selectedHyperBridges,
   refetchDlgateBalance,
   onChangeSourceChain,
   onChangeTargetChain,
@@ -51,7 +53,7 @@ const OFTBridge: React.FC<Props> = ({
     network.name.toLowerCase().includes(searchTerm.toLowerCase()) &&  network.chainId !== 1
   );
 
-  const filteredNetworksTarget = networks.filter((network) =>
+  const filteredNetworksTarget = selectedHyperBridges.filter((network) =>
   network.name.toLowerCase().includes(searchTerm.toLowerCase()) && network.chainId !== 1
 );
 

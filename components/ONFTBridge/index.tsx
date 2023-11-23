@@ -17,6 +17,7 @@ type Props = {
   targetChain: Network;
   refCode: string;
   layerZeroTxHashes: string[];
+  selectedHyperBridges: Network[];
   estimatedGas: string;
   onChangeSourceChain: (selectedNetwork: Network) => Promise<void>;
   onChangeTargetChain: (selectedNetwork: Network) => Promise<void>;
@@ -31,6 +32,7 @@ const ONFTBridge: React.FC<Props> = ({
   targetChain,
   refCode,
   layerZeroTxHashes,
+  selectedHyperBridges,
   estimatedGas,
   onChangeSourceChain,
   onChangeTargetChain,
@@ -69,7 +71,7 @@ const ONFTBridge: React.FC<Props> = ({
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredNetworksTarget = networks.filter((network) =>
+  const filteredNetworksTarget = selectedHyperBridges.filter((network) =>
   network.name.toLowerCase().includes(searchTerm.toLowerCase()) 
 );
 

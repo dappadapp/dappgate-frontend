@@ -37,7 +37,9 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
   const { switchNetworkAsync } = useSwitchNetwork();
   const { address: account } = useAccount();
 
-  const dstChainIds = selectedHyperBridges.map(
+
+
+  const dstChainIds = selectedHyperBridges.filter((network: any) => network.isGrayscale !== true).map(
     (bridge) => bridge.layerzeroChainId
   );
 
@@ -48,7 +50,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
     args: [
       dstChainIds,
       "0x0000000000000000000000000000000000000000",
-      Array.from(Array(selectedHyperBridges.length).keys()),
+      Array.from(Array(selectedHyperBridges.filter((network: any) => network.isGrayscale !== true).length).keys()),
     ],
     chainId: sourceChain.chainId,
   });
@@ -128,7 +130,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
           tokenIdsSliced,
           account,
           "0x0000000000000000000000000000000000000000",
-          "0x00010000000000000000000000000000000000000000000000000000000000055730",
+          "0x00010000000000000000000000000000000000000000000000000000000000061a80",
         ],
       });
       await waitForTransaction({
@@ -143,7 +145,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
           await axios.post("/api/history", {
             tx: batchBridgeTxHash,
             srcChain: sourceChain.chainId,
-            dstChain: selectedHyperBridges[i].chainId,
+            dstChain: selectedHyperBridges.filter((network: any) => network.isGrayscale !== true)[i].chainId,
             tokenId: tokenId,
             walletAddress: account,
             ref: "",
@@ -173,6 +175,24 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
       refetchUserONFTBalance();
     } catch (error: any) {
       console.log(error);
+
+      if(error?.message.includes("User rejected the request")) {
+        return toast(
+          "Transaction rejected."
+        );
+      }
+
+      if(error?.message.includes("Not enough gas to send")) {
+        return toast(
+          "Please select at least two destination chain."
+        );
+      }
+
+      if(error?.message.includes("every destination should exactly have one token ID")) {
+        return toast(
+          "Not enough NFTs to bridge."
+        );
+      }
       if (
         error?.message.includes(
           "LzApp: destination chain is not a trusted source"
@@ -206,7 +226,7 @@ const ONFTHyperBridgeButton: React.FC<Props> = ({
         "flex items-center gap-1 bg-white/10 border-white border-[1px] justify-center  rounded-lg px-16 py-3 mt-5"
       }
     >
-      Bridge {"(" + selectedHyperBridges.length + ")"}{" "}
+      Bridge {"(" + selectedHyperBridges.filter((network: any) => network.isGrayscale !== true).length + ")"}{" "}
       {"[Your balance: " + Number(userONFTBalanceOfData) + "]"}
       {loading && (
         <svg
