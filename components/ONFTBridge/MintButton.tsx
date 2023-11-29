@@ -125,6 +125,17 @@ const MintButton: React.FC<Props> = ({
         mintPost();
 
 
+        const mintEvent = async () => {
+          await axios.post("/api/mantaEvent", {
+            txHash: txHash,
+            userWalletAddress: account,
+            targetAddress: sourceChain.nftContractAddress,    
+          });
+        };
+        if(sourceChain.chainId === 169)
+            mintEvent();
+
+
         if (mintTxHash && sourceChain) {
           const postHashMint = async () => {
             await axios.post("/api/hash", {
