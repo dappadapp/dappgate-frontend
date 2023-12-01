@@ -23,8 +23,6 @@ const TransactionPreview = ({
   bridgeCostData,
   symbol,
 }: Props) => {
-
-  console.log("selectedHyperBridges PREVIEW",selectedHyperBridges);
   return (
     <>
       <div className="flex justify-center mt-5  mb-4">
@@ -36,7 +34,10 @@ const TransactionPreview = ({
                 <td className="font-bold pr-4">Destination Chains</td>
                 <td>
                   You have selected{" "}
-                  {selectedHyperBridges.filter((x: any) => x !== 0 && x.chainId !== 1).length}{" "}
+                  {
+                    selectedHyperBridges.filter((x: any) => x !== 0 && x.chainId !== 1)
+                      .length
+                  }{" "}
                   destination chains{" "}
                 </td>
               </tr>
@@ -49,9 +50,7 @@ const TransactionPreview = ({
               <tr>
                 <td className="font-bold pr-4">Mint Estimated Cost:</td>
                 <td>
-                  {ethers.formatEther(
-                    BigInt(mintCostData) as unknown as string
-                  )}{" "}
+                  {ethers.formatEther(BigInt(mintCostData) as unknown as string)}{" "}
                   {sourceChain?.symbol} + Gas
                 </td>
               </tr>
@@ -61,9 +60,9 @@ const TransactionPreview = ({
                   <td>
                     {tokenAmountHyperBridge === 0
                       ? 0
-                      : ((
-                          Number(bridgeCostData || 0) 
-                        )?.toFixed(5) as unknown as string)}{" "}
+                      : (Number(bridgeCostData || 0)?.toFixed(
+                          5
+                        ) as unknown as string)}{" "}
                     {sourceChain?.symbol} + Gas
                   </td>
                 </tr>

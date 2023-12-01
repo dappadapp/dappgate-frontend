@@ -3,10 +3,7 @@ import React, { useState } from "react";
 import ONFTHyperMintButton from "./ONFTHyperMintButton";
 import ONFTHyperBridgeButton from "./ONFTHyperBridgeButton";
 import Image from "next/image";
-import {
-  faCheckCircle,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { networks } from "@/utils/networks";
 import ArrowsSvg from "@/app/apps/dappgate/components/ArrowsSvg";
@@ -53,40 +50,37 @@ const ONFTHyperBridge: React.FC<Props> = ({
       chainId: sourceChain.chainId,
     });
 
-    const handleButtonClick = async (index: number, network?: any) => {
-      console.log("network", network);
-      if (!network) return;
-      
-      let selectedNetworks = selectedHyperBridges;
-      let isExist = selectedNetworks.some(
-          (selectedNetwork) => selectedNetwork.chainId === network.chainId
-      );
-  
-      if (isExist) {
-          // Find the index of the existing network in the array
-          const existingIndex = selectedNetworks.findIndex(
-              (selectedNetwork) => selectedNetwork.chainId === network.chainId
-          );
-  
-          // Update the network in the array to show it as grayscale
-          selectedNetworks[existingIndex] = {
-              ...selectedNetworks[existingIndex],
-              isGrayscale: !network.isGrayscale || false,
-          };
-  
-          // Update the state to reflect the change
-          setSelectedHyperBridges([...selectedNetworks]);
-      } else {
-          // If the network is in grayscale, remove the grayscale status
-          if (network.isGrayscale) {
-              delete network.isGrayscale;
-          }
-  
-          setSelectedHyperBridges([...selectedNetworks, network]);
-      }
-  };
+  const handleButtonClick = async (index: number, network?: any) => {
+    if (!network) return;
 
-  console.log("selectedHyperBridges", selectedHyperBridges);
+    let selectedNetworks = selectedHyperBridges;
+    let isExist = selectedNetworks.some(
+      (selectedNetwork) => selectedNetwork.chainId === network.chainId
+    );
+
+    if (isExist) {
+      // Find the index of the existing network in the array
+      const existingIndex = selectedNetworks.findIndex(
+        (selectedNetwork) => selectedNetwork.chainId === network.chainId
+      );
+
+      // Update the network in the array to show it as grayscale
+      selectedNetworks[existingIndex] = {
+        ...selectedNetworks[existingIndex],
+        isGrayscale: !network.isGrayscale || false,
+      };
+
+      // Update the state to reflect the change
+      setSelectedHyperBridges([...selectedNetworks]);
+    } else {
+      // If the network is in grayscale, remove the grayscale status
+      if (network.isGrayscale) {
+        delete network.isGrayscale;
+      }
+
+      setSelectedHyperBridges([...selectedNetworks, network]);
+    }
+  };
 
   return (
     <div
@@ -116,55 +110,55 @@ const ONFTHyperBridge: React.FC<Props> = ({
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
-            {selectedHyperBridges
-              .map((network, i) => {
-                return (
-                  <button
-                    key={i}
-                    onClick={() => handleButtonClick(i, network)}
-                    className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${network.isGrayscale
-                      ? "grayscale"
-                      : "grayscale-0"
-                      } p-2 `}
-                  >
-                    <Image
-                      src={`/chains/${network.image}`}
-                      alt={network.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <h2 className="p-2 flex-1">{network.name}</h2>
+            {selectedHyperBridges.map((network, i) => {
+              return (
+                <button
+                  key={i}
+                  onClick={() => handleButtonClick(i, network)}
+                  className={`flex items-center md:h-14 justify-start rounded-md bg-green-600 ${
+                    network.isGrayscale ? "grayscale" : "grayscale-0"
+                  } p-2 `}
+                >
+                  <Image
+                    src={`/chains/${network.image}`}
+                    alt={network.name}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <h2 className="p-2 flex-1">{network.name}</h2>
 
-                    {!selectedHyperBridges.some(
-                      (selectedBridge) =>
-                        selectedBridge.chainId === network.chainId
-                    ) ? (
-                      <FontAwesomeIcon
-                        className="absolute top-0 right-0 p-1"
-                        icon={faCircleXmark}
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        className="absolute top-0 right-0 p-1"
-                        icon={faCheckCircle}
-                      />
-                    )}
-                  </button>
-                );
-              })}
+                  {!selectedHyperBridges.some(
+                    (selectedBridge) => selectedBridge.chainId === network.chainId
+                  ) ? (
+                    <FontAwesomeIcon
+                      className="absolute top-0 right-0 p-1"
+                      icon={faCircleXmark}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="absolute top-0 right-0 p-1"
+                      icon={faCheckCircle}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
       <div className="text-white-700 break-words max-w-[100%] font-semibold text-lg">
-        Step2: Mint {selectedHyperBridges.length} NFTs on {sourceChain.name} to
-        bridge
+        Step2: Mint {selectedHyperBridges.length} NFTs on {sourceChain.name} to bridge
       </div>
 
       <TransactionPreview
-        selectedHyperBridges={selectedHyperBridges}
-        tokenAmountHyperBridge={selectedHyperBridges.length}
+        selectedHyperBridges={selectedHyperBridges.filter(
+          (networkX) => !networkX.isGrayscale
+        )}
+        tokenAmountHyperBridge={
+          selectedHyperBridges.filter((networkX) => !networkX.isGrayscale).length
+        }
         mintCostData={mintCostData}
         sourceChain={sourceChain}
         symbol={"NFT"}
@@ -172,7 +166,9 @@ const ONFTHyperBridge: React.FC<Props> = ({
 
       <ONFTHyperMintButton
         sourceChain={sourceChain}
-        selectedHyperBridges={selectedHyperBridges}
+        selectedHyperBridges={selectedHyperBridges.filter(
+          (networkX) => !networkX.isGrayscale
+        )}
         setMintCostData={setMintCostData}
         refetchUserONFTBalance={refetchUserONFTBalance}
       />
@@ -182,7 +178,9 @@ const ONFTHyperBridge: React.FC<Props> = ({
         setLayerZeroTxHashes={setLayerZeroTxHashes}
         setEstimatedGas={setEstimatedGas}
         estimatedGas={estimatedGas}
-        selectedHyperBridges={selectedHyperBridges}
+        selectedHyperBridges={selectedHyperBridges.filter(
+          (networkX) => !networkX.isGrayscale
+        )}
         userONFTBalanceOfData={userONFTBalanceOfData as bigint}
         refetchUserONFTBalance={refetchUserONFTBalance}
       />
