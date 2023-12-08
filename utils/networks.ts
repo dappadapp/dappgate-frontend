@@ -381,7 +381,7 @@ export const networks: Network[] = [
     blockConfirmation: 1,
     colorClass: 'bg-[#777777]',
     image: "ethereum.svg",
-    canBeUsedWith: [102,106,109,110,111],
+    canBeUsedWith: [102,106,109,110,111,112,183,184,195,165],
     disabledNetworks: [
       5, 420, 10, 66, 82, 100, 122, 324, 1088, 1116, 1285, 1559, 2222, 7700,
       8217, 42161, 42170, 43114, 1666600000, 80001, 5,80001,534353, 11155111,
