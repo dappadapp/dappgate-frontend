@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dappgate-frontend.tar.gz"
-          target: "/remote/dappgate-frontend"
+          target: "/home/remote/dappgate-frontend"
 
       - name: Restart Docker Container
         uses: appleboy/ssh-action@master
@@ -48,6 +48,6 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker load < /remote/dappgate-frontend/dappgate-frontend.tar.gz
+            docker load < /home/remote/dappgate-frontend/dappgate-frontend.tar.gz
             docker stop dappgate-frontend || true
             docker run -d --rm --name dappgate-frontend dappgate-frontend
