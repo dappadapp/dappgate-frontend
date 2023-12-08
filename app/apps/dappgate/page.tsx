@@ -46,7 +46,6 @@ export default function Home({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
   const [refCode, setRefCode] = useState<string>("");
@@ -63,8 +62,6 @@ export default function Home({
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [pendingTxs, setPendingTxs] = useState<string[]>([]);
   const [tokenIds, setTokenIds] = useState({});
-
-
 
   const initialSelectedHyperBridges = networks?.filter(
     (network) =>
@@ -126,12 +123,10 @@ export default function Home({
       }
     }
 
-
-
     const newSelectedHyperBridges = networks?.filter(
       (network) =>
-      sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
-      network?.chainId !== sourceChain.chainId
+        sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+        network?.chainId !== sourceChain.chainId
     );
 
     setSelectedHyperBridges(newSelectedHyperBridges);
@@ -187,8 +182,8 @@ export default function Home({
   useEffect(() => {
     const selectedHyperBridges_ = networks.filter(
       (network) =>
-      sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
-      network?.chainId !== sourceChain.chainId
+        sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+        network?.chainId !== sourceChain.chainId
     );
     setSelectedHyperBridges(selectedHyperBridges_);
   }, [sourceChain]);
@@ -211,6 +206,9 @@ export default function Home({
       setTabIndex(foundTabIndex === -1 ? 0 : foundTabIndex);
     }
   }, [searchParams?.ref]);
+  useEffect(() => {
+    console.log(selectedHyperBridges);
+  }, [selectedHyperBridges]);
 
   return (
     <div className={"relative w-full h-[100vh] min-h-[800px] overflow-x-hidden"}>
@@ -248,7 +246,6 @@ export default function Home({
         />
       ) : null}
 
-
       {isZKBridgeModalOpen ? (
         <ZKBridgeModal
           onCloseModal={() => {
@@ -273,8 +270,7 @@ export default function Home({
 
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
-
-              <button onClick={() => setTabIndex(6)} >Messages</button>
+              <button onClick={() => setTabIndex(6)}>Messages</button>
               <button onClick={() => setTabIndex(7)}>StarGate</button>
               <a href={"https://tracker.dappgate.io/"} target="_blank">
                 Tracker{" "}
@@ -377,8 +373,7 @@ export default function Home({
                 tokenIds={tokenIds}
                 setTokenIds={setTokenIds}
               />
-            ) :
-              null}
+            ) : null}
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
@@ -405,33 +400,34 @@ export default function Home({
           }
         >
           <div
-            className={`absolute w-[100vw] aspect-square flex items-center content-center ${isAnimationStarted ? "bridge-animaton" : ""
-              }`}
+            className={`absolute w-[100vw] aspect-square flex items-center content-center ${
+              isAnimationStarted ? "bridge-animaton" : ""
+            }`}
           >
             <div
-              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${
+                isAnimationEnd
                   ? "left-[30%]"
                   : "left-0 duration-1000 transition-all translate-x-[-50%]"
-                } rounded-full`}
+              } rounded-full`}
               style={{
                 background: sourceChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
             <div
-              className={`absolute h-[80vh] aspect-square ${isAnimationEnd
+              className={`absolute h-[80vh] aspect-square ${
+                isAnimationEnd
                   ? "right-[30%] opacity-50"
                   : "right-0 duration-1000 transition-all translate-x-[50%]"
-                } rounded-full`}
+              } rounded-full`}
               style={{
                 background: targetChain.colorClass.replace("bg-[", "").replace("]", ""),
               }}
             ></div>
           </div>
         </div>
-
       </div>
       <ToastContainer position="top-right" theme="dark" />
-
     </div>
   );
 }

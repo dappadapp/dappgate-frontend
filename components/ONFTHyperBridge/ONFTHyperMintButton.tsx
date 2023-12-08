@@ -71,11 +71,9 @@ const ONFTHyperMintButton: React.FC<Props> = ({
       return toast("You didn't choose any destination chains.");
     }
     if (!mint)
-      return toast(
-        "Make sure you have enough ETH and you're on the correct network."
-      );
+      return toast("Make sure you have enough ETH and you're on the correct network.");
     if (!isSuccess) {
-      return  toast("Temporarly closed for maintenance.");
+      return toast("Temporarly closed for maintenance.");
     }
     try {
       setLoading(true);
@@ -113,36 +111,32 @@ const ONFTHyperMintButton: React.FC<Props> = ({
         postMintHistory();
       });
 
-     
-        const postReferenceMint = async () => {
-          await axios.post("/api/referenceMint", {
-            id: 0,
-            walletAddress: account,
-            chainId: sourceChain.chainId,
-            ref: refCode,
-            tx_id: mintTxHash,
-          });
-        };
-        postReferenceMint();
+      const postReferenceMint = async () => {
+        await axios.post("/api/referenceMint", {
+          id: 0,
+          walletAddress: account,
+          chainId: sourceChain.chainId,
+          ref: refCode,
+          tx_id: mintTxHash,
+        });
+      };
+      postReferenceMint();
 
-   
-        const mintPost = async () => {
-          await axios.post("/api/newCreate", {
-            hash: mintTxHash,
-            from: account,
-            to: sourceChain.nftContractAddress,
-            function: "batchMint",
-            chainId: sourceChain.chainId,
-            status: 0,
-            metadata: {
-              "ref": refCode,
-              "type": "onft",
-            }
-            
-          });
-        };
-        mintPost();
-   
+      const mintPost = async () => {
+        await axios.post("/api/newCreate", {
+          hash: mintTxHash,
+          from: account,
+          to: sourceChain.nftContractAddress,
+          function: "batchMint",
+          chainId: sourceChain.chainId,
+          status: 0,
+          metadata: {
+            ref: refCode,
+            type: "onft",
+          },
+        });
+      };
+      mintPost();
 
       if (mintTxHash && sourceChain) {
         const postHashMint = async () => {
