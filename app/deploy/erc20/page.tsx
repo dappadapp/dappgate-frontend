@@ -35,7 +35,7 @@ const ScrollBridge: React.FC = ({}) => {
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [initialSupply, setInitialSupply] = useState<string>("");
-  const [fee, setFee] = useState<string>("0.0001277"); // Set an initial fee
+  const [fee, setFee] = useState<string>("0,0011"); // Set an initial fee
   const [hash, setHash] = useState<undefined | `0x${string}`>();
   console.log("connectedChain", connectedChain);
   const [chainId, setChainId] = useState<number>(connectedChain?.id || 534352); // Set the desired chain ID
