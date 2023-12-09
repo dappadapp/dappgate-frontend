@@ -27,11 +27,6 @@ const nextConfig = {
         source: '/apps/dappad',
         destination: 'https://app.dappad.app',
         permanent: true,
-      },
-      {
-        source: '/',
-        destination: '/apps/dappgate',
-        permanent: true,
       }
     ]
   },
