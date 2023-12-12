@@ -57,6 +57,51 @@ export interface Network {
 
 export const networks: Network[] = [
 
+
+
+  {
+    name: arbitrum.name,
+    chainId: arbitrum.id,
+    layerzeroChainId: 110,
+    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
+    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
+    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
+    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
+    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
+    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
+    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
+    blockConfirmation: 5,
+    colorClass: "bg-[#12AAFF]",
+    image: "arbitrum.svg",
+    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
+    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
+    symbol: "ETH",
+    chainName: "arbitrum-mainnet",
+  },
+
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 109,
+    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
+    tokenContractAddress: "0x9b57378504dCc215c9063BbCeb19eEe2379B8613",
+    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
+    messageContractAddress: "0xCC61DA5F878Ae1dbA0f24e53325eDFF76498f7A1",
+    gasRefuelContractAddress: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
+    setOFTContractAddress: "0x2D6772226f9b2A9DB3A1bFe630D10Cb7BfD854b7",
+    zkNFTContractAddress: "0x5c065130BC6Ef0EaD058b27F53E0ca20dD15E529",
+    trackerContractAddress: "0x6f558C5Aa571c957A597dB9A1dB6040711c8130E",
+    blockConfirmation: 5,
+    colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg",
+    logIndex: 2,
+    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,210],
+    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
+    symbol: "MATIC",
+    chainName: "matic-mainnet",
+  },
+
   {
     name: "Manta Pacific",
     chainId: 169,
@@ -84,26 +129,6 @@ export const networks: Network[] = [
   },
 
 
-  {
-    name: arbitrum.name,
-    chainId: arbitrum.id,
-    layerzeroChainId: 110,
-    nftContractAddress: "0xe7637699bd894427a3d0F16c6a4cBC1FeA1fA8ec",
-    tokenContractAddress: "0xCE0690a849FD00227A769BcC53c1C6266cc84483",
-    relayerAddress: "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    messageContractAddress: "0xB5D479ebFfDC5e9B660E0657322Bb8BE3807DF26",
-    gasRefuelContractAddress: "0x92778703489Bb81EF375D69e4D2dac0CDF943f0a",
-    setOFTContractAddress: "0x2fB75A9eec363875A369b72eb88F1d70dA59e2B5",
-    zkNFTContractAddress: "0xF529C887ca7D4045c433144f8dB0fDe7b48882A9",
-    trackerContractAddress: "0x3f9BE5b9C45825179e5AE9E9DcDE2fd49A47b50d",
-    blockConfirmation: 5,
-    colorClass: "bg-[#12AAFF]",
-    image: "arbitrum.svg",
-    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
-    disabledNetworks: [5, 420, 122, 1116, 8217, 80001, 5,80001,534353, 11155111],
-    symbol: "ETH",
-    chainName: "arbitrum-mainnet",
-  },
 
   {
     name: "Scroll",
@@ -343,7 +368,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E8B30B]",
     image: "bsc.svg",
-    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
+    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,210],
     disabledNetworks: [5, 420, 122, 8217, 80001,  5,80001,534353, 11155111],
     symbol: "BNB",
     chainName: "bsc-mainnet",
@@ -363,7 +388,7 @@ export const networks: Network[] = [
     blockConfirmation: 5,
     colorClass: "bg-[#E84142]",
     image: "avalanche.svg",
-    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
+    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,210],
     disabledNetworks: [5, 420, 1116, 80001,  5,80001,534353, 11155111],
     symbol: "AVAX",
     chainName: "avalanche-mainnet",
@@ -874,27 +899,7 @@ export const networks: Network[] = [
         blockConfirmation: 1,
         colorClass: "bg-[#E8B30B]"
       }, */
-  {
-    name: polygon.name,
-    chainId: polygon.id,
-    layerzeroChainId: 109,
-    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
-    tokenContractAddress: "0x9b57378504dCc215c9063BbCeb19eEe2379B8613",
-    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
-    messageContractAddress: "0xCC61DA5F878Ae1dbA0f24e53325eDFF76498f7A1",
-    gasRefuelContractAddress: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
-    setOFTContractAddress: "0x2D6772226f9b2A9DB3A1bFe630D10Cb7BfD854b7",
-    zkNFTContractAddress: "0x5c065130BC6Ef0EaD058b27F53E0ca20dD15E529",
-    trackerContractAddress: "0x6f558C5Aa571c957A597dB9A1dB6040711c8130E",
-    blockConfirmation: 5,
-    colorClass: "bg-[#7F43DF]",
-    image: "polygon.svg",
-    logIndex: 2,
-    canBeUsedWith: [101,102,106,108,109,110,111,112,115,116,118,125,126,138,145,150,151,153,155,158,159,165,167,173,175,176,161,177,183,184,181,197,198,195,202,210,212,199,211,196,214,215,216,213,217,218],
-    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
-    symbol: "MATIC",
-    chainName: "matic-mainnet",
-  },
+ 
  
   {
     name: optimism.name,
