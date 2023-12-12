@@ -57,7 +57,27 @@ export interface Network {
 
 export const networks: Network[] = [
 
-
+  {
+    name: polygon.name,
+    chainId: polygon.id,
+    layerzeroChainId: 109,
+    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
+    tokenContractAddress: "0x9b57378504dCc215c9063BbCeb19eEe2379B8613",
+    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
+    messageContractAddress: "0xCC61DA5F878Ae1dbA0f24e53325eDFF76498f7A1",
+    gasRefuelContractAddress: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
+    setOFTContractAddress: "0x2D6772226f9b2A9DB3A1bFe630D10Cb7BfD854b7",
+    zkNFTContractAddress: "0x5c065130BC6Ef0EaD058b27F53E0ca20dD15E529",
+    trackerContractAddress: "0x6f558C5Aa571c957A597dB9A1dB6040711c8130E",
+    blockConfirmation: 5,
+    colorClass: "bg-[#7F43DF]",
+    image: "polygon.svg",
+    logIndex: 2,
+    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,210],
+    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
+    symbol: "MATIC",
+    chainName: "matic-mainnet",
+  },
 
   {
     name: arbitrum.name,
@@ -80,27 +100,7 @@ export const networks: Network[] = [
     chainName: "arbitrum-mainnet",
   },
 
-  {
-    name: polygon.name,
-    chainId: polygon.id,
-    layerzeroChainId: 109,
-    nftContractAddress: "0x6C2f11686B4706c29337d1c0Bbbe819A3e6dFA56",
-    tokenContractAddress: "0x9b57378504dCc215c9063BbCeb19eEe2379B8613",
-    relayerAddress: "0x75dC8e5F50C8221a82CA6aF64aF811caA983B65f",
-    messageContractAddress: "0xCC61DA5F878Ae1dbA0f24e53325eDFF76498f7A1",
-    gasRefuelContractAddress: "0x3411de43f6527f4267c619Ed75848b0272C1d9Ea",
-    setOFTContractAddress: "0x2D6772226f9b2A9DB3A1bFe630D10Cb7BfD854b7",
-    zkNFTContractAddress: "0x5c065130BC6Ef0EaD058b27F53E0ca20dD15E529",
-    trackerContractAddress: "0x6f558C5Aa571c957A597dB9A1dB6040711c8130E",
-    blockConfirmation: 5,
-    colorClass: "bg-[#7F43DF]",
-    image: "polygon.svg",
-    logIndex: 2,
-    canBeUsedWith: [102,106,109,110,111, 176, 173,159, 175, 158,112,177,184,183,202,210],
-    disabledNetworks: [5, 420, 8217, 80001, 59144, 5000, 8453, 5,80001,534353, 11155111],
-    symbol: "MATIC",
-    chainName: "matic-mainnet",
-  },
+
 
   {
     name: "Manta Pacific",
