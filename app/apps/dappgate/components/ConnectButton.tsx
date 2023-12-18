@@ -1,7 +1,7 @@
 "use client";
 import formatAddress from "@/utils/formatAddress";
 import { useWeb3Modal } from "@web3modal/react";
-import React, { use, useEffect } from "react";
+import React, { Suspense, use, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { waitForTransaction } from "@wagmi/core";
 import axios from "axios";
@@ -14,7 +14,6 @@ const ConnectButton: React.FC<Props> = ({ pendingTxs }) => {
   const { open } = useWeb3Modal();
   const { address } = useAccount();
   const [pendingFilter, setPendingFilter] = React.useState<any[]>([]);
-
 
   return (
     <button
@@ -44,9 +43,9 @@ const ConnectButton: React.FC<Props> = ({ pendingTxs }) => {
           </div>
         </span>
       ) : address ? (
-        formatAddress(address)
+        <Suspense>{formatAddress(address)}</Suspense>
       ) : (
-        "Connect Wallet"
+        <Suspense>Connect Wallet</Suspense>
       )}
     </button>
   );

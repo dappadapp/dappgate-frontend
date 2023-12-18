@@ -1,7 +1,7 @@
 "use client";
 import formatAddress from "@/utils/formatAddress";
 import { useWeb3Modal } from "@web3modal/react";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useAccount } from "wagmi";
 
 const ConnectButton: React.FC = () => {
@@ -36,9 +36,9 @@ const ConnectButton: React.FC = () => {
           </div>
         </span>
       ) : address ? (
-        formatAddress(address)
+        <Suspense>{formatAddress(address)}</Suspense>
       ) : (
-        "Connect Wallet"
+        <Suspense>Connect Wallet</Suspense>
       )}
     </button>
   );

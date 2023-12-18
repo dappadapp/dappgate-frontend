@@ -40,8 +40,6 @@ const MintButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-  console.log(costData);
-
   const { config: mintConfig, isSuccess } = usePrepareContractWrite({
     address: sourceChain.nftContractAddress as `0x${string}`,
     abi: ONFTAbi,
@@ -55,11 +53,9 @@ const MintButton: React.FC<Props> = ({
       return toast("Please connect your wallet first.");
     }
     if (!mint)
-      return toast(
-        "Make sure you have enough ETH and you're on the correct network."
-      );
+      return toast("Make sure you have enough ETH and you're on the correct network.");
     if (!isSuccess) {
-      return  toast("Temporarly closed for maintenance.");
+      return toast("Temporarly closed for maintenance.");
     }
     try {
       setLoading(true);
@@ -97,57 +93,52 @@ const MintButton: React.FC<Props> = ({
       };
       postMintHistory();
 
-        const postReferenceMint = async () => {
-          await axios.post("/api/referenceMint", {
-            id: tokenId,
-            walletAddress: account,
-            chainId: sourceChain.chainId,
+      const postReferenceMint = async () => {
+        await axios.post("/api/referenceMint", {
+          id: tokenId,
+          walletAddress: account,
+          chainId: sourceChain.chainId,
+          ref: refCode,
+          tx_id: mintTxHash,
+        });
+      };
+      postReferenceMint();
+
+      const mintPost = async () => {
+        await axios.post("/api/newCreate", {
+          hash: txHash,
+          from: account,
+          to: sourceChain.nftContractAddress,
+          function: "mint",
+          chainId: sourceChain.chainId,
+          status: 0,
+          metadata: {
+            type: "onft",
+          },
+        });
+      };
+      mintPost();
+
+      const mintEvent = async () => {
+        await axios.post("/api/mantaEvent", {
+          txHash: txHash,
+          userWalletAddress: account,
+          targetAddress: sourceChain.nftContractAddress,
+        });
+      };
+      if (sourceChain.chainId === 169) mintEvent();
+
+      if (mintTxHash && sourceChain) {
+        const postHashMint = async () => {
+          await axios.post("/api/hash", {
+            type: "mint",
+            hash: mintTxHash,
             ref: refCode,
-            tx_id: mintTxHash,
+            chainId: sourceChain?.chainId,
           });
         };
-        postReferenceMint();
-
-        const mintPost = async () => {
-          await axios.post("/api/newCreate", {
-            hash: txHash,
-            from: account,
-            to: sourceChain.nftContractAddress,
-            function: "mint",
-            chainId: sourceChain.chainId,
-            status: 0,
-            metadata: {
-              "type": "onft",
-            }
-            
-          });
-        };
-        mintPost();
-
-
-        const mintEvent = async () => {
-          await axios.post("/api/mantaEvent", {
-            txHash: txHash,
-            userWalletAddress: account,
-            targetAddress: sourceChain.nftContractAddress,    
-          });
-        };
-        if(sourceChain.chainId === 169)
-            mintEvent();
-
-
-        if (mintTxHash && sourceChain) {
-          const postHashMint = async () => {
-            await axios.post("/api/hash", {
-              type: "mint",
-              hash: mintTxHash,
-              ref: refCode,
-              chainId: sourceChain?.chainId,
-            });
-          };
-          postHashMint();
-        }
-
+        postHashMint();
+      }
 
       ///bridge?tx=${data.tx}&srcChain=${data.srcChain}&dstChain=${data.dstChain}&tokenId=${data.tokenId}&walletAddress=${data.walletAddress}
 

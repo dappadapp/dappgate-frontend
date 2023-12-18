@@ -16,8 +16,8 @@ import {
 import formatAddress from "@/utils/formatAddress";
 import { networks } from "@/utils/networks";
 import ONFTAbi from "@/config/abi/ONFT.json";
-import OFTAbi from "../../config/abi/OFTBridge.json";
-import PassAbi from "../../config/abi/Pass.json";
+import OFTAbi from "../../../config/abi/OFTBridge.json";
+import PassAbi from "../../../config/abi/Pass.json";
 import axios from "axios";
 import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
@@ -179,7 +179,6 @@ export default function LeaderBoard() {
         contract: type,
       })
       .then((res) => {
-
         refechOFT();
         refetchNFT();
       })
@@ -244,10 +243,11 @@ export default function LeaderBoard() {
       <button
         key={page}
         onClick={onClick}
-        className={`mx-1 focus:outline-none ${isActive
+        className={`mx-1 focus:outline-none ${
+          isActive
             ? "bg-[#71cbbc] text-white shadow-lg hover:shadow-xl"
             : "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out"
-          } rounded-full px-2 py-1 text-sm`}
+        } rounded-full px-2 py-1 text-sm`}
       >
         {page}
       </button>
@@ -296,8 +296,9 @@ export default function LeaderBoard() {
               <span className="text-[#858585] p-2 text-2xl">/ {totalUsers}+</span>
               <FontAwesomeIcon
                 icon={faSync}
-                className={`ml-2 text-[#888888] hover:cursor-pointer items-center ${isRefreshing ? "refreshing" : ""
-                  }`}
+                className={`ml-2 text-[#888888] hover:cursor-pointer items-center ${
+                  isRefreshing ? "refreshing" : ""
+                }`}
                 onClick={() => refreshData()}
               />
             </div>
@@ -315,23 +316,25 @@ export default function LeaderBoard() {
           {leaderboard.map((item: any, index: number) => (
             <tr
               key={item.wallet}
-              className={`pt-4  w-[80%] shadow-inner rounded-lg ${item?.wallet.toLowerCase() === address?.toString().toLowerCase()
+              className={`pt-4  w-[80%] shadow-inner rounded-lg ${
+                item?.wallet.toLowerCase() === address?.toString().toLowerCase()
                   ? "bg-[#1abc9c] text-[#000]"
                   : "text-[#AAA]"
-                }`}
+              }`}
             >
               <td className="overflow- whitespace-nowrap w-[20%] py-4 rounded-l-lg  pl-2">
                 <span
-                  className={`rounded-full py-1 px-3 ${item?.index === 1
+                  className={`rounded-full py-1 px-3 ${
+                    item?.index === 1
                       ? "bg-[#FFAD0E]"
                       : item?.index === 2
-                        ? "bg-[#AD5707]"
-                        : item?.index === 3
-                          ? "bg-[#939393]"
-                          : item?.index === 4
-                            ? "bg-gray-600"
-                            : "bg-gray-800"
-                    } text-white`}
+                      ? "bg-[#AD5707]"
+                      : item?.index === 3
+                      ? "bg-[#939393]"
+                      : item?.index === 4
+                      ? "bg-gray-600"
+                      : "bg-gray-800"
+                  } text-white`}
                 >
                   {item?.index}
                 </span>
@@ -355,10 +358,11 @@ export default function LeaderBoard() {
       <div className="flex justify-center">
         <button
           onClick={() => handlePageChange(1)}
-          className={`mx-1 focus:outline-none ${currentPage === 1
+          className={`mx-1 focus:outline-none ${
+            currentPage === 1
               ? "bg-[#71cbbc] text-white shadow-lg hover:shadow-xl"
               : "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out"
-            } rounded-full px-2 py-1 text-sm`}
+          } rounded-full px-2 py-1 text-sm`}
         >
           First
         </button>
@@ -372,9 +376,9 @@ export default function LeaderBoard() {
           </button>
         )}
 
-        {pageNumbers.slice(startPage, endPage + 1).map((page) =>
-          renderPaginationButton(page, () => handlePageChange(page))
-        )}
+        {pageNumbers
+          .slice(startPage, endPage + 1)
+          .map((page) => renderPaginationButton(page, () => handlePageChange(page)))}
 
         {endPage < totalPages && (
           <button
@@ -387,10 +391,11 @@ export default function LeaderBoard() {
 
         <button
           onClick={() => handlePageChange(totalPages)}
-          className={`mx-1 focus:outline-none ${currentPage === totalPages
+          className={`mx-1 focus:outline-none ${
+            currentPage === totalPages
               ? "bg-[#71cbbc] text-white shadow-lg hover:shadow-xl"
               : "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 hover:text-gray-800 transform hover:scale-105 transition-transform duration-300 ease-in-out"
-            } rounded-full px-2 py-1 text-sm`}
+          } rounded-full px-2 py-1 text-sm`}
         >
           Last
         </button>

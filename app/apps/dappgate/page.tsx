@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import dynamic from "next/dynamic";
 import {
@@ -23,7 +23,7 @@ import BridgeModal from "./components/BridgeModal";
 import ZKBridgeModal from "./components/ZKBridgeModal";
 import WormBridgeModal from "./components/WormBridgeModal";
 import ONFTBridge from "@/components/ONFTBridge";
-import WormholeBridge from "@/components/WormholeBridge";
+import WormholeBridge from "@/components/Wormhole";
 import ZKONFTBridge from "@/components/ZKONFTBridge";
 import ONFTHyperBridge from "@/components/ONFTHyperBridge";
 import GasRefuel from "@/components/GasRefuel";
@@ -35,6 +35,7 @@ import ONFTAbi from "@/config/abi/ONFT.json";
 import Message from "@/components/Message";
 import Navbar from "./components/Navbar";
 import TracketModal from "./components/TrackerModal";
+import WormClaimModal from "./components/WormClaimModal";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -64,6 +65,7 @@ export default function Home({
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
   const [isWormBridgeOpen, setIsWormBridgeOpen] = useState(false);
+  const [isWormClaimOpen, setIsWormClaimOpen] = useState(false);
   const [isZKBridgeModalOpen, setIsZKBridgeModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [pendingTxs, setPendingTxs] = useState<string[]>([]);
@@ -167,9 +169,10 @@ export default function Home({
     }
   };
 
-
   const onChangeSourceChainWorm = async (selectedNetwork: Network) => {
-    const chain = WormholeNetworks.find((network) => network.name === selectedNetwork.name);
+    const chain = WormholeNetworks.find(
+      (network) => network.name === selectedNetwork.name
+    );
     if (chain) {
       try {
         if (chain.chainId !== connectedChain?.id) {
@@ -201,7 +204,9 @@ export default function Home({
   };
 
   const onChangeTargetChainWorm = async (selectedNetwork: Network) => {
-    const chain = WormholeNetworks.find((network) => network.name === selectedNetwork.name);
+    const chain = WormholeNetworks.find(
+      (network) => network.name === selectedNetwork.name
+    );
     if (chain) {
       try {
         if (chain.name === sourceChain.name) {
@@ -267,12 +272,6 @@ export default function Home({
     if (searchParams?.ref) {
       setRefCode(searchParams?.ref as string);
     }
-    if (searchParams?.tab) {
-      const tabsFormatted = tabsConfig.map((t) => t.replace(" ", "").toLowerCase());
-      const foundTabIndex = tabsFormatted.findIndex((t) => t === searchParams?.tab);
-      console.log("foundTabIndex", foundTabIndex);
-      setTabIndex(foundTabIndex === -1 ? 0 : foundTabIndex);
-    }
   }, [searchParams?.ref]);
   useEffect(() => {
     console.log(selectedHyperBridges);
@@ -325,7 +324,17 @@ export default function Home({
           setEstimatedGas={setEstimatedGas}
         />
       ) : null}
-
+      {isWormClaimOpen ? (
+        <WormClaimModal
+          onCloseModal={() => {
+            setIsWormClaimOpen(false);
+          }}
+          sourceChain={wormSourceChain}
+          targetChain={wormTargetChain}
+          setLayerZeroTxHashes={setLayerZeroTxHashes}
+          setEstimatedGas={setEstimatedGas}
+        />
+      ) : null}
       {isZKBridgeModalOpen ? (
         <ZKBridgeModal
           onCloseModal={() => {
@@ -350,7 +359,7 @@ export default function Home({
 
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
-            <button onClick={() => setTabIndex(8)}>ZkONFT</button>
+              <button onClick={() => setTabIndex(8)}>ZkONFT</button>
               <button onClick={() => setTabIndex(6)}>Messages</button>
               <button onClick={() => setTabIndex(7)}>StarGate</button>
               <a href={"https://tracker.dappgate.io/"} target="_blank">
@@ -390,6 +399,21 @@ export default function Home({
                 setSelectedHyperBridges={setSelectedHyperBridges}
                 setEstimatedGas={setEstimatedGas}
                 setLayerZeroTxHashes={setLayerZeroTxHashes}
+              />
+            ) : tabIndex == 2 ? (
+              <WormholeBridge
+                sourceChain={wormSourceChain}
+                targetChain={wormTargetChain}
+                refCode={refCode}
+                onChangeSourceChain={onChangeSourceChainWorm}
+                onChangeTargetChain={onChangeTargetChainWorm}
+                onArrowClick={onArrowClickWorm}
+                setIsWormBridgeOpen={setIsWormBridgeOpen}
+                setIsWormClaimOpen={setIsWormClaimOpen}
+                setLayerZeroTxHashes={setLayerZeroTxHashes}
+                setEstimatedGas={setEstimatedGas}
+                tokenIds={tokenIds}
+                setTokenIds={setTokenIds}
               />
             ) : tabIndex == 3 ? (
               <GasRefuel
@@ -454,23 +478,7 @@ export default function Home({
                 tokenIds={tokenIds}
                 setTokenIds={setTokenIds}
               />
-            ) :  tabIndex == 2 ? (
-              <WormholeBridge
-                sourceChain={wormSourceChain}
-                targetChain={wormTargetChain}
-                refCode={refCode}
-                estimatedGas={estimatedGas}
-                layerZeroTxHashes={layerZeroTxHashes}
-                onChangeSourceChain={onChangeSourceChainWorm}
-                onChangeTargetChain={onChangeTargetChainWorm}
-                onArrowClick={onArrowClickWorm}
-                setIsWormBridgeOpen={setIsWormBridgeOpen}
-                setLayerZeroTxHashes={setLayerZeroTxHashes}
-                setEstimatedGas={setEstimatedGas}
-                tokenIds={tokenIds}
-                setTokenIds={setTokenIds}
-              />
-            ) :null}
+            ) : null}
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>

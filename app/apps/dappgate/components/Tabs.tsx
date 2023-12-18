@@ -13,66 +13,53 @@ export const tabsConfig = [
   "Gas Refuel",
   "OFT Bridge",
   "OFT HyperBridge",
-
-
 ];
 
 const Tabs: React.FC<Props> = ({ tabIndex, setTabIndex }) => {
-  const tabs = tabsConfig.map((title,index) => (
-    <Tab as={Fragment} key={title} >
+  const tabs = tabsConfig.map((title, index) => (
+    <Tab as={Fragment} key={title}>
       {({ selected }) => (
-        
         <button
           className={`px-2 sm:px-4 py-1 sm:py-2.5 rounded-lg text-white text-sm sm:text-base w-full sm:w-auto   ${
-            selected ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none" : "bg-transparent"
+            selected
+              ? "bg-white bg-opacity-[1%] backdrop-blur-[3px] outline-none"
+              : "bg-transparent"
           }`}
         >
-
-                 {title === "Wormhole Bridge" && (
+          {title === "Wormhole Bridge" && (
             <span className="relative inline-block dot">
-               <span
-                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
-              />
-            
+              <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
             </span>
           )}
 
           {title === "zkONFT Bridge" && (
             <span className="relative inline-block dot">
-               <span
-                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
-              />
-            
+              <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
             </span>
           )}
-        
-        {title === "Gas Refuel" && (
+
+          {title === "Gas Refuel" && (
             <span className="relative inline-block dot">
-               <span
-                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
-              />
-            
+              <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
             </span>
           )}
 
           {title === "ONFT HyperBridge" && (
             <span className="relative inline-block dot">
-               <span
-                className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `}
-              />
-            
+              <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
             </span>
           )}
-      
-      {title}
+
+          {title}
         </button>
       )}
     </Tab>
   ));
   return (
     <Tab.Group onChange={setTabIndex} selectedIndex={tabIndex}>
-  
-      <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">{tabs}</Tab.List>
+      <Tab.List className="p-1 sm:p-2.5 bg-white bg-opacity-10 backdrop-blur-[3px] rounded-xl">
+        {tabs}
+      </Tab.List>
     </Tab.Group>
   );
 };

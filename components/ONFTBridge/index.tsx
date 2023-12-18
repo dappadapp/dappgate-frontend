@@ -47,33 +47,30 @@ const ONFTBridge: React.FC<Props> = ({
 
   const { address: account } = useAccount();
 
-
-    // fetching disabled bridges data
-    const { data: disabledBridgesData } = useContractReads({
-      contracts: networks.map((network) => ({
-        address: sourceChain.nftContractAddress as `0x${string}`,
-        abi: ONFTAbi as any,
-        functionName: "estimateSendFee",
-        args: [
-          `${network.layerzeroChainId}`,
-          "0x0000000000000000000000000000000000000000",
-          "1",
-          false,
-          "0x",
-        ],
-        chainId: sourceChain.chainId,
-      })),
-    });
-
-    console.log("disabledBridgesData",disabledBridgesData);
+  // fetching disabled bridges data
+  const { data: disabledBridgesData } = useContractReads({
+    contracts: networks.map((network) => ({
+      address: sourceChain.nftContractAddress as `0x${string}`,
+      abi: ONFTAbi as any,
+      functionName: "estimateSendFee",
+      args: [
+        `${network.layerzeroChainId}`,
+        "0x0000000000000000000000000000000000000000",
+        "1",
+        false,
+        "0x",
+      ],
+      chainId: sourceChain.chainId,
+    })),
+  });
 
   const filteredNetworks = networks.filter((network) =>
     network.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredNetworksTarget = selectedHyperBridges.filter((network) =>
-  network.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-);
+    network.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const { data: balanceOfData, refetch: balanceOfRefetch } = useContractRead({
     address: sourceChain.nftContractAddress as `0x${string}`,
@@ -101,7 +98,6 @@ const ONFTBridge: React.FC<Props> = ({
     setInputTokenId(tokenIds[0]);
   }, [tokenIds]);
 
-
   return (
     <div
       className={`w-full max-w-[975px] bg-white bg-opacity-5 backdrop-blur-[5px] border-white border-[2px] border-opacity-10 h-fit p-10 rounded-2xl flex flex-col`}
@@ -110,9 +106,7 @@ const ONFTBridge: React.FC<Props> = ({
         <h1 className={"text-3xl font-semibold"}>ONFT Bridge</h1>
       </div>
       <div
-        className={
-          "flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"
-        }
+        className={"flex flex-col gap-2 sm:flex-row justify-between items-center mt-8"}
       >
         <ListboxSourceMenu
           value={sourceChain}
@@ -219,12 +213,11 @@ const ONFTBridge: React.FC<Props> = ({
       <div className="mt-4 mb-8 text-sm md:text-base flex flex-col text-gray-400">
         Disclaimer
         <span className="text-xs md:text-sm">
-          Please be aware that any bridge fees encountered while using our
-          platform are not associated with us, nor do we have control over these
-          charges. These fees are fully calculated and processed on
-          LayerZero&apos;s backend. We make no representations or warranties
-          regarding these fees, and we cannot influence or predict the value of
-          these fees. Thank you for your understanding.
+          Please be aware that any bridge fees encountered while using our platform are
+          not associated with us, nor do we have control over these charges. These fees
+          are fully calculated and processed on LayerZero&apos;s backend. We make no
+          representations or warranties regarding these fees, and we cannot influence or
+          predict the value of these fees. Thank you for your understanding.
         </span>
       </div>
       <LayerZeroSvg />

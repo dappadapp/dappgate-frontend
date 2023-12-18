@@ -129,8 +129,7 @@ function WormBridgeModal({
           {tokenIdsArray?.length === 0 ? (
             <div className="flex justify-center items-center">
               <h2 className="mt-5">
-                You dont own any NFTs on <strong>{sourceChain.name}</strong>{" "}
-                chain.
+                You dont own any NFTs on <strong>{sourceChain.name}</strong> chain.
               </h2>
             </div>
           ) : (
@@ -160,8 +159,8 @@ function WormBridgeModal({
           <div className="mt-8 text-sm md:text-base flex flex-col text-gray-400 max-w-[450px] md:max-w-[550px]">
             Disclaimer
             <span className="text-xs md:text-sm">
-        
-Please note that the duration of the bridge process can take up to 40 minutes.
+              Please note that the duration of the bridge process can take up to 40
+              minutes.
             </span>
           </div>
         </div>

@@ -4,26 +4,27 @@ import React, { use, useEffect, useState } from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../apps/dappgate/components/Footer";
-import Navbar from "../apps/dappgate/components/Navbar";
-import { useAccount, useBalance, useContractRead, useNetwork, useSwitchNetwork } from "wagmi";
-import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
+import Footer from "../../apps/dappgate/components/Footer";
+import Navbar from "../../apps/dappgate/components/Navbar";
+import {
+  useAccount,
+  useBalance,
+  useContractRead,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
+import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 // import abi
-import BridgeAbi from "../../config/abi/ScrollBridge.json";
-import Withdraw from "../../config/abi/L2Withdraw.json";
-import Bridge from "../../config/abi/Bridge.json";
+import BridgeAbi from "../../../config/abi/ScrollBridge.json";
+import Withdraw from "../../../config/abi/L2Withdraw.json";
+import Bridge from "../../../config/abi/Bridge.json";
 import { ethers } from "ethers";
-import { writeContract, readContract } from '@wagmi/core'
-import { waitForTransaction } from '@wagmi/core'
-import CircleSvg from "../apps/dappgate/components/CircleSvg";
+import { writeContract, readContract } from "@wagmi/core";
+import { waitForTransaction } from "@wagmi/core";
+import CircleSvg from "../../apps/dappgate/components/CircleSvg";
 
-
-const ScrollBridge: React.FC = ({
-
-
-}) => {
-
+const ScrollBridge: React.FC = ({}) => {
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain: connectedChain } = useNetwork();
   const [amount, setAmount] = useState("");
@@ -32,7 +33,6 @@ const ScrollBridge: React.FC = ({
   const [targetChain, setTargetChain] = useState(networks[2]);
 
   const [balance, setBalance] = useState("");
-
 
   const { address: account } = useAccount();
 
@@ -50,9 +50,7 @@ const ScrollBridge: React.FC = ({
       setUserBalance(balanceOfUser?.formatted || 0);
     }
     handleSwitch();
-
   }, [balanceOfUser, account]);
-
 
   const handleSwitch = async () => {
     if (connectedChain?.id !== 1 && connectedChain?.id !== 534352) {
@@ -60,7 +58,7 @@ const ScrollBridge: React.FC = ({
       setTargetChain(networks[2]);
       setSourceChain(networks[13]);
     }
-  }
+  };
 
   const onChangeSourceChain = async (selectedNetwork: Network) => {
     const chain = networks.find((network) => network.name === selectedNetwork.name);
@@ -84,9 +82,6 @@ const ScrollBridge: React.FC = ({
         return;
       }
     }
-
-
-
   };
 
   const onArrowClick = async () => {
@@ -102,7 +97,6 @@ const ScrollBridge: React.FC = ({
   };
 
   const handleBridge = async () => {
-
     console.log("connectedChain", connectedChain);
     setLoading(true);
 
@@ -132,13 +126,12 @@ const ScrollBridge: React.FC = ({
       return;
     }
 
-    if (balanceOfUser && +(amount) > +(balanceOfUser?.formatted)) {
+    if (balanceOfUser && +amount > +balanceOfUser?.formatted) {
       toast("You don't have enough balance.");
       setLoading(false);
       return;
     }
     try {
-
       const fee = await readContract({
         address: "0xf356A469C0142c62c53bF72025bd847EF846dD54" as `0x${string}`,
         abi: BridgeAbi,
@@ -146,30 +139,22 @@ const ScrollBridge: React.FC = ({
       });
 
       if (fee) {
-
-
         const { hash: txHash } = await writeContract({
           address: "0xf8b1378579659d8f7ee5f3c929c2f3e332e41fd6" as `0x${string}`,
           abi: Bridge,
           functionName: "depositETH",
           value: BigInt(ethers.parseEther(amount)) + BigInt("1000000000000000"),
-          args: [
-
-            BigInt(ethers.parseEther(amount)),
-            "400000",
-          ],
+          args: [BigInt(ethers.parseEther(amount)), "400000"],
           chainId: 1,
         });
-
 
         if (txHash) {
           console.log("txHash", txHash);
           toast("Bridge Transaction sent, PLEASE WAIT!");
 
-
           const data = await waitForTransaction({
             hash: txHash,
-          })
+          });
           if (data?.status === "success") {
             toast("Bridge Transaction Sent Successfully!");
             setLoading(false);
@@ -179,7 +164,6 @@ const ScrollBridge: React.FC = ({
 
         setLoading(false);
       }
-
     } catch (e) {
       console.log("e", e);
       toast("Not Enough Ether!");
@@ -189,7 +173,6 @@ const ScrollBridge: React.FC = ({
   };
 
   const handleWithdraw = async () => {
-
     console.log("connectedChain", connectedChain);
     setLoading(true);
 
@@ -207,7 +190,6 @@ const ScrollBridge: React.FC = ({
       return toast("Please connect your wallet.");
     }
 
-
     if (amount === "") {
       toast("Please enter an amount.");
       setLoading(false);
@@ -220,7 +202,7 @@ const ScrollBridge: React.FC = ({
       return;
     }
 
-    if (balanceOfUser && +(amount) > +(balanceOfUser?.formatted)) {
+    if (balanceOfUser && +amount > +balanceOfUser?.formatted) {
       toast("You don't have enough balance.");
       setLoading(false);
       return;
@@ -231,23 +213,17 @@ const ScrollBridge: React.FC = ({
       abi: Withdraw,
       functionName: "withdrawETH",
       value: BigInt(ethers.parseEther(amount)),
-      args: [
-        account,
-        BigInt(ethers.parseEther(amount)),
-        "400000",
-      ],
+      args: [account, BigInt(ethers.parseEther(amount)), "400000"],
       chainId: 534352,
     });
-
 
     if (txHash) {
       console.log("txHash", txHash);
       toast("Withdraw Transaction sent, PLEASE WAIT!");
 
-
       const data = await waitForTransaction({
         hash: txHash,
-      })
+      });
       if (data?.status === "success") {
         toast("Withdraw Transaction Sent Successfully!");
         setLoading(false);
@@ -256,10 +232,7 @@ const ScrollBridge: React.FC = ({
     }
 
     setLoading(false);
-
-
-
-  }
+  };
 
   const shortenTransactionHash = (transactionHash: string): string => {
     const shortenedHash = `${transactionHash.substring(
@@ -282,7 +255,9 @@ const ScrollBridge: React.FC = ({
           <ListboxSourceMenu
             value={sourceChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 534352 || network.chainId === 1)}
+            options={networks.filter(
+              (network) => network.chainId === 534352 || network.chainId === 1
+            )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full "
@@ -291,7 +266,9 @@ const ScrollBridge: React.FC = ({
           <ListboxSourceMenu
             value={targetChain}
             onChange={onChangeSourceChain}
-            options={networks.filter((network) => network.chainId === 1 || network.chainId === 534352)}
+            options={networks.filter(
+              (network) => network.chainId === 1 || network.chainId === 534352
+            )}
             searchValue={searchTerm}
             setSearchValue={setSearchTerm}
             className="w-full"
@@ -316,7 +293,6 @@ const ScrollBridge: React.FC = ({
                 placeholder="Enter ETH amount"
               />
               {connectedChain?.id === 1 ? (
-
                 <button
                   onClick={handleBridge}
                   className="flex items-center ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed"
@@ -341,7 +317,6 @@ const ScrollBridge: React.FC = ({
                   )}
                 </button>
               ) : (
-
                 <button
                   onClick={() => handleWithdraw()}
                   className="flex items-center ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded disabled:bg-red-500/20 disabled:cursor-not-allowed"
@@ -365,10 +340,7 @@ const ScrollBridge: React.FC = ({
                     </svg>
                   )}
                 </button>
-              )
-
-
-              }
+              )}
             </div>
           </div>
         </div>
@@ -381,9 +353,7 @@ const ScrollBridge: React.FC = ({
       </div>
       <ToastContainer position="top-right" theme="dark" />
     </div>
-
   );
-
 };
 
 export default ScrollBridge;

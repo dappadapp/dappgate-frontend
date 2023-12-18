@@ -25,7 +25,7 @@ type Props = {
   tokenIds?: any;
 };
 
-const ONFTGenericBridgeButton: React.FC<Props> = ({
+const WormholeBridgeButton: React.FC<Props> = ({
   sourceChain,
   targetChain,
   setLayerZeroTxHashes,
@@ -53,12 +53,9 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     chainId: sourceChain.chainId,
   });
 
-
-
   useEffect(() => {
     refetch();
   }, [tokenId, sourceChain, targetChain, gasEstimateData]);
-
 
   const {
     config: sendFromConfig,
@@ -68,7 +65,12 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     address: sourceChain.zkNFTContractAddress as `0x${string}`,
     abi: ONFTAbi,
     functionName: "sendFrom",
-    value: gasEstimateData ? BigInt(((gasEstimateData as any)?.[0] as string)) + (sourceChain.symbol === "ETH" ? BigInt("555555555") : BigInt("1210555555555555555")) : BigInt("0"),
+    value: gasEstimateData
+      ? BigInt((gasEstimateData as any)?.[0] as string) +
+        (sourceChain.symbol === "ETH"
+          ? BigInt("555555555")
+          : BigInt("1210555555555555555"))
+      : BigInt("0"),
     args: [
       account,
       targetChain.layerzeroChainId,
@@ -84,35 +86,24 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
 
   useEffect(() => {
     if ((gasEstimateData as any)?.[0]) {
-      const coefficient =
-        connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
+      const coefficient = connectedChain?.nativeCurrency.symbol === "ETH" ? 100000 : 100;
       setEstimatedGas(
         `${(
           Number(
-            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
-            BigInt(1e18)
-          ) /
-          coefficient
-        ).toFixed(Math.log10(coefficient))} ${connectedChain?.nativeCurrency.symbol
-        }`
+            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) / BigInt(1e18)
+          ) / coefficient
+        ).toFixed(Math.log10(coefficient))} ${connectedChain?.nativeCurrency.symbol}`
       );
 
       setGas(
         `${(
           Number(
-            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) /
-            BigInt(1e18)
-          ) /
-          coefficient
+            ((gasEstimateData as bigint[])?.[0] * BigInt(coefficient)) / BigInt(1e18)
+          ) / coefficient
         ).toFixed(Math.log10(coefficient))}`
       );
     }
-  }, [
-    gasEstimateData,
-    setEstimatedGas,
-    connectedChain?.nativeCurrency.symbol,
-
-  ]);
+  }, [gasEstimateData, setEstimatedGas, connectedChain?.nativeCurrency.symbol]);
 
   const onBridge = async () => {
     if (!account) {
@@ -122,34 +113,23 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
     if (!sendFrom) {
       console.log("error", error?.message);
 
-      if (
-        error?.message.includes("ZkBridgeOracle:Unsupported dest chain")
-      ) {
+      if (error?.message.includes("ZkBridgeOracle:Unsupported dest chain")) {
         return toast(
           "It looks like the bridge between these chains are not supported by PolyHedra."
         );
       }
-      if (
-        error?.message.includes(
-          "LzApp: destination chain is not a trusted source"
-        )
-      ) {
-        return toast(
-          "It looks like the bridge between these chains are closed."
-        );
+      if (error?.message.includes("LzApp: destination chain is not a trusted source")) {
+        return toast("It looks like the bridge between these chains are closed.");
       }
 
-
-
-      if (
-        error?.message.includes("Execution reverted for an unknown reason.")
-      ) {
+      if (error?.message.includes("Execution reverted for an unknown reason.")) {
         return toast(
           "It looks like the bridge between these chains are not supported by LayerZero."
         );
       }
       return toast(
-        `Make sure you have more than ${sourceChain.symbol} and you're on the correct network.`, { autoClose: 6000 }
+        `Make sure you have more than ${sourceChain.symbol} and you're on the correct network.`,
+        { autoClose: 6000 }
       );
     }
     if (!isSuccess) {
@@ -169,8 +149,8 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
       setTokenIds((prev: any) => {
         const newArray = prev?.[sourceChain.chainId]?.[account as string]
           ? [...prev?.[sourceChain.chainId]?.[account as string]]
-            .slice(1)
-            .filter((value, index, self) => self.indexOf(value) === index)
+              .slice(1)
+              .filter((value, index, self) => self.indexOf(value) === index)
           : [];
         const tokenIdData = {
           ...prev,
@@ -234,4 +214,4 @@ const ONFTGenericBridgeButton: React.FC<Props> = ({
   );
 };
 
-export default ONFTGenericBridgeButton;
+export default WormholeBridgeButton;
