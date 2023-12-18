@@ -36,6 +36,7 @@ import Message from "@/components/Message";
 import Navbar from "./components/Navbar";
 import TracketModal from "./components/TrackerModal";
 import WormClaimModal from "./components/WormClaimModal";
+import ClaimForm from "./components/ClaimForm";
 
 const ConnectButton: any = dynamic(() => import("./components/ConnectButton"), {
   ssr: false,
@@ -362,6 +363,7 @@ export default function Home({
               <button onClick={() => setTabIndex(8)}>ZkONFT</button>
               <button onClick={() => setTabIndex(6)}>Messages</button>
               <button onClick={() => setTabIndex(7)}>StarGate</button>
+              <button onClick={() => setTabIndex(9)}>Claim</button>
               <a href={"https://tracker.dappgate.io/"} target="_blank">
                 Tracker{" "}
                 <span className={`absolute dot  h-2 w-2 bg-green-400 rounded-full `} />
@@ -477,6 +479,11 @@ export default function Home({
                 setEstimatedGas={setEstimatedGas}
                 tokenIds={tokenIds}
                 setTokenIds={setTokenIds}
+              />
+            ) : tabIndex == 9 ? (
+              <ClaimForm
+                sourceChain={sourceChain}
+                onChangeSourceChain={onChangeSourceChain}
               />
             ) : null}
           </div>
