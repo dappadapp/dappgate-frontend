@@ -12,52 +12,7 @@ import { useAccount, useContractRead, useContractReads } from "wagmi";
 import FaAngleDown from "@/app/apps/dappgate/components/FaAngleDown";
 import ONFTAbi from "@/config/abi/WormholeNFT.json";
 
-
-import {
-  CHAIN_ID_ACALA,
-  CHAIN_ID_ALGORAND,
-  CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
-  CHAIN_ID_KARURA,
-  CHAIN_ID_NEAR,
-  CHAIN_ID_SEI,
-  CHAIN_ID_SOLANA,
-  CHAIN_ID_SUI,
-  CHAIN_ID_TERRA2,
-  CHAIN_ID_XPLA,
-  ChainId,
-  TerraChainId,
-  getEmitterAddressAlgorand,
-  getEmitterAddressEth,
-  getEmitterAddressInjective,
-  getEmitterAddressNear,
-  getEmitterAddressSolana,
-  getEmitterAddressTerra,
-  getEmitterAddressXpla,
-  getForeignAssetSui,
-  hexToNativeAssetString,
-  hexToNativeString,
-  hexToUint8Array,
-  isEVMChain,
-  isTerraChain,
-  parseNFTPayload,
-  parseSequenceFromLogAlgorand,
-  parseSequenceFromLogEth,
-  parseSequenceFromLogInjective,
-  parseSequenceFromLogNear,
-  parseSequenceFromLogSolana,
-  parseSequenceFromLogTerra,
-  parseSequenceFromLogXpla,
-  parseTransferPayload,
-  parseVaa,
-  queryExternalId,
-  queryExternalIdInjective,
-  tryHexToNativeStringNear,
-  uint8ArrayToHex,
-} from "@certusone/wormhole-sdk";
 import { ethers } from "ethers";
-import { WORMHOLE_RPC_HOSTS, getBridgeAddressForChain, getNFTBridgeAddressForChain, getTokenBridgeAddressForChain } from "@/utils/consts";
-import { getSignedVAAWithRetry } from "@/utils/getSignedVAA";
 
 
 type Props = {
@@ -119,46 +74,6 @@ const ONFTBridge: React.FC<Props> = async ({
     setInputTokenId(tokenIds);
   }, [tokenIds]);
   
-  async function fetchSignedVAA(
-    chainId: ChainId,
-    emitterAddress: string,
-    sequence: string
-  ) {
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      chainId,
-      emitterAddress,
-      sequence,
-      WORMHOLE_RPC_HOSTS.length
-    );
-    return {
-      vaa: vaaBytes ? uint8ArrayToHex(vaaBytes) : undefined,
-      error: null,
-    };
-  }
-
-  async function evm(
-    provider: ethers.JsonRpcProvider,
-    tx: string,
-    enqueueSnackbar: any,
-    chainId: ChainId,
-    nft: boolean
-  ) {
-    try {
-      const receipt = await provider.getTransactionReceipt(tx);
-      const sequence = parseSequenceFromLogEth(
-        receipt,
-        getBridgeAddressForChain(chainId)
-      );
-      const emitterAddress = getEmitterAddressEth(
-        nft
-          ? getNFTBridgeAddressForChain(chainId)
-          : getTokenBridgeAddressForChain(chainId)
-      );
-      return await fetchSignedVAA(chainId, emitterAddress, sequence);
-    } catch (e) {
-      return;
-    }
-  }
 
 
   return (
