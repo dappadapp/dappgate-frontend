@@ -13,7 +13,7 @@ import {
 } from "wagmi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Network, networks } from "@/utils/networks";
+import { Network, networks, WormholeNetworks } from "@/utils/networks";
 import RefModal from "./components/RefModal";
 import HistoryModal from "./components/HistoryModal";
 import FAQModal from "./components/FAQModal";
@@ -21,7 +21,9 @@ import DappGateLogo from "./components/DappGateLogo";
 import Footer from "./components/Footer";
 import BridgeModal from "./components/BridgeModal";
 import ZKBridgeModal from "./components/ZKBridgeModal";
+import WormBridgeModal from "./components/WormBridgeModal";
 import ONFTBridge from "@/components/ONFTBridge";
+import WormholeBridge from "@/components/WormholeBridge";
 import ZKONFTBridge from "@/components/ZKONFTBridge";
 import ONFTHyperBridge from "@/components/ONFTHyperBridge";
 import GasRefuel from "@/components/GasRefuel";
@@ -48,6 +50,9 @@ export default function Home({
 }) {
   const [sourceChain, setSourceChain] = useState(networks[0]);
   const [targetChain, setTargetChain] = useState(networks[1]);
+
+  const [wormSourceChain, setWormSourceChain] = useState(WormholeNetworks[0]);
+  const [wormTargetChain, setWormTargetChain] = useState(WormholeNetworks[1]);
   const [refCode, setRefCode] = useState<string>("");
   const [estimatedGas, setEstimatedGas] = useState("");
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
@@ -58,6 +63,7 @@ export default function Home({
   const [isRefModalOpen, setIsRefModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isBridgeModalOpen, setIsBridgeModalOpen] = useState(false);
+  const [isWormBridgeOpen, setIsWormBridgeOpen] = useState(false);
   const [isZKBridgeModalOpen, setIsZKBridgeModalOpen] = useState(false);
   const [isFAQModalOpen, setIsFAQModalOpen] = useState(false);
   const [pendingTxs, setPendingTxs] = useState<string[]>([]);
@@ -161,6 +167,68 @@ export default function Home({
     }
   };
 
+
+  const onChangeSourceChainWorm = async (selectedNetwork: Network) => {
+    const chain = WormholeNetworks.find((network) => network.name === selectedNetwork.name);
+    if (chain) {
+      try {
+        if (chain.chainId !== connectedChain?.id) {
+          await switchNetworkAsync?.(chain.chainId);
+        }
+        if (chain.name === targetChain.name) {
+          setWormTargetChain(wormSourceChain);
+        }
+        setWormSourceChain(chain);
+        toast("Chain changed!");
+      } catch (error: any) {
+        if (error.code === 4001) {
+          toast("You need to confirm the Metamask request in order to switch network.");
+          return;
+        }
+        console.log(error.code);
+        toast("Temporarly closed for maintenance.");
+        return;
+      }
+    }
+
+    const newSelectedHyperBridges = networks?.filter(
+      (network) =>
+        sourceChain?.canBeUsedWith?.includes(network?.layerzeroChainId) &&
+        network?.chainId !== sourceChain.chainId
+    );
+
+    setSelectedHyperBridges(newSelectedHyperBridges);
+  };
+
+  const onChangeTargetChainWorm = async (selectedNetwork: Network) => {
+    const chain = WormholeNetworks.find((network) => network.name === selectedNetwork.name);
+    if (chain) {
+      try {
+        if (chain.name === sourceChain.name) {
+          if (connectedChain?.id !== wormTargetChain.chainId) {
+            await switchNetworkAsync?.(wormTargetChain.chainId);
+          }
+          setWormSourceChain(wormSourceChain);
+        }
+        setWormTargetChain(chain);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onArrowClickWorm = async () => {
+    try {
+      if (connectedChain?.id !== wormTargetChain.chainId) {
+        await switchNetworkAsync?.(wormTargetChain.chainId);
+      }
+      setWormSourceChain(wormTargetChain);
+      setWormTargetChain(wormSourceChain);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (!bridgeTxResultData) return;
     toast("Bridge successful!");
@@ -246,6 +314,18 @@ export default function Home({
         />
       ) : null}
 
+      {isWormBridgeOpen ? (
+        <WormBridgeModal
+          onCloseModal={() => {
+            setIsWormBridgeOpen(false);
+          }}
+          sourceChain={wormSourceChain}
+          targetChain={wormTargetChain}
+          setLayerZeroTxHashes={setLayerZeroTxHashes}
+          setEstimatedGas={setEstimatedGas}
+        />
+      ) : null}
+
       {isZKBridgeModalOpen ? (
         <ZKBridgeModal
           onCloseModal={() => {
@@ -270,6 +350,7 @@ export default function Home({
 
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
+            <button onClick={() => setTabIndex(8)}>ZkONFT</button>
               <button onClick={() => setTabIndex(6)}>Messages</button>
               <button onClick={() => setTabIndex(7)}>StarGate</button>
               <a href={"https://tracker.dappgate.io/"} target="_blank">
@@ -357,7 +438,7 @@ export default function Home({
               />
             ) : tabIndex == 7 ? (
               <StargateBridge />
-            ) : tabIndex == 2 ? (
+            ) : tabIndex == 8 ? (
               <ZKONFTBridge
                 sourceChain={sourceChain}
                 targetChain={targetChain}
@@ -373,7 +454,23 @@ export default function Home({
                 tokenIds={tokenIds}
                 setTokenIds={setTokenIds}
               />
-            ) : null}
+            ) :  tabIndex == 2 ? (
+              <WormholeBridge
+                sourceChain={wormSourceChain}
+                targetChain={wormTargetChain}
+                refCode={refCode}
+                estimatedGas={estimatedGas}
+                layerZeroTxHashes={layerZeroTxHashes}
+                onChangeSourceChain={onChangeSourceChainWorm}
+                onChangeTargetChain={onChangeTargetChainWorm}
+                onArrowClick={onArrowClickWorm}
+                setIsWormBridgeOpen={setIsWormBridgeOpen}
+                setLayerZeroTxHashes={setLayerZeroTxHashes}
+                setEstimatedGas={setEstimatedGas}
+                tokenIds={tokenIds}
+                setTokenIds={setTokenIds}
+              />
+            ) :null}
           </div>
           <div className="flex flex-row justify-center mt-5 mb-5">
             <div className={"flex gap-4"}>
