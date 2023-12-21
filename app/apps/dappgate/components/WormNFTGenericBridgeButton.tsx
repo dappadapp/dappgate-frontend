@@ -81,6 +81,14 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
 
   const { writeAsync: approve } = useContractWrite(approveConfig);
 
+  const createWormholeBridge = async (txHash: string) => {
+    await axios.post("/api/wormhole/create", {
+      wallet: account,
+      sourceTx: txHash,
+      wormholeId: sourceChain.wormholeChainId,
+    });
+  };
+
   useEffect(() => {
     checkApprove();
   }, [tokenId, sourceChain, targetChain, isApproveSuccess, isApproved, account, block]);
@@ -134,6 +142,7 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
         });
       };
       postBridgeHistory();
+      createWormholeBridge(txHash);
 
       toast("Bridge transaction sent!");
       setLoading(false);
@@ -144,6 +153,7 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
       setLoading(false);
     }
   };
+
 
   const onApprove = async () => {
     if (!account) {
@@ -192,7 +202,7 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
         });
       };
       postBridgeHistory();
-      createWormholeBridge(txHash);
+    
 
       toast("Bridge transaction sent!");
       refetchUserNftBalance();
@@ -203,13 +213,7 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
     }
   };
 
-  const createWormholeBridge = async (txHash: string) => {
-    await axios.post("/api/wormhole/create", {
-      wallet: account,
-      sourceTx: txHash,
-      wormholeId: sourceChain.wormholeChainId,
-    });
-  };
+
 
   return (
     <>

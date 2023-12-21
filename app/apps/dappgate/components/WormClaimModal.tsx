@@ -4,9 +4,11 @@ import ONFTAbi from "../../../../config/abi/ONFT.json";
 import ONFTGenericBridgeButton from "./ONFTGenericBridgeButton";
 import WormNFTGenericBridgeButton from "./WormNFTGenericBridgeButton";
 import Image from "next/image";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
+import { useAccount, useContractRead, useContractReads, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { Network } from "@/utils/networks";
-
+import Bridge from "../../../../config/abi/WormholeBridge.json";
+import { waitForTransaction } from "@wagmi/core";
+import { toast } from "react-toastify";
 type Props = {
   onCloseModal: any;
   sourceChain: Network;
@@ -26,17 +28,35 @@ type WormholeNFTItem = {
   wormholeId: number;
 };
 
-function WormClaimModal({ onCloseModal, sourceChain }: Props) {
+function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
   const { address: walletAddress } = useAccount();
 
   const [currentPage, setCurrentPage] = useState(0);
   const [totalNFTs, setTotalNFTs] = useState<WormholeNFTItem[]>([]);
   const [totalNFTcount, setTotalNFTcount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [payload, setPayload] = useState<any>(null);
 
   useEffect(() => {
     getNfts(currentPage).finally(() => setLoading(false));
   }, [walletAddress, currentPage]);
+
+
+  const {
+    config: completeConfig,
+    isSuccess,
+    error,
+  } = usePrepareContractWrite({
+    address: sourceChain.bridgeContract as `0x${string}`,
+    abi: Bridge,
+    functionName: "completeTransfer",
+    value: BigInt(0),
+    args: [
+        payload
+    ],
+  });
+
+  const { writeAsync: complete } = useContractWrite(completeConfig);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -51,16 +71,53 @@ function WormClaimModal({ onCloseModal, sourceChain }: Props) {
       const { data } = await axios.post("/api/wormhole/wallet", {
         page: page,
         wallet: walletAddress,
-        completed: 0,
-        wormholeId: sourceChain.wormholeChainId,
+        completed: 1,
+        wormholeId: targetChain.wormholeChainId,
         limit: 6,
       });
+      console.log("data nfts",data);
       setTotalNFTs(data.data);
       setTotalNFTcount(data.total);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const completeTransfer = async (token : any) => {
+
+
+    const { data: payload } = await axios.post("/api/wormhole/payload", {
+      id: targetChain.wormholeChainId,
+      hash: token.sourceTx,
+  });
+    setPayload(payload?.payload);
+ 
+      console.log("payload",payload?.payload);
+
+      if (!complete) {
+        return;
+      }
+
+    const { hash: txHash } = await complete();
+    const data = await waitForTransaction({
+      hash: txHash,
+    });
+
+
+
+
+    try {
+      const { data } = await axios.post("/api/wormhole/claim", {
+        sourceTx : token.sourceTx,
+        targetTx : txHash,
+        completed: 1,
+      });
+
+      return toast("NFT Claimed");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const availableNfts = () => {
     return (
@@ -77,7 +134,9 @@ function WormClaimModal({ onCloseModal, sourceChain }: Props) {
 
             <div className="items-center justify-center">
               <p className={"text-lg font-medium p-2 mb-3"}>NFT #{token.id}</p>
-              <button>Claim</button>
+              <button    className={
+            "flex items-center gap-1 bg-green-500/20 border-white border-[1px] rounded-lg px-14 py-2 relative transition-all disabled:bg-red-500/20 disabled:cursor-not-allowed mt-1"
+          } onClick={() => completeTransfer(token)}>Claim NFT</button>
             </div>
           </div>
         ))}

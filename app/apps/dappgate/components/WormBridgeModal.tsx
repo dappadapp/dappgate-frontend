@@ -4,9 +4,9 @@ import ONFTAbi from "../../../../config/abi/ONFT.json";
 import ONFTGenericBridgeButton from "./ONFTGenericBridgeButton";
 import WormNFTGenericBridgeButton from "./WormNFTGenericBridgeButton";
 import Image from "next/image";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
+import { useAccount, useContractRead, useContractReads, useWaitForTransaction } from "wagmi";
 import { Network } from "@/utils/networks";
-
+import { fetchTransaction } from '@wagmi/core'
 type Props = {
   onCloseModal: any;
   sourceChain: Network;
