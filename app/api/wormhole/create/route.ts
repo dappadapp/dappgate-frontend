@@ -10,6 +10,7 @@ export async function POST(request: Request) {
       wallet: data.wallet,
       sourceTx: data.sourceTx,
       wormholeId: data.wormholeId,
+      wormholeTargetId: data.wormholeTargetId,
     }
   );
 

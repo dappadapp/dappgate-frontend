@@ -9,6 +9,7 @@ import { Network } from "@/utils/networks";
 import Bridge from "../../../../config/abi/WormholeBridge.json";
 import { waitForTransaction } from "@wagmi/core";
 import { toast } from "react-toastify";
+import  b64decode  from "@/utils/base64decoder";
 type Props = {
   onCloseModal: any;
   sourceChain: Network;
@@ -52,7 +53,7 @@ function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
     functionName: "completeTransfer",
     value: BigInt(0),
     args: [
-        payload
+        `0x${payload}` 
     ],
   });
 
@@ -71,8 +72,8 @@ function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
       const { data } = await axios.post("/api/wormhole/wallet", {
         page: page,
         wallet: walletAddress,
-        completed: 1,
-        wormholeId: targetChain.wormholeChainId,
+        completed: 0,
+        wormholeTargetId: sourceChain.wormholeChainId,
         limit: 6,
       });
       console.log("data nfts",data);
@@ -85,26 +86,27 @@ function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
 
   const completeTransfer = async (token : any) => {
 
-
     const { data: payload } = await axios.post("/api/wormhole/payload", {
-      id: targetChain.wormholeChainId,
       hash: token.sourceTx,
   });
-    setPayload(payload?.payload);
- 
-      console.log("payload",payload?.payload);
+
+      if(payload){
+        setPayload(b64decode(payload?.data?.[0]?.vaa));
+        console.log("payload",b64decode(payload?.data?.[0]?.vaa));
+      }
+       
+      if(payload?.data === null){
+        return toast("Transaction still pending. Please try again later.");
+      }
 
       if (!complete) {
-        return;
+        return toast("An error occured. Please try again later.");
       }
 
     const { hash: txHash } = await complete();
     const data = await waitForTransaction({
       hash: txHash,
     });
-
-
-
 
     try {
       const { data } = await axios.post("/api/wormhole/claim", {
@@ -149,7 +151,7 @@ function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
       <div className="z-[999] absolute w-screen h-screen bg-black flex items-center justify-center backdrop-blur-2xl bg-opacity-25 top-0 left-0">
         <div className="p-16 w-min-9/12 bg-white bg-opacity-[4%] border-white border-[2px] rounded-lg border-opacity-10">
           <div className="flex justify-between mb-5">
-            <h1 className="text-3xl">Wormhole Claimable NFTs</h1>
+            <h1 className="text-3xl">{sourceChain.name} Claimable NFTs</h1>
             <div
               onClick={() => onCloseModal()}
               className="right-0 z-[9999] font-medium rounded-md flex justify-center items-center cursor-pointer border border-gray-400 w-8 h-8"
@@ -220,3 +222,5 @@ function WormClaimModal({ onCloseModal, sourceChain,targetChain }: Props) {
 }
 
 export default WormClaimModal;
+
+

@@ -86,6 +86,7 @@ const WormNFTGenericBridgeButton: React.FC<Props> = ({
       wallet: account,
       sourceTx: txHash,
       wormholeId: sourceChain.wormholeChainId,
+      wormholeTargetId: targetChain.wormholeChainId,
     });
   };
 
