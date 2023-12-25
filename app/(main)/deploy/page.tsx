@@ -12,9 +12,9 @@ import {
   useWaitForTransaction,
   useWalletClient,
 } from "wagmi";
-import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
+import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
-import erc20Json from "../../config/deployErc20.json";
+import erc20Json from "../../../config/deployErc20.json";
 import Link from "next/link";
 
 const options = [
