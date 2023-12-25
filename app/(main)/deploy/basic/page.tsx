@@ -5,9 +5,9 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAccount, useBalance, useContractRead, useFeeData, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
-import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
+import ListboxSourceMenu from "../../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
-import basicContract from "../../../config/basicContract.json";
+import basicContract from "../../../../config/basicContract.json";
 import { Basic } from "next/font/google";
 import { ethers } from "ethers";
 const BasicContract: React.FC = ({

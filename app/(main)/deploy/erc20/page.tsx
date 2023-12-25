@@ -14,11 +14,11 @@ import {
   useWaitForTransaction,
   useWalletClient,
 } from "wagmi";
-import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
+import ListboxSourceMenu from "../../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 // import abi
-import CircleSvg from "../../apps/dappgate/components/CircleSvg";
-import erc20Json from "../../../config/deployErc20.json";
+import CircleSvg from "../../../apps/dappgate/components/CircleSvg";
+import erc20Json from "../../../../config/deployErc20.json";
 
 import { MockConnector } from "@wagmi/core/connectors/mock";
 import { mainnet } from "@wagmi/core/chains";
