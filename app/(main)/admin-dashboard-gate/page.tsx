@@ -4,13 +4,13 @@ import React, { use, useEffect, useState } from "react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../apps/dappgate/components/Footer";
-import Navbar from "../apps/dappgate/components/Navbar";
+import Footer from "../../apps/dappgate/components/Footer";
+import Navbar from "../../apps/dappgate/components/Navbar";
 import { useAccount, useContractRead, useNetwork, useSwitchNetwork } from "wagmi";
-import ListboxSourceMenu from "../apps/dappgate/components/ListboxSourceMenu";
+import ListboxSourceMenu from "../../apps/dappgate/components/ListboxSourceMenu";
 import { Network, networks } from "@/utils/networks";
 // import abi
-import SetContract from "../../config/abi/SetContract.json";
+import SetContract from "../../../config/abi/SetContract.json";
 import { ethers } from "ethers";
 import { writeContract } from '@wagmi/core'
 import { waitForTransaction } from '@wagmi/core'
